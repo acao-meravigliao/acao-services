@@ -1,0 +1,30 @@
+import DS from 'ember-data';
+
+export default DS.Model.extend({
+  rx_packets: DS.attr('number'),
+  tx_packets: DS.attr('number'),
+  rx_bytes: DS.attr('number'),
+  tx_bytes: DS.attr('number'),
+  rx_errors: DS.attr('number'),
+  tx_errors: DS.attr('number'),
+  rx_dropped: DS.attr('number'),
+  tx_dropped: DS.attr('number'),
+  multicast: DS.attr('number'),
+  collisions: DS.attr('number'),
+  rx_length_errors: DS.attr('number'),
+  rx_over_errors: DS.attr('number'),
+  rx_crc_errors: DS.attr('number'),
+  rx_frame_errors: DS.attr('number'),
+  rx_fifo_errors: DS.attr('number'),
+  rx_missed_errors: DS.attr('number'),
+  tx_aborted_errors: DS.attr('number'),
+  tx_carrier_errors: DS.attr('number'),
+  tx_fifo_errors: DS.attr('number'),
+  tx_heartbeat_errors: DS.attr('number'),
+  tx_window_errors: DS.attr('number'),
+  rx_compressed: DS.attr('number'),
+  tx_compressed: DS.attr('number'),
+  rx_nohandler: DS.attr('number'),
+
+  intf: DS.belongsTo('interface'),
+});
