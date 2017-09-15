@@ -1,5 +1,6 @@
 
 import Ember from 'ember';
+import config from '../config/environment';
 
 export default Ember.Service.extend(Ember.Evented, {
 
@@ -18,7 +19,7 @@ export default Ember.Service.extend(Ember.Evented, {
     this._super(...arguments);
 
     me.uri = (window.location.protocol == 'http:' ? 'ws://' : 'wss://') + window.location.hostname + '/ws';
-    me.uri = 'ws://linobis.acao.it:3100/ws';
+    me.uri = 'ws://linobis.acao.it:3330/ws';
 
     me.state = 'DISCONNECTED';
     me.reconnectAttempt = 0;
@@ -29,6 +30,8 @@ export default Ember.Service.extend(Ember.Evented, {
     me.requests = {};
     me.deferredRequests = [];
     me.currentRequestId = 0;
+
+    me.subs = {};
 
     document.addEventListener("visibilitychange", function() {
       switch(me.state) {
@@ -189,7 +192,7 @@ console.log("WELCOME", msg);
         me.trigger('version_mismatch', me.app_version, msg.app_version);
 
       if (me.state == 'OPEN_WAIT_WELCOME') {
-        let regexp = /acao-services\/models\/(.*)$/;
+        let regexp = new RegExp(config.modulePrefix + '/models/(.*)$');
 
         Object.keys(require._eak_seen).filter((name) => regexp.test(name)).
                      map((name) => regexp.exec(name)[1]).forEach(function(modelType) {
@@ -249,18 +252,54 @@ console.log("RESUBSCRIBING", me.savedCollectionBindings);
 
     case 'bind_ok':
 console.log("BIND_OK");
-      let req = me.requests[msg.reply_to];
-      if (req) {
-
-        if (msg.code == 200)
-          req.success(msg);
-        else
-          req.failure(msg);
-
-        delete me.requests[msg.reply_to];
-      } else {
+      var req = me.requests[msg.reply_to];
+      if (!req) {
         console.log('bind_ok for unknown request');
+        return;
       }
+
+      delete me.requests[msg.reply_to];
+
+      req.success(msg);
+    break;
+
+    case 'bind_fail':
+console.log("BIND_OK");
+      var req = me.requests[msg.reply_to];
+      if (!req) {
+        console.log('bind_fail for unknown request');
+        return;
+      }
+
+      delete me.requests[msg.reply_to];
+
+      req.failure(msg);
+    break;
+
+    case 'sub_ok':
+console.log("SUB_OK");
+      var req = me.requests[msg.reply_to];
+      if (!req) {
+        console.log('sub_ok for unknown request');
+        return;
+      }
+
+      delete me.requests[msg.reply_to];
+
+      req.success(msg);
+    break;
+
+    case 'sub_fail':
+console.log("SUB_FAIL");
+      var req = me.requests[msg.reply_to];
+      if (!req) {
+        console.log('sub_fail for unknown request');
+        return;
+      }
+
+      delete me.requests[msg.reply_to];
+
+      req.failure(msg);
     break;
 
     case 'create':
@@ -284,13 +323,13 @@ console.log("BIND_OK");
     case 'msg':
       me.trigger('rawmsg', msg);
 
-//      Ext.Array.each(msg.binding_ids, function(binding_id) {
-//        let binding = me.bindings[binding_id];
-//        if (binding)
-//          binding.onMessage.call(binding.scope, msg, binding);
-//        else
-//          console.warn("Received message from exchange", msg.exchange, "on unexistant binding", binding_id);
-//      });
+      msg.sub_ids.forEach(function(sub_id) {
+        let sub = me.subs[sub_id];
+        if (sub)
+          sub.onMessage.call(sub.scope, msg, sub);
+        else
+          console.warn("Received message from exchange", msg.exchange, "on unexistant sub", sub_id);
+      });
 
     break;
     }
@@ -319,15 +358,50 @@ console.log("GET_AND_BIND", modelName, ids);
 
     let req = {
       method: 'bind',
-      modelName: modelName,
-      modelIds: ids,
+      params: {
+        modelName: modelName,
+        modelIds: ids,
+      },
       success: function(msg) {
         me.collectionBindings[modelName] = true;
 
         defer.resolve(msg.data);
       },
       failure: function(msg) {
-        defer.reject(msg.code);
+        defer.reject(msg.reason);
+      },
+    };
+
+    me.makeRequest(req);
+
+    return defer.promise;
+  },
+
+  subscribe(exchange, cb, scope) {
+console.log("SUBSCRIBE", arguments);
+
+    let me = this;
+
+    let defer = Ember.RSVP.defer();
+
+    let req = {
+      method: 'sub',
+      params: {
+        exchange: exchange,
+      },
+      success: function(msg) {
+        me.subs[msg.sub_id] = {
+          id: msg.sub_id,
+          exchange: exchange,
+          onMessage: cb,
+          scope: scope,
+        };
+console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", me.subs);
+
+        defer.resolve(msg.data);
+      },
+      failure: function(msg) {
+        defer.reject(msg.reason);
       },
     };
 
@@ -365,12 +439,10 @@ console.log("GET_AND_BIND", modelName, ids);
 
     me.requests[req.id] = req;
 
-    me.transmit({
+    me.transmit(Object.assign({
       type: req.method,
       request_id: req.id,
-      model: req.modelName,
-      ids: req.modelIds,
-    });
+    }, req.params));
   },
 
   flushDeferredRequests() {

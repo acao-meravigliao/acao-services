@@ -8,5 +8,11 @@
 </style>
 
 {{#leaflet-map lat=lat lng=lng zoom=zoom}}
-  {{tile-layer url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
+  {{tile-layer url="https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png" maxZoom=13}}
+
+  {{#each aircrafts key="id" as |aircraft|}}
+    {{#marker-layer location=aircraft.latlng icon=icon rotationAngle=aircraft.cog}}
+    {{/marker-layer}}
+  {{/each}}
+
 {{/leaflet-map}}
