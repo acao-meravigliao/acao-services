@@ -1,7 +1,7 @@
 {
-  "name": "acao-frontend",
+  "name": "acao-services",
   "dependencies": {
-    "semantic-ui": "^2.2.10",
+    "semantic-ui": "^2.2.13",
     "airbrake-js-client": "airbrake-js#~0.5.8",
     "Leaflet.RotatedMarker": "bbecquet/Leaflet.RotatedMarker#^0.2.0"
   }

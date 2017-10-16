@@ -17,19 +17,29 @@ export default DS.Adapter.extend({
 //  updateRecord(store, type, snapshot) {
 //  },
 
-  findRecord(store, type, id, /*snapshot*/) {
-console.log("================= FIND RECORD", type.modelName, id);
-    return this.get('ws').getAndBind(type.modelName, id);
+  findRecord(store, type, id, snapshotRecordArray) {
+console.log("================= FIND RECORD", type.modelName, id, snapshotRecordArray.adapterOptions);
+    if (snapshotRecordArray.adapterOptions && snapshotRecordArray.adapterOptions.doNotBind)
+      return this.get('ws').get(type.modelName, id, snapshotRecordArray.adapterOptions);
+    else
+      return this.get('ws').getAndBind(type.modelName, id, snapshotRecordArray.adapterOptions);
   },
 
-  findMany(store, type, ids, /*snapshot*/) {
-console.log("================= FIND MANY", type.modelName, ids);
-    return this.get('ws').getAndBind(type.modelName, ids);
+  findMany(store, type, ids, snapshotRecordArray) {
+console.log("================= FIND MANY", type.modelName, ids, snapshotRecordArray.adapterOptions);
+    return this.get('ws').getAndBind(type.modelName, ids, snapshotRecordArray.adapterOptions);
   },
 
   findAll(store, type, sinceToken, snapshotRecordArray) {
-console.log("================= FIND ALL", type.modelName);
-    return this.get('ws').getAndBind(type.modelName, null);
+console.log("================= FIND ALL", type.modelName, snapshotRecordArray.adapterOptions);
+    return this.get('ws').getAndBind(type.modelName, null, snapshotRecordArray.adapterOptions);
+  },
+
+  query(store, type, query) {
+console.log("================= QUERY", type.modelName, query);
+    return this.get('ws').getAndBind(type.modelName, null, query);
+
+
   },
 
 

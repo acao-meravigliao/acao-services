@@ -1,20 +1,26 @@
-Aoooooooooooooooooooooooo
+<div class="ui container">
+  <h1 class="ui header">Ciao {{session.person.first_name}},</h1>
 
-<button {{action "burpButton"}} class="ui button">
-  BURP!
-</button>
+  <div>
+    Socio nel: <div class="ui celled horizontal list">
+      {{#each session.memberships key="id" as |membership|}}
+        <div class="item">{{membership.year}}</div>
+      {{/each}}
+    </div>
+  </div>
 
-<div>
-{{cazzo}}
+  <div class="ui right floated segment">
+    {{#if session.enableRenew}}
+      {{#link-to 'renew-membership' class="massive ui primary button" tagName="button"}}Rinnova l'iscrizione {{renewMembershipYear}}{{/link-to}}
+    {{/if}}
+  </div>
+
+  <div class="ui statistic">
+    <div class="value">
+      <i class="plane icon"></i> 15
+    </div>
+    <div class="label">
+      Voli
+    </div>
+  </div>
 </div>
-
-<div>
-Websocket state: {{ws.state}}
-</div>
-
-<div>
-Big Brother:
-{{big-brother}}
-</div>
-
-{{show-clock}}

@@ -1,7 +1,33 @@
-<div class="ui left vertical sidebar inverted menu visible">
+<div class="ui fixed inverted main menu">
+  <a class="launch icon item sidebar-toggle" {{action 'sidebarToggle' 'main-sidebar'}}>
+    <i class="sidebar icon"></i>
+  </a>
+  <div class="header item">ACAO Servizi</div>
+  <div class="header item">{{mainTitle}}</div>
+  {{#if session.isAuthenticated}}
+    <div class="right item">
+      <button class="ui small button" {{action 'logout'}}>Logout</button>
+    </div>
+  {{else}}
+<!--    <div class="right item">
+      {{#link-to 'login' class="ui primary button" tagName="button"}}Login{{/link-to}}
+    </div>-->
+  {{/if}}
+
+</div>
+<div id="sidebar-context">
+{{#ui-sidebar class="ui left vertical inverted menu tablet or lower hidden" id="main-sidebar" context="#sidebar-context"}}
+  {{#link-to 'index' class="item"}} Home {{/link-to}}
+  {{#link-to 'renew-membership' class="item"}} Rinnovo Iscrizione {{/link-to}}
   {{#link-to 'radar' class="item"}} Radar {{/link-to}}
   {{#link-to 'meteo' class="item"}} Meteo {{/link-to}}
-</div>
-<div class="pusher" style="height: 100%;">
-{{outlet}}
+
+  <hr />
+  <div class="ui item">Websocket state: {{ws.state}}</div>
+{{/ui-sidebar}}
+
+<!-- height:1px;-->
+  <div class="pusher content" style="background-color: #FFF;">
+    {{outlet}}
+  </div>
 </div>

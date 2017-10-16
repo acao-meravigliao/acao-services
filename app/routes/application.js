@@ -1,29 +1,22 @@
 import Ember from 'ember';
+import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 
 export default Ember.Route.extend({
-  ws: Ember.inject.service('web-socket'),
+  session: Ember.inject.service('session'),
+//  ws: Ember.inject.service('web-socket'),
 
-  model() {
-    //this.store.push({
-    //  data: [
-    //   {
-    //    id: 1,
-    //    type: 'aircraft',
-    //    attributes: {
-    //      lat: 45.809836,
-    //      lng: 8.771022,
-    //      cog: 45,
-    //      sog: 40,
-    //    },
-    //    relationships: {}
-    //   },
-    //  ]
-    //});
-  },
+//  model() {
+//console.log("APPLICATION ROTUE", this.get('session').get('data'));
+//
+//    return Ember.RSVP.hash({
+//      person: this.store.findRecord('person', this.get('session.data.authenticated.auth_person.id')),
+////      memberships: this.store.query('membership', { filter: { person_id: 2 } }),
+//    });
+//  },
 
   init() {
     this._super(...arguments);
 
 //    this.get('ws').connect();
   },
-});
+}, ApplicationRouteMixin);

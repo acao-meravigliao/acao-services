@@ -7,6 +7,8 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+  this.route('login');
+  this.route('renew-membership');
   this.route('radar');
   this.route('meteo');
 });

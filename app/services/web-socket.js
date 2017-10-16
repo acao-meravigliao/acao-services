@@ -18,8 +18,7 @@ export default Ember.Service.extend(Ember.Evented, {
 
     this._super(...arguments);
 
-    me.uri = (window.location.protocol == 'http:' ? 'ws://' : 'wss://') + window.location.hostname + '/ws';
-    me.uri = 'ws://linobis.acao.it:3330/ws';
+    me.uri = (window.location.protocol == 'http:' ? 'ws://' : 'wss://') + window.location.host + '/ws';
 
     me.state = 'DISCONNECTED';
     me.reconnectAttempt = 0;
@@ -54,7 +53,7 @@ export default Ember.Service.extend(Ember.Evented, {
       }
     });
 
-    me.connect();
+    //me.connect();
   },
 
   startPing() {
@@ -115,6 +114,7 @@ export default Ember.Service.extend(Ember.Evented, {
 
     me.socket.onopen = function(/*ev*/) {
       me.reconnectAttempt = 0;
+
       me.changeState('OPEN_WAIT_WELCOME');
     };
 
@@ -130,48 +130,7 @@ export default Ember.Service.extend(Ember.Evented, {
     };
 
     me.socket.onclose = function (ev) {
-
-      me.offlineReason = 'Websocket closed';
-
-      // MAKE THOSE FAIL???
-      me.requests = {};
-
-      if (!me.savedCollectionBindings) {
-        me.savedCollectionBindings = me.collectionBindings;
-        me.collectionBindings = {};
-  console.log("COLLECTION BINDINGS SAVED", me.collectionBindings, me.savedCollectionBindings);
-      }
-
-      me.trigger('close', ev);
-      me.trigger('offline', me.offlineReason);
-
-      me.stopPing();
-
-      console.log("CLOSE", ev);
-
-      me.reconnectAttempt += 1;
-
-      if (document.visibilityState == 'visible') {
-        if (me.reconnectAttempt == 1) {
-          me.changeState('RECONNECTING');
-          me.doConnect();
-        } else {
-          me.waitStart = Date.now();
-          me.delay = Math.min((Math.pow(me.reconnectBackoff, me.reconnectAttempt - 1) - 1) *
-                                         me.reconnectDelayConstant, me.reconnectLimit);
-
-          console.log("RECONNECTING IN", me.delay);
-
-          me.changeState('RECONNECT_WAIT');
-
-          Ember.run.later(me, function() {
-            me.changeState('RECONNECTING');
-            me.doConnect();
-          }, me.delay);
-        }
-      } else {
-        me.changeState('INVISIBLE_IDLE');
-      }
+      me.onClose();
     };
   },
 
@@ -198,7 +157,12 @@ console.log("WELCOME", msg);
                      map((name) => regexp.exec(name)[1]).forEach(function(modelType) {
 
           let models = me.get('store').peekAll(modelType);
-          let ids = models.map((model) => model.get('id'));
+
+          let ids = [];
+          models.forEach(function(model) {
+            if (model.get('isLoaded'))
+              ids.push(model.get('id'));
+          });
 
           if (ids.length > 0)
             me.getAndBind(modelType, ids);
@@ -335,6 +299,52 @@ console.log("SUB_FAIL");
     }
   },
 
+  onClose() {
+    var me = this;
+
+    me.offlineReason = 'Websocket closed';
+
+    // MAKE THOSE FAIL???
+    me.requests = {};
+
+    if (!me.savedCollectionBindings) {
+      me.savedCollectionBindings = me.collectionBindings;
+      me.collectionBindings = {};
+  console.log("COLLECTION BINDINGS SAVED", me.collectionBindings, me.savedCollectionBindings);
+    }
+
+    me.trigger('close', ev);
+    me.trigger('offline', me.offlineReason);
+
+    me.stopPing();
+
+    console.log("CLOSE", ev);
+
+    me.reconnectAttempt += 1;
+
+    if (document.visibilityState == 'visible') {
+      if (me.reconnectAttempt == 1) {
+        me.changeState('RECONNECTING');
+        me.doConnect();
+      } else {
+        me.waitStart = Date.now();
+        me.delay = Math.min((Math.pow(me.reconnectBackoff, me.reconnectAttempt - 1) - 1) *
+                                       me.reconnectDelayConstant, me.reconnectLimit);
+
+        console.log("RECONNECTING IN", me.delay);
+
+        me.changeState('RECONNECT_WAIT');
+
+        Ember.run.later(me, function() {
+          me.changeState('RECONNECTING');
+          me.doConnect();
+        }, me.delay);
+      }
+    } else {
+      me.changeState('INVISIBLE_IDLE');
+    }
+  },
+
   changeState(newState) {
     let me = this;
 
@@ -347,10 +357,8 @@ console.log("SUB_FAIL");
     return this.currentRequestId++;
   },
 
-  getAndBind(modelName, ids) {
+  getAndBind(modelName, ids, params) {
     let me = this;
-
-    me.connect();
 
 console.log("GET_AND_BIND", modelName, ids);
 
@@ -358,14 +366,16 @@ console.log("GET_AND_BIND", modelName, ids);
 
     let req = {
       method: 'bind',
-      params: {
-        modelName: modelName,
-        modelIds: ids,
-      },
+      params: Ember.merge({
+        model: modelName,
+        ids: ids,
+      }, params),
       success: function(msg) {
         me.collectionBindings[modelName] = true;
 
-        defer.resolve(msg.data);
+console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP", msg);
+
+        defer.resolve(msg.payload);
       },
       failure: function(msg) {
         defer.reject(msg.reason);

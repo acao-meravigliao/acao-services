@@ -1,0 +1,182 @@
+{{#if loading}}
+  <div class="ui active dimmer">
+    <div class="ui loader">Caricamento...</div>
+  </div>
+{{else}}
+
+<div class="ui container">
+
+
+<!--
+<div class="ui three steps">
+  <div class="active step">
+    <i class="browser icon"></i>
+    <div class="content">
+      <div class="title">Selezione</div>
+      <div class="description">Selezione quota e servizi</div>
+    </div>
+  </div>
+  <div class="step">
+    <i class="payment icon"></i>
+    <div class="content">
+      <div class="title">Pagamento</div>
+      <div class="description">Effettuazione pagamento</div>
+    </div>
+  </div>
+  <div class="step">
+    <i class="calendar icon"></i>
+    <div class="content">
+      <div class="title">Turni di linea</div>
+    </div>
+  </div>
+</div>
+-->
+
+<div class="ui segment">
+<p>
+  Ciao {{session.person.first_name}},
+</p>
+
+<p>
+  Con questa procedura potrai rinnovare la tua iscrizione per l'anno {{renewForYear}}.
+</p>
+
+<p>
+  Assicurati che i tuoi dati siano corretti:<br />
+  Nome: <strong>{{session.person.first_name}} {{session.person.last_name}}</strong><br />
+  Data di nascita: <strong>{{moment-format session.person.birth_date 'YYYY-MM-DD'}}</strong><br />
+  Email: <strong>TODO</strong><br />
+</p>
+</div>
+
+<div class="ui segment">
+  {{ui-checkbox class="ui fitted toggle" checked=true onChange=(action (mut enableEmail))}}
+  Autorizzo l'invio per e-mail delle comunicazioni, convocazioni di assemblee e ogni altra disposizione obbligatoria.
+  (DPR 15 marzo 1997&nbsp; n. 59 art 15 secondo comma, D.P.R. 28 dicembre 2000 n.445 art. 14 comma terzo, D.P.R. 13 febbraio 2001 n. 123 art. 8,
+  Direttiva 2000/31/CE 8 giugno 2000 art. 11, comma 1) *
+</div>{{enableEmail}}
+
+<div class="ui segment">
+  {{ui-checkbox class="ui fitted toggle" onChange=(action (mut acceptRules))}}
+  Dichiaro  di aver preso visione del
+  <a href="Regolamento_Aeroportuale_ACAO_2014.pdf" target="_blank">Regolamento dell'Aeroclub</a>
+  e di accettarlo in modo totale e incondizionato.
+</div>{{acceptRules}}
+
+<table class="renew-services ui celled table">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Elemento</th>
+      <th>Costo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td></td>
+      <td>Iscrizione</td>
+      <td class="price">{{membershipAmount}} €</td>
+    </tr>
+    <tr>
+      <td class="collapsing">
+        {{ui-checkbox class="ui fitted toggle" checked=enableCav onChange=(action (mut enableCav))}}
+      </td>
+      <td>{{cavType}}</td><td class="price">{{cavAmount}} €</td>
+    </tr>
+
+    {{#each currentServices key="@index" as |service index|}}
+    <tr>
+      <td>
+        <a {{action 'removeService' index}}><i class="big red remove icon"></i></a>
+      </td>
+      <td>
+        {{#ui-dropdown class="selection fluid" onChange=(action 'setService' index) as |execute mapper|}}
+          <div class="default text">Seleziona servizio...</div>
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            {{#each-in availableServices as |type avSrv|}}
+              <div class="item" data-value="{{type}}">
+                {{avSrv.name}}
+              </div>
+            {{/each-in}}
+          </div>
+        {{/ui-dropdown}}
+        {{#if (get (get availableServices service.type) 'extraInfo') }}
+          <div class="ui labeled input">
+            <div class="ui label">
+              {{get (get availableServices service.type) 'extraInfo'}}
+            </div>
+            <input placeholder="D-1234" type="text" onChange="{{action 'setServiceExtraInfo' index}}">
+          </div>
+        {{/if}}
+        {{#if (get (get availableServices service.type) 'notes') }}
+          <div class="small ui yellow message">
+            {{get (get availableServices service.type) 'notes'}}
+          </div>
+        {{/if}}
+      </td>
+      <td class="price">{{get (get availableServices service.type) 'cost'}} €</td>
+    </tr>
+    {{/each}}
+
+    <tr><td></td><td><a {{action 'addService'}}><i class="plus icon"></i> Aggiungi servizio (roulotte, carrello, ecc...)</a></td></tr>
+
+  </tbody>
+  <tfoot>
+    <tr>
+      <th colspan=2>Totale</th>
+      <th class="total price">{{total}} €</th>
+    </tr>
+  </tfoot>
+</table>
+
+<p>
+  Metodo di pagamento:
+</p>
+<div class="three ui buttons">
+  <button class="ui button" {{action (mut paymentMethod) 'tt'}}><i class="ui university icon"></i><br /> Bonifico Bancario</button>
+  <button class="ui button" {{action (mut paymentMethod) 'check'}}><i class="ui tag icon"></i><br /> Assegno</button>
+  <button class="ui button" {{action (mut paymentMethod) 'cash'}}><i class="ui euro icon"></i><br /> Contanti</button>
+</div>
+
+<button class="huge ui fluid primary button" disabled={{formInvalid}}>Procedi al pagamento</button>
+
+
+<div class="ui segment">
+
+{{#if paymentMethod 'tt'}}
+  Procedi al versamento di alle seguenti coordinate:
+
+  <div class="ui raised segment">
+    <h4 class="ui header">Aero Club Adele Orsi Associazione Sportiva Dilettantistica</h4>
+    Banca Popolare di Sondrio - Agenzia di Gavirate<br />
+    IBAN: <span style="font-family: monospace">IT70R0569650250000020249X74</span><br />
+    Causale: <strong>Rinnovo iscrizione {{renewForYear}}, Codice Pilota {{session.person.acao_code}}, Pagamento P23G4</strong><br />
+    Importo: <strong>{{format-number total format="0.00"}} €</strong>
+  </div>
+
+  <div class="small green ui message">
+    <ul class="ui list">
+      <li>Assicurati di indicare nella causale il <strong>codice pilota</strong> e il <strong>codice di pagamento</strong></li>
+      <li>Non è necessario inviare la ricevuta di versamento in segreteria.</li>
+      <li>Verrai avvisato via e-mail quando il versamento risulterà confermato.</li>
+      <li>Se tra alcuni giorni non ricevi la conferma ti invitiamo a contattare la segreteria!</li>
+    </ul>
+  </div>
+
+{{/if}}
+
+
+{{#if paymentMethod 'check'}}
+{{/if}}
+
+
+{{#if paymentMethod 'cash'}}
+{{/if}}
+
+</div>
+
+
+</div>
+
+{{/if}}

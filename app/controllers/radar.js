@@ -21,7 +21,15 @@ export default Ember.Controller.extend({
 
 
     Ember.run.schedule("afterRender", this, function() {
-      me.get('ws').subscribe('ygg.glideradar.processed_traffic.linobis', me.onMessage, me);
+//      me.get('ws').subscribe('ygg.glideradar.processed_traffic.linobis', me.onMessage, me);
+
+
+
+
+
+
+
+
 
 
 //      var aircraft = this.aircrafts.get('firstObject');
