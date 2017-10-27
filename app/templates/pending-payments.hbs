@@ -1,0 +1,32 @@
+{{#if model}}
+<table class="ui celled table">
+  <thead>
+    <tr>
+      <th>Codice</th>
+      <th>Data</th>
+      <th>Metodo</th>
+      <th>Ammontare</th>
+    </tr>
+  </thead>
+  <tbody>
+  {{#each model key="id" as |payment|}}
+    {{#link-to 'pending-payment' payment.id tagName='tr'}}
+      <td>{{payment.code}}</td>
+      <td>{{moment-format payment.created_at 'YYYY-MM-DD HH:mm:ss' }}</td>
+      <td>{{payment.payment_method}}</td>
+      <td></td>
+    {{/link-to}}
+  {{/each}}
+  </tbody>
+</table>
+
+{{else}}
+<div class="ui icon message">
+  <i class="thumbs up icon"></i>
+  <div class="content">
+    <div class="header">
+      Non risultano pagamenti pendenti, grazie!
+    </div>
+  </div>
+</div>
+{{/if}}

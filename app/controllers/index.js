@@ -3,12 +3,12 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   session: Ember.inject.service('session'),
 
-  renewMembershipYear: (new Date()).getFullYear() + 1,
-//  init: function () {
-//
-//    this._super();
-//  },
-//
+  membershipRenewalIsAvailable: Ember.computed('model.renewalContext.@each',function() {
+    return new Date() > new Date(this.get('model.renewalContext.renew_opening_time')) &&
+           !this.get('model.renewalContext.membership');
+  }),
+
+
 //  setupCOntroller() {
 //    var me = this;
 //  memberships: Ember.computed('session', function() { return this.get('session').get('data.authenticated.auth_person.id') });

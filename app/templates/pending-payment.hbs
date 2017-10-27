@@ -1,0 +1,37 @@
+<div class="ui container">
+  <div class="ui segment">
+  <div>
+    <h1>Pagamento {{model.payment.code}}
+    {{#if isPending}} <div class="ui orange tag label">Pendente</div> {{/if}}
+    {{#if isPaid}} <div class="ui green tag label">Pagato</div> {{/if}}
+    {{#if isCanceled}} <div class="ui blue tag label">Annullato</div> {{/if}}
+    </h1>
+    Data: {{moment-format model.payment.created_at 'YYYY-MM-DD HH:mm:ss'}}<br />
+  </div>
+
+  <table class="renew-services ui celled table">
+    <thead>
+      <tr>
+        <th>Descrizione</th>
+        <th>Costo</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each model.services key="@index" as |service index|}}
+      <tr>
+        <td>{{service.service_type.name}} {{service.extra_info}}</td>
+        <td class="price">{{service.price}} €</td>
+      </tr>
+      {{/each}}
+    </tbody>
+    <tfoot>
+      <tr>
+        <th>Totale</th>
+        <th class="total price">{{total}} €</th>
+      </tr>
+    </tfoot>
+  </table>
+  </div>
+
+  {{partial (concat 'pending-payment/' (if model.payment.payment_method model.payment.payment_method 'unknown'))}}
+</div>

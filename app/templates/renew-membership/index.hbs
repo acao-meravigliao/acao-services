@@ -1,0 +1,41 @@
+<div class="ui container">
+  <div class="ui segment">
+    <p>
+      Ciao {{session.person.first_name}},
+    </p>
+
+    {{#if renewIsOpen}}
+
+      {{#if context.membership}}
+        <h1 class="ui header">
+          Risulti già iscritto per l'anno {{context.renew_for_year}}<i class="huge thumbs outline up icon"></i>
+        </h1>
+
+        {{#if paymentIsPending}}
+          {{#link-to 'pending-payment' context.membership.payment_id class="massive ui orange button" tagName="button"}}
+            Il pagamento è pendente
+          {{/link-to}}
+        {{/if}}
+
+      {{else}}
+      <p>
+        Con questa procedura potrai rinnovare la tua iscrizione per l'anno {{context.renew_for_year}}.
+      </p>
+
+      <p>
+        Assicurati che i tuoi dati siano corretti:<br />
+        Nome: <strong>{{session.person.first_name}} {{session.person.last_name}}</strong><br />
+        Data di nascita: <strong>{{moment-format session.person.birth_date 'YYYY-MM-DD'}}</strong><br />
+        Email: <strong>TODO</strong><br />
+      </p>
+
+      <button class="huge ui fluid primary button" disabled={{formInvalid}} {{action 'commit'}}>Procedi...</button>
+      {{/if}}
+    {{else}}
+      <h1 class="ui header">
+        L'iscrizione per l'anno {{context.renew_for_year}} non è ancora aperta, aprirà {{moment-from-now context.renew_opening_time interval=1000}}
+      </h1>
+
+    {{/if}}
+  </div>
+</div>

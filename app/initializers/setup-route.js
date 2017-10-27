@@ -5,8 +5,6 @@ export function initialize() {
     mainTitle: '',
     breadcrumbs: [],
     setupController: function(controller, model) {
-console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM", this);
-
       this._super(controller, model);
 
       var app = this.controllerFor('application');

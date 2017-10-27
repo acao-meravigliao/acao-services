@@ -90,7 +90,7 @@ export default Ember.Service.extend(Ember.Evented, {
   transmit(msg) {
     let me = this;
 
-    console.log("MSG >>>", msg);
+    //console.log("MSG >>>", msg);
 
     me.socket.send(JSON.stringify(msg));
   },
@@ -130,14 +130,14 @@ export default Ember.Service.extend(Ember.Evented, {
     };
 
     me.socket.onclose = function (ev) {
-      me.onClose();
+      me.onClose(ev);
     };
   },
 
   onMessage: function(msg) {
     let me = this;
 
-console.log("MSG <<<", msg);
+    //console.log("MSG <<<", msg);
 
     switch(msg.type) {
     case 'welcome':
@@ -171,7 +171,7 @@ console.log("WELCOME", msg);
         if (me.savedCollectionBindings) {
 console.log("RESUBSCRIBING", me.savedCollectionBindings);
 
-          $.each(me.savedCollectionBindings, function(binding) {
+          me.savedCollectionBindings.forEach(function(binding) {
             me.getAndBind(binding, null);
           });
 
@@ -214,35 +214,39 @@ console.log("RESUBSCRIBING", me.savedCollectionBindings);
       Ember.run.cancel(me.pingTimeoutTimer);
     break;
 
-    case 'bind_ok':
-console.log("BIND_OK");
-      var req = me.requests[msg.reply_to];
+    case 'bind_ok': {
+      let req = me.requests[msg.reply_to];
       if (!req) {
         console.log('bind_ok for unknown request');
         return;
       }
 
+console.log("BIND_OK",req.params, msg.payload.data);
+
       delete me.requests[msg.reply_to];
 
       req.success(msg);
+    }
     break;
 
-    case 'bind_fail':
-console.log("BIND_OK");
-      var req = me.requests[msg.reply_to];
+    case 'bind_fail': {
+      let req = me.requests[msg.reply_to];
       if (!req) {
         console.log('bind_fail for unknown request');
         return;
       }
 
+console.log("BIND_FAIL", msg, "REQ=", req);
+
       delete me.requests[msg.reply_to];
 
       req.failure(msg);
+    }
     break;
 
-    case 'sub_ok':
-console.log("SUB_OK");
-      var req = me.requests[msg.reply_to];
+    case 'sub_ok': {
+console.log("SUB_OK", msg);
+      let req = me.requests[msg.reply_to];
       if (!req) {
         console.log('sub_ok for unknown request');
         return;
@@ -251,10 +255,11 @@ console.log("SUB_OK");
       delete me.requests[msg.reply_to];
 
       req.success(msg);
+    }
     break;
 
-    case 'sub_fail':
-console.log("SUB_FAIL");
+    case 'sub_fail': {
+console.log("SUB_FAIL", msg);
       var req = me.requests[msg.reply_to];
       if (!req) {
         console.log('sub_fail for unknown request');
@@ -264,6 +269,7 @@ console.log("SUB_FAIL");
       delete me.requests[msg.reply_to];
 
       req.failure(msg);
+    }
     break;
 
     case 'create':
@@ -274,14 +280,14 @@ console.log("SUB_FAIL");
       me.get('store').pushPayload(msg.data);
     break;
 
-    case 'delete':
+    case 'delete': {
       let model = me.get('store').peekRecord(msg.model, msg.id);
 
       // XXX Send didDelete event??
 
       if (model)
         model.unloadRecord();
-
+    }
     break;
 
     case 'msg':
@@ -299,7 +305,7 @@ console.log("SUB_FAIL");
     }
   },
 
-  onClose() {
+  onClose(ev) {
     var me = this;
 
     me.offlineReason = 'Websocket closed';
@@ -372,9 +378,6 @@ console.log("GET_AND_BIND", modelName, ids);
       }, params),
       success: function(msg) {
         me.collectionBindings[modelName] = true;
-
-console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP", msg);
-
         defer.resolve(msg.payload);
       },
       failure: function(msg) {

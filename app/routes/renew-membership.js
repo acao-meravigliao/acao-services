@@ -5,26 +5,25 @@ export default Ember.Route.extend({
 
   mainTitle: 'Rinnovo iscrizione',
 
-  setupController: function(controller, model) {
-    this._super(controller, model);
+  state: Ember.Object.create({
+    enableCav: true,
+    enableEmail: true,
+    acceptRules: false,
+  }),
 
-    controller.set('loading', true);
-
-    Ember.$.ajax({
-      type: 'GET',
-      url: '/ygg/acao/renew_membership/context',
-      dataType: 'json',
-    }).then(function(response) {
-      controller.set('membershipAmount', response.membershipAmount);
-      controller.set('cavAmount', response.cavAmount);
-      controller.set('cavType', response.cavType);
-      controller.set('availableServices', response.availableServices);
-      controller.set('loading', false);
-    }, function(xhr, status, error) {
-      controller.set('loading', false);
-      controller.set('loadingFailure', true);
+  model() {
+    return Ember.RSVP.hash({
+      context: Ember.$.getJSON('/ygg/acao/renew_membership/context'),
+      state: this.get('state'),
     });
+  },
 
-  }
+//  afterModel(model) {
+//    if (!model.context.membership) {
+//      this.transitionTo('renew-membership');
+//    } else if (model.context.membership.status == 'WAITING_PAYMENT') {
+//      this.transitionTo('renew-membership.payment-' + model.context.membership.payment_method);
+//    }
+//  },
 
 }, AuthenticatedRouteMixin);

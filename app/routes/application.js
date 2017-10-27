@@ -14,9 +14,15 @@ export default Ember.Route.extend({
 //    });
 //  },
 
-  init() {
-    this._super(...arguments);
 
-//    this.get('ws').connect();
+  moment: Ember.inject.service(),
+  beforeModel() {
+    this.get('moment').setLocale('it');
   },
+
+//  init() {
+//    this._super(...arguments);
+//
+//    this.get('ws').connect();
+//  },
 }, ApplicationRouteMixin);
