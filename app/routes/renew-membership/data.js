@@ -4,9 +4,19 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 export default Ember.Route.extend({
   mainTitle: 'Rinnovo iscrizione - Dati',
 
+  model() {
+    return Ember.RSVP.hash({
+      serviceTypes: this.get('store').findAll('ygg--acao--service-type'),
+    });
+  },
+
   setupController(controller, model) {
-    controller.set('context', model.context);
-    controller.set('state', model.state);
-    controller.setProperties(model.state);
+    this._super(controller, model);
+
+    let parentModel = this.modelFor('renew-membership');
+
+    controller.set('context', parentModel.context);
+    controller.set('state', parentModel.state);
+    controller.setProperties(parentModel.state);
   },
 }, AuthenticatedRouteMixin);

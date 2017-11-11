@@ -8,21 +8,22 @@ export default Ember.Controller.extend({
            !this.get('model.renewalContext.membership');
   }),
 
+  allRosterEntries: Ember.computed(function() {
+    return this.get('store').peekAll('ygg--acao--roster-entry');
+  }),
+
+  myNextRosterEntries: Ember.computed('allRosterEntries.@each', function() {
+    return this.get('allRosterEntries').filter((item) => (
+       item.belongsTo('person').id() == this.get('session.personId') &&
+       item.belongsTo('roster_day').value().get('date') > new Date()
+      )
+    ).sort('date');
+  }),
+
+
 
 //  setupCOntroller() {
 //    var me = this;
-//  memberships: Ember.computed('session', function() { return this.get('session').get('data.authenticated.auth_person.id') });
-
-//    this.set('person', this.get('store').findRecord('person', personId));
-//
-//    this.set('memberships', this.get('store').query('membership', { filter: { person_id: personId } }));
-//
-//
-//
-////    this.set('memberships', this.get('store').findRecord('person', 2));
-//
-////    var  = this.aircrafts = this.get('store').findAll('aircraft');
-////
 ////
 ////    Ember.run.schedule("afterRender", this, function() {
 ////      me.get('ws').subscribe('ygg.glideradar.processed_traffic.linobis', me.onMessage, me);

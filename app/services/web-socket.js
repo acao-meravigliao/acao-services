@@ -79,7 +79,6 @@ export default Ember.Service.extend(Ember.Evented, {
 
     me.transmit({
       type: 'ping',
-      request_id: me.pickRequestId(),
     });
 
     me.pingTimeoutTimer = Ember.run.later(me, function() {
@@ -137,7 +136,17 @@ export default Ember.Service.extend(Ember.Evented, {
   onMessage: function(msg) {
     let me = this;
 
-    //console.log("MSG <<<", msg);
+//    console.log("MSG <<<", msg);
+
+    let req = null;
+
+    if (msg.reply_to !== undefined && msg.reply_to !== null) {
+      req = me.requests[msg.reply_to];
+      if (!req) {
+        console.log(msg.type, 'for unknown request', msg.reply_to);
+        return;
+      }
+    }
 
     switch(msg.type) {
     case 'welcome':
@@ -171,7 +180,7 @@ console.log("WELCOME", msg);
         if (me.savedCollectionBindings) {
 console.log("RESUBSCRIBING", me.savedCollectionBindings);
 
-          me.savedCollectionBindings.forEach(function(binding) {
+          Ember.$.each(me.savedCollectionBindings, function(key, binding) {
             me.getAndBind(binding, null);
           });
 
@@ -214,64 +223,6 @@ console.log("RESUBSCRIBING", me.savedCollectionBindings);
       Ember.run.cancel(me.pingTimeoutTimer);
     break;
 
-    case 'bind_ok': {
-      let req = me.requests[msg.reply_to];
-      if (!req) {
-        console.log('bind_ok for unknown request');
-        return;
-      }
-
-console.log("BIND_OK",req.params, msg.payload.data);
-
-      delete me.requests[msg.reply_to];
-
-      req.success(msg);
-    }
-    break;
-
-    case 'bind_fail': {
-      let req = me.requests[msg.reply_to];
-      if (!req) {
-        console.log('bind_fail for unknown request');
-        return;
-      }
-
-console.log("BIND_FAIL", msg, "REQ=", req);
-
-      delete me.requests[msg.reply_to];
-
-      req.failure(msg);
-    }
-    break;
-
-    case 'sub_ok': {
-console.log("SUB_OK", msg);
-      let req = me.requests[msg.reply_to];
-      if (!req) {
-        console.log('sub_ok for unknown request');
-        return;
-      }
-
-      delete me.requests[msg.reply_to];
-
-      req.success(msg);
-    }
-    break;
-
-    case 'sub_fail': {
-console.log("SUB_FAIL", msg);
-      var req = me.requests[msg.reply_to];
-      if (!req) {
-        console.log('sub_fail for unknown request');
-        return;
-      }
-
-      delete me.requests[msg.reply_to];
-
-      req.failure(msg);
-    }
-    break;
-
     case 'create':
       me.get('store').pushPayload(msg.data);
     break;
@@ -290,6 +241,16 @@ console.log("SUB_FAIL", msg);
     }
     break;
 
+    case 'sub_ok':
+    case 'bind_ok':
+    case 'create_ok':
+    case 'update_ok':
+    case 'destroy_ok':
+      delete me.requests[msg.reply_to];
+
+      req.success(msg);
+    break;
+
     case 'msg':
       me.trigger('rawmsg', msg);
 
@@ -302,6 +263,21 @@ console.log("SUB_FAIL", msg);
       });
 
     break;
+
+    case 'exception':
+console.log("EXCEPTION", msg, "REQ=", req);
+
+      delete me.requests[msg.reply_to];
+
+      req.failure(msg);
+    break;
+
+    case 'message_not_handled':
+      req.failure(msg);
+    break;
+
+    default:
+      console.log("Unhandled message type", msg.type);
     }
   },
 
@@ -363,21 +339,99 @@ console.log("SUB_FAIL", msg);
     return this.currentRequestId++;
   },
 
-  getAndBind(modelName, ids, params) {
+  getAndBind(modelName, params) {
     let me = this;
 
-console.log("GET_AND_BIND", modelName, ids);
+console.log("GET_AND_BIND", modelName, params);
 
     let defer = Ember.RSVP.defer();
 
     let req = {
       method: 'bind',
-      params: Ember.merge({
+      params: Ember.assign({
         model: modelName,
-        ids: ids,
       }, params),
       success: function(msg) {
         me.collectionBindings[modelName] = true;
+        defer.resolve(msg.payload);
+      },
+      failure: function(msg) {
+        defer.reject(msg.reason);
+      },
+    };
+
+    me.makeRequest(req);
+
+    return defer.promise;
+  },
+
+  createAndBind(modelName, data, params) {
+    let me = this;
+
+console.log("CREATE_AND_BIND", modelName, data, params);
+
+    let defer = Ember.RSVP.defer();
+
+    let req = {
+      method: 'create',
+      params: Ember.assign({
+        model: modelName,
+        payload: data,
+      }, params),
+      success: function(msg) {
+        me.collectionBindings[modelName] = true;
+        defer.resolve(msg.payload);
+      },
+      failure: function(msg) {
+        defer.reject(msg.reason);
+      },
+    };
+
+    me.makeRequest(req);
+
+    return defer.promise;
+  },
+
+  update(modelName, data, params) {
+    let me = this;
+
+console.log("UPDATE", modelName, data, params);
+
+    let defer = Ember.RSVP.defer();
+
+    let req = {
+      method: 'update',
+      params: Ember.assign({
+        model: modelName,
+        payload: data,
+      }, params),
+      success: function(msg) {
+        defer.resolve(msg.payload);
+      },
+      failure: function(msg) {
+        defer.reject(msg.reason);
+      },
+    };
+
+    me.makeRequest(req);
+
+    return defer.promise;
+  },
+
+  destroy(modelName, id) {
+    let me = this;
+
+console.log("DESTROY", modelName, id);
+
+    let defer = Ember.RSVP.defer();
+
+    let req = {
+      method: 'destroy',
+      params: Ember.assign({
+        model: modelName,
+        id: id,
+      }),
+      success: function(msg) {
         defer.resolve(msg.payload);
       },
       failure: function(msg) {

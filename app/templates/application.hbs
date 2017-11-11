@@ -2,7 +2,7 @@
   <a class="launch icon item sidebar-toggle" {{action 'sidebarToggle' 'main-sidebar'}}>
     <i class="sidebar icon"></i>
   </a>
-  <div class="header item">ACAO Servizi</div>
+  {{#link-to 'index' class='header item'}}ACAO Servizi{{/link-to}}
   <div class="header item">{{mainTitle}}</div>
   {{#if session.isAuthenticated}}
     <div class="right item">

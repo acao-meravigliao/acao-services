@@ -23,15 +23,18 @@
   <tbody>
     <tr>
       <td></td>
-      <td>Iscrizione</td>
-      <td class="price">{{context.membershipAmount}} €</td>
+      <td>{{get (get serviceBySymbol context.ass_type) 'name'}}</td>
+      <td class="price">{{get (get serviceBySymbol context.ass_type) 'price'}} €</td>
     </tr>
+    {{#if context.cav_type}}
     <tr>
       <td class="collapsing">
         {{ui-checkbox class="ui fitted toggle" checked=enableCav onChange=(action (mut enableCav))}}
       </td>
-      <td>{{context.cavType}}</td><td class="price">{{context.cavAmount}} €</td>
+      <td>{{get (get serviceBySymbol context.cav_type) 'name'}}</td>
+      <td class="price">{{get (get serviceBySymbol context.cav_type) 'price'}} €</td>
     </tr>
+    {{/if}}
 
     {{#each services key="@index" as |service index|}}
     <tr>
@@ -43,28 +46,30 @@
           <div class="default text">Seleziona servizio...</div>
           <i class="dropdown icon"></i>
           <div class="menu">
-            {{#each-in context.availableServices as |type avSrv|}}
-              <div class="item" data-value="{{type}}">
-                {{avSrv.name}}
+            {{#each serviceTypesSorted as |srv|}}
+              {{#if srv.publish}}
+              <div class="item" data-value="{{srv.symbol}}">
+                {{srv.name}}
               </div>
-            {{/each-in}}
+              {{/if}}
+            {{/each}}
           </div>
         {{/ui-dropdown}}
-        {{#if (get (get context.availableServices service.type) 'extraInfo') }}
+        {{#if (get (get serviceBySymbol service.type) 'extra_info') }}
           <div class="ui labeled input">
             <div class="ui label">
-              {{get (get context.availableServices service.type) 'extraInfo'}}
+              {{get (get serviceBySymbol service.type) 'extra_info'}}
             </div>
             <input placeholder="D-1234" type="text" onChange="{{action 'setServiceExtraInfo' index}}">
           </div>
         {{/if}}
-        {{#if (get (get context.availableServices service.type) 'notes') }}
+        {{#if (get (get serviceBySymbol service.type) 'notes') }}
           <div class="small ui yellow message">
-            {{get (get context.availableServices service.type) 'notes'}}
+            {{get (get serviceBySymbol service.type) 'notes'}}
           </div>
         {{/if}}
       </td>
-      <td class="price">{{get (get context.availableServices service.type) 'price'}} €</td>
+      <td class="price">{{get (get serviceBySymbol service.type) 'price'}} €</td>
     </tr>
     {{/each}}
 

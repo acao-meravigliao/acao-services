@@ -13,7 +13,7 @@ export default Ember.Route.extend({
 
   model() {
     return Ember.RSVP.hash({
-      context: Ember.$.getJSON('/ygg/acao/renew_membership/context'),
+      context: Ember.$.getJSON('/ygg/acao/memberships/renew'),
       state: this.get('state'),
     });
   },

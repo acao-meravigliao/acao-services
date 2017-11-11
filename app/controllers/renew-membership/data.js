@@ -5,11 +5,12 @@ export default Ember.Controller.extend({
 
   total: Ember.computed('context.membershipAmount', 'context.cavAmount', 'enableCav', 'services.@each.type', function() {
     var me = this;
+    let ava = me.get('serviceBySymbol');
 
-    return this.get('context.membershipAmount') +
-           (this.get('enableCav') ? this.get('context.cavAmount') : 0) +
+    return ava[this.get('context.ass_type')].get('price') +
+           (this.get('enableCav') ? ava[this.get('context.cav_type')].get('price') : 0) +
            this.get('services').reduce(function(previous, service) {
-             return service.type ? (previous + me.get('context.availableServices')[service.type].price) : previous;
+             return service.type ? (previous + ava[service.type].get('price')) : previous;
            }, 0);
   }),
 
@@ -17,9 +18,20 @@ export default Ember.Controller.extend({
     return !this.get('acceptRules')  || !this.get('paymentMethod');
   }),
 
-  renewForYear: (new Date()).getFullYear() + 1,
-
   services: Ember.A(),
+//  sortByNameAsc: ['name'],
+//  serviceTypesSorted: Ember.computed.sort('model.serviceTypes', 'sortByNameAsc'),
+  serviceTypesSorted: Ember.computed.alias('model.serviceTypes'),
+
+  serviceBySymbol: Ember.computed('model.serviceTypes', 'model.serviceTypes.@each', function() {
+    let services = {};
+
+    this.get('model.serviceTypes').forEach(function(st) {
+      services[st.get('symbol')] = st;
+    });
+
+    return services;
+  }),
 
   actions: {
     addService() {
@@ -49,19 +61,14 @@ export default Ember.Controller.extend({
 
       Ember.$.ajax({
         type: 'POST',
-        url: '/ygg/acao/renew_membership/prepare_payment',
+        url: '/ygg/acao/memberships/renew',
         data: JSON.stringify(this.get('state')),
         dataType: 'json',
         contentType: 'application/json',
       }).then(function(response) {
         me.set('submitting', false);
 
-        me.get('state').setProperties({
-          backendComputedTotal: response.backendComputedTotal,
-          paymentCode: response.paymentCode,
-        });
-
-        me.transitionToRoute('renew-membership.payment-' + me.get('paymentMethod'));
+        me.transitionToRoute('pending-payment', response.payment_id);
 
       }, function(xhr, status, error) {
         me.set('submitting', false);

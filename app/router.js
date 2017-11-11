@@ -13,20 +13,16 @@ Router.map(function() {
 
   this.route('renew-membership', function() {
     this.route('data');
-    this.route('payment-wire');
-    this.route('payment-check');
-    this.route('payment-cash');
-    this.route('turni');
   });
 
   this.route('pending-payments');
   this.route('pending-payment', { path: '/pending-payment/:id' });
 
-//  this.route('pending-payment', function() {
-//    this.route('wire');
-//    this.route('check');
-//    this.route('cash');
-//  });
+  this.route('select-roster');
+
+  this.route('public', function() {
+    this.route('today-roster');
+  });
 });
 
 export default Router;

@@ -1,23 +1,38 @@
 <div class="ui container">
   <h1 class="ui header">Ciao {{session.person.first_name}},</h1>
 
-  <div>
-    Socio nel: <div class="ui celled horizontal list">
-      {{#each model.memberships key="id" as |membership|}}
-        <div class="item">{{membership.year}}</div>
-      {{/each}}
+  <div class="ui stackable mobile reversed equal width grid">
+    <div class="column">
+      <div>
+        Socio nel: <div class="ui celled horizontal list">
+          {{#each model.memberships key="id" as |membership|}}
+            <div class="item">{{membership.year}}</div>
+          {{/each}}
+        </div>
+
+        Prossimi turni di linea:
+        {{#each myNextRosterEntries as |re|}}
+          {{roster-entry-display entry=re}}
+        {{/each}}
+      </div>
+    </div>
+    <div class="column">
+      <div class="ui vertical buttons">
+        {{#if model.pendingPayments}}
+          {{#link-to 'pending-payments' class="massive ui orange button" tagName="button"}}Ci sono dei pagamenti pendenti{{/link-to}}
+        {{/if}}
+
+        {{#if membershipRenewalIsAvailable}}
+          {{#link-to 'renew-membership' class="massive ui primary button" tagName="button"}}Rinnova l'iscrizione {{model.renewalContext.year}}{{/link-to}}
+        {{/if}}
+
+        {{#if model.rosterStatus.can_select_entries}}
+          {{#link-to 'select-roster' class="massive ui green button" tagName="button"}}Scegli i turni di linea{{/link-to}}
+        {{/if}}
+      </div>
     </div>
   </div>
 
-  <div class="ui right floated segment">
-    {{#if model.pendingPayments}}
-      {{#link-to 'pending-payments' class="massive ui orange button" tagName="button"}}Ci sono dei pagamenti pendenti{{/link-to}}
-    {{/if}}
-
-    {{#if membershipRenewalIsAvailable}}
-      {{#link-to 'renew-membership' class="massive ui primary button" tagName="button"}}Rinnova l'iscrizione {{model.renewalContext.year}}{{/link-to}}
-    {{/if}}
-  </div>
 
 <!--  <div class="ui statistic">
     <div class="value">

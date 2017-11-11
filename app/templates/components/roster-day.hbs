@@ -1,0 +1,26 @@
+<div class="{{if day.high_season 'red' 'blue'}} card">
+<div class="content">
+  <div class="header">
+    {{moment-format day.date 'dddd D MMMM'}}
+  </div>
+
+  {{#if missingChief}}
+    <i class="ui spy icon"></i>
+    <span style="display: inline-block; width: 10em; border-bottom: solid 1px black;">&nbsp;</span><br />
+  {{/if}}
+
+  {{#each sortedEntries as |entry|}}
+    <i class="ui {{if entry.chief 'spy' 'user'}} icon"></i>
+    {{entry.person.first_name}} {{entry.person.last_name}}<br />
+  {{/each}}
+
+  {{#each missingNonChiefs}}
+    <i class="ui user icon"></i>
+    <span style="display: inline-block; width: 10em; border-bottom: solid 1px black;">&nbsp;</span><br />
+  {{/each}}
+</div>
+
+{{#if enableAdd}}
+  <button class="ui bottom attached button" {{action 'add' day}}><i class="ui left arrow icon"></i>Aggiungi</button>
+{{/if}}
+</div>

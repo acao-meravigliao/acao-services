@@ -7,8 +7,8 @@ export default Ember.Route.extend({
 
   model(params) {
     return Ember.RSVP.hash({
-      payment: this.get('store').findRecord('ygg-acao-payment', params.id),
-      services: this.get('store').query('ygg-acao-payment-service', { filter: { payment_id: params.id }}),
+      payment: this.get('store').findRecord('ygg--acao--payment', params.id),
+      services: this.get('store').query('ygg--acao--payment--service', { filter: { payment_id: params.id }}),
     });
   },
 

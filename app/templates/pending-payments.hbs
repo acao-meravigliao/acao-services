@@ -1,5 +1,5 @@
 {{#if model}}
-<table class="ui celled table">
+<table class="ui celled table pending-payments">
   <thead>
     <tr>
       <th>Codice</th>
@@ -14,7 +14,7 @@
       <td>{{payment.code}}</td>
       <td>{{moment-format payment.created_at 'YYYY-MM-DD HH:mm:ss' }}</td>
       <td>{{payment.payment_method}}</td>
-      <td></td>
+      <td>{{payment.total}}</td>
     {{/link-to}}
   {{/each}}
   </tbody>

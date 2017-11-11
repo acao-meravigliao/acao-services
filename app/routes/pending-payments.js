@@ -6,7 +6,7 @@ export default Ember.Route.extend({
   mainTitle: 'Pagamenti pendenti',
 
   model() {
-    return this.get('store').query('ygg-acao-payment', { status: 'PENDING' }, { transport: 'HTTP' } );
+    return this.get('store').query('ygg--acao--payment', { status: 'PENDING' }, { transport: 'HTTP' } );
   },
 
 //  afterModel(model) {

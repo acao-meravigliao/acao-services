@@ -1,0 +1,14 @@
+<div class="ui raised blurring segment {{if entry.roster_day.high_season 'red' 'blue'}}">
+  <h1 class="ui header">{{moment-format entry.roster_day.date 'dddd YYYY-MM-DD' }}</h1>
+
+  {{#each entry.roster_day.roster_entries as |sameDayEntry|}}
+    <i class="ui {{if sameDayEntry.chief 'spy' 'user'}} icon"></i>
+    {{sameDayEntry.person.first_name}} {{sameDayEntry.person.last_name}}<br />
+  {{/each}}
+
+  {{#if entry.notes}}
+    <div class="ui message">
+      {{entry.notes}}
+    </div>
+  {{/if}}
+</div>

@@ -2,6 +2,8 @@ import Ember from 'ember';
 import DS from 'ember-data';
 
 export default DS.Model.extend({
+  wsModelName: 'Ygg::Acao::Aircraft',
+
   created_at: DS.attr('date'),
   updated_at: DS.attr('date'),
   uuid: DS.attr('string'),

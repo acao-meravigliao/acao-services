@@ -19,3 +19,6 @@ body > .ember-view {
   font-weight: bold !important;
 }
 
+table.pending-payments > tbody > tr {
+  cursor: pointer;
+}
