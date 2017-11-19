@@ -18,9 +18,10 @@
           <div class="ui left icon input">
             <i class="lock icon"></i>
             {{input id='password' placeholder='Password' type='password' value=password}}
-          </div>
+          </div><br />
+          La password ti è stata inviata via e-mail, se non l'hai ricevuta contatta la segreteria.
         </div>
-        <button type=submit class="ui fluid large submit button">Login</button>
+        <button type=submit class="ui fluid large submit button {{if loggingIn 'disabled loading'}}">Login</button>
       </div>
 
       <div class="ui error message"></div>
@@ -28,7 +29,7 @@
     </form>
 
   {{#if errorMessage}}
-    <div class="ui message">
+    <div class="ui red message">
       {{errorMessage}}
     </div>
   {{/if}}

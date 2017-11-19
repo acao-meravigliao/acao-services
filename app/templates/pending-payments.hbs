@@ -12,9 +12,9 @@
   {{#each model key="id" as |payment|}}
     {{#link-to 'pending-payment' payment.id tagName='tr'}}
       <td>{{payment.code}}</td>
-      <td>{{moment-format payment.created_at 'YYYY-MM-DD HH:mm:ss' }}</td>
+      <td>{{moment-format payment.created_at 'DD-MM-YYYY HH:mm:ss' }}</td>
       <td>{{payment.payment_method}}</td>
-      <td>{{payment.total}}</td>
+      <td>{{format-number payment.total format="0.00"}} €</td>
     {{/link-to}}
   {{/each}}
   </tbody>

@@ -1,17 +1,3 @@
-<div class="ui segment">
-  {{ui-checkbox class="ui fitted toggle" checked=true onChange=(action (mut enableEmail))}}
-  Autorizzo l'invio per e-mail delle comunicazioni, convocazioni di assemblee e ogni altra disposizione obbligatoria.
-  (DPR 15 marzo 1997&nbsp; n. 59 art 15 secondo comma, D.P.R. 28 dicembre 2000 n.445 art. 14 comma terzo, D.P.R. 13 febbraio 2001 n. 123 art. 8,
-  Direttiva 2000/31/CE 8 giugno 2000 art. 11, comma 1) *
-</div>
-
-<div class="ui segment">
-  {{ui-checkbox class="ui fitted toggle" onChange=(action (mut acceptRules))}}
-  Dichiaro  di aver preso visione del
-  <a href="Regolamento_Aeroportuale_ACAO_2014.pdf" target="_blank">Regolamento dell'Aeroclub</a>
-  e di accettarlo in modo totale e incondizionato.
-</div>
-
 <table class="renew-services ui celled table">
   <thead>
     <tr>
@@ -23,66 +9,84 @@
   <tbody>
     <tr>
       <td></td>
-      <td>{{get (get serviceBySymbol context.ass_type) 'name'}}</td>
-      <td class="price">{{get (get serviceBySymbol context.ass_type) 'price'}} €</td>
+      <td>{{assService.name}}</td>
+      <td class="price">{{format-number assService.price format="0.00"}} €</td>
     </tr>
     {{#if context.cav_type}}
     <tr>
       <td class="collapsing">
         {{ui-checkbox class="ui fitted toggle" checked=enableCav onChange=(action (mut enableCav))}}
       </td>
-      <td>{{get (get serviceBySymbol context.cav_type) 'name'}}</td>
-      <td class="price">{{get (get serviceBySymbol context.cav_type) 'price'}} €</td>
+      <td>{{cavService.name}}</td>
+      <td class="price">{{format-number cavService.price format="0.00"}} €</td>
     </tr>
     {{/if}}
 
     {{#each services key="@index" as |service index|}}
     <tr>
       <td>
-        <a {{action 'removeService' index}}><i class="big red remove icon"></i></a>
+        <a {{action 'removeService' index}}><i class="big trash icon"></i></a>
       </td>
       <td>
-        {{#ui-dropdown class="selection fluid" onChange=(action 'setService' index) as |execute mapper|}}
+        {{#ui-dropdown class="selection fluid" onChange=(action 'setServiceType' index) as |execute mapper|}}
           <div class="default text">Seleziona servizio...</div>
           <i class="dropdown icon"></i>
           <div class="menu">
-            {{#each serviceTypesSorted as |srv|}}
-              {{#if srv.publish}}
-              <div class="item" data-value="{{srv.symbol}}">
-                {{srv.name}}
+            {{#each serviceTypesSorted as |st|}}
+              {{#if st.available_for_membership_renewal}}
+              <div class="item" data-value="{{st.id}}">
+                {{st.name}}
               </div>
               {{/if}}
             {{/each}}
           </div>
         {{/ui-dropdown}}
-        {{#if (get (get serviceBySymbol service.type) 'extra_info') }}
+
+        {{#if service.type.extra_info}}
           <div class="ui labeled input">
             <div class="ui label">
-              {{get (get serviceBySymbol service.type) 'extra_info'}}
+              {{service.type.extra_info}}
             </div>
-            <input placeholder="D-1234" type="text" onChange="{{action 'setServiceExtraInfo' index}}">
+            {{input value=service.extraInfo}}
           </div>
         {{/if}}
-        {{#if (get (get serviceBySymbol service.type) 'notes') }}
+        {{#if service.type.notes}}
           <div class="small ui yellow message">
-            {{get (get serviceBySymbol service.type) 'notes'}}
+            {{service.type.notes}}
           </div>
         {{/if}}
       </td>
-      <td class="price">{{get (get serviceBySymbol service.type) 'price'}} €</td>
+      <td class="price">{{format-number service.type.price format="0.00"}} €</td>
     </tr>
     {{/each}}
 
-    <tr><td></td><td><a {{action 'addService'}}><i class="plus icon"></i> Aggiungi servizio (roulotte, carrello, ecc...)</a></td></tr>
+    <tr><td></td><td><a {{action 'addService'}}><i class="plus icon"></i> <strong>Posto carrello, tessera FAI, ecc</strong></a></td></tr>
 
   </tbody>
   <tfoot>
     <tr>
       <th colspan=2>Totale</th>
-      <th class="total price">{{total}} €</th>
+      <th class="total price">{{format-number total format="0.00"}} €</th>
     </tr>
   </tfoot>
 </table>
+
+<div class="ui segment">
+  {{ui-checkbox class="ui fitted toggle" checked=true onChange=(action (mut enableEmail))}}
+  Autorizzo l'invio per e-mail delle comunicazioni, convocazioni di assemblee e ogni altra disposizione obbligatoria.
+  (DPR 15 marzo 1997&nbsp; n. 59 art 15 secondo comma, D.P.R. 28 dicembre 2000 n.445 art. 14 comma terzo, D.P.R. 13 febbraio 2001 n. 123 art. 8,
+  Direttiva 2000/31/CE 8 giugno 2000 art. 11, comma 1) *
+</div>
+
+<div class="ui segment">
+  {{ui-checkbox class="ui fitted toggle" onChange=(action (mut acceptRules))}}
+  Dichiaro  di aver preso visione del <a {{action 'openRules'}}>Regolamento dell'Aeroclub</a>
+  e di accettarlo in modo totale e incondizionato.
+
+  <div class="ui sixteen wide column fullscreen modal rules-modal" style="height: 90%">
+    <iframe src="/regolamento.pdf" style="width: 100%; height: 100%"></iframe>
+  </div>
+</div>
 
 <p>
   Metodo di pagamento:
@@ -93,22 +97,4 @@
   <button class="ui button" {{action (mut paymentMethod) 'cash'}}><i class="ui euro icon"></i><br /> Contanti</button>
 </div>
 
-<button class="huge ui fluid primary button {{if submitting 'loading'}}" disabled={{formInvalid}} {{action 'commit'}}>Procedi al pagamento...</button>
-
-<div class="ui segment">
-  <div class="ui blue ribbon label">State</div>
-  <pre>
-  {{#each-in this as |key val|}}
-    {{key}}: {{val}}
-  {{/each-in}}
-  </pre>
-</div>
-
-<div class="ui segment">
-  <div class="ui blue ribbon label">Context</div>
-  <pre>
-  {{#each-in context as |key val|}}
-    {{key}}: {{val}}
-  {{/each-in}}
-  </pre>
-</div>
+<button class="huge ui fluid primary button" disabled={{commitDisabled}} {{action 'commit'}}>Avanti...</button>

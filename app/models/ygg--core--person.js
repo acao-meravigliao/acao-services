@@ -17,4 +17,6 @@ export default DS.Model.extend({
   acao_ext_id: DS.attr('number'),
   acao_code: DS.attr('number'),
   preferred_language_id: DS.attr('number'),
+
+  contacts: DS.hasMany('ygg--core--person--contact'),
 });

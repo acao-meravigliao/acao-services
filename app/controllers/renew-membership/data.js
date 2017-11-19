@@ -1,39 +1,38 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  session: Ember.inject.service('session'),
+  assService: Ember.computed('model.serviceTypes', 'context.ass_type', function() {
+    return this.get('model.serviceTypes').findBy('symbol', this.get('context.ass_type'));
+  }),
+
+  cavService: Ember.computed('model.serviceTypes', 'context.cav_type', 'enableCav', function() {
+    return this.get('enableCav') ? this.get('model.serviceTypes').findBy('symbol', this.get('context.cav_type')) : null;
+  }),
 
   total: Ember.computed('context.membershipAmount', 'context.cavAmount', 'enableCav', 'services.@each.type', function() {
-    var me = this;
-    let ava = me.get('serviceBySymbol');
-
-    return ava[this.get('context.ass_type')].get('price') +
-           (this.get('enableCav') ? ava[this.get('context.cav_type')].get('price') : 0) +
+    return this.get('assService.price') +
+           (this.get('enableCav') ? this.get('cavService.price') : 0) +
            this.get('services').reduce(function(previous, service) {
-             return service.type ? (previous + ava[service.type].get('price')) : previous;
+             return previous + (service.get('type') ? service.get('type.price') : 0);
            }, 0);
   }),
+
+  services: Ember.A(),
+
+  serviceTypesSortOrder: ['name'],
+  serviceTypesSorted: Ember.computed.sort('model.serviceTypes', 'serviceTypesSortOrder'),
 
   formInvalid: Ember.computed('acceptRules', 'paymentMethod', function() {
     return !this.get('acceptRules')  || !this.get('paymentMethod');
   }),
 
-  services: Ember.A(),
-//  sortByNameAsc: ['name'],
-//  serviceTypesSorted: Ember.computed.sort('model.serviceTypes', 'sortByNameAsc'),
-  serviceTypesSorted: Ember.computed.alias('model.serviceTypes'),
-
-  serviceBySymbol: Ember.computed('model.serviceTypes', 'model.serviceTypes.@each', function() {
-    let services = {};
-
-    this.get('model.serviceTypes').forEach(function(st) {
-      services[st.get('symbol')] = st;
-    });
-
-    return services;
-  }),
+  commitDisabled: Ember.computed.alias('formInvalid'),
 
   actions: {
+    openRules() {
+      Ember.$('.rules-modal').modal('show');
+    },
+
     addService() {
       this.get('services').addObject(Ember.Object.create({ type: null }));
     },
@@ -42,37 +41,25 @@ export default Ember.Controller.extend({
       this.get('services').removeAt(index);
     },
 
-    setService(index, value) {
-      this.get('services')[index].set('type', value);
-    },
-
-    setServiceExtraInfo(index, value) {
-      this.get('services')[index].set('extraInfo', value);
+    setServiceType(index, serviceTypeId) {
+      this.get('services')[index].set('type', this.get('store').peekRecord('ygg--acao--service-type', serviceTypeId));
     },
 
     commit() {
       var me = this;
 
+console.log("STATE1", JSON.stringify(this.get('state')));
+console.log("PROPER=", JSON.stringify(this.getProperties(
+        'services', 'enableCav', 'enableEmail', 'acceptRules', 'paymentMethod',
+      )));
+
       this.get('state').setProperties(this.getProperties(
         'services', 'enableCav', 'enableEmail', 'acceptRules', 'paymentMethod',
       ));
 
-      me.set('submitting', true);
+console.log("STATE2", JSON.stringify(this.get('state')));
 
-      Ember.$.ajax({
-        type: 'POST',
-        url: '/ygg/acao/memberships/renew',
-        data: JSON.stringify(this.get('state')),
-        dataType: 'json',
-        contentType: 'application/json',
-      }).then(function(response) {
-        me.set('submitting', false);
-
-        me.transitionToRoute('pending-payment', response.payment_id);
-
-      }, function(xhr, status, error) {
-        me.set('submitting', false);
-      });
+      this.transitionToRoute('renew-membership.summary');
     },
   },
 });

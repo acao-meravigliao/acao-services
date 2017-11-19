@@ -1,9 +1,9 @@
 <div class="ui raised blurring segment {{if entry.roster_day.high_season 'red' 'blue'}}">
   <div class="ui dimmer {{if entry.isDeleted 'active'}}"></div>
-  <h1 class="ui header">{{moment-format entry.roster_day.date 'dddd YYYY-MM-DD' }}</h1>
+  <h1 class="ui header">{{moment-format entry.roster_day.date 'dddd DD-MM-YYYY' }}</h1>
   <button class="ui icon button" {{action 'del' entry}}><i class="red ui delete icon"></i></button>
   <div class="ui checkbox toggle">
-    {{input type='checkbox' name='entry.chief' checked=entry.chief}}
+    {{input type='checkbox' name='entry.chief' checked=entry.chief disabled=chiefDisabled}}
     <label>Capolinea</label>
   </div>
   <div>

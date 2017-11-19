@@ -1,0 +1,23 @@
+
+{{#if cart.items}}
+  <div class="ui cards">
+    {{#each cart.items as |item|}}
+      {{shop-cart-item item=item}}
+    {{/each}}
+  </div>
+{{else}}
+  <div class="ui blue message">
+    <h1 class="ui header">Nessun elemento nel carrello</h1>
+  </div>
+{{/if}}
+
+<div class="ui clearing segment">
+  <div class="ui grid">
+    <div class="eight wide column">
+    </div>
+    <div class="eight wide column">
+      <button class="ui big button" {{action 'emptyCart'}}>Svuota carrello</button>
+      {{#link-to 'shop.checkout' type='button' class='ui big primary button'}}Vai alla cassa{{/link-to}}
+    </div>
+  </div>
+</div>

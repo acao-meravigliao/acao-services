@@ -9,7 +9,7 @@ export default Ember.Service.extend(Ember.Evented, {
   reconnectLimit: 15000,
 
   pingFrequency: 5000,
-  pingTimeout: 5000,
+  pingTimeout: 10000,
 
   store: Ember.inject.service('store'),
 
@@ -81,15 +81,21 @@ export default Ember.Service.extend(Ember.Evented, {
       type: 'ping',
     });
 
+    me.pingTimer = Ember.run.later(me, me.doPing, me.pingFrequency);
+
     me.pingTimeoutTimer = Ember.run.later(me, function() {
-      me.socket.close();
+      me.pingTimedout();
     }, me.pingTimeout);
+  },
+
+  pingTimedout() {
+    this.socket.close();
   },
 
   transmit(msg) {
     let me = this;
 
-    //console.log("MSG >>>", msg);
+//    console.log("MSG >>>", msg);
 
     me.socket.send(JSON.stringify(msg));
   },
@@ -160,32 +166,45 @@ console.log("WELCOME", msg);
         me.trigger('version_mismatch', me.app_version, msg.app_version);
 
       if (me.state == 'OPEN_WAIT_WELCOME') {
+        if (me.savedCollectionBindings) {
+console.log("REBINDING COLLECTIONS", me.savedCollectionBindings);
+
+          Ember.$.each(me.savedCollectionBindings, function(key, binding) {
+            me.getAndBind(key, {
+              // TODO ADD QUERY PARAMETERS
+              multiple: true,
+            });
+          });
+
+          me.savedCollectionBindings = null;
+        }
+
         let regexp = new RegExp(config.modulePrefix + '/models/(.*)$');
 
         Object.keys(require._eak_seen).filter((name) => regexp.test(name)).
                      map((name) => regexp.exec(name)[1]).forEach(function(modelType) {
 
-          let models = me.get('store').peekAll(modelType);
+          if (me.get('store').adapterFor(modelType) == me.get('store').adapterFor('application')) {
+            let models = me.get('store').peekAll(modelType);
 
-          let ids = [];
-          models.forEach(function(model) {
-            if (model.get('isLoaded'))
-              ids.push(model.get('id'));
-          });
+            let ids = [];
+            models.forEach(function(model) {
+              if (model.get('isLoaded'))
+                ids.push(model.get('id'));
+            });
 
-          if (ids.length > 0)
-            me.getAndBind(modelType, ids);
+            if (ids.length > 0) {
+              console.log("RESTORING MODEL", modelType, ids);
+
+              me.getAndBind(modelType, {
+                ids: ids,
+                multiple: true,
+              });
+            }
+          }
         });
 
-        if (me.savedCollectionBindings) {
-console.log("RESUBSCRIBING", me.savedCollectionBindings);
 
-          Ember.$.each(me.savedCollectionBindings, function(key, binding) {
-            me.getAndBind(binding, null);
-          });
-
-          me.savedCollectionBindings = null;
-        }
 
         if (!msg.online) {
           me.offlineReason = msg.offline_reason;
@@ -246,6 +265,8 @@ console.log("RESUBSCRIBING", me.savedCollectionBindings);
     case 'create_ok':
     case 'update_ok':
     case 'destroy_ok':
+      console.log("OKAY", msg.type, msg.payload, "REQ=", me.requests[msg.reply_to]);
+
       delete me.requests[msg.reply_to];
 
       req.success(msg);
@@ -352,11 +373,19 @@ console.log("GET_AND_BIND", modelName, params);
         model: modelName,
       }, params),
       success: function(msg) {
-        me.collectionBindings[modelName] = true;
+        if (req.params.multiple) {
+          me.collectionBindings[modelName] = true;
+          // FIXME record query parameters
+        }
+
         defer.resolve(msg.payload);
       },
       failure: function(msg) {
-        defer.reject(msg.reason);
+console.log("FAILURE", msg);
+        defer.reject({
+          reason: msg.reason,
+          requestId: msg.reply_to,
+        });
       },
     };
 

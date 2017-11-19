@@ -1,10 +1,7 @@
 <div class="ui container">
-  <div class="ui segment">
-    <p>
-      Ciao {{session.person.first_name}},
-    </p>
-
-    {{#if renewIsOpen}}
+  {{#if renewIsOpen}}
+    <div class="ui segment">
+      <h1 class="ui header">Ciao {{session.person.first_name}},</h1>
 
       {{#if context.membership}}
         <h1 class="ui header">
@@ -23,19 +20,28 @@
       </p>
 
       <p>
-        Assicurati che i tuoi dati siano corretti:<br />
+        Assicurati che i tuoi dati siano corretti:
+      </p>
+      <p>
         Nome: <strong>{{session.person.first_name}} {{session.person.last_name}}</strong><br />
-        Data di nascita: <strong>{{moment-format session.person.birth_date 'YYYY-MM-DD'}}</strong><br />
-        Email: <strong>TODO</strong><br />
+        Data di nascita: <strong>{{moment-format session.person.birth_date 'DD-MM-YYYY'}}</strong><br />
+        Email: <strong>{{#each myEmails as |item index|}}{{if index ', '}}{{item.value}}{{/each}}</strong><br />
+        Telefono fisso: <strong>{{#each myFixedPhones as |item index|}}{{if index ', '}}{{item.value}}{{/each}}</strong><br />
+        Cellulare: <strong>{{#each myMobiles as |item index|}}{{if index ', '}}{{item.value}}{{/each}}</strong><br />
       </p>
 
       <button class="huge ui fluid primary button" disabled={{formInvalid}} {{action 'commit'}}>Procedi...</button>
       {{/if}}
-    {{else}}
+    </div>
+  {{else}}
+    <div class="ui orange message">
       <h1 class="ui header">
-        L'iscrizione per l'anno {{context.renew_for_year}} non è ancora aperta, aprirà {{moment-from-now context.renew_opening_time interval=1000}}
+        {{#if context.renew_for_year}}
+          L'iscrizione per l'anno {{context.renew_for_year}} non è ancora aperta, aprirà {{moment-from-now context.opening_time interval=1000}}
+        {{else}}
+          L'iscrizione non è aperta.
+        {{/if}}
       </h1>
-
-    {{/if}}
-  </div>
+    </div>
+  {{/if}}
 </div>

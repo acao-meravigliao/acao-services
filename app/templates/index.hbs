@@ -1,19 +1,39 @@
 <div class="ui container">
-  <h1 class="ui header">Ciao {{session.person.first_name}},</h1>
+  <h1 class="ui header">Ciao {{session.person.first_name}}!</h1>
+
+  {{#unless renewIsOpen}}
+    <div class="ui orange message">
+      <h1 class="ui header">
+        {{#if model.renewalContext.renew_for_year}}
+          L'iscrizione per l'anno {{model.renewalContext.renew_for_year}} non è ancora aperta, aprirà {{moment-from-now model.renewalContext.opening_time interval=1000}}
+        {{else}}
+          L'iscrizione non è aperta.
+        {{/if}}
+      </h1>
+    </div>
+  {{/unless}}
 
   <div class="ui stackable mobile reversed equal width grid">
     <div class="column">
       <div>
-        Socio nel: <div class="ui celled horizontal list">
-          {{#each model.memberships key="id" as |membership|}}
-            <div class="item">{{membership.year}}</div>
-          {{/each}}
-        </div>
+<!--        {{#if model.memberships}}
+          Socio nel:
+          <div class="ui celled horizontal list">
+            {{#each model.memberships key="id" as |membership|}}
+              <div class="item">{{membership.year}}</div>
+            {{/each}}
+          </div>
+        {{/if}}
+-->
 
-        Prossimi turni di linea:
-        {{#each myNextRosterEntries as |re|}}
-          {{roster-entry-display entry=re}}
-        {{/each}}
+        {{#if myNextRosterEntries}}
+          <div class="ui segment">
+            Prossimi turni di linea:
+            {{#each myNextRosterEntries as |re|}}
+              {{roster-entry-display entry=re}}
+            {{/each}}
+          </div>
+        {{/if}}
       </div>
     </div>
     <div class="column">

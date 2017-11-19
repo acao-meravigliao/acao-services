@@ -8,15 +8,15 @@ export default Ember.Component.extend({
     return this.get('entries').every((item) => (item.belongsTo('roster_day').id() != this.get('day.id')))
   }),
 
-  missingChief: Ember.computed('day.roster_entries.@each', function() {
+  missingChief: Ember.computed('day.roster_entries.@each.chief', function() {
     return !this.get('day.roster_entries').any((item) => (item.get('chief')));
   }),
 
-  missingNonChiefs: Ember.computed('day.roster_entries.@each', function() {
+  missingNonChiefs: Ember.computed('day.roster_entries.length', 'missingChief', 'day.needed_people', function() {
     return Array(this.get('day.needed_people') - this.get('day.roster_entries.length') - (this.get('missingChief') ? 1 : 0));
   }),
 
-  sortedEntries: Ember.computed.sort('day.roster_entries.@each', function(a, b) {
+  sortedEntries: Ember.computed.sort('day.roster_entries', function(a, b) {
     if (a.get('chief') && !b.get('chief'))
       return -1;
     else if (!a.get('chief') && b.get('chief'))

@@ -10,8 +10,13 @@ export default Ember.Controller.extend({
       if (username.indexOf('@') == -1)
         username = username + '@cp.acao.it';
 
-      this.get('session').authenticate('authenticator:yggdra', username, password).catch((reason) => {
-        this.set('errorMessage', reason.error || reason);
+      this.set('loggingIn', true);
+
+      this.get('session').authenticate('authenticator:yggdra', username, password).then(() => {
+        this.set('loggingIn', false);
+      }).catch((reason) => {
+        this.set('loggingIn', false);
+        this.set('errorMessage', reason.msg || JSON.stringify(reason));
       });
     }
   }

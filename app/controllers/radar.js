@@ -8,7 +8,7 @@ export default Ember.Controller.extend({
   zoom: 14,
   mrk: [45.809836, 8.771022],
   icon: L.icon({
-    iconUrl: '/glider.svg',
+    iconUrl: '/assets/glider.svg',
     iconSize: [ 64, 64 ],
   }),
 

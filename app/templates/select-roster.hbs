@@ -1,31 +1,48 @@
 <div class="ui container">
 <div class="ui segment">
-  <button class="ui primary button" {{action 'save' re}}>Salva!</button>
+  <button class="ui primary button {{if saveDisabled 'disabled'}} {{if saving 'disabled'}}" {{action 'save' re}}>Salva!</button>
   <button class="ui button" {{action 'cancel' re}}>Annulla!</button>
-  Hai selezionato {{myRosterEntries.length}} turni di linea, dei quali {{peakRosterEntries.length}} in alta stagione.
 
-  {{#if tooManyEntries}}
-    <div class="ui green message">
-      Hai scelto {{myRosterEntries.length}} turni mentre ne avresti dovuti scegliere solo {{model.rosterStatus.needed_total}}, bravo :)
-    </div>
+  {{#if saveError}}
+  <div class="ui red message">
+    {{saveError}}
+  </div>
   {{/if}}
+
+  Hai selezionato {{myRosterEntries.length}} turni di linea, dei quali {{peakRosterEntries.length}} in alta stagione.
 
   {{#if requisiteEntriesMissing}}
     <div class="ui orange message">
       Devi selezionare {{model.rosterStatus.needed_total}} turni di linea, dei quali {{model.rosterStatus.needed_high_season}} in alta stagione.
     </div>
   {{/if}}
+
+  {{#if requisiteEntriesOk}}
+    <div class="ui green message">
+      I turni di linea necessari sono stati scelti, {{#link-to 'index'}}torna alla pagina principale{{/link-to}}.
+    </div>
+  {{/if}}
 </div>
 
 <div class="ui grid">
   <div class="seven wide column">
-    {{#each myRosterEntries as |re|}}
-      {{roster-entry entry=re onDelete=(action 'delEntry')}}
-    {{/each}}
+    {{#if myRosterEntries}}
+      I tuoi turni:
+      {{#each myRosterEntries as |re|}}
+        {{roster-entry entry=re onDelete=(action 'delEntry') chiefEnabled=model.rosterStatus.possible_roster_chief}}
+      {{/each}}
+
+      {{#if tooManyEntries}}
+        <div class="ui green message">
+          Hai scelto {{myRosterEntries.length}} turni mentre ne avresti dovuti scegliere solo {{model.rosterStatus.needed_total}}, bravo ☺
+        </div>
+      {{/if}}
+    {{else}}
+      <div class="ui blue message">Non hai turni di linea al momento</div>
+    {{/if}}
   </div>
   <div class="nine wide column">
-    {{ui-checkbox class="ui toggle" checked=includeBusy onChange=(action (mut includeBusy)) label="Includi occupati"}}
-
+    <div class="ui segment">
     {{#ui-dropdown class="selection inline compact" selected=seasonSelect onChange=(action (mut seasonSelect))}}
     <div class="default text">Tutte</div>
     <i class="dropdown icon"></i>
@@ -56,7 +73,10 @@
     </div>
     {{/ui-dropdown}}
 
-    <div class="ui cards" style="overflow-y: auto; max-height: 80vh">
+    {{ui-checkbox class="ui toggle" checked=includeBusy onChange=(action (mut includeBusy)) label="Includi occupati"}}
+    </div>
+
+    <div class="ui cards" style="overflow-y: auto; max-height: 70vh">
       {{#each filteredRosterDays as |day|}}
         {{roster-day day=day entries=myRosterEntries onAdd=(action 'addDay')}}
       {{/each}}

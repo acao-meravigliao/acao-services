@@ -11,8 +11,14 @@ Router.map(function() {
   this.route('radar');
   this.route('meteo');
 
+  this.route('shop', function() {
+    this.route('cart');
+    this.route('checkout');
+  });
+
   this.route('renew-membership', function() {
     this.route('data');
+    this.route('summary');
   });
 
   this.route('pending-payments');
@@ -20,9 +26,8 @@ Router.map(function() {
 
   this.route('select-roster');
 
-  this.route('public', function() {
-    this.route('today-roster');
-  });
+  this.route('today-roster');
+  this.route('today-roster-not-found');
 });
 
 export default Router;

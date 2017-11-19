@@ -1,0 +1,16 @@
+<div class="ui link cards">
+  {{#each model.services as |st|}}
+    <div class="card">
+      <div class="content">
+        <div class="header">{{st.name}}</div>
+        <div class="description">
+          {{st.descr}}
+        </div>
+      </div>
+      <div class="ui bottom attached button" {{action 'addToCart' st}}>
+        <i class="cart icon"></i>
+        Aggiungi al carrello
+      </div>
+    </div>
+  {{/each}}
+</div>

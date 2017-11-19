@@ -4,6 +4,8 @@ export default Ember.Controller.extend({
 
   ws: Ember.inject.service('web-socket'),
   session: Ember.inject.service('session'),
+  cart: Ember.inject.service('shopping-cart'),
+
   //routing: Ember.inject.service('-routing'),
 
   init: function () {

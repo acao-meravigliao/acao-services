@@ -4,7 +4,7 @@ export default Ember.Controller.extend({
   session: Ember.inject.service('session'),
 
   membershipRenewalIsAvailable: Ember.computed('model.renewalContext.@each',function() {
-    return new Date() > new Date(this.get('model.renewalContext.renew_opening_time')) &&
+    return new Date() > new Date(this.get('model.renewalContext.opening_time')) &&
            !this.get('model.renewalContext.membership');
   }),
 
@@ -12,15 +12,21 @@ export default Ember.Controller.extend({
     return this.get('store').peekAll('ygg--acao--roster-entry');
   }),
 
-  myNextRosterEntries: Ember.computed('allRosterEntries.@each', function() {
+  myNextRosterEntriesUnsorted: Ember.computed('allRosterEntries.@each', function() {
     return this.get('allRosterEntries').filter((item) => (
        item.belongsTo('person').id() == this.get('session.personId') &&
        item.belongsTo('roster_day').value().get('date') > new Date()
       )
-    ).sort('date');
+    );
   }),
 
+  clock: Ember.inject.service('my-clock'),
+  renewIsOpen: Ember.computed('model.renewalContext.opening_time', 'clock.time', function() {
+    return this.get('clock.date') > new Date(this.get('model.renewalContext.opening_time'));
+  }),
 
+  rosterEntriesSortOrder: ['date'],
+  myNextRosterEntries: Ember.computed.sort('myNextRosterEntriesUnsorted', 'rosterEntriesSortOrder'),
 
 //  setupCOntroller() {
 //    var me = this;

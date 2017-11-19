@@ -3,9 +3,7 @@ import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
 
 export default BaseAuthenticator.extend({
   restore: function(data) {
-
-console.log("RESTOREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE-.---------------------------------------------------------", data);
-
+console.log("RESTORE");
     return new Ember.RSVP.Promise(function (resolve, reject) {
       Ember.$.ajax({
         type: 'POST',
@@ -24,16 +22,16 @@ console.log("RESTOREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE-.----------
   },
 
   authenticate: function(fqda, password) {
-console.log("AUTHENTICATE EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE-.---------------------------------------------------------", fqda, password);
+console.log("AUTHENTICATE");
 
     return new Ember.RSVP.Promise(function(resolve, reject) {
-
       Ember.$.ajax({
         type: 'POST',
         url: '/ygg/session/check_or_create',
         data: JSON.stringify({}),
         dataType: 'json',
       }).then(function(response) {
+console.log("AUTHENTICATE OK", response);
         if (!response.authenticated) {
           Ember.$.ajax({
             type: 'POST',
@@ -45,6 +43,7 @@ console.log("AUTHENTICATE EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE-.-----------
               password: password
             })
           }).then(function(response) {
+console.log("AUTHENTICATE THEN", response);
             if (response.authenticated)
               resolve(response);
             else
@@ -53,6 +52,7 @@ console.log("AUTHENTICATE EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE-.-----------
               reject(xhr.responseJSON || xhr.responseText);
           });
         } else {
+console.log("AUTHENTICATE RESOLVE RESPONSEEE", response);
           resolve(response);
         }
       }, function(xhr, status, error) {

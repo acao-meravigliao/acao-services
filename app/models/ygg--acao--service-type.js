@@ -6,8 +6,10 @@ export default DS.Model.extend({
   uuid: DS.attr('string'),
   symbol: DS.attr('string'),
   name: DS.attr('string'),
+  descr: DS.attr('string'),
   price: DS.attr('number'),
-  publish: DS.attr('boolean'),
   extra_info: DS.attr('string'),
   notes: DS.attr('string'),
+  available_for_shop: DS.attr('boolean'),
+  available_for_membership_renewal: DS.attr('boolean'),
 });

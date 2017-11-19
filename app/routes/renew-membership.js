@@ -6,6 +6,7 @@ export default Ember.Route.extend({
   mainTitle: 'Rinnovo iscrizione',
 
   state: Ember.Object.create({
+    currentStep: 'index',
     enableCav: true,
     enableEmail: true,
     acceptRules: false,
@@ -16,6 +17,12 @@ export default Ember.Route.extend({
       context: Ember.$.getJSON('/ygg/acao/memberships/renew'),
       state: this.get('state'),
     });
+  },
+
+  afterModel(model, transition) {
+    if (model.state.get('currentStep') != transition.targetName.split('.').pop()) {
+      this.transitionTo(this.get('routeName') + '.' + model.state.get('currentStep'));
+    }
   },
 
 //  afterModel(model) {
