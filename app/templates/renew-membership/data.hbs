@@ -94,7 +94,7 @@
 <div class="three ui buttons">
   <button class="ui button" {{action (mut paymentMethod) 'wire'}}><i class="ui university icon"></i><br /> Bonifico Bancario</button>
   <button class="ui button" {{action (mut paymentMethod) 'check'}}><i class="ui tag icon"></i><br /> Assegno</button>
-  <button class="ui button" {{action (mut paymentMethod) 'cash'}}><i class="ui euro icon"></i><br /> Contanti</button>
+  <button class="ui button" {{action (mut paymentMethod) 'card'}}><i class="ui credit card alternative icon"></i><br /> Carte (in segreteria)</button>
 </div>
 
 <button class="huge ui fluid primary button" disabled={{commitDisabled}} {{action 'commit'}}>Avanti...</button>
