@@ -28,6 +28,8 @@ Router.map(function() {
 
   this.route('today-roster');
   this.route('today-roster-not-found');
+
+  this.route('roster-days');
 });
 
 export default Router;
