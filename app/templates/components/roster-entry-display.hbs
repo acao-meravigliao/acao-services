@@ -1,14 +1,18 @@
-<div class="ui raised blurring segment {{if entry.roster_day.high_season 'red' 'blue'}}">
-  <h1 class="ui header">{{moment-format entry.roster_day.date 'dddd DD-MM-YYYY' }}</h1>
-
-  {{#each entry.roster_day.roster_entries as |sameDayEntry|}}
-    <i class="ui {{if sameDayEntry.chief 'spy' 'user'}} icon"></i>
-    {{sameDayEntry.person.first_name}} {{sameDayEntry.person.last_name}}<br />
-  {{/each}}
-
-  {{#if entry.notes}}
-    <div class="ui message">
-      {{entry.notes}}
+<div class="ui raised blurring {{if entry.roster_day.high_season 'red' 'blue'}} fluid card">
+  <div class="content">
+    <div class="header">
+      {{moment-format entry.roster_day.date 'dddd D MMMM'}}
     </div>
-  {{/if}}
+
+    {{#each entry.roster_day.roster_entries as |sameDayEntry|}}
+      <i class="ui {{if sameDayEntry.chief 'spy' 'user'}} icon"></i>
+      {{sameDayEntry.person.first_name}} {{sameDayEntry.person.last_name}}<br />
+    {{/each}}
+
+    {{#if entry.notes}}
+      <div class="ui message">
+        {{entry.notes}}
+      </div>
+    {{/if}}
+  </div>
 </div>

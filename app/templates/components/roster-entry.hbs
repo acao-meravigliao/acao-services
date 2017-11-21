@@ -1,21 +1,36 @@
-<div class="ui raised blurring segment {{if entry.roster_day.high_season 'red' 'blue'}}">
-  <div class="ui dimmer {{if entry.isDeleted 'active'}}"></div>
-  <h1 class="ui header">{{moment-format entry.roster_day.date 'dddd DD-MM-YYYY' }}</h1>
-  <button class="ui icon button" {{action 'del' entry}}><i class="red ui delete icon"></i></button>
-  <div class="ui checkbox toggle">
-    {{input type='checkbox' name='entry.chief' checked=entry.chief disabled=chiefDisabled}}
-    <label>Capolinea</label>
+<div class="ui raised blurring {{if entry.roster_day.high_season 'red' 'blue'}} fluid card">
+  <div class="ui dimmer {{if entry.isDeleted 'active'}}">
+    <div class="content">
+      <h3 class="ui inverted header">
+        Da eliminare
+      </h3>
+    </div>
   </div>
-  <div>
-    {{#each entry.roster_day.roster_entries as |sameDayEntry|}}
-      <i class="ui {{if sameDayEntry.chief 'spy' 'user'}} icon"></i>
-      {{sameDayEntry.person.first_name}} {{sameDayEntry.person.last_name}}<br />
-    {{/each}}
+  <div class="content">
+    <div class="header">
+      {{moment-format entry.roster_day.date 'dddd D MMMM'}}
+    </div>
+
+    {{#unless chiefDisabled}}
+      <div class="ui checkbox toggle" style="float: right">
+        {{input type='checkbox' name='entry.chief' checked=entry.chief}}
+        <label>Capolinea</label>
+      </div>
+    {{/unless}}
+
+    <div>
+      {{#each entry.roster_day.roster_entries as |sameDayEntry|}}
+        <i class="ui {{if sameDayEntry.chief 'spy' 'user'}} icon"></i>
+        {{sameDayEntry.person.first_name}} {{sameDayEntry.person.last_name}}<br />
+      {{/each}}
+    </div>
+
+    {{#if entry.notes}}
+      <div class="ui message">
+        {{entry.notes}}
+      </div>
+    {{/if}}
   </div>
 
-  {{#if entry.notes}}
-    <div class="ui message">
-      {{entry.notes}}
-    </div>
-  {{/if}}
+  <button class="ui bottom attached button" {{action 'del' entry}}><i class="red ui delete icon"></i> Elimina</button>
 </div>

@@ -2,6 +2,8 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  tagName: '',
+
   hasChief: Ember.computed('entry.roster_day.roster_entries.@each.chief', function() {
     return this.get('entry.roster_day.roster_entries').any((item) => (item.get('chief')));
   }),
