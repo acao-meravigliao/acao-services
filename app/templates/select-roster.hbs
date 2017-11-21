@@ -8,37 +8,40 @@
     {{saveError}}
   </div>
   {{/if}}
-
-  Hai selezionato {{myRosterEntries.length}} turni di linea, dei quali {{peakRosterEntries.length}} in alta stagione.
-
-  {{#if requisiteEntriesMissing}}
-    <div class="ui orange message">
-      Devi selezionare {{model.rosterStatus.needed_total}} turni di linea, dei quali {{model.rosterStatus.needed_high_season}} in alta stagione.
-    </div>
-  {{/if}}
-
-  {{#if requisiteEntriesOk}}
-    <div class="ui green message">
-      I turni di linea necessari sono stati scelti, {{#link-to 'index'}}torna alla pagina principale{{/link-to}}.
-    </div>
-  {{/if}}
 </div>
 
 <div class="ui grid">
   <div class="seven wide column">
-    {{#if myRosterEntries}}
-      I tuoi turni:
-      {{#each myRosterEntries as |re|}}
-        {{roster-entry entry=re onDelete=(action 'delEntry') chiefEnabled=model.rosterStatus.possible_roster_chief}}
-      {{/each}}
+    <div class="ui segment">
+      {{#if myRosterEntries}}
+        Hai selezionato {{myRosterEntries.length}} turni di linea, dei quali {{peakRosterEntries.length}} in alta stagione.
+      {{/if}}
+
+      {{#if requisiteEntriesMissing}}
+        <div class="ui orange message">
+          Devi selezionare {{model.rosterStatus.needed_total}} turni di linea, dei quali {{model.rosterStatus.needed_high_season}} in alta stagione.
+        </div>
+      {{/if}}
 
       {{#if tooManyEntries}}
         <div class="ui green message">
           Hai scelto {{myRosterEntries.length}} turni mentre ne avresti dovuti scegliere solo {{model.rosterStatus.needed_total}}, bravo ☺
         </div>
       {{/if}}
-    {{else}}
-      <div class="ui blue message">Non hai turni di linea al momento</div>
+
+      {{#if requisiteEntriesOk}}
+        <div class="ui green message">
+          Hai scelto i turni di linea necessari, {{#link-to 'index'}}torna alla pagina principale{{/link-to}}.
+        </div>
+      {{/if}}
+    </div>
+
+    {{#if myRosterEntries}}
+      <div class="ui cards">
+        {{#each myRosterEntries as |re|}}
+          {{roster-entry entry=re onDelete=(action 'delEntry') chiefEnabled=model.rosterStatus.possible_roster_chief}}
+        {{/each}}
+      </div>
     {{/if}}
   </div>
   <div class="nine wide column">
