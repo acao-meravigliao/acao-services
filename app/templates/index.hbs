@@ -38,8 +38,8 @@
     </div>
     <div class="column">
       <div class="ui vertical buttons">
-        {{#if model.pendingPayments}}
-          {{#link-to 'pending-payments' class="massive ui orange button" tagName="button"}}Ci sono dei pagamenti pendenti{{/link-to}}
+        {{#if havePendingPayments}}
+          {{#link-to 'payments' class="massive ui orange button" tagName="button"}}Ci sono dei pagamenti pendenti{{/link-to}}
         {{/if}}
 
         {{#if membershipRenewalIsAvailable}}

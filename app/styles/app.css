@@ -33,6 +33,15 @@ a {
   font-weight: bold !important;
 }
 
-table.pending-payments > tbody > tr {
+table.payments > tbody > tr {
   cursor: pointer;
 }
+
+table.payments .price {
+  text-align: right !important;
+  font-family: monospace;
+}
+
+.roster-day-edit.disabled {
+  cursor: not-allowed;
+},

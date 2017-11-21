@@ -43,7 +43,7 @@ export default Ember.Controller.extend({
       }).then(function(response) {
         me.set('submitting', false);
 
-        me.transitionToRoute('pending-payment', response.payment_id);
+        me.transitionToRoute('payment', response.payment_id);
 
       }, function(xhr, status, error) {
         me.set('submitting', false);

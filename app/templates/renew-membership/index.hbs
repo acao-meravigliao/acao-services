@@ -9,7 +9,7 @@
         </h1>
 
         {{#if paymentIsPending}}
-          {{#link-to 'pending-payment' context.membership.payment_id class="massive ui orange button" tagName="button"}}
+          {{#link-to 'payment' context.membership.payment_id class="massive ui orange button" tagName="button"}}
             Il pagamento è pendente
           {{/link-to}}
         {{/if}}

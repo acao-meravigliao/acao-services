@@ -1,0 +1,32 @@
+{{#if model}}
+<table class="payments ui selectable celled table" style="margin-left: 2em">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Data</th>
+      <th>Codice</th>
+      <th>Metodo</th>
+      <th>Ammontare</th>
+      <th>Scadenza</th>
+    </tr>
+  </thead>
+  <tbody>
+  {{#each model key="id" as |payment|}}
+    {{#link-to 'payment' payment.id tagName='tr'}}
+      <td><div class="ui ribbon label {{get stateColors payment.state}}">{{payment.state}}</div></td>
+      <td>{{moment-format payment.created_at 'DD-MM-YYYY HH:mm:ss' }}</td>
+      <td>{{payment.code}}</td>
+      <td>{{payment.payment_method}}</td>
+      <td class="price">{{format-number payment.total format="0.00"}} €</td>
+      <td>{{if payment.expires_at (moment-format payment.created_at 'DD-MM-YYYY')}}</td>
+    {{/link-to}}
+  {{/each}}
+  </tbody>
+</table>
+{{else}}
+<div class="ui container">
+  <div class="ui message">
+    Nessun pagamento associato al tuo account
+  </div>
+</div>
+{{/if}}

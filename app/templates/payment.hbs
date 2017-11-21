@@ -8,6 +8,10 @@
     </h1>
     Data: {{moment-format model.payment.created_at 'DD-MM-YYYY HH:mm:ss'}}<br />
     Scadenza: {{moment-format model.payment.expires_at 'DD-MM-YYYY HH:mm:ss'}}<br />
+
+    {{#if model.payment.completed_at}}
+    Completato: {{moment-format model.payment.completed_at 'DD-MM-YYYY HH:mm:ss'}}<br />
+    {{/if}}
   </div>
 
   <table class="renew-services ui celled table">
@@ -34,7 +38,7 @@
   </table>
   </div>
 
-  {{partial (concat 'pending-payment/' (if model.payment.payment_method model.payment.payment_method 'unknown'))}}
+  {{partial (concat 'payment/' (if model.payment.payment_method model.payment.payment_method 'unknown'))}}
 
   {{#if forMembership}}
     {{#link-to 'select-roster' type='button' class='ui primary button'}}Scegli i turni di linea{{/link-to}}

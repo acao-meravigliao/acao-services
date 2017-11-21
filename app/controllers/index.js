@@ -28,6 +28,10 @@ export default Ember.Controller.extend({
   rosterEntriesSortOrder: ['date'],
   myNextRosterEntries: Ember.computed.sort('myNextRosterEntriesUnsorted', 'rosterEntriesSortOrder'),
 
+  havePendingPayments: Ember.computed('model.payments', function() {
+    return this.get('model.payments').any((item) => (item.get('state') == 'PENDING'));
+  }),
+
 //  setupCOntroller() {
 //    var me = this;
 ////
