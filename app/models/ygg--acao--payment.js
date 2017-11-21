@@ -5,6 +5,7 @@ export default DS.Model.extend({
   code: DS.attr('string'),
   created_at: DS.attr('date'),
   expires_at: DS.attr('date'),
+  completed_at: DS.attr('date'),
   state: DS.attr('string'),
   person: DS.belongsTo('ygg--core--person'),
   payment_method: DS.attr('string'),
