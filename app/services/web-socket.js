@@ -513,7 +513,11 @@ console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", me.subs);
     case 'CONNECTING':
     case 'OPEN_WAIT_WELCOME':
     case 'RECONNECTING':
+      me.deferredRequests.push(req);
+    break;
+
     case 'INVISIBLE_IDLE':
+      me.connect();
       me.deferredRequests.push(req);
     break;
 
