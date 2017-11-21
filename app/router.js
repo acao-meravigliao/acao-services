@@ -3,7 +3,13 @@ import config from './config/environment';
 
 const Router = EmberRouter.extend({
   location: config.locationType,
-  rootURL: config.rootURL
+  rootURL: config.rootURL,
+  headData: Ember.inject.service(),
+
+  setTitle(title, tokens) {
+    this.get('headData').set('title', title);
+    this.get('headData').set('titleTokens', tokens);
+  },
 });
 
 Router.map(function() {
@@ -21,8 +27,8 @@ Router.map(function() {
     this.route('summary');
   });
 
-  this.route('pending-payments');
-  this.route('pending-payment', { path: '/pending-payment/:id' });
+  this.route('payments');
+  this.route('payment', { path: '/payment/:id' });
 
   this.route('select-roster');
 

@@ -1,3 +1,4 @@
+{{head-layout}}
 <div class="ui fixed inverted main menu">
   {{#if session.isAuthenticated}}
   <a class="launch icon item sidebar-toggle" {{action 'sidebarToggle' 'main-sidebar'}}>
@@ -5,8 +6,15 @@
   </a>
   {{/if}}
 
-  {{#link-to 'index' class='header item'}}ACAO Servizi{{/link-to}}
-  <div class="header item">{{mainTitle}}</div>
+  <div class="ui breadcrumb item">
+    {{#link-to 'index' class='selection'}}ACAO Servizi{{/link-to}}
+
+    {{#each headData.titleTokens as |token|}}
+      <span class="divider">/</span>
+      <div class="active selection">{{token}}</div>
+    {{/each}}
+  </div>
+
   {{#if session.isAuthenticated}}
     <div class="right item">
       {{#if cart.items}}
@@ -35,7 +43,8 @@
   {{#link-to 'shop' class="item"}} Shop {{/link-to}}
 -->
   {{#link-to 'renew-membership' class="item"}} Rinnovo Iscrizione {{/link-to}}
-  {{#link-to 'pending-payments' class="item"}} Pagamenti Pendenti {{/link-to}}
+  {{#link-to 'payments' class="item"}} Pagamenti {{/link-to}}
+  {{#link-to 'roster-days' class="item"}} Turni di linea {{/link-to}}
 {{/ui-sidebar}}
 
 <!-- height:1px;-->

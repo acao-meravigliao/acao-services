@@ -3,7 +3,7 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 export default Ember.Route.extend({
 
-  mainTitle: 'Turni di linea',
+  titleToken: 'Turni di linea',
 
   model(params) {
     return Ember.RSVP.hash({

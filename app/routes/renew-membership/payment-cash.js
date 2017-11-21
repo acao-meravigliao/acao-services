@@ -2,7 +2,7 @@ import Ember from 'ember';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
 export default Ember.Route.extend({
-  mainTitle: 'Rinnovo iscrizione - Pagamento in Contanti',
+  titleToken: 'Pagamento in Contanti',
 
   setupController(controller, model) {
     controller.set('context', model.context);

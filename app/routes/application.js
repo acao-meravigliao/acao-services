@@ -9,6 +9,10 @@ export default Ember.Route.extend({
     this.get('moment').setLocale('it');
   },
 
+  title: function(tokens) {
+    return tokens.join(' - ');
+  },
+
   actions: {
 //    error(error, transition) {
 //      return true;

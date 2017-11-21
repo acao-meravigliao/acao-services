@@ -3,13 +3,13 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 export default Ember.Route.extend({
 
-  titleToken: 'Shop',
+  titleToken: 'Pagamenti pendenti',
 
   model(params) {
     return Ember.RSVP.hash({
-      services: this.store.query('ygg--acao--service-type', { filter: { available_for_shop: true } }).then((items) =>
-        (this.store.peekAll('ygg--acao--service-type').filterBy('available_for_shop', true))
-      ),
+      payment: this.get('store').findRecord('ygg--acao--payment', params.id),
+      memberships: this.get('store').query('ygg--acao--membership', { filter: { person_id: this.get('session.personId') } }),
     });
   },
+
 }, AuthenticatedRouteMixin);

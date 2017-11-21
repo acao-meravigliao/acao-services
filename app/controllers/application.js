@@ -6,6 +6,8 @@ export default Ember.Controller.extend({
   session: Ember.inject.service('session'),
   cart: Ember.inject.service('shopping-cart'),
 
+  headData: Ember.inject.service(),
+
   //routing: Ember.inject.service('-routing'),
 
   init: function () {

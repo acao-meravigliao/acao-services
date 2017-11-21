@@ -3,7 +3,7 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 export default Ember.Route.extend({
 
-  mainTitle: 'Rinnovo iscrizione',
+  titleToken: 'Rinnovo iscrizione',
 
   state: Ember.Object.create({
     currentStep: 'index',

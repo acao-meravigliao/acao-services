@@ -2,7 +2,7 @@ import Ember from 'ember';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
 export default Ember.Route.extend({
-  mainTitle: 'Rinnovo iscrizione - Riassunto',
+  titleToken: 'Riassunto',
 
   model() {
     return Ember.RSVP.hash({

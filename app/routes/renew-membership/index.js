@@ -2,7 +2,7 @@ import Ember from 'ember';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
 export default Ember.Route.extend({
-  mainTitle: 'Rinnovo iscrizione - Dati',
+  titleToken: 'Inizio',
 
   session: Ember.inject.service('session'),
 

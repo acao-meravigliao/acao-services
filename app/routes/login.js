@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  mainTitle: 'Login',
+  titleToken: 'Login',
 
   session: Ember.inject.service('session'),
 
