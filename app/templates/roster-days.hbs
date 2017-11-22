@@ -19,7 +19,7 @@
   <div class="ui raised segment">
     {{#if model}}
       <div class="ui cards">
-      {{#each model as |day|}}
+      {{#each sortedRosterDays as |day|}}
         {{roster-day-display day=day}}
       {{/each}}
       </div>
