@@ -9,7 +9,7 @@ export default Ember.Component.extend({
   }),
 
   missingNonChiefs: Ember.computed('day.roster_entries.length', 'missingChief', 'day.needed_people', function() {
-    return Array(this.get('day.needed_people') - this.get('day.roster_entries.length') - (this.get('missingChief') ? 1 : 0));
+    return Array(Math.max(this.get('day.needed_people') - this.get('day.roster_entries.length') - (this.get('missingChief') ? 1 : 0), 0));
   }),
 
   sortedEntries: Ember.computed.sort('day.roster_entries', function(a, b) {
