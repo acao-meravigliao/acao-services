@@ -1,9 +1,9 @@
 {{head-layout}}
 <div class="ui fixed inverted main menu">
   {{#if session.isAuthenticated}}
-  <a class="launch icon item sidebar-toggle" {{action 'sidebarToggle' 'main-sidebar'}}>
+    <a class="launch icon item sidebar-toggle" {{action 'sidebarToggle' 'main-sidebar'}}>
       <i class="sidebar icon"></i>
-  </a>
+    </a>
   {{/if}}
 
   <div class="ui breadcrumb item">
@@ -42,13 +42,13 @@
   {{#link-to 'meteo' class="item"}} Meteo {{/link-to}}
   {{#link-to 'shop' class="item"}} Shop {{/link-to}}
 -->
-  {{#link-to 'renew-membership' class="item"}} Rinnovo Iscrizione {{/link-to}}
   {{#link-to 'payments' class="item"}} Pagamenti {{/link-to}}
   {{#link-to 'roster-days' class="item"}} Turni di linea {{/link-to}}
+  {{#link-to 'today-roster' class="item"}} Turni di oggi {{/link-to}}
 {{/ui-sidebar}}
 
 <!-- height:1px;-->
-  <div class="pusher content" style="background-color: #FFF;">
+  <div class="pusher main content" style="background-color: #FFF;">
     {{outlet}}
   </div>
 </div>
