@@ -25,12 +25,4 @@ export default Ember.Route.extend({
     }
   },
 
-//  afterModel(model) {
-//    if (!model.context.membership) {
-//      this.transitionTo('renew-membership');
-//    } else if (model.context.membership.status == 'WAITING_PAYMENT') {
-//      this.transitionTo('renew-membership.payment-' + model.context.membership.payment_method);
-//    }
-//  },
-
 }, AuthenticatedRouteMixin);
