@@ -19,7 +19,7 @@
             <i class="lock icon"></i>
             {{input id='password' placeholder='Password' type='password' value=password}}
           </div><br />
-          La password ti è stata inviata via e-mail, se non l'hai ricevuta contatta la segreteria.
+          {{#link-to 'password-recovery'}}Non mi ricordo la password{{/link-to}}
         </div>
         <button type=submit class="ui fluid large submit button {{if loggingIn 'disabled loading'}}">Login</button>
       </div>
