@@ -49,7 +49,8 @@ console.log("AUTHENTICATE THEN", response);
             else
               reject(response);
           }, function(xhr, status, error) {
-              reject(xhr.responseJSON || xhr.responseText);
+console.log("AUTHENTICATE FAIL", arguments);
+            reject(xhr.responseJSON || xhr.responseText);
           });
         } else {
 console.log("AUTHENTICATE RESOLVE RESPONSEEE", response);

@@ -1,4 +1,3 @@
-/* eslint-env node */
 'use strict';
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
@@ -13,7 +12,11 @@ module.exports = function(defaults) {
         'images/marker-icon.png',
         'images/marker-shadow.png'
       ]
-    }
+    },
+//    sourcemaps: {
+//      enabled: true,
+//      extensions: ['js'],
+//    },
   });
 
   // Use `app.import` to add additional libraries to the generated

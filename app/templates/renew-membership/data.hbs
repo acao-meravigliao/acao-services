@@ -72,19 +72,25 @@
 </table>
 
 <div class="ui segment">
-  {{ui-checkbox class="ui fitted toggle" checked=true onChange=(action (mut enableEmail))}}
+  {{ui-checkbox class="ui fitted" checked=true onChange=(action (mut enableEmail))}}
   Autorizzo l'invio per e-mail delle comunicazioni, convocazioni di assemblee e ogni altra disposizione obbligatoria.
   (DPR 15 marzo 1997&nbsp; n. 59 art 15 secondo comma, D.P.R. 28 dicembre 2000 n.445 art. 14 comma terzo, D.P.R. 13 febbraio 2001 n. 123 art. 8,
   Direttiva 2000/31/CE 8 giugno 2000 art. 11, comma 1) *
 </div>
 
 <div class="ui segment">
-  {{ui-checkbox class="ui fitted toggle" onChange=(action (mut acceptRules))}}
+  {{ui-checkbox class="ui fitted" onChange=(action (mut acceptRules))}}
   Dichiaro  di aver preso visione del <a {{action 'openRules'}}>Regolamento dell'Aeroclub</a>
   e di accettarlo in modo totale e incondizionato.
 
-  <div class="ui sixteen wide column fullscreen modal rules-modal" style="height: 90%">
+  <div class="ui sixteen wide column fullscreen modal rules-modal" style="height: 80%">
     <iframe src="/regolamento.pdf" style="width: 100%; height: 100%"></iframe>
+    <div class="actions">
+      <div class="ui positive right labeled icon button">
+        Ho letto, grazie!
+        <i class="checkmark icon"></i>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -92,9 +98,15 @@
   Metodo di pagamento:
 </p>
 <div class="three ui buttons">
-  <button class="ui button" {{action (mut paymentMethod) 'wire'}}><i class="ui university icon"></i><br /> Bonifico Bancario</button>
-  <button class="ui button" {{action (mut paymentMethod) 'check'}}><i class="ui tag icon"></i><br /> Assegno</button>
-  <button class="ui button" {{action (mut paymentMethod) 'card'}}><i class="ui credit card alternative icon"></i><br /> Carte (in segreteria)</button>
+  <button class="ui button {{if paymentWire 'active'}}" {{action (mut paymentMethod) 'wire'}}><i class="ui university icon"></i><br /> Bonifico Bancario</button>
+  <button class="ui button {{if paymentCheck 'active'}}" {{action (mut paymentMethod) 'check'}}><i class="ui tag icon"></i><br /> Assegno</button>
+  <button class="ui button {{if paymentCard 'active'}}" {{action (mut paymentMethod) 'card'}}><i class="ui credit card alternative icon"></i><br /> Carte (in segreteria)</button>
 </div>
 
-<button class="huge ui fluid primary button" disabled={{commitDisabled}} {{action 'commit'}}>Avanti...</button>
+{{#if commitDisabled}}
+  <div class="ui error message">
+    Acetta il regolamento aeroportuale e scegli il metodo di pagamento.
+  </div>
+{{else}}
+  <button class="huge ui fluid primary button" disabled={{commitDisabled}} {{action 'commit'}}>Avanti...</button>
+{{/if}}

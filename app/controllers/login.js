@@ -1,7 +1,8 @@
 import Ember from 'ember';
+import { inject as service } from '@ember/service';
 
 export default Ember.Controller.extend({
-  session: Ember.inject.service('session'),
+  session: service('session'),
 
   actions: {
     authenticate() {
@@ -16,7 +17,18 @@ export default Ember.Controller.extend({
         this.set('loggingIn', false);
       }).catch((reason) => {
         this.set('loggingIn', false);
-        this.set('errorMessage', reason.msg || JSON.stringify(reason));
+
+        if (reason.xhr) {
+          if (xhr.responseJSON) {
+            this.set('errorMessage', xhr.responseJSON.title + ': ' + xhr.responseJSON.descr);
+          } else {
+            this.set('errorMessage', xhr.responseText);
+          }
+        } else if (reason.msg) {
+          this.set('errorMessage', reason.msg);
+        } else {
+          this.set('errorMessage', 'Unspecified error');
+        }
       });
     }
   }

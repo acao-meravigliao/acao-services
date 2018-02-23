@@ -1,8 +1,14 @@
-
 import Ember from 'ember';
 import config from '../config/environment';
+import Service from '@ember/service';
+import Evented from '@ember/object/evented';
+import { inject as service } from '@ember/service';
+import { assign } from '@ember/polyfills';
+import { defer as rsvpDefer } from 'rsvp';
+import { cancel } from '@ember/runloop';
+import { later } from '@ember/runloop';
 
-export default Ember.Service.extend(Ember.Evented, {
+export default Service.extend(Evented, {
 
   reconnectDelayConstant: 500,
   reconnectBackoff: 2.0,
@@ -11,7 +17,7 @@ export default Ember.Service.extend(Ember.Evented, {
   pingFrequency: 5000,
   pingTimeout: 10000,
 
-  store: Ember.inject.service('store'),
+  store: service('store'),
 
   init() {
     let me = this;
@@ -33,6 +39,7 @@ export default Ember.Service.extend(Ember.Evented, {
     me.subs = {};
 
     document.addEventListener("visibilitychange", function() {
+console.log("VISIBILITY_CHANGE", document.visibilityState, "IN STATE", me.state);
       switch(me.state) {
       case 'READY':
         if (document.visibilityState == 'visible') {
@@ -103,12 +110,15 @@ export default Ember.Service.extend(Ember.Evented, {
   connect() {
     let me = this;
 
-    if (me.state != 'DISCONNECTED')
-      return;
+    switch(me.state) {
+    case 'DISCONNECTED':
+    case 'INVISIBLE_IDLE':
+      me.changeState('CONNECTING');
 
-    me.changeState('CONNECTING');
+      me.doConnect();
+    break;
+    }
 
-    me.doConnect();
   },
 
   doConnect() {
@@ -199,12 +209,12 @@ console.log("REBINDING COLLECTIONS", me.savedCollectionBindings);
               me.getAndBind(modelType, {
                 ids: ids,
                 multiple: true,
+              }).catch((e) => {
+                console.warn("Cannot rebind model", modelType, ids, e);
               });
             }
           }
         });
-
-
 
         if (!msg.online) {
           me.offlineReason = msg.offline_reason;
@@ -365,11 +375,11 @@ console.log("EXCEPTION", msg, "REQ=", req);
 
 console.log("GET_AND_BIND", modelName, params);
 
-    let defer = Ember.RSVP.defer();
+    let defer = rsvpDefer();
 
     let req = {
       method: 'bind',
-      params: Ember.assign({
+      params: assign({
         model: modelName,
       }, params),
       success: function(msg) {
@@ -399,11 +409,11 @@ console.log("FAILURE", msg);
 
 console.log("CREATE_AND_BIND", modelName, data, params);
 
-    let defer = Ember.RSVP.defer();
+    let defer = rsvpDefer();
 
     let req = {
       method: 'create',
-      params: Ember.assign({
+      params: assign({
         model: modelName,
         payload: data,
       }, params),
@@ -426,11 +436,11 @@ console.log("CREATE_AND_BIND", modelName, data, params);
 
 console.log("UPDATE", modelName, data, params);
 
-    let defer = Ember.RSVP.defer();
+    let defer = rsvpDefer();
 
     let req = {
       method: 'update',
-      params: Ember.assign({
+      params: assign({
         model: modelName,
         payload: data,
       }, params),
@@ -452,11 +462,11 @@ console.log("UPDATE", modelName, data, params);
 
 console.log("DESTROY", modelName, id);
 
-    let defer = Ember.RSVP.defer();
+    let defer = rsvpDefer();
 
     let req = {
       method: 'destroy',
-      params: Ember.assign({
+      params: assign({
         model: modelName,
         id: id,
       }),
@@ -478,7 +488,7 @@ console.log("SUBSCRIBE", arguments);
 
     let me = this;
 
-    let defer = Ember.RSVP.defer();
+    let defer = rsvpDefer();
 
     let req = {
       method: 'sub',
@@ -527,7 +537,7 @@ console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", me.subs);
 
     case 'RECONNECT_WAIT':
     case 'READY_OFFLINE':
-      req.defer.promise.reject();
+      req.failure({ reason: 'ws_offline' });
     break;
     }
   },

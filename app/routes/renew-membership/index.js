@@ -1,10 +1,11 @@
 import Ember from 'ember';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
+import { inject as service } from '@ember/service';
 
 export default Ember.Route.extend({
   titleToken: 'Inizio',
 
-  session: Ember.inject.service('session'),
+  session: service('session'),
 
   model() {
     return Ember.RSVP.hash({

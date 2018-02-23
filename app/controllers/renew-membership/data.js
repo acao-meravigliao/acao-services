@@ -28,6 +28,10 @@ export default Ember.Controller.extend({
 
   commitDisabled: Ember.computed.alias('formInvalid'),
 
+  paymentWire: Ember.computed.equal('paymentMethod', 'wire'),
+  paymentCheck: Ember.computed.equal('paymentMethod', 'check'),
+  paymentCard: Ember.computed.equal('paymentMethod', 'card'),
+
   actions: {
     openRules() {
       Ember.$('.rules-modal').modal('show');
@@ -48,16 +52,9 @@ export default Ember.Controller.extend({
     commit() {
       var me = this;
 
-console.log("STATE1", JSON.stringify(this.get('state')));
-console.log("PROPER=", JSON.stringify(this.getProperties(
-        'services', 'enableCav', 'enableEmail', 'acceptRules', 'paymentMethod',
-      )));
-
       this.get('state').setProperties(this.getProperties(
         'services', 'enableCav', 'enableEmail', 'acceptRules', 'paymentMethod',
       ));
-
-console.log("STATE2", JSON.stringify(this.get('state')));
 
       this.transitionToRoute('renew-membership.summary');
     },

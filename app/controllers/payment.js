@@ -1,7 +1,8 @@
 import Ember from 'ember';
+import { inject as service } from '@ember/service';
 
 export default Ember.Controller.extend({
-  session: Ember.inject.service('session'),
+  session: service('session'),
 
   isPending: Ember.computed.equal('model.payment.state', 'PENDING'),
   isPaid: Ember.computed.equal('model.payment.state', 'PAID'),

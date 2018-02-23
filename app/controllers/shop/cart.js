@@ -1,7 +1,8 @@
 import Ember from 'ember';
+import { inject as service } from '@ember/service';
 
 export default Ember.Controller.extend({
-  cart: Ember.inject.service('shopping-cart'),
+  cart: service('shopping-cart'),
 
   actions: {
     emptyCart() {

@@ -1,8 +1,10 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+import { inject as service } from '@ember/service';
+import { assign } from '@ember/polyfills';
 
 export default DS.Adapter.extend({
-  ws: Ember.inject.service('web-socket'),
+  ws: service('web-socket'),
 
   defaultSerializer: '-json-api',
 
@@ -12,7 +14,7 @@ export default DS.Adapter.extend({
 //  },
 
   findRecord(store, type, id, snapshotRecordArray) {
-    let params =  Ember.assign({
+    let params =  assign({
       id: id,
       multiple: false,
     }, snapshotRecordArray.adapterOptions);
@@ -26,7 +28,7 @@ console.log("================= FIND RECORD", type.modelName, id, params);
   },
 
   findMany(store, type, ids, snapshotRecordArray) {
-    let params =  Ember.assign({
+    let params =  assign({
       ids: ids,
       multiple: true,
     }, snapshotRecordArray.adapterOptions);
@@ -37,7 +39,7 @@ console.log("================= FIND MANY", type.modelName, ids, params);
   },
 
   findAll(store, type, sinceToken, snapshotRecordArray) {
-    let params =  Ember.assign({
+    let params =  assign({
       multiple: true,
     }, snapshotRecordArray.adapterOptions);
 
@@ -47,7 +49,7 @@ console.log("================= FIND ALL", type.modelName, params);
   },
 
   query(store, type, query, snapshotRecordArray) {
-    let params =  Ember.assign({
+    let params =  assign({
       multiple: true,
     }, query, snapshotRecordArray.adapterOptions);
 
@@ -60,7 +62,7 @@ console.log("================= QUERY", type.modelName, query, params);
   },
 
   queryRecord(store, type, query) {
-    let params =  Ember.assign({
+    let params =  assign({
       multiple: false,
     }, query);
 
@@ -70,7 +72,7 @@ console.log("================= QUERY RECORD", type.modelName, query, params);
   },
 
   createRecord(store, type, snapshot) {
-    let params =  Ember.assign({
+    let params =  assign({
     });
 
     let data = {};
@@ -84,7 +86,7 @@ console.log("================= CREATE_RECORD", data);
   },
 
   updateRecord(store, type, snapshot) {
-    let params =  Ember.assign({
+    let params =  assign({
     });
 
     let data = {};

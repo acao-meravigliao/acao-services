@@ -1,7 +1,8 @@
 import Ember from 'ember';
+import { inject as service } from '@ember/service';
 
 export default Ember.Controller.extend({
-  session: Ember.inject.service('session'),
+  session: service('session'),
 
   membershipRenewalIsAvailable: Ember.computed('model.renewalContext.@each',function() {
     return new Date() > new Date(this.get('model.renewalContext.opening_time')) &&
@@ -20,7 +21,7 @@ export default Ember.Controller.extend({
     );
   }),
 
-  clock: Ember.inject.service('my-clock'),
+  clock: service('my-clock'),
   renewIsOpen: Ember.computed('model.renewalContext.opening_time', 'clock.time', function() {
     return this.get('clock.date') > new Date(this.get('model.renewalContext.opening_time'));
   }),

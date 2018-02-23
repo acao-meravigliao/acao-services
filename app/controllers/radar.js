@@ -1,8 +1,9 @@
 import Ember from 'ember';
 import EmberLeafletComponent from 'ember-leaflet/components/leaflet-map';
+import { inject as service } from '@ember/service';
 
 export default Ember.Controller.extend({
-  ws: Ember.inject.service('web-socket'),
+  ws: service('web-socket'),
   lat: 45.809836,
   lng: 8.771022,
   zoom: 14,

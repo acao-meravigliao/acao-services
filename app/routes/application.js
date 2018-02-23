@@ -1,10 +1,11 @@
 import Ember from 'ember';
 import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
+import { inject as service } from '@ember/service';
 
 export default Ember.Route.extend({
-  session: Ember.inject.service('session'),
+  session: service('session'),
 
-  moment: Ember.inject.service(),
+  moment: service(),
   beforeModel() {
     this.get('moment').setLocale('it');
   },

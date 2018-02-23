@@ -1,14 +1,15 @@
 import Ember from 'ember';
+import { inject as service } from '@ember/service';
 
 export default Ember.Controller.extend({
 
-  ws: Ember.inject.service('web-socket'),
-  session: Ember.inject.service('session'),
-  cart: Ember.inject.service('shopping-cart'),
+  ws: service('web-socket'),
+  session: service('session'),
+  cart: service('shopping-cart'),
 
-  headData: Ember.inject.service(),
+  headData: service(),
 
-  //routing: Ember.inject.service('-routing'),
+  //routing: service('-routing'),
 
   init: function () {
     this._super();

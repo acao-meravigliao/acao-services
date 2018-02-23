@@ -1,10 +1,11 @@
 import Ember from 'ember';
 import ESASession from 'ember-simple-auth/services/session';
+import { inject as service } from '@ember/service';
 
 export default ESASession.extend({
 
-  store: Ember.inject.service(),
-  ws: Ember.inject.service('web-socket'),
+  store: service(),
+  ws: service('web-socket'),
 
   personId: Ember.computed('data.authenticated', function() { return this.get('data.authenticated').auth_person.id }),
 

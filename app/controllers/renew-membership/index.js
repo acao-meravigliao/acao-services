@@ -1,13 +1,13 @@
 import Ember from 'ember';
+import { inject as service } from '@ember/service';
 
 export default Ember.Controller.extend({
-  session: Ember.inject.service('session'),
-  clock: Ember.inject.service('my-clock'),
+  session: service('session'),
+  clock: service('my-clock'),
 
   wizard: Ember.inject.controller('renew-membership'),
 
   renewIsOpen: Ember.computed('context.opening_time', 'clock.time', function() {
-return true;
     return this.get('clock.date') > new Date(this.get('context.opening_time'));
   }),
 
