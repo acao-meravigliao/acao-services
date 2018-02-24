@@ -29,11 +29,15 @@ module.exports = function(environment) {
     },
   };
 
+  ENV.i18n = {
+    defaultLocale: 'it'
+  };
+
   ENV.airbrake = {
     host: 'https://errbit.sevio.it',
     projectId:  '1',
     projectKey: '8af5b361c917d0f581a40552ff4c1ac0'
-  }
+  };
 
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;

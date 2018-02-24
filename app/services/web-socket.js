@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import $ from 'jquery';
 import config from '../config/environment';
 import Service from '@ember/service';
 import Evented from '@ember/object/evented';
@@ -66,17 +66,17 @@ console.log("VISIBILITY_CHANGE", document.visibilityState, "IN STATE", me.state)
   startPing() {
     let me = this;
 
-    me.pingTimer = Ember.run.later(me, me.doPing, me.pingFrequency);
+    me.pingTimer = later(me, me.doPing, me.pingFrequency);
   },
 
   stopPing() {
     let me = this;
 
-    Ember.run.cancel(me.pingTimer);
+    cancel(me.pingTimer);
     me.pingTimer = null;
 
     if (me.pingTimeoutTimer) {
-      Ember.run.cancel(me.pingTimeoutTimer);
+      cancel(me.pingTimeoutTimer);
       me.pingTimeoutTimer = null;
     }
   },
@@ -88,9 +88,9 @@ console.log("VISIBILITY_CHANGE", document.visibilityState, "IN STATE", me.state)
       type: 'ping',
     });
 
-    me.pingTimer = Ember.run.later(me, me.doPing, me.pingFrequency);
+    me.pingTimer = later(me, me.doPing, me.pingFrequency);
 
-    me.pingTimeoutTimer = Ember.run.later(me, function() {
+    me.pingTimeoutTimer = later(me, function() {
       me.pingTimedout();
     }, me.pingTimeout);
   },
@@ -179,7 +179,7 @@ console.log("WELCOME", msg);
         if (me.savedCollectionBindings) {
 console.log("REBINDING COLLECTIONS", me.savedCollectionBindings);
 
-          Ember.$.each(me.savedCollectionBindings, function(key, binding) {
+          $.each(me.savedCollectionBindings, function(key, binding) {
             me.getAndBind(key, {
               // TODO ADD QUERY PARAMETERS
               multiple: true,
@@ -249,7 +249,7 @@ console.log("REBINDING COLLECTIONS", me.savedCollectionBindings);
     break;
 
     case 'pong':
-      Ember.run.cancel(me.pingTimeoutTimer);
+      cancel(me.pingTimeoutTimer);
     break;
 
     case 'create':
@@ -348,7 +348,7 @@ console.log("EXCEPTION", msg, "REQ=", req);
 
         me.changeState('RECONNECT_WAIT');
 
-        Ember.run.later(me, function() {
+        later(me, function() {
           me.changeState('RECONNECTING');
           me.doConnect();
         }, me.delay);

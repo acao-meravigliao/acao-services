@@ -1,10 +1,11 @@
 
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: '',
 
-  totalPrice: Ember.computed('item.count', 'item.service.price', function() {
+  totalPrice: computed('item.{count,service.price}', function() {
     return this.get('item.count') * this.get('item.service.price');
   }),
 

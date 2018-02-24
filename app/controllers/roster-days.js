@@ -1,9 +1,11 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import { sort } from '@ember/object/computed';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   rosterDaysSortOrder: [ 'date' ],
-  sortedRosterDays: Ember.computed.sort('model', 'rosterDaysSortOrder'),
+  sortedRosterDays: sort('model', 'rosterDaysSortOrder'),
 
-  prevYear: Ember.computed('currentYear', function() { return this.get('currentYear') - 1; }),
-  nextYear: Ember.computed('currentYear', function() { return this.get('currentYear') + 1; }),
+  prevYear: computed('currentYear', function() { return this.get('currentYear') - 1; }),
+  nextYear: computed('currentYear', function() { return this.get('currentYear') + 1; }),
 });

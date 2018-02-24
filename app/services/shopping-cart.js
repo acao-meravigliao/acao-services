@@ -1,7 +1,6 @@
-import Ember from 'ember';
-import { inject as service } from '@ember/service';
+import Service, { inject as service } from '@ember/service';
 
-export default Ember.Service.extend({
+export default Service.extend({
   store: service(),
 
   init() {

@@ -1,8 +1,10 @@
-import Ember from 'ember';
-import EmberLeafletComponent from 'ember-leaflet/components/leaflet-map';
+import { schedule } from '@ember/runloop';
+import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
+import EmberLeafletComponent from 'ember-leaflet/components/leaflet-map';
+import L from 'L';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   ws: service('web-socket'),
   lat: 45.809836,
   lng: 8.771022,
@@ -21,7 +23,7 @@ export default Ember.Controller.extend({
 //    var aircrafts = this.aircrafts = this.get('store').findAll('aircraft');
 
 
-    Ember.run.schedule("afterRender", this, function() {
+    schedule("afterRender", this, function() {
 //      me.get('ws').subscribe('ygg.glideradar.processed_traffic.linobis', me.onMessage, me);
 
 

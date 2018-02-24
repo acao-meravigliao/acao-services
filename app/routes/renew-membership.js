@@ -1,11 +1,14 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import { hash } from 'rsvp';
+import EmberObject from '@ember/object';
+import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-export default Ember.Route.extend({
+export default Route.extend({
 
   titleToken: 'Rinnovo iscrizione',
 
-  state: Ember.Object.create({
+  state: EmberObject.create({
     currentStep: 'index',
     enableCav: true,
     enableEmail: true,
@@ -13,8 +16,8 @@ export default Ember.Route.extend({
   }),
 
   model() {
-    return Ember.RSVP.hash({
-      context: Ember.$.getJSON('/ygg/acao/memberships/renew'),
+    return hash({
+      context: $.getJSON('/ygg/acao/memberships/renew'),
       state: this.get('state'),
     });
   },

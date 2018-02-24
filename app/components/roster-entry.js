@@ -1,19 +1,20 @@
 
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: '',
 
-  hasChief: Ember.computed('entry.roster_day.roster_entries.@each.chief', function() {
+  hasChief: computed('entry.roster_day.roster_entries.@each.chief', function() {
     return this.get('entry.roster_day.roster_entries').any((item) => (item.get('chief')));
   }),
 
-  hasChiefNotMe: Ember.computed('entry.roster_day.roster_entries.@each.chief', function() {
+  hasChiefNotMe: computed('entry.roster_day.roster_entries.@each.chief', function() {
     return this.get('entry.roster_day.roster_entries').any((item) =>
       (item.get('chief') && item.get('person') != this.get('entry.person')));
   }),
 
-  chiefDisabled: Ember.computed('chiefEnabled', 'hasChiefNotMe', function() {
+  chiefDisabled: computed('chiefEnabled', 'hasChiefNotMe', function() {
     return !this.get('chiefEnabled') || this.get('hasChiefNotMe');
   }),
 

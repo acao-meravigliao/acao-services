@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
 import DS from 'ember-data';
 
 export default DS.Model.extend({
@@ -21,7 +21,7 @@ export default DS.Model.extend({
   cog: DS.attr('number'),
   sog: DS.attr('number'),
 
-  latlng: Ember.computed('lat', 'lng', function() {
+  latlng: computed('lat', 'lng', function() {
     return [ this.get('lat'), this.get('lng') ];
   }),
 });

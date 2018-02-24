@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { computed, observer } from '@ember/object';
 import ESASession from 'ember-simple-auth/services/session';
 import { inject as service } from '@ember/service';
 
@@ -7,9 +7,9 @@ export default ESASession.extend({
   store: service(),
   ws: service('web-socket'),
 
-  personId: Ember.computed('data.authenticated', function() { return this.get('data.authenticated').auth_person.id }),
+  personId: computed('data.authenticated', function() { return this.get('data.authenticated').auth_person.id }),
 
-  isAuthObserver: Ember.observer('isAuthenticated', function() {
+  isAuthObserver: observer('isAuthenticated', function() {
     var me = this;
 
     if (this.get('isAuthenticated')) {

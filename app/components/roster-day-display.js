@@ -1,24 +1,27 @@
 
-import Ember from 'ember';
+import { compare } from '@ember/utils';
+import { sort } from '@ember/object/computed';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: '',
 
-  missingChief: Ember.computed('day.roster_entries.@each.chief', function() {
+  missingChief: computed('day.roster_entries.@each.chief', function() {
     return !this.get('day.roster_entries').any((item) => (item.get('chief')));
   }),
 
-  missingNonChiefs: Ember.computed('day.roster_entries.length', 'missingChief', 'day.needed_people', function() {
+  missingNonChiefs: computed('day.{roster_entries.length,needed_people}', 'missingChief', function() {
     return Array(Math.max(this.get('day.needed_people') - this.get('day.roster_entries.length') - (this.get('missingChief') ? 1 : 0), 0));
   }),
 
-  sortedEntries: Ember.computed.sort('day.roster_entries', function(a, b) {
+  sortedEntries: sort('day.roster_entries', function(a, b) {
     if (a.get('chief') && !b.get('chief'))
       return -1;
     else if (!a.get('chief') && b.get('chief'))
       return 1;
     else
-      return Ember.compare(a.get('person.last_name'), b.get('person.last_name')) ||
-             Ember.compare(a.get('person.first_name'), b.get('person.first_name'));
+      return compare(a.get('person.last_name'), b.get('person.last_name')) ||
+             compare(a.get('person.first_name'), b.get('person.first_name'));
   }),
 });

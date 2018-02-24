@@ -1,14 +1,15 @@
-import Ember from 'ember';
+import { hash } from 'rsvp';
+import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import { inject as service } from '@ember/service';
 
-export default Ember.Route.extend({
+export default Route.extend({
   titleToken: 'Inizio',
 
   session: service('session'),
 
   model() {
-    return Ember.RSVP.hash({
+    return hash({
       person: this.store.findRecord('ygg--core--person', this.get('session.personId')),
     });
   },

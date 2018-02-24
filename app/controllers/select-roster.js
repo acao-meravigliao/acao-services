@@ -1,22 +1,25 @@
-import Ember from 'ember';
+import { all } from 'rsvp';
+import { sort } from '@ember/object/computed';
+import { computed } from '@ember/object';
+import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   session: service('session'),
 
   monthSelect: 'all',
   seasonSelect: 'all',
   includeBusy: false,
 
-  saveDisabled: Ember.computed('saving', 'isDirty', function() {
+  saveDisabled: computed('saving', 'isDirty', function() {
     return this.get('saving') || !this.get('isDirty');
   }),
 
-  allRosterEntries: Ember.computed(function() {
+  allRosterEntries: computed(function() {
     return this.get('store').peekAll('ygg--acao--roster-entry');
   }),
 
-  myRosterEntries: Ember.computed('allRosterEntries.@each', 'allRosterEntries.@each.isDeleted', function() {
+  myRosterEntries: computed('allRosterEntries.{@each,@each.isDeleted}', function() {
     return this.get('allRosterEntries').filter((item) =>
       (item.belongsTo('person').id() == this.get('session.personId') &&
        item.get('roster_day.date').getFullYear() == this.get('model.rosterStatus.renew_for_year')
@@ -24,20 +27,20 @@ export default Ember.Controller.extend({
     );
   }),
 
-  isDirty: Ember.computed('myRosterEntries.@each', 'myRosterEntries.@each.isDeleted', function() {
+  isDirty: computed('myRosterEntries.{@each,@each.isDeleted}', function() {
     return this.get('myRosterEntries').any((record) => (record.get('hasDirtyAttributes') || record.get('isDeleted')));
   }),
 
-  peakRosterEntries: Ember.computed('myRosterEntries.@each', function() {
+  peakRosterEntries: computed('myRosterEntries.@each', function() {
     return this.get('myRosterEntries').filter((item) =>
       (item.belongsTo('roster_day').value().get('high_season'))
     );
   }),
 
   rosterDaysSortOrder: ['date'],
-  rosterDaysSorted: Ember.computed.sort('model.rosterDays', 'rosterDaysSortOrder'),
+  rosterDaysSorted: sort('model.rosterDays', 'rosterDaysSortOrder'),
 
-  filteredRosterDays: Ember.computed('rosterDaysSorted.@each', 'monthSelect', 'seasonSelect', 'includeBusy', function() {
+  filteredRosterDays: computed('rosterDaysSorted.@each', 'monthSelect', 'seasonSelect', 'includeBusy', function() {
     return this.get('rosterDaysSorted').filter((item) =>
       (
        item.get('date').getFullYear() == this.get('model.rosterStatus.renew_for_year') && (
@@ -50,16 +53,16 @@ export default Ember.Controller.extend({
     );
   }),
 
-  tooManyEntries: Ember.computed('myRosterEntries.length', 'model.rosterStatus.needed_total', function() {
+  tooManyEntries: computed('myRosterEntries.length', 'model.rosterStatus.needed_total', function() {
     return this.get('myRosterEntries.length') > this.get('model.rosterStatus.needed_total')
   }),
 
-  requisiteEntriesMissing: Ember.computed('myRosterEntries.[]', function() {
+  requisiteEntriesMissing: computed('myRosterEntries.[]', function() {
     return this.get('myRosterEntries.length') < this.get('model.rosterStatus.needed_total') ||
            this.get('peakRosterEntries.length') < this.get('model.rosterStatus.needed_high_season');
   }),
 
-  requisiteEntriesOk: Ember.computed('requisiteEntriesMissing', 'isDirty', function() {
+  requisiteEntriesOk: computed('requisiteEntriesMissing', 'isDirty', function() {
     return !this.get('requisiteEntriesMissing') && !this.get('isDirty');
   }),
 
@@ -89,7 +92,7 @@ export default Ember.Controller.extend({
         }
       });
 
-      Ember.RSVP.all(promises).then(function() {
+      all(promises).then(function() {
         me.set('saving', false);
         me.set('saveSuccess', true);
       }).catch((error) => {

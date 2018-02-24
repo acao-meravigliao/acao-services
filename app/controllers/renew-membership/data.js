@@ -1,15 +1,19 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import { sort, alias, equal } from '@ember/object/computed';
+import { A } from '@ember/array';
+import EmberObject, { computed } from '@ember/object';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
-  assService: Ember.computed('model.serviceTypes', 'context.ass_type', function() {
+export default Controller.extend({
+  assService: computed('model.serviceTypes', 'context.ass_type', function() {
     return this.get('model.serviceTypes').findBy('symbol', this.get('context.ass_type'));
   }),
 
-  cavService: Ember.computed('model.serviceTypes', 'context.cav_type', 'enableCav', function() {
+  cavService: computed('model.serviceTypes', 'context.cav_type', 'enableCav', function() {
     return this.get('enableCav') ? this.get('model.serviceTypes').findBy('symbol', this.get('context.cav_type')) : null;
   }),
 
-  total: Ember.computed('context.membershipAmount', 'context.cavAmount', 'enableCav', 'services.@each.type', function() {
+  total: computed('context.{membershipAmount,cavAmount}', 'enableCav', 'services.@each.type', function() {
     return this.get('assService.price') +
            (this.get('enableCav') ? this.get('cavService.price') : 0) +
            this.get('services').reduce(function(previous, service) {
@@ -17,28 +21,28 @@ export default Ember.Controller.extend({
            }, 0);
   }),
 
-  services: Ember.A(),
+  services: A(),
 
   serviceTypesSortOrder: ['name'],
-  serviceTypesSorted: Ember.computed.sort('model.serviceTypes', 'serviceTypesSortOrder'),
+  serviceTypesSorted: sort('model.serviceTypes', 'serviceTypesSortOrder'),
 
-  formInvalid: Ember.computed('acceptRules', 'paymentMethod', function() {
+  formInvalid: computed('acceptRules', 'paymentMethod', function() {
     return !this.get('acceptRules')  || !this.get('paymentMethod');
   }),
 
-  commitDisabled: Ember.computed.alias('formInvalid'),
+  commitDisabled: alias('formInvalid'),
 
-  paymentWire: Ember.computed.equal('paymentMethod', 'wire'),
-  paymentCheck: Ember.computed.equal('paymentMethod', 'check'),
-  paymentCard: Ember.computed.equal('paymentMethod', 'card'),
+  paymentWire: equal('paymentMethod', 'wire'),
+  paymentCheck: equal('paymentMethod', 'check'),
+  paymentCard: equal('paymentMethod', 'card'),
 
   actions: {
     openRules() {
-      Ember.$('.rules-modal').modal('show');
+      $('.rules-modal').modal('show');
     },
 
     addService() {
-      this.get('services').addObject(Ember.Object.create({ type: null }));
+      this.get('services').addObject(EmberObject.create({ type: null }));
     },
 
     removeService(index) {

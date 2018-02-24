@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   session: service('session'),
 
   actions: {
@@ -19,10 +19,10 @@ export default Ember.Controller.extend({
         this.set('loggingIn', false);
 
         if (reason.xhr) {
-          if (xhr.responseJSON) {
-            this.set('errorMessage', xhr.responseJSON.title + ': ' + xhr.responseJSON.descr);
+          if (reason.xhr.responseJSON) {
+            this.set('errorMessage', reason.xhr.responseJSON.title + ': ' + reason.xhr.responseJSON.descr);
           } else {
-            this.set('errorMessage', xhr.responseText);
+            this.set('errorMessage', reason.xhr.responseText);
           }
         } else if (reason.msg) {
           this.set('errorMessage', reason.msg);

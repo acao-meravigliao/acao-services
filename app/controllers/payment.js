@@ -1,14 +1,16 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import { equal } from '@ember/object/computed';
+import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
   session: service('session'),
 
-  isPending: Ember.computed.equal('model.payment.state', 'PENDING'),
-  isPaid: Ember.computed.equal('model.payment.state', 'PAID'),
-  isCanceled: Ember.computed.equal('model.payment.state', 'CANCELED'),
+  isPending: equal('model.payment.state', 'PENDING'),
+  isPaid: equal('model.payment.state', 'PAID'),
+  isCanceled: equal('model.payment.state', 'CANCELED'),
 
-  forMembership: Ember.computed('model.payment', 'model.memberships.@each', function() {
+  forMembership: computed('model.{payment,memberships.@each}', function() {
     return this.get('model.memberships').find((item) =>
       (item.get('payment.id') == this.get('model.payment.id')));
   }),

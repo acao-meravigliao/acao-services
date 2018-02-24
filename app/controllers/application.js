@@ -1,7 +1,8 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
+import $ from 'jquery';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
 
   ws: service('web-socket'),
   session: service('session'),

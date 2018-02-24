@@ -1,15 +1,17 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import { hash } from 'rsvp';
+import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-export default Ember.Route.extend({
+export default Route.extend({
 
   titleToken: 'Turni di linea',
 
   model(params) {
-    return Ember.RSVP.hash({
+    return hash({
       rosterEntries: this.store.query('ygg--acao--roster-entry', { filter: { person_id: this.get('session.personId') } }),
       rosterDays: this.store.findAll('ygg--acao--roster-day'),
-      rosterStatus: Ember.$.getJSON('/ygg/acao/roster_entries/status'),
+      rosterStatus: $.getJSON('/ygg/acao/roster_entries/status'),
     });
   },
 

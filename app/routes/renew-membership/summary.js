@@ -1,11 +1,12 @@
-import Ember from 'ember';
+import { hash } from 'rsvp';
+import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-export default Ember.Route.extend({
+export default Route.extend({
   titleToken: 'Riassunto',
 
   model() {
-    return Ember.RSVP.hash({
+    return hash({
       serviceTypes: this.get('store').findAll('ygg--acao--service-type'),
     });
   },

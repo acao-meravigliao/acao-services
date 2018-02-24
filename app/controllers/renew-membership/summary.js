@@ -1,15 +1,17 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import { computed } from '@ember/object';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
-  assService: Ember.computed('model.serviceTypes', 'context.ass_type', function() {
+export default Controller.extend({
+  assService: computed('model.serviceTypes', 'context.ass_type', function() {
     return this.get('model.serviceTypes').findBy('symbol', this.get('context.ass_type'));
   }),
 
-  cavService: Ember.computed('model.serviceTypes', 'context.cav_type', 'enableCav', function() {
+  cavService: computed('model.serviceTypes', 'context.cav_type', 'enableCav', function() {
     return this.get('enableCav') ? this.get('model.serviceTypes').findBy('symbol', this.get('context.cav_type')) : null;
   }),
 
-  total: Ember.computed('context.membershipAmount', 'context.cavAmount', 'assService.@each', 'cavService.@each', 'services.@each', function() {
+  total: computed('context.{membershipAmount,cavAmount}', 'assService.@each', 'cavService.@each', 'services.@each', function() {
     return this.get('assService.price') +
            (this.get('enableCav') ? this.get('cavService.price') : 0) +
            this.get('services').reduce(function(previous, service) {
@@ -34,7 +36,7 @@ export default Ember.Controller.extend({
       };
 
       me.set('submitting', true);
-      Ember.$.ajax({
+      $.ajax({
         type: 'POST',
         url: '/ygg/acao/memberships/renew',
         data: JSON.stringify(req),

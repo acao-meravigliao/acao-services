@@ -1,3 +1,4 @@
+import { mapBy, sum } from '@ember/object/computed';
 import DS from 'ember-data';
 
 export default DS.Model.extend({
@@ -13,6 +14,6 @@ export default DS.Model.extend({
 
   payment_services: DS.hasMany('ygg--acao--payment--service'),
 
-  amounts: Ember.computed.mapBy('payment_services', 'price'),
-  total: Ember.computed.sum('amounts'),
+  amounts: mapBy('payment_services', 'price'),
+  total: sum('amounts'),
 });

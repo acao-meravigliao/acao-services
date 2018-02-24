@@ -1,6 +1,7 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import Controller from '@ember/controller';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
 
   actions: {
     recover() {
@@ -14,7 +15,7 @@ export default Ember.Controller.extend({
       this.set('exception', null);
       this.set('submitting', true);
 
-      Ember.$.ajax({
+      $.ajax({
         type: 'POST',
         url: '/ygg/acao/password_recovery',
         data: JSON.stringify(req),
