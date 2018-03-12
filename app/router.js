@@ -39,6 +39,15 @@ Router.map(function() {
   this.route('today-roster-not-found');
 
   this.route('roster-days');
+
+  this.route('bar-transactions');
+  this.route('token-transactions');
+  this.route('flights');
+  this.route('flight', { path: '/flight/:id' });
+  this.route('aircrafts');
+  this.route('aircraft', { path: '/aircraft/:id' });
+  this.route('aircraft-types');
+  this.route('aircraft-type', { path: '/aircraft-type/:id' });
 });
 
 export default Router;
