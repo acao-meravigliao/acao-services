@@ -1,0 +1,52 @@
+@import "./table.less";
+@accent-color: #dd6a58;
+
+@font_family_1: monospace;
+
+/* Whis is this necessary?? */
+body {
+  >.ember-view {
+    height: 100%;
+  }
+}
+a {
+  cursor: pointer;
+}
+.main.content {
+  padding-top: 50px;
+}
+#main-sidebar {
+  padding-top: 50px;
+}
+.renew-services {
+  .price {
+    text-align: right !important;
+    font-family: @font_family_1;
+  }
+  .total {
+    font-weight: bold !important;
+  }
+}
+.shop-checkout {
+  .price {
+    text-align: right !important;
+    font-family: @font_family_1;
+  }
+  .total {
+    font-weight: bold !important;
+  }
+}
+table.payments {
+  >tbody {
+    >tr {
+      cursor: pointer;
+    }
+  }
+  .price {
+    text-align: right !important;
+    font-family: @font_family_1;
+  }
+}
+.roster-day-edit.disabled {
+  cursor: not-allowed;
+}

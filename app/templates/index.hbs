@@ -1,21 +1,41 @@
 <div class="ui container">
   <h1 class="ui header">Ciao {{session.person.first_name}}!</h1>
 
-  {{#unless renewIsOpen}}
+  {{#if renewIsPending}}
     <div class="ui orange message">
       <h1 class="ui header">
-        {{#if model.renewalContext.renew_for_year}}
-          L'iscrizione per l'anno {{model.renewalContext.renew_for_year}} non è ancora aperta, aprirà {{moment-from-now model.renewalContext.opening_time interval=1000}}
-        {{else}}
-          L'iscrizione non è aperta.
-        {{/if}}
+        L'iscrizione per l'anno {{model.renewalContext.renew_for_year}} non è ancora aperta,
+        aprirà {{moment-from-now model.renewalContext.opening_time interval=1000}}
       </h1>
     </div>
-  {{/unless}}
+  {{/if}}
 
   <div class="ui stackable mobile reversed equal width grid">
     <div class="column">
       <div>
+        <div class="ui statistics">
+          <div class="statistic">
+            <div class="value">
+              {{format-number session.person.acao_bar_credit format="0.00"}} €
+            </div>
+            <div class="label">
+              Conto bar
+            </div>
+          </div>
+        </div>
+
+        <div class="ui statistics">
+          <div class="statistic">
+            <div class="value">
+              {{session.person.acao_bollini}}
+            </div>
+            <div class="label">
+              Bollini
+            </div>
+          </div>
+        </div>
+
+
 <!--        {{#if model.memberships}}
           Socio nel:
           <div class="ui celled horizontal list">
@@ -42,7 +62,7 @@
           {{#link-to 'payments' class="massive ui orange button" tagName="button"}}Ci sono dei pagamenti pendenti{{/link-to}}
         {{/if}}
 
-        {{#if membershipRenewalIsAvailable}}
+        {{#if renewIsOpen}}
           {{#link-to 'renew-membership' class="massive ui primary button" tagName="button"}}Rinnova l'iscrizione {{model.renewalContext.year}}{{/link-to}}
         {{/if}}
 

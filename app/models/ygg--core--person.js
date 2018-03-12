@@ -14,9 +14,13 @@ export default DS.Model.extend({
   vat_number: DS.attr('string'),
   italian_fiscal_code: DS.attr('string'),
   handle: DS.attr('string'),
+  preferred_language_id: DS.attr('number'),
+
   acao_ext_id: DS.attr('number'),
   acao_code: DS.attr('number'),
-  preferred_language_id: DS.attr('number'),
+
+  acao_bar_credit: DS.attr('number'),
+  acao_bollini: DS.attr('number'),
 
   contacts: DS.hasMany('ygg--core--person--contact'),
 });

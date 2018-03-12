@@ -7,6 +7,7 @@ import { assign } from '@ember/polyfills';
 import { defer as rsvpDefer } from 'rsvp';
 import { cancel } from '@ember/runloop';
 import { later } from '@ember/runloop';
+//import { require } from 'require';
 
 export default Service.extend(Evented, {
 
