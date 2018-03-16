@@ -18,6 +18,7 @@ export default Controller.extend({
       label: 'Aeromobile',
       valuePath: 'aircraft.registration',
       width: '160px',
+      sortable: false,
      },
      {
       label: 'Decollo',
@@ -33,9 +34,42 @@ export default Controller.extend({
      },
      {
       label: 'Durata',
-      width: '160px',
+      width: '80px',
       valuePath: 'duration',
+      sortable: false,
       format: function(value) { return moment(value).format('HH:mm'); },
+     },
+//     {
+//      label: 'Pilota',
+//      width: '160px',
+//      valuePath: 'pilot1.last_name',
+//     },
+//     {
+//      label: 'Passeggero',
+//      width: '160px',
+//      valuePath: 'pilot2.last_name',
+//     },
+     {
+      label: 'Apt Decollo',
+      width: '160px',
+      valuePath: 'takeoff_airfield.icao_code',
+      sortable: false,
+     },
+     {
+      label: 'Apt Atterr.',
+      width: '160px',
+      valuePath: 'landing_airfield.icao_code',
+      sortable: false,
+     },
+     {
+      label: 'Lancio',
+      width: '100px',
+      valuePath: 'launch_type',
+     },
+     {
+      label: 'Quota',
+      width: '80px',
+      valuePath: 'acao_quota',
      },
     ];
   }),
