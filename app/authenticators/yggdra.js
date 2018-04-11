@@ -1,9 +1,11 @@
-import { run } from '@ember/runloop';
-import $ from 'jquery';
-import { Promise as EmberPromise } from 'rsvp';
 import BaseAuthenticator from 'ember-simple-auth/authenticators/base';
+import { run } from '@ember/runloop';
+import { Promise as EmberPromise } from 'rsvp';
+import { inject as service } from '@ember/service';
 
 export default BaseAuthenticator.extend({
+  ajax: service(),
+
   restore: function(data) {
 console.log("RESTORE");
     return new EmberPromise(function (resolve, reject) {
@@ -26,31 +28,28 @@ console.log("RESTORE");
   authenticate: function(fqda, password) {
 console.log("AUTHENTICATE");
 
-    return new EmberPromise(function(resolve, reject) {
-      $.ajax({
-        type: 'POST',
-        url: '/ygg/session/check_or_create',
+    return new EmberPromise((resolve, reject) => {
+console.log("AJAX");
+      this.get('ajax').post('/ygg/session/check_or_create', {
         data: JSON.stringify({}),
-        dataType: 'json',
-      }).then(function(response) {
+//        dataType: 'json',
+      }).then((response) => {
 console.log("AUTHENTICATE OK", response);
         if (!response.authenticated) {
-          $.ajax({
-            type: 'POST',
-            url: '/ygg/session/authenticate_by_fqda_and_password',
-            dataType: 'json',
+          this.get('ajax').post('/ygg/session/authenticate_by_fqda_and_password', {
+//            dataType: 'json',
             contentType: 'application/json',
             data: JSON.stringify({
               fqda: fqda,
               password: password
             })
-          }).then(function(response) {
+          }).then((response) => {
 console.log("AUTHENTICATE THEN", response);
             if (response.authenticated)
               resolve(response);
             else
               reject(response);
-          }, function(xhr, status, error) {
+          }, (xhr, status, error) => {
 console.log("AUTHENTICATE FAIL", arguments);
             reject(xhr.responseJSON || xhr.responseText);
           });
@@ -58,7 +57,8 @@ console.log("AUTHENTICATE FAIL", arguments);
 console.log("AUTHENTICATE RESOLVE RESPONSEEE", response);
           resolve(response);
         }
-      }, function(xhr, status, error) {
+      }).catch((xhr, status, error) => {
+console.log("ERRRRRRRR", xhr, status, error);
         reject(xhr.responseJSON || xhr.responseText);
       });
     });
@@ -67,10 +67,8 @@ console.log("AUTHENTICATE RESOLVE RESPONSEEE", response);
   invalidate: function() {
     console.log('invalidate...');
 
-    return new EmberPromise(function(resolve, reject) {
-      $.ajax({
-        type: 'POST',
-        url: '/ygg/session/logout',
+    return new EmberPromise((resolve, reject) => {
+      this.get('ajax').post('/ygg/session/logout', {
       }).then(function(response) {
         run(function() {
           resolve(response);

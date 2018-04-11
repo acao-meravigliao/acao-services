@@ -1,4 +1,3 @@
-
 import { compare } from '@ember/utils';
 import { sort } from '@ember/object/computed';
 import { computed } from '@ember/object';

@@ -3,6 +3,7 @@ import { compare } from '@ember/utils';
 import { sort } from '@ember/object/computed';
 import { computed } from '@ember/object';
 import Component from '@ember/component';
+import moment from 'moment';
 
 export default Component.extend({
   tagName: '',
@@ -27,7 +28,8 @@ export default Component.extend({
                             'missingChief', 'missingNonChiefs', 'missingAny', function() {
     return this.get('entries').every((item) => (item.belongsTo('roster_day').id() != this.get('day.id'))) &&
            (this.get('missingChief') || this.get('missingNonChiefs')) &&
-           this.get('missingAny');
+           this.get('missingAny') &&
+           this.get('day.date') > moment().add(2, 'd').toDate();
   }),
 
   sortedEntries: sort('day.roster_entries', function(a, b) {

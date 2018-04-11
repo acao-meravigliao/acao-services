@@ -1,7 +1,8 @@
-import $ from 'jquery';
 import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
 
 export default Controller.extend({
+  ajax: service(),
 
   actions: {
     recover() {
@@ -15,11 +16,10 @@ export default Controller.extend({
       this.set('exception', null);
       this.set('submitting', true);
 
-      $.ajax({
-        type: 'POST',
-        url: '/ygg/acao/password_recovery',
+      this.get('ajax').request('/ygg/acao/password_recovery', {
+        method: 'POST',
         data: JSON.stringify(req),
-        dataType: 'json',
+//        dataType: 'json',
         contentType: 'application/json',
       }).then(function(response) {
         me.set('submitting', false);

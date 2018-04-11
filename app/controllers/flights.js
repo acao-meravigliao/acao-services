@@ -1,10 +1,11 @@
 import Controller from '@ember/controller';
-import { computed } from '@ember/object';
+import { computed, observer } from '@ember/object';
 import { isEmpty } from '@ember/utils';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
 import Table from 'ember-light-table';
 import { A } from '@ember/array';
+import { debounce } from '@ember/runloop';
 
 import moment from 'moment';
 import numeral from 'numeral';
@@ -107,17 +108,35 @@ export default Controller.extend({
     let order = {};
     order[this.get('sort')] = this.get('dir');
 
+    let filter = { pilot1_id: this.get('session.personId') };
+
+    if (this.get('aircraftReg'))
+      filter['aircraft.registration'] = this.get('aircraftReg');
+
     let records = yield this.get('store').query('ygg--acao--flight', {
       offset: this.get('offset'),
       limit: this.get('limit'),
       order: order,
-      filter: { pilot1_id: this.get('session.personId') }
+      filter: filter,
     });
 
     this.get('model').pushObjects(records.toArray());
     this.set('meta', records.get('meta'));
     this.set('canLoadMore', !isEmpty(records));
   }).restartable(),
+
+  aircraftRegObserver: observer('aircraftReg', function() {
+    debounce(this, 'aicraftRegChanged', 500);
+  }),
+
+  aicraftRegChanged() {
+console.log("AIRCRAFT_REG CHANGED");
+    this.setProperties({
+      canLoadMore: true,
+      offset: 0
+    });
+    this.get('model').clear();
+  },
 
   actions: {
     onScrolledToBottom() {
@@ -136,7 +155,8 @@ export default Controller.extend({
           offset: 0
         });
         this.get('model').clear();
+        this.fetchRecords();
       }
-    }
+    },
   }
 });
