@@ -176,14 +176,21 @@ console.log("WELCOME", msg);
       if (me.app_version != msg.app_version)
         me.trigger('version_mismatch', me.app_version, msg.app_version);
 
+      me.transmit({
+        type: 'set',
+        pars: {
+          accept: 'application/vnd.api+json',
+          content_type: 'application/vnd.api+json',
+        },
+      });
+
       if (me.state == 'OPEN_WAIT_WELCOME') {
         if (me.savedCollectionBindings) {
 console.log("REBINDING COLLECTIONS", me.savedCollectionBindings);
 
           $.each(me.savedCollectionBindings, function(key, binding) {
-            me.getAndBind(key, {
+            me.indexAndBind(key, {
               // TODO ADD QUERY PARAMETERS
-              multiple: true,
             });
           });
 
@@ -209,7 +216,6 @@ console.log("REBINDING COLLECTIONS", me.savedCollectionBindings);
 
               me.getAndBind(modelType, {
                 ids: ids,
-                multiple: true,
               }).catch((e) => {
                 console.warn("Cannot rebind model", modelType, ids, e);
               });
@@ -254,15 +260,17 @@ console.log("REBINDING COLLECTIONS", me.savedCollectionBindings);
     break;
 
     case 'create':
-      me.get('store').pushPayload(msg.data);
+      me.get('store').pushPayload(msg.object);
     break;
 
     case 'update':
-      me.get('store').pushPayload(msg.data);
+console.log("OBJ=", msg);
+
+      me.get('store').pushPayload(msg.object);
     break;
 
     case 'delete': {
-      let model = me.get('store').peekRecord(msg.model, msg.id);
+      let model = me.get('store').peekRecord(msg.object, msg.id);
 
       // XXX Send didDelete event??
 
@@ -272,7 +280,8 @@ console.log("REBINDING COLLECTIONS", me.savedCollectionBindings);
     break;
 
     case 'sub_ok':
-    case 'bind_ok':
+    case 'index_ok':
+    case 'get_ok':
     case 'create_ok':
     case 'update_ok':
     case 'destroy_ok':
@@ -301,11 +310,13 @@ console.log("EXCEPTION", msg, "REQ=", req);
 
       delete me.requests[msg.reply_to];
 
-      req.failure(msg);
+      if (req)
+        req.failure(msg);
     break;
 
     case 'message_not_handled':
-      req.failure(msg);
+      if (req)
+        req.failure(msg);
     break;
 
     default:
@@ -371,6 +382,39 @@ console.log("EXCEPTION", msg, "REQ=", req);
     return this.currentRequestId++;
   },
 
+  indexAndBind(modelName, params) {
+    let me = this;
+
+console.log("INDEX_AND_BIND", modelName, params);
+
+    let defer = rsvpDefer();
+
+    let req = {
+      method: 'index',
+      params: assign({
+        model: modelName,
+        bind: true,
+      }, params),
+      success: function(msg) {
+        me.collectionBindings[modelName] = true;
+        // FIXME record query parameters
+
+        defer.resolve(msg.payload);
+      },
+      failure: function(msg) {
+        console.error("INDEX_AND_BIND FAILURE REQ=", req, "RESULT=", msg);
+        defer.reject({
+          reason: msg.reason,
+          requestId: msg.reply_to,
+        });
+      },
+    };
+
+    me.makeRequest(req);
+
+    return defer.promise;
+  },
+
   getAndBind(modelName, params) {
     let me = this;
 
@@ -379,20 +423,16 @@ console.log("GET_AND_BIND", modelName, params);
     let defer = rsvpDefer();
 
     let req = {
-      method: 'bind',
+      method: 'get',
       params: assign({
         model: modelName,
+        bind: true,
       }, params),
       success: function(msg) {
-        if (req.params.multiple) {
-          me.collectionBindings[modelName] = true;
-          // FIXME record query parameters
-        }
-
         defer.resolve(msg.payload);
       },
       failure: function(msg) {
-console.log("FAILURE", msg);
+        console.error("GET_AND_BIND FAILURE REQ=", req, "RESULT=", msg);
         defer.reject({
           reason: msg.reason,
           requestId: msg.reply_to,
@@ -417,12 +457,16 @@ console.log("CREATE_AND_BIND", modelName, data, params);
       params: assign({
         model: modelName,
         payload: data,
+        bind: true,
+        content_type: 'application/vnd.api+json',
+        accept: 'application/vnd.api+json',
       }, params),
       success: function(msg) {
         me.collectionBindings[modelName] = true;
         defer.resolve(msg.payload);
       },
       failure: function(msg) {
+        console.error("CREATE_AND_BIND FAILURE REQ=", req, "RESULT=", msg);
         defer.reject(msg.reason);
       },
     };
@@ -444,6 +488,8 @@ console.log("UPDATE", modelName, data, params);
       params: assign({
         model: modelName,
         payload: data,
+        content_type: 'application/vnd.api+json',
+        accept: 'application/vnd.api+json',
       }, params),
       success: function(msg) {
         defer.resolve(msg.payload);
