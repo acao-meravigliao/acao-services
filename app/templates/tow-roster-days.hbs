@@ -1,0 +1,34 @@
+<div class="ui container">
+  <div class="ui raised segment">
+    <div class="ui grid">
+      <div class="ui seven wide column">
+        {{#link-to 'tow-roster-days' (query-params year=prevYear) tagname='button' class='fluid ui button'}}
+          <i class="ui left arrow icon"></i>{{prevYear}}
+        {{/link-to}}
+      </div>
+      <div class="ui two wide column">
+        <h1 class="ui header">{{currentYear}}</h1>
+      </div>
+      <div class="ui seven wide column">
+        {{#link-to 'tow-roster-days' (query-params year=nextYear) tagname='button' class='fluid ui button'}}
+          {{nextYear}}<i class="ui right arrow icon"></i>
+        {{/link-to}}
+      </div>
+    </div>
+  </div>
+  <div class="ui raised segment">
+    {{#if model}}
+      <div class="ui cards">
+      {{#each sortedRosterDays as |day|}}
+        {{tow-roster-day-display day=day}}
+      {{/each}}
+      </div>
+    {{else}}
+      <div class="ui blue message">
+        <h1 class="ui header">
+          Non ci sono giornate di traino nel {{currentYear}}
+        </h1>
+      </div>
+    {{/if}}
+  </div>
+</div>

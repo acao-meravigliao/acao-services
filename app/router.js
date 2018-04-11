@@ -34,11 +34,13 @@ Router.map(function() {
   this.route('payment', { path: '/payment/:id' });
 
   this.route('select-roster');
-
   this.route('today-roster');
   this.route('today-roster-not-found');
-
   this.route('roster-days');
+
+  this.route('select-tow-roster');
+  this.route('today-tow-roster');
+  this.route('tow-roster-days');
 
   this.route('bar-transactions');
   this.route('token-transactions');
