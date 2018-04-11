@@ -16,6 +16,8 @@ export default Route.extend({
       rosterEntries: this.store.query('ygg--acao--roster-entry', { filter: { person_id: this.get('session.personId') } }).then((items) => {
         return all(items.map((l) => l.get('roster_day'))).then(() => items);
       }),
+      licenses: this.get('store').query('ygg--acao--license', { filter: { pilot_id: this.get('session.personId') } }),
+      medicals: this.get('store').query('ygg--acao--medical', { filter: { pilot_id: this.get('session.personId') } }),
 
 
 //.filter((item) => {
