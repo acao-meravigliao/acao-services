@@ -30,6 +30,9 @@ Router.map(function() {
     this.route('summary');
   });
 
+  this.route('licenses');
+  this.route('medicals');
+
   this.route('payments');
   this.route('payment', { path: '/payment/:id' });
 

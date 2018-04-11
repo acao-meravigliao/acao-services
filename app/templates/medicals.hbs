@@ -1,0 +1,17 @@
+{{#if model}}
+  {{#each model key="id" as |lic|}}
+    <div>
+      <p>{{lic.type}}</p>
+      <p>{{identifier}}</p>
+      <p>{{lic.valid_to}}</p>
+      <p>{{lic.issued_at}}</p>
+      <p>{{lic.valid_to2}}</p>
+    </div>
+  {{/each}}
+{{else}}
+<div class="ui container">
+  <div class="ui message">
+    Nessuna licenza trovata
+  </div>
+</div>
+{{/if}}
