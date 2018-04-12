@@ -38,7 +38,7 @@
   </table>
   </div>
 
-  {{partial (concat 'payment/' (if model.payment.payment_method model.payment.payment_method 'unknown'))}}
+  {{partial (concat 'payment/' paymentMethodPartial)}}
 
   {{#if forMembership}}
     {{#link-to 'select-roster' type='button' class='ui primary button'}}Scegli i turni di linea{{/link-to}}
