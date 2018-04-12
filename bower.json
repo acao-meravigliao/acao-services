@@ -5,6 +5,9 @@
     "Leaflet.RotatedMarker": "bbecquet/Leaflet.RotatedMarker#^0.2.0",
     "antiscroll": "git://github.com/Addepar/antiscroll#e0d1538cf4f3fd61c5bedd6168df86d651f125da",
     "jquery-mousewheel": "~3.1.4",
-    "jquery-ui": "~1.11.4"
+    "jquery-ui": "~1.11.4",
+    "moment": "^2.22.0",
+    "pikaday": "^1.6.1",
+    "semantic": "^2.3.1"
   }
 }
