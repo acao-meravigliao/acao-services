@@ -31,7 +31,7 @@ module.exports = function(deployTarget) {
 //      }],
 //    }
     ENV['rsync-assets'] = {
-      destination: 'yggdra@iserver.acao.it:/opt/acao-services-deploytest/',
+      destination: 'yggdra@iserver.acao.it:/opt/acao-services/',
       source: 'tmp/deploy-dist/.',
       excludeIndexHTML: false, // default is `true` to exclude index.html
 //      flags: ['z'], // compress, gzip
