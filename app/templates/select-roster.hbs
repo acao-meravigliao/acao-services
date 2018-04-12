@@ -76,7 +76,9 @@
     </div>
     {{/ui-dropdown}}
 
-    {{ui-checkbox class="ui toggle" checked=includeBusy onChange=(action (mut includeBusy)) label="Includi occupati"}}
+    {{#ui-checkbox class="ui toggle" checked=includeBusy}}
+      Includi occupati
+    {{/ui-checkbox}}
     </div>
 
     <div class="ui cards" style="overflow-y: auto; max-height: 70vh">

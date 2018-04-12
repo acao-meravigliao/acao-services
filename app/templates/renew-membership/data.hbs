@@ -72,14 +72,14 @@
 </table>
 
 <div class="ui segment">
-  {{ui-checkbox class="ui fitted" checked=true onChange=(action (mut enableEmail))}}
+  {{ui-checkbox class="ui fitted" checked=enableEmail onChange=(action (mut enableEmail))}}
   Autorizzo l'invio per e-mail delle comunicazioni, convocazioni di assemblee e ogni altra disposizione obbligatoria.
   (DPR 15 marzo 1997&nbsp; n. 59 art 15 secondo comma, D.P.R. 28 dicembre 2000 n.445 art. 14 comma terzo, D.P.R. 13 febbraio 2001 n. 123 art. 8,
   Direttiva 2000/31/CE 8 giugno 2000 art. 11, comma 1) *
 </div>
 
 <div class="ui segment">
-  {{ui-checkbox class="ui fitted" onChange=(action (mut acceptRules))}}
+  {{ui-checkbox class="ui fitted" checked=acceptRules onChange=(action (mut acceptRules))}}
   Dichiaro  di aver preso visione del <a {{action 'openRules'}}>Regolamento dell'Aeroclub</a>
   e di accettarlo in modo totale e incondizionato.
 
