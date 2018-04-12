@@ -1,7 +1,7 @@
 <div class="ui container">
   <h1 class="ui header">Ciao {{session.person.first_name}}!</h1>
 
-  {{#if renewIsPending}}
+  {{#if renewIsGoingToOpen}}
     <div class="ui orange message">
       <h1 class="ui header">
         L'iscrizione per l'anno {{model.renewalContext.renew_for_year}} non è ancora aperta,
@@ -54,6 +54,26 @@
             {{/each}}
           </div>
         {{/if}}
+
+<!--
+        {{#if model.medicals}}
+          <div class="ui segment">
+            Visita medica:
+            {{#each model.medicals as |med|}}
+              {{med.type}}: {{moment-format med.valid_to 'DD-MM-YYYY'}}<br />
+            {{/each}}
+          </div>
+        {{/if}}
+
+        {{#if model.licenses}}
+          <div class="ui segment">
+            Licenze:
+            {{#each model.licenses as |lic|}}
+              {{lic.type}}: {{lic.identifier}}: {{moment-format lic.valid_to 'DD-MM-YYYY'}}
+            {{/each}}
+          </div>
+        {{/if}}
+-->
       </div>
     </div>
     <div class="column">
