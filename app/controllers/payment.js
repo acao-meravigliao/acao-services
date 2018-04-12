@@ -14,4 +14,8 @@ export default Controller.extend({
     return this.get('model.memberships').find((item) =>
       (item.get('payment.id') == this.get('model.payment.id')));
   }),
+
+  paymentMethodPartial: computed('model.payment.payment_method', function() {
+    return this.get('model.payment.payment_method') ? this.get('model.payment.payment_method').toLowerCase() : 'unknown';
+  }),
 });
