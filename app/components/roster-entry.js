@@ -1,6 +1,7 @@
 
 import { computed } from '@ember/object';
 import Component from '@ember/component';
+import moment from 'moment';
 
 export default Component.extend({
   tagName: '',
@@ -16,6 +17,11 @@ export default Component.extend({
 
   chiefDisabled: computed('chiefEnabled', 'hasChiefNotMe', function() {
     return !this.get('chiefEnabled') || this.get('hasChiefNotMe');
+  }),
+
+  deleteDisabled: computed('entry.{roster_day.date,isNew}', function() {
+    return ((new Date()) > moment(this.get('entry.selected_at')).add(7, 'd').toDate()) &&
+           !this.get('entry.isNew');
   }),
 
   actions: {
