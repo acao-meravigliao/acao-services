@@ -1,8 +1,10 @@
-import $ from 'jquery';
-import { computed } from '@ember/object';
 import Controller from '@ember/controller';
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 export default Controller.extend({
+  ajax: service(),
+
   assService: computed('model.serviceTypes', 'context.ass_type', function() {
     return this.get('model.serviceTypes').findBy('symbol', this.get('context.ass_type'));
   }),
@@ -36,11 +38,10 @@ export default Controller.extend({
       };
 
       me.set('submitting', true);
-      $.ajax({
-        type: 'POST',
-        url: '/ygg/acao/memberships/renew',
+      this.get('ajax').request('/ygg/acao/memberships/renew', {
+        method: 'POST',
         data: JSON.stringify(req),
-        dataType: 'json',
+//        dataType: 'json',
         contentType: 'application/json',
       }).then(function(response) {
         me.set('submitting', false);
