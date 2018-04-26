@@ -122,6 +122,28 @@ console.log("VISIBILITY_CHANGE", document.visibilityState, "IN STATE", me.state)
 
   },
 
+  reconnect() {
+    this.disconnect();
+    this.connect();
+  },
+
+  disconnect() {
+    switch(this.state) {
+    case 'DISCONNECTED':
+    case 'READY_OFFLINE':
+    break;
+
+    case 'INVISIBLE_IDLE':
+    case 'CONNECTING':
+    case 'OPEN_WAIT_WELCOME':
+    case 'RECONNECTING':
+    case 'RECONNECT_WAIT':
+    case 'READY':
+      this.doDisconnect();
+    break;
+    }
+  },
+
   doConnect() {
     let me = this;
 
@@ -148,6 +170,11 @@ console.log("VISIBILITY_CHANGE", document.visibilityState, "IN STATE", me.state)
     me.socket.onclose = function (ev) {
       me.onClose(ev);
     };
+  },
+
+  doDisconnect() {
+    this.socket.close();
+    this.changeState('DISCONNECTED');
   },
 
   onMessage: function(msg) {
