@@ -16,13 +16,16 @@ export default ESASession.extend({
       this.get('store').findRecord('ygg--core--person', this.get('personId')).then(function(person) { me.set('person', person);  });
     } else {
       this.set('person', null);
-//      this.set('memberships', null);
     }
   }),
 
   init() {
     this._super(...arguments);
-    this.get('ws').connect();
+//    this.get('ws').connect();
     this.get('isAuthenticated');
+
+    this.on('sessionAuthenticated', function() {
+      this.get('ws').reconnect();
+    });
   },
 });
