@@ -576,7 +576,6 @@ console.log("SUBSCRIBE", arguments);
           onMessage: cb,
           scope: scope,
         };
-console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", me.subs);
 
         defer.resolve(msg.data);
       },
@@ -594,14 +593,15 @@ console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", me.subs);
     let me = this;
 
     switch(me.state) {
-    case 'CONNECTING':
-    case 'OPEN_WAIT_WELCOME':
-    case 'RECONNECTING':
+    case 'DISCONNECTED':
+    case 'INVISIBLE_IDLE':
+      me.connect();
       me.deferredRequests.push(req);
     break;
 
-    case 'INVISIBLE_IDLE':
-      me.connect();
+    case 'CONNECTING':
+    case 'OPEN_WAIT_WELCOME':
+    case 'RECONNECTING':
       me.deferredRequests.push(req);
     break;
 

@@ -10,17 +10,9 @@ export default Controller.extend({
 
   headData: service(),
 
-  //routing: service('-routing'),
-
-  init: function () {
-    this._super();
-
-    this.get('ws').connect();
-  },
-
   actions: {
     logout() {
-      this.get('session').invalidate();
+      this.get('session').logout();
     },
 
     sidebarToggle(id) {

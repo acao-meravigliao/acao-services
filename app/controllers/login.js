@@ -13,8 +13,9 @@ export default Controller.extend({
 
       this.set('loggingIn', true);
 
-      this.get('session').authenticate('authenticator:yggdra', username, password).then(() => {
+      this.get('session').authenticate(username, password).then(() => {
         this.set('loggingIn', false);
+        this.transitionToRoute('index');
       }).catch((reason) => {
         this.set('loggingIn', false);
 

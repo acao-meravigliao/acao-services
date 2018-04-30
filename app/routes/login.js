@@ -6,8 +6,22 @@ export default Route.extend({
 
   session: service('session'),
 
+  authenticatedRoute: 'index',
+
   beforeModel(transition) {
-    if (this.get('session.isAuthenticated'))
-      this.transitionTo('index');
+    // Trigger session loading if not loaded already, if authenticated jump to index
+
+    if (!this.get('session.isLoaded')) {
+      this.get('session').load().then((response) => {
+        if (this.get('session.isAuthenticated'))
+          this.transitionTo(this.get('authenticatedRoute'));
+        else
+          return this._super(...arguments);
+      });
+    } else if (this.get('session.isAuthenticated')) {
+      this.transitionTo(this.get('authenticatedRoute'));
+    } else {
+      return this._super(...arguments);
+    }
   },
 });
