@@ -3,7 +3,7 @@ import { hash } from 'rsvp';
 import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'acao-services/mixins/authenticated-route-mixin';
 
-export default Route.extend({
+export default Route.extend(AuthenticatedRouteMixin, {
 
   titleToken: 'Turni di linea',
 
@@ -20,4 +20,4 @@ export default Route.extend({
       this.transitionTo('/');
   },
 
-}, AuthenticatedRouteMixin);
+});

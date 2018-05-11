@@ -4,9 +4,8 @@ import Service from '@ember/service';
 import Evented from '@ember/object/evented';
 import { inject as service } from '@ember/service';
 import { assign } from '@ember/polyfills';
-import { defer as rsvpDefer } from 'rsvp';
-import { cancel } from '@ember/runloop';
-import { later } from '@ember/runloop';
+import { cancel, later } from '@ember/runloop';
+import { Promise, defer as rsvpDefer } from 'rsvp';
 //import { require } from 'require';
 
 export default Service.extend(Evented, {
@@ -32,11 +31,15 @@ export default Service.extend(Evented, {
     me.pingTimer = null;
     me.pingTimeoutTimer = null;
 
-    me.collectionBindings = {};
+    me.session = null;
+
+    me.connectionRequests = [];
+
+    me.currentRequestId = 0;
     me.requests = {};
     me.deferredRequests = [];
-    me.currentRequestId = 0;
 
+    me.collectionBindings = {};
     me.subs = {};
 
     document.addEventListener("visibilitychange", function() {
@@ -60,8 +63,6 @@ console.log("VISIBILITY_CHANGE", document.visibilityState, "IN STATE", me.state)
         me.connect();
       }
     });
-
-    //me.connect();
   },
 
   startPing() {
@@ -111,20 +112,33 @@ console.log("VISIBILITY_CHANGE", document.visibilityState, "IN STATE", me.state)
   connect() {
     let me = this;
 
+    let defer = rsvpDefer();
+
     switch(me.state) {
     case 'DISCONNECTED':
     case 'INVISIBLE_IDLE':
       me.changeState('CONNECTING');
 
-      me.doConnect();
+      me.connectionRequests.push(defer);
+      me.doConnect(defer);
     break;
+
+    case 'READY':
+    case 'READY_OFFLINE':
+      defer.resolve(me.session);
+    break;
+
+    default:
+      me.connectionRequests.push(defer);
     }
 
+    return defer.promise;
   },
 
   reconnect() {
     this.disconnect();
-    this.connect();
+
+    return this.connect();
   },
 
   disconnect() {
@@ -144,15 +158,15 @@ console.log("VISIBILITY_CHANGE", document.visibilityState, "IN STATE", me.state)
     }
   },
 
-  doConnect() {
+  doConnect(defer) {
     let me = this;
 
     me.lastAttempt = Date.now();
+
     me.socket = new WebSocket(me.uri);
 
     me.socket.onopen = function(/*ev*/) {
       me.reconnectAttempt = 0;
-
       me.changeState('OPEN_WAIT_WELCOME');
     };
 
@@ -165,6 +179,7 @@ console.log("VISIBILITY_CHANGE", document.visibilityState, "IN STATE", me.state)
     me.socket.onerror = function (ev) {
       me.trigger('error', ev);
       console.log("ONERROR", ev);
+      me.connectionRequests.forEach((req) => (req.reject(ev)));
     };
 
     me.socket.onclose = function (ev) {
@@ -195,13 +210,20 @@ console.log("VISIBILITY_CHANGE", document.visibilityState, "IN STATE", me.state)
     switch(msg.type) {
     case 'welcome':
 console.log("WELCOME", msg);
-      me.trigger('welcome', msg);
+      me.reconnectAttempt = 0;
+
+      me.session = msg.session;
+
+      me.connectionRequests.forEach((req) => (req.resolve(me.session)));
+      me.connectionRequests = [];
 
       if (!me.app_version)
         me.app_version = msg.app_version;
 
       if (me.app_version != msg.app_version)
         me.trigger('version_mismatch', me.app_version, msg.app_version);
+
+      me.trigger('welcome', msg);
 
       me.transmit({
         type: 'set',
@@ -287,16 +309,16 @@ console.log("REBINDING COLLECTIONS", me.savedCollectionBindings);
     break;
 
     case 'create':
-      me.get('store').pushPayload(msg.object);
+      me.get('store').pushPayload(msg.payload);
     break;
 
     case 'update':
 console.log("OBJ=", msg);
 
-      me.get('store').pushPayload(msg.object);
+      me.get('store').pushPayload(msg.payload);
     break;
 
-    case 'delete': {
+    case 'destroy': {
       let model = me.get('store').peekRecord(msg.object, msg.id);
 
       // XXX Send didDelete event??
@@ -306,13 +328,19 @@ console.log("OBJ=", msg);
     }
     break;
 
-    case 'sub_ok':
     case 'index_ok':
     case 'get_ok':
     case 'create_ok':
     case 'update_ok':
     case 'destroy_ok':
-      console.log("OKAY", msg.type, msg.payload, "REQ=", me.requests[msg.reply_to]);
+    case 'bind_ok':
+    case 'unbind_ok':
+    case 'cbind_ok':
+    case 'cunbind_ok':
+    case 'sub_ok':
+    case 'unsub_ok':
+    case 'auth_ok':
+      console.log("OKAY", msg.type, msg, "REQ=", me.requests[msg.reply_to]);
 
       delete me.requests[msg.reply_to];
 
@@ -332,16 +360,13 @@ console.log("OBJ=", msg);
 
     break;
 
+    case 'auth_fail':
     case 'exception':
+    case 'message_not_handled':
 console.log("EXCEPTION", msg, "REQ=", req);
 
       delete me.requests[msg.reply_to];
 
-      if (req)
-        req.failure(msg);
-    break;
-
-    case 'message_not_handled':
       if (req)
         req.failure(msg);
     break;
@@ -364,6 +389,9 @@ console.log("EXCEPTION", msg, "REQ=", req);
       me.collectionBindings = {};
   console.log("COLLECTION BINDINGS SAVED", me.collectionBindings, me.savedCollectionBindings);
     }
+
+    me.connectionRequests.forEach((req) => (req.reject(ev)));
+    me.connectionRequests = [];
 
     me.trigger('close', ev);
     me.trigger('offline', me.offlineReason);
@@ -405,8 +433,63 @@ console.log("EXCEPTION", msg, "REQ=", req);
     me.set('state', newState);
   },
 
-  pickRequestId: function() {
+  pickRequestId() {
     return this.currentRequestId++;
+  },
+
+  authenticate(username, password) {
+console.log("WS AUTHENTICATE");
+
+    let defer = rsvpDefer();
+
+    let req = {
+      method: 'auth',
+      params: {
+        username: username,
+        password: password,
+      },
+      success: ((msg) => {
+        this.session = msg.session;
+
+        defer.resolve(msg.session);
+      }),
+      failure: ((msg) => {
+        console.error("AUTH FAILURE REQ=", req, "RESULT=", msg);
+        defer.reject({
+          reason: msg.reason,
+          requestId: msg.reply_to,
+        });
+      }),
+    };
+
+    this.makeRequest(req);
+
+    return defer.promise;
+  },
+
+  logout() {
+console.log("WS LOGOUT");
+    let defer = rsvpDefer();
+
+    let req = {
+      method: 'logout',
+      params: { },
+      success: ((msg) => {
+        this.session = msg.session;
+
+        defer.resolve(msg.session);
+      }),
+      failure: ((msg) => {
+        defer.reject({
+          reason: msg.reason,
+          requestId: msg.reply_to,
+        });
+      }),
+    };
+
+    this.makeRequest(req);
+
+    return defer.promise;
   },
 
   indexAndBind(modelName, params) {
@@ -623,7 +706,7 @@ console.log("SUBSCRIBE", arguments);
 
     me.requests[req.id] = req;
 
-    me.transmit(Object.assign({
+    me.transmit(assign({
       type: req.method,
       request_id: req.id,
     }, req.params));
