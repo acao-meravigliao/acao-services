@@ -54,7 +54,7 @@ export default Service.extend(Evented, {
 
       }).catch((error) => {
         this.set('authenticating', false);
-        reject(response);
+        reject(error);
       });
     });
   },
