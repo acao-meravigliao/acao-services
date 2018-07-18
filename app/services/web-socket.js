@@ -309,13 +309,13 @@ console.log("REBINDING COLLECTIONS", me.savedCollectionBindings);
     break;
 
     case 'create':
-      me.get('store').pushPayload(msg.payload);
+      me.get('store').pushPayload(msg.object);
     break;
 
     case 'update':
 console.log("OBJ=", msg);
 
-      me.get('store').pushPayload(msg.payload);
+      me.get('store').pushPayload(msg.object);
     break;
 
     case 'destroy': {
@@ -330,6 +330,7 @@ console.log("OBJ=", msg);
 
     case 'index_ok':
     case 'get_ok':
+    case 'getmany_ok':
     case 'create_ok':
     case 'update_ok':
     case 'destroy_ok':
@@ -509,7 +510,7 @@ console.log("INDEX_AND_BIND", modelName, params);
         me.collectionBindings[modelName] = true;
         // FIXME record query parameters
 
-        defer.resolve(msg.payload);
+        defer.resolve(msg.objects);
       },
       failure: function(msg) {
         console.error("INDEX_AND_BIND FAILURE REQ=", req, "RESULT=", msg);
@@ -539,10 +540,40 @@ console.log("GET_AND_BIND", modelName, params);
         bind: true,
       }, params),
       success: function(msg) {
-        defer.resolve(msg.payload);
+        defer.resolve(msg.object);
       },
       failure: function(msg) {
         console.error("GET_AND_BIND FAILURE REQ=", req, "RESULT=", msg);
+        defer.reject({
+          reason: msg.reason,
+          requestId: msg.reply_to,
+        });
+      },
+    };
+
+    me.makeRequest(req);
+
+    return defer.promise;
+  },
+
+  getManyAndBind(modelName, params) {
+    let me = this;
+
+console.log("GETMANY_AND_BIND", modelName, params);
+
+    let defer = rsvpDefer();
+
+    let req = {
+      method: 'getmany',
+      params: assign({
+        model: modelName,
+        bind: true,
+      }, params),
+      success: function(msg) {
+        defer.resolve(msg.objects);
+      },
+      failure: function(msg) {
+        console.error("GETMANY_AND_BIND FAILURE REQ=", req, "RESULT=", msg);
         defer.reject({
           reason: msg.reason,
           requestId: msg.reply_to,
@@ -566,14 +597,14 @@ console.log("CREATE_AND_BIND", modelName, data, params);
       method: 'create',
       params: assign({
         model: modelName,
-        payload: data,
+        object: data,
         bind: true,
         content_type: 'application/vnd.api+json',
         accept: 'application/vnd.api+json',
       }, params),
       success: function(msg) {
         me.collectionBindings[modelName] = true;
-        defer.resolve(msg.payload);
+        defer.resolve(msg.object);
       },
       failure: function(msg) {
         console.error("CREATE_AND_BIND FAILURE REQ=", req, "RESULT=", msg);
@@ -597,12 +628,12 @@ console.log("UPDATE", modelName, data, params);
       method: 'update',
       params: assign({
         model: modelName,
-        payload: data,
+        object: data,
         content_type: 'application/vnd.api+json',
         accept: 'application/vnd.api+json',
       }, params),
       success: function(msg) {
-        defer.resolve(msg.payload);
+        defer.resolve(msg.object);
       },
       failure: function(msg) {
         defer.reject(msg.reason);
@@ -628,7 +659,7 @@ console.log("DESTROY", modelName, id);
         id: id,
       }),
       success: function(msg) {
-        defer.resolve(msg.payload);
+        defer.resolve(msg.object);
       },
       failure: function(msg) {
         defer.reject(msg.reason);
