@@ -23,7 +23,6 @@ export default Controller.extend({
 
   services: A(),
 
-  serviceTypesSortOrder: ['name'],
   serviceTypesSorted: sort('model.serviceTypes', 'serviceTypesSortOrder'),
 
   formInvalid: computed('acceptRules', 'paymentMethod', function() {
@@ -35,6 +34,11 @@ export default Controller.extend({
   paymentWire: equal('paymentMethod', 'wire'),
   paymentCheck: equal('paymentMethod', 'check'),
   paymentCard: equal('paymentMethod', 'card'),
+
+  init() {
+    this._super(...arguments);
+    this.serviceTypesSortOrder = ['name'];
+  },
 
   actions: {
     openRules() {

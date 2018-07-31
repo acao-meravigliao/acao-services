@@ -32,7 +32,7 @@ console.log("================= FIND RECORD", type.modelName, id, params);
 
 console.log("================= FIND MANY", type.modelName, ids, params);
 
-    return this.get('ws').getAndBind(type.modelName, params);
+    return this.get('ws').getManyAndBind(type.modelName, params);
   },
 
   findAll(store, type, sinceToken, snapshotRecordArray) {

@@ -37,7 +37,6 @@ export default Controller.extend({
     );
   }),
 
-  rosterDaysSortOrder: ['date'],
   rosterDaysSorted: sort('model.rosterDays', 'rosterDaysSortOrder'),
 
   filteredRosterDays: computed('rosterDaysSorted.@each', 'monthSelect', 'seasonSelect', 'includeBusy', function() {
@@ -65,6 +64,11 @@ export default Controller.extend({
   requisiteEntriesOk: computed('requisiteEntriesMissing', 'isDirty', function() {
     return !this.get('requisiteEntriesMissing') && !this.get('isDirty');
   }),
+
+  init() {
+    this._super(...arguments);
+    this.rosterDaysSortOrder = ['date'];
+  },
 
   actions: {
     addDay(dayEntry) {

@@ -40,7 +40,7 @@
           Socio nel:
           <div class="ui celled horizontal list">
             {{#each model.memberships key="id" as |membership|}}
-              <div class="item">{{membership.year}}</div>
+              <div class="item">{{membership.reference_year.year}}</div>
             {{/each}}
           </div>
         {{/if}}

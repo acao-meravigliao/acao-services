@@ -20,7 +20,7 @@ export default Controller.extend({
 
   clock: service('my-clock'),
 
-  renewIsOpen: computed('model.renewalContext.opening_time', 'model.memberships.[]', 'clock.time', function() {
+  renewIsOpen: computed('model.{renewalContext.opening_time, memberships.[]}', 'clock.time', function() {
     return this.get('model.renewalContext') &&
            !this.get('model.memberships').any((item) => (item.get('reference_year_id') == this.get('model.renewalContext.renew_for_year_id'))) &&
            this.get('model.renewalContext.opening_time') &&
@@ -36,12 +36,16 @@ export default Controller.extend({
            this.get('clock.date') < new Date(this.get('model.renewalContext.opening_time'));
   }),
 
-  rosterEntriesSortOrder: ['roster_day.date'],
   myNextRosterEntries: sort('myNextRosterEntriesUnsorted', 'rosterEntriesSortOrder'),
 
   havePendingPayments: computed('model.payments', function() {
     return this.get('model.payments').any((item) => (item.get('state') == 'PENDING'));
   }),
+
+  init() {
+    this._super(...arguments);
+    this.rosterEntriesSortOrder = ['roster_day.date'];
+  },
 
 //  setupCOntroller() {
 //    var me = this;
