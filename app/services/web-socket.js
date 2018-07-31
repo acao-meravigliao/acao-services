@@ -340,6 +340,7 @@ console.log("OBJ=", msg);
     case 'sub_ok':
     case 'unsub_ok':
     case 'auth_ok':
+    case 'logout_ok':
       console.log("OKAY", msg.type, msg, "REQ=", me.requests[msg.reply_to]);
 
       delete me.requests[msg.reply_to];
