@@ -1,0 +1,55 @@
+@import '@addepar/style-toolbox';
+
+body {
+  .ember-view {
+    height: 100%;
+  }
+}
+
+a {
+  cursor: pointer;
+}
+
+.main.content {
+  padding-top: 50px;
+}
+
+#main-sidebar {
+  padding-top: 50px;
+}
+
+.renew-services {
+  .price {
+    text-align: right !important;
+    font-family: monospace;
+  }
+  .total {
+    font-weight: bold !important;
+  }
+}
+
+.shop-checkout {
+  .price {
+    text-align: right !important;
+    font-family: monospace;
+  }
+  .total {
+    font-weight: bold !important;
+  }
+}
+
+table.payments {
+  tbody {
+    tr {
+      cursor: pointer;
+    }
+  }
+  .price {
+    text-align: right !important;
+    font-family: monospace;
+  }
+}
+
+.roster-day-edit.disabled {
+  cursor: not-allowed;
+}

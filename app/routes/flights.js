@@ -3,4 +3,8 @@ import AuthenticatedRouteMixin from 'acao-services/mixins/authenticated-route-mi
 
 export default Route.extend(AuthenticatedRouteMixin, {
   titleToken: 'Voli',
+
+  model(params) {
+    return this.get('store').query('ygg--acao--flight', { filter: { person_id: this.get('session.personId') } });
+  },
 });

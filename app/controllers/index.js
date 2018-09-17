@@ -20,7 +20,7 @@ export default Controller.extend({
 
   clock: service('my-clock'),
 
-  renewIsOpen: computed('model.{renewalContext.opening_time, memberships.[]}', 'clock.time', function() {
+  renewIsOpen: computed('model.{renewalContext.opening_time,memberships.[]}', 'clock.time', function() {
     return this.get('model.renewalContext') &&
            !this.get('model.memberships').any((item) => (item.get('reference_year_id') == this.get('model.renewalContext.renew_for_year_id'))) &&
            this.get('model.renewalContext.opening_time') &&
