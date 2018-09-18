@@ -1,5 +1,1 @@
-import LSAdapter from 'ember-localstorage-adapter/adapters/ls-adapter';
-
-export default LSAdapter.extend({
-  namespace: 'acao'
-});
+export { default } from 'ember-local-storage/adapters/local';
