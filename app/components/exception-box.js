@@ -13,7 +13,7 @@ export default Component.extend({
   },
 
   exceptionChanged: observer('exception', function() {
-    if (this.get('exception')) {
+    if (this.exception) {
       $('.modal').modal('show');
     } else {
       $('.modal').modal('hide');
@@ -25,10 +25,10 @@ export default Component.extend({
   }),
 
   title: computed('exception', function() {
-    if (!this.get('exception'))
+    if (!this.exception)
       return '';
 
-    if (this.get('isInternalError'))
+    if (this.isInternalError)
       return 'Errore interno';
 
     return this.get('exception.title') ||
@@ -37,10 +37,10 @@ export default Component.extend({
   }),
 
   descr: computed('exception', function() {
-    if (!this.get('exception'))
+    if (!this.exception)
       return '';
 
-    if (this.get('isInternalError'))
+    if (this.isInternalError)
       return 'Si è verificato un errore interno e verrà (forse) analizzato dal nostro staff, riprova più tardi,' +
              ' prega il prodigioso spaghetto volante e, se proprio non va, chiedi alla segreteria.';
 

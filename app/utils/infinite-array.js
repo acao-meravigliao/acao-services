@@ -16,6 +16,6 @@ console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU
 
   objectAt(index) {
 console.log("OBJECT AT ==========================================", index);
-    return this.get('store').fetchAll('ygg--acao--flight').first();
+    return this.store.fetchAll('ygg--acao--flight').first();
   },
 });

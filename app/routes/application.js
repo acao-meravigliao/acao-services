@@ -6,7 +6,7 @@ export default Route.extend({
   moment: service(),
 
   beforeModel() {
-    this.get('moment').setLocale('it');
+    this.moment.setLocale('it');
   },
 
   title: function(tokens) {

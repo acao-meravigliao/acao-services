@@ -19,8 +19,8 @@ export default Component.extend({
     },
 
     remove() {
-      this.get('item').deleteRecord();
-      this.get('item').save();
+      this.item.deleteRecord();
+      this.item.save();
     },
   },
 });

@@ -17,7 +17,7 @@ export default Service.extend(Evented, {
 
   load() {
     return new Promise((resolve, reject) => {
-      this.get('ajax').post('/ygg/session/check_or_create', {
+      this.ajax.post('/ygg/session/check_or_create', {
         contentType: 'application/json',
         data: {},
       }).then((response) => {
@@ -33,7 +33,7 @@ export default Service.extend(Evented, {
     this.set('authenticating', true);
 
     return new Promise((resolve, reject) => {
-      this.get('ajax').post('/ygg/session/authenticate_by_fqda_and_password', {
+      this.ajax.post('/ygg/session/authenticate_by_fqda_and_password', {
         contentType: 'application/json',
         data: {
           fqda: fqda,
@@ -63,7 +63,7 @@ export default Service.extend(Evented, {
     console.log('LOGOUT...');
 
     return new Promise((resolve, reject) => {
-      this.get('ajax').post('/ygg/session/logout', {
+      this.ajax.post('/ygg/session/logout', {
         data: {},
         contentType: 'application/json',
       }).then((response) => {
@@ -73,7 +73,7 @@ export default Service.extend(Evented, {
   },
 
   update(sessionData) {
-    let oldAuthenticated = this.get('isAuthenticated');
+    let oldAuthenticated = this.isAuthenticated;
 
     this.set('sessionId', sessionData.id);
     this.set('capabilities', sessionData.capabilities);
@@ -86,7 +86,7 @@ export default Service.extend(Evented, {
 
         this.trigger('sessionBecomesAuthenticated', arguments);
 
-        this.get('store').findRecord('ygg--core--person', this.get('personId')
+        this.store.findRecord('ygg--core--person', this.personId
         ).then((person) => {
           this.set('person', person);
           resolve();

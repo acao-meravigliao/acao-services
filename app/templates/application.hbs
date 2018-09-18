@@ -1,13 +1,13 @@
 {{head-layout}}
 <div class="ui fixed inverted main menu">
   {{#if session.isAuthenticated}}
-    <a class="launch icon item sidebar-toggle" {{action 'sidebarToggle' 'main-sidebar'}}>
+    <a class="launch icon item sidebar-toggle" {{action "sidebarToggle" "main-sidebar"}}>
       <i class="sidebar icon"></i>
     </a>
   {{/if}}
 
   <div class="ui breadcrumb item">
-    {{#link-to 'index' class='selection'}}ACAO Servizi{{/link-to}}
+    {{#link-to "index" class="selection"}}ACAO Servizi{{/link-to}}
 
     {{#each headData.titleTokens as |token|}}
       <span class="divider">/</span>
@@ -18,33 +18,33 @@
   {{#if session.isAuthenticated}}
     <div class="right item">
       {{#if cart.items}}
-        {{#link-to 'shop.cart' class="ui small button"}}
+        {{#link-to "shop.cart" class="ui small button"}}
           <i class="cart icon"></i>
-          {{if cart.items.length cart.items.length ''}}
+          {{if cart.items.length cart.items.length ""}}
         {{/link-to}}
       {{/if}}
 
-      <button class="ui small button" {{action 'logout'}}>Logout</button>
+      <button class="ui small button" {{action "logout"}}>Logout</button>
     </div>
   {{else}}
 <!--    <div class="right item">
-      {{#link-to 'login' class="ui primary button" tagName="button"}}Login{{/link-to}}
+      {{#link-to "login" class="ui primary button" tagName="button"}}Login{{/link-to}}
     </div>-->
   {{/if}}
 
 </div>
 <div id="sidebar-context">
 {{#ui-sidebar class="ui left vertical inverted menu tablet or lower hidden" id="main-sidebar" context="#sidebar-context"}}
-  {{#link-to 'index' class="item"}} Home {{/link-to}}
+  {{#link-to "index" class="item"}} Home {{/link-to}}
 
 <!--
-  {{#link-to 'radar' class="item"}} Radar {{/link-to}}
-  {{#link-to 'meteo' class="item"}} Meteo {{/link-to}}
-  {{#link-to 'shop' class="item"}} Shop {{/link-to}}
+  {{#link-to "radar" class="item"}} Radar {{/link-to}}
+  {{#link-to "meteo" class="item"}} Meteo {{/link-to}}
+  {{#link-to "shop" class="item"}} Shop {{/link-to}}
 -->
-  {{#link-to 'payments' class="item"}} Pagamenti {{/link-to}}
-  {{#link-to 'roster-days' class="item"}} Turni di linea {{/link-to}}
-  {{#link-to 'today-roster' class="item"}} Turni di oggi {{/link-to}}
+  {{#link-to "payments" class="item"}} Pagamenti {{/link-to}}
+  {{#link-to "roster-days" class="item"}} Turni di linea {{/link-to}}
+  {{#link-to "today-roster" class="item"}} Turni di oggi {{/link-to}}
 {{/ui-sidebar}}
 
 <!-- height:1px;-->

@@ -13,24 +13,24 @@ export default Component.extend({
     },
     doExchange() {
       //this.set('entry.on_offer_since', new Date());
-      this.get('ajax').request('/ygg/acao/roster_entries/' + this.get('entry').get('id').toString() + '/offer', {
+      this.ajax.request('/ygg/acao/roster_entries/' + this.entry.get('id').toString() + '/offer', {
         method: 'POST',
         data: {},
       });
 
-      this.get('currentPopup').hide();
+      this.currentPopup.hide();
     },
     doCancelExchange() {
       //this.set('entry.on_offer_since', new Date());
-      this.get('ajax').request('/ygg/acao/roster_entries/' + this.get('entry').get('id').toString() + '/offer_cancel', {
+      this.ajax.request('/ygg/acao/roster_entries/' + this.entry.get('id').toString() + '/offer_cancel', {
         method: 'POST',
         data: {},
       });
 
-      this.get('currentPopup').hide();
+      this.currentPopup.hide();
     },
     cancel(){
-      this.get('currentPopup').hide();
+      this.currentPopup.hide();
     },
   },
 });

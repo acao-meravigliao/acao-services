@@ -1,7 +1,7 @@
-<div class="ui {{if day.high_season 'red' 'blue'}} card">
+<div class="ui {{if day.high_season "red" "blue"}} card">
   <div class="content">
     <div class="header">
-      {{moment-format day.date 'dddd D MMMM'}}
+      {{moment-format day.date "dddd D MMMM"}}
     </div>
 
     {{#if day.descr}}
@@ -16,7 +16,7 @@
     {{/if}}
 
     {{#each sortedEntries as |entry|}}
-      <i class="ui {{if entry.chief 'spy' 'user'}} icon"></i>
+      <i class="ui {{if entry.chief "spy" "user"}} icon"></i>
       {{entry.person.first_name}} {{entry.person.last_name}}<br />
     {{/each}}
 

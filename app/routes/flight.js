@@ -5,6 +5,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
   titleToken: 'Volo',
 
   model(params) {
-    return this.get('store').findRecord('ygg--acao--flight', params.id);
+    return this.store.findRecord('ygg--acao--flight', params.id);
   },
 });

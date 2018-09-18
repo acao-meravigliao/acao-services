@@ -24,7 +24,8 @@ export default Service.extend(Evented, {
 
     this._super(...arguments);
 
-    me.uri = (window.location.protocol == 'http:' ? 'ws://' : 'wss://') + window.location.host + '/ws';
+    //me.uri = (window.location.protocol == 'http:' ? 'ws://' : 'wss://') + window.location.host + '/ws';
+    me.uri = 'ws://linobis.acao.it:3330/ws'
 
     me.state = 'DISCONNECTED';
     me.reconnectAttempt = 0;
@@ -166,7 +167,6 @@ console.log("VISIBILITY_CHANGE", document.visibilityState, "IN STATE", me.state)
     me.socket = new WebSocket(me.uri);
 
     me.socket.onopen = function(/*ev*/) {
-      me.reconnectAttempt = 0;
       me.changeState('OPEN_WAIT_WELCOME');
     };
 
@@ -208,9 +208,13 @@ console.log("VISIBILITY_CHANGE", document.visibilityState, "IN STATE", me.state)
     }
 
     switch(msg.type) {
-    case 'welcome':
+    case 'welcome': {
 console.log("WELCOME", msg);
-      me.reconnectAttempt = 0;
+
+      if (me.state != 'OPEN_WAIT_WELCOME') {
+        console.warn('WS received \'welcome\' in unexpected state', me.state);
+        return;
+      }
 
       me.session = msg.session;
 
@@ -233,57 +237,60 @@ console.log("WELCOME", msg);
         },
       });
 
-      if (me.state == 'OPEN_WAIT_WELCOME') {
-        if (me.savedCollectionBindings) {
+      if (me.savedCollectionBindings) {
 console.log("REBINDING COLLECTIONS", me.savedCollectionBindings);
 
-          $.each(me.savedCollectionBindings, function(key, binding) {
-            me.indexAndBind(key, {
-              // TODO ADD QUERY PARAMETERS
-            });
+        $.each(me.savedCollectionBindings, function(key, binding) {
+          me.indexAndBind(key, {
+            // TODO ADD QUERY PARAMETERS
           });
-
-          me.savedCollectionBindings = null;
-        }
-
-        let regexp = new RegExp(config.modulePrefix + '/models/(.*)$');
-
-        Object.keys(require._eak_seen).filter((name) => regexp.test(name)).
-                     map((name) => regexp.exec(name)[1]).forEach(function(modelType) {
-
-          if (me.get('store').adapterFor(modelType) == me.get('store').adapterFor('application')) {
-            let models = me.get('store').peekAll(modelType);
-
-            let ids = [];
-            models.forEach(function(model) {
-              if (model.get('isLoaded'))
-                ids.push(model.get('id'));
-            });
-
-            if (ids.length > 0) {
-              console.log("RESTORING MODEL", modelType, ids);
-
-              me.getAndBind(modelType, {
-                ids: ids,
-              }).catch((e) => {
-                console.warn("Cannot rebind model", modelType, ids, e);
-              });
-            }
-          }
         });
 
-        if (!msg.online) {
-          me.offlineReason = msg.offline_reason;
-          me.changeState('READY_OFFLINE');
-          me.trigger('offline', me.offlineReason);
-        } else {
-          me.changeState('READY');
-          me.trigger('online');
-          me.flushDeferredRequests();
-        }
-
-        me.startPing();
+        me.savedCollectionBindings = null;
       }
+
+      /////////// FIXME, don't go in ready state until all models/resources have been rebound
+
+      let regexp = new RegExp(config.modulePrefix + '/models/(.*)$');
+
+      Object.keys(require._eak_seen).filter((name) => regexp.test(name)).
+                   map((name) => regexp.exec(name)[1]).forEach(function(modelType) {
+
+        if (me.get('store').adapterFor(modelType) == me.get('store').adapterFor('application')) {
+          let models = me.get('store').peekAll(modelType);
+
+          let ids = [];
+          models.forEach(function(model) {
+            if (model.get('isLoaded'))
+              ids.push(model.get('id'));
+          });
+
+          if (ids.length > 0) {
+            console.log("RESTORING MODEL", modelType, ids);
+
+            me.getAndBind(modelType, {
+              ids: ids,
+            }).catch((e) => {
+              console.warn("Cannot rebind model", modelType, ids, e);
+            });
+          }
+        }
+      });
+
+      me.reconnectAttempt = 0;
+
+      if (!msg.online) {
+        me.offlineReason = msg.offline_reason;
+        me.changeState('READY_OFFLINE');
+        me.trigger('offline', me.offlineReason);
+      } else {
+        me.changeState('READY');
+        me.trigger('online');
+        me.flushDeferredRequests();
+      }
+
+      me.startPing();
+    }
     break;
 
     case 'online':
@@ -405,6 +412,7 @@ console.log("EXCEPTION", msg, "REQ=", req);
     me.reconnectAttempt += 1;
 
     if (document.visibilityState == 'visible') {
+console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPP", me.reconnectAttempt);
       if (me.reconnectAttempt == 1) {
         me.changeState('RECONNECTING');
         me.doConnect();

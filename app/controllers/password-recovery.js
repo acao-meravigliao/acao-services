@@ -9,14 +9,14 @@ export default Controller.extend({
       let me = this;
 
       let req = {
-        acao_code: this.get('username'),
+        acao_code: this.username,
       };
 
       this.set('success', false);
       this.set('exception', null);
       this.set('submitting', true);
 
-      this.get('ajax').request('/ygg/acao/password_recovery', {
+      this.ajax.request('/ygg/acao/password_recovery', {
         method: 'POST',
         data: JSON.stringify(req),
 //        dataType: 'json',

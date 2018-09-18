@@ -1,5 +1,5 @@
-<div class="ui raised blurring {{if entry.roster_day.high_season 'red' 'blue'}} fluid card">
-  <div class="ui dimmer {{if entry.isDeleted 'active'}}">
+<div class="ui raised blurring {{if entry.roster_day.high_season "red" "blue"}} fluid card">
+  <div class="ui dimmer {{if entry.isDeleted "active"}}">
     <div class="content">
       <h3 class="ui inverted header">
         Da eliminare
@@ -8,19 +8,19 @@
   </div>
   <div class="content">
     <div class="header">
-      {{moment-format entry.roster_day.date 'dddd D MMMM'}}
+      {{moment-format entry.roster_day.date "dddd D MMMM"}}
     </div>
 
     {{#unless chiefDisabled}}
       <div class="ui checkbox toggle" style="float: right">
-        {{input type='checkbox' name='entry.chief' checked=entry.chief}}
+        {{input type="checkbox" name="entry.chief" checked=entry.chief}}
         <label>Capolinea</label>
       </div>
     {{/unless}}
 
     <div>
       {{#each entry.roster_day.roster_entries as |sameDayEntry|}}
-        <i class="ui {{if sameDayEntry.chief 'spy' 'user'}} icon"></i>
+        <i class="ui {{if sameDayEntry.chief "spy" "user"}} icon"></i>
         {{sameDayEntry.person.first_name}} {{sameDayEntry.person.last_name}}<br />
       {{/each}}
     </div>
@@ -32,5 +32,5 @@
     {{/if}}
   </div>
 
-  <button class="ui bottom attached button" disabled={{deleteDisabled}} {{action 'del' entry}}><i class="red ui delete icon"></i> Elimina</button>
+  <button class="ui bottom attached button" disabled={{deleteDisabled}} {{action "del" entry}}><i class="red ui delete icon"></i> Elimina</button>
 </div>

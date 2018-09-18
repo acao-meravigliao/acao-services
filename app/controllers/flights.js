@@ -1,3 +1,4 @@
+import { oneWay } from '@ember/object/computed';
 import Controller from '@ember/controller';
 import { computed, observer } from '@ember/object';
 import { isEmpty } from '@ember/utils';
@@ -80,7 +81,7 @@ export default Controller.extend({
   dir: 'desc',
   sort: 'takeoff_time',
 
-  isLoading: computed.oneWay('fetchRecords.isRunning'),
+  isLoading: oneWay('fetchRecords.isRunning'),
   canLoadMore: true,
 
   init() {

@@ -1,7 +1,7 @@
-<div class="roster-day-edit {{unless enableAdd 'disabled'}} ui {{if day.high_season 'red' 'blue'}} {{if enableAdd 'raised link'}} card" onclick={{if enableAdd (action 'add' day)}}>
+<div class="roster-day-edit {{unless enableAdd "disabled"}} ui {{if day.high_season "red" "blue"}} {{if enableAdd "raised link"}} card" onclick={{if enableAdd (action "add" day)}}>
   <div class="content">
     <div class="header">
-      {{moment-format day.date 'dddd D MMMM'}}
+      {{moment-format day.date "dddd D MMMM"}}
     </div>
 
     {{#if missingChief}}
@@ -10,7 +10,7 @@
     {{/if}}
 
     {{#each sortedEntries as |entry|}}
-      <i class="ui {{if entry.chief 'spy' 'user'}} icon"></i>
+      <i class="ui {{if entry.chief "spy" "user"}} icon"></i>
       {{entry.person.first_name}} {{entry.person.last_name}}<br />
     {{/each}}
 

@@ -18,13 +18,13 @@ export default Route.extend({
   model() {
     return hash({
       context: $.getJSON('/ygg/acao/memberships/renew'),
-      state: this.get('state'),
+      state: this.state,
     });
   },
 
   afterModel(model, transition) {
     if (model.state.get('currentStep') != transition.targetName.split('.').pop()) {
-      this.transitionTo(this.get('routeName') + '.' + model.state.get('currentStep'));
+      this.transitionTo(this.routeName + '.' + model.state.get('currentStep'));
     }
   },
 

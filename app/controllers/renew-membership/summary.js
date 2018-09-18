@@ -10,13 +10,13 @@ export default Controller.extend({
   }),
 
   cavService: computed('model.serviceTypes', 'context.cav_type', 'enableCav', function() {
-    return this.get('enableCav') ? this.get('model.serviceTypes').findBy('symbol', this.get('context.cav_type')) : null;
+    return this.enableCav ? this.get('model.serviceTypes').findBy('symbol', this.get('context.cav_type')) : null;
   }),
 
   total: computed('context.{membershipAmount,cavAmount}', 'assService.@each', 'cavService.@each', 'services.@each', function() {
     return this.get('assService.price') +
-           (this.get('enableCav') ? this.get('cavService.price') : 0) +
-           this.get('services').reduce(function(previous, service) {
+           (this.enableCav ? this.get('cavService.price') : 0) +
+           this.services.reduce(function(previous, service) {
              return previous + service.get('type.price');
            }, 0);
   }),
@@ -38,7 +38,7 @@ export default Controller.extend({
       };
 
       me.set('submitting', true);
-      this.get('ajax').request('/ygg/acao/memberships/renew', {
+      this.ajax.request('/ygg/acao/memberships/renew', {
         method: 'POST',
         data: JSON.stringify(req),
 //        dataType: 'json',

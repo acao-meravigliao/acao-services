@@ -5,6 +5,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
   titleToken: 'Aeromobile',
 
   model(params) {
-    return this.get('store').findRecord('ygg--acao--aircraft', params.id);
+    return this.store.findRecord('ygg--acao--aircraft', params.id);
   },
 });

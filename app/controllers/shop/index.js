@@ -6,7 +6,7 @@ export default Controller.extend({
 
   actions: {
     addToCart(serviceType) {
-      this.get('cart').add(serviceType);
+      this.cart.add(serviceType);
     },
   },
 });

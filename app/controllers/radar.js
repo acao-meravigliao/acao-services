@@ -88,7 +88,7 @@ export default Controller.extend({
 
 
     msg.traffics.forEach(function(tra) {
-      var aircraft = this.get('store').findRecord('aircraft', tra.aircraft_id);
+      var aircraft = this.store.findRecord('aircraft', tra.aircraft_id);
 console.log("AIRCRAFT=", aircraft);
 
 

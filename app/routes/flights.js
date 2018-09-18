@@ -5,6 +5,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
   titleToken: 'Voli',
 
   model(params) {
-    return this.get('store').query('ygg--acao--flight', { filter: { person_id: this.get('session.personId') } });
+    return this.store.query('ygg--acao--flight', { filter: { person_id: this.get('session.personId') } });
   },
 });

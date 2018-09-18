@@ -16,7 +16,7 @@
         <div class="ui statistics">
           <div class="statistic">
             <div class="value">
-              {{format-number session.person.acao_bar_credit format="0.00"}} €
+              {{numeral-format session.person.acao_bar_credit format="0.00"}} €
             </div>
             <div class="label">
               Conto bar
@@ -60,7 +60,7 @@
           <div class="ui segment">
             Visita medica:
             {{#each model.medicals as |med|}}
-              {{med.type}}: {{moment-format med.valid_to 'DD-MM-YYYY'}}<br />
+              {{med.type}}: {{moment-format med.valid_to "DD-MM-YYYY"}}<br />
             {{/each}}
           </div>
         {{/if}}
@@ -69,7 +69,7 @@
           <div class="ui segment">
             Licenze:
             {{#each model.licenses as |lic|}}
-              {{lic.type}}: {{lic.identifier}}: {{moment-format lic.valid_to 'DD-MM-YYYY'}}
+              {{lic.type}}: {{lic.identifier}}: {{moment-format lic.valid_to "DD-MM-YYYY"}}
             {{/each}}
           </div>
         {{/if}}
@@ -79,19 +79,19 @@
     <div class="column">
       <div class="ui vertical buttons">
         {{#if havePendingPayments}}
-          {{#link-to 'payments' class="massive ui orange button" tagName="button"}}Ci sono dei pagamenti pendenti{{/link-to}}
+          {{#link-to "payments" class="massive ui orange button" tagName="button"}}Ci sono dei pagamenti pendenti{{/link-to}}
         {{/if}}
 
         {{#if renewIsOpen}}
-          {{#link-to 'renew-membership' class="massive ui primary button" tagName="button"}}Rinnova l'iscrizione {{model.renewalContext.year}}{{/link-to}}
+          {{#link-to "renew-membership" class="massive ui primary button" tagName="button"}}Rinnova l'iscrizione {{model.renewalContext.year}}{{/link-to}}
         {{/if}}
 
         {{#if model.rosterStatus.can_select_entries}}
-          {{#link-to 'select-roster' class="massive ui green button" tagName="button"}}Scegli i turni di linea{{/link-to}}
+          {{#link-to "select-roster" class="massive ui green button" tagName="button"}}Scegli i turni di linea{{/link-to}}
         {{/if}}
 
-        {{#link-to 'roster-days' class="ui blue button"}} Tutti i turni di linea {{/link-to}}
-        {{#link-to 'today-roster' class="ui blue button"}} Turni di oggi {{/link-to}}
+        {{#link-to "roster-days" class="ui blue button"}} Tutti i turni di linea {{/link-to}}
+        {{#link-to "today-roster" class="ui blue button"}} Turni di oggi {{/link-to}}
       </div>
     </div>
   </div>

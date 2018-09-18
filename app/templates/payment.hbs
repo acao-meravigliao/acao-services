@@ -6,11 +6,11 @@
     {{#if isPaid}} <div class="ui green tag label">Pagato</div> {{/if}}
     {{#if isCanceled}} <div class="ui blue tag label">Annullato</div> {{/if}}
     </h1>
-    Data: {{moment-format model.payment.created_at 'DD-MM-YYYY HH:mm:ss'}}<br />
-    Scadenza: {{moment-format model.payment.expires_at 'DD-MM-YYYY HH:mm:ss'}}<br />
+    Data: {{moment-format model.payment.created_at "DD-MM-YYYY HH:mm:ss"}}<br />
+    Scadenza: {{moment-format model.payment.expires_at "DD-MM-YYYY HH:mm:ss"}}<br />
 
     {{#if model.payment.completed_at}}
-    Completato: {{moment-format model.payment.completed_at 'DD-MM-YYYY HH:mm:ss'}}<br />
+    Completato: {{moment-format model.payment.completed_at "DD-MM-YYYY HH:mm:ss"}}<br />
     {{/if}}
   </div>
 
@@ -22,25 +22,25 @@
       </tr>
     </thead>
     <tbody>
-      {{#each model.payment.payment_services key="@index" as |service index|}}
+      {{#each model.payment.payment_services key="@index" as |service|}}
       <tr>
         <td>{{service.service_type.name}}{{#if service.extra_info}} - {{service.extra_info}}{{/if}}</td>
-        <td class="price">{{format-number service.price format="0.00"}} €</td>
+        <td class="price">{{numeral-format service.price format="0.00"}} €</td>
       </tr>
       {{/each}}
     </tbody>
     <tfoot>
       <tr>
         <th>Totale</th>
-        <th class="total price">{{format-number model.payment.total format="0.00"}} €</th>
+        <th class="total price">{{numeral-format model.payment.total format="0.00"}} €</th>
       </tr>
     </tfoot>
   </table>
   </div>
 
-  {{partial (concat 'payment/' paymentMethodPartial)}}
+  {{partial (concat "payment/" paymentMethodPartial)}}
 
   {{#if forMembership}}
-    {{#link-to 'select-roster' type='button' class='ui primary button'}}Scegli i turni di linea{{/link-to}}
+    {{#link-to "select-roster" type="button" class="ui primary button"}}Scegli i turni di linea{{/link-to}}
   {{/if}}
 </div>

@@ -1,7 +1,7 @@
 <div class="ui container">
 <div class="ui segment">
-  <button class="ui primary button {{if saveDisabled 'disabled'}} {{if saving 'disabled'}}" {{action 'save' re}}>Salva!</button>
-  <button class="ui button" {{action 'cancel' re}}>Annulla!</button>
+  <button class="ui primary button {{if saveDisabled "disabled"}} {{if saving "disabled"}}" {{action "save" re}}>Salva!</button>
+  <button class="ui button" {{action "cancel" re}}>Annulla!</button>
 
   {{#if saveError}}
   <div class="ui red message">
@@ -31,7 +31,7 @@
 
       {{#if requisiteEntriesOk}}
         <div class="ui green message">
-          Hai scelto i turni di linea necessari, {{#link-to 'index'}}torna alla pagina principale{{/link-to}}.
+          Hai scelto i turni di linea necessari, {{#link-to "index"}}torna alla pagina principale{{/link-to}}.
         </div>
       {{/if}}
     </div>
@@ -39,7 +39,7 @@
     {{#if myRosterEntries}}
       <div class="ui cards">
         {{#each myRosterEntries as |re|}}
-          {{roster-entry entry=re onDelete=(action 'delEntry') chiefEnabled=model.rosterStatus.possible_roster_chief}}
+          {{roster-entry entry=re onDelete=(action "delEntry") chiefEnabled=model.rosterStatus.possible_roster_chief}}
         {{/each}}
       </div>
     {{/if}}
@@ -83,7 +83,7 @@
 
     <div class="ui cards" style="overflow-y: auto; max-height: 70vh">
       {{#each filteredRosterDays as |day|}}
-        {{roster-day day=day entries=myRosterEntries onAdd=(action 'addDay')}}
+        {{roster-day day=day entries=myRosterEntries onAdd=(action "addDay")}}
       {{/each}}
     </div>
   </div>

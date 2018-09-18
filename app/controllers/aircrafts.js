@@ -1,3 +1,4 @@
+import { oneWay } from '@ember/object/computed';
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 import { isEmpty } from '@ember/utils';
@@ -47,7 +48,7 @@ export default Controller.extend({
   sort: 'registration',
   dir: 'asc',
 
-  isLoading: computed.oneWay('fetchRecords.isRunning'),
+  isLoading: oneWay('fetchRecords.isRunning'),
   canLoadMore: true,
   enableSync: true,
 
@@ -58,8 +59,8 @@ export default Controller.extend({
   init() {
     this._super(...arguments);
 
-    let table = new Table(this.get('columns'), this.get('model'), { enableSync: this.get('enableSync') });
-    let sortColumn = table.get('allColumns').findBy('valuePath', this.get('sort'));
+    let table = new Table(this.columns, this.model, { enableSync: this.enableSync });
+    let sortColumn = table.get('allColumns').findBy('valuePath', this.sort);
 
     // Setup initial sort column
     if (sortColumn) {
@@ -71,24 +72,24 @@ export default Controller.extend({
 
   fetchRecords: task(function*() {
     let order = {};
-    order[this.get('sort')] = this.get('dir');
+    order[this.sort] = this.dir;
 
-    let records = yield this.get('store').query('ygg--acao--aircraft', {
-      offset: this.get('offset'),
-      limit: this.get('limit'),
+    let records = yield this.store.query('ygg--acao--aircraft', {
+      offset: this.offset,
+      limit: this.limit,
       order: order,
     });
 
-    this.get('model').pushObjects(records.toArray());
+    this.model.pushObjects(records.toArray());
     this.set('meta', records.get('meta'));
     this.set('canLoadMore', !isEmpty(records));
   }).restartable(),
 
   actions: {
     onScrolledToBottom() {
-      if (this.get('canLoadMore')) {
-        this.incrementProperty('offset', this.get('limit'));
-        this.get('fetchRecords').perform();
+      if (this.canLoadMore) {
+        this.incrementProperty('offset', this.limit);
+        this.fetchRecords.perform();
       }
     },
 
@@ -100,7 +101,7 @@ export default Controller.extend({
           canLoadMore: true,
           offset: 0
         });
-        this.get('model').clear();
+        this.model.clear();
       }
     }
   }

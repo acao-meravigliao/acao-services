@@ -7,11 +7,11 @@ export default Controller.extend({
   session: service('session'),
 
   allRosterEntries: computed(function() {
-    return this.get('store').peekAll('ygg--acao--roster-entry');
+    return this.store.peekAll('ygg--acao--roster-entry');
   }),
 
   myNextRosterEntriesUnsorted: computed('allRosterEntries.@each', function() {
-    return this.get('allRosterEntries').filter((item) => (
+    return this.allRosterEntries.filter((item) => (
        item.belongsTo('person').id() == this.get('session.personId') &&
        item.belongsTo('roster_day').value().get('date') > new Date()
       )

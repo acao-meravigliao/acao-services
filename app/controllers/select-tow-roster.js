@@ -12,25 +12,25 @@ export default Controller.extend({
   includeBusy: false,
 
   saveDisabled: computed('saving', 'isDirty', function() {
-    return this.get('saving') || !this.get('isDirty');
+    return this.saving || !this.isDirty;
   }),
 
   allRosterEntries: computed(function() {
-    return this.get('store').peekAll('ygg--acao--day-roster-entry');
+    return this.store.peekAll('ygg--acao--day-roster-entry');
   }),
 
   myRosterEntries: computed('allRosterEntries.{@each,@each.isDeleted}', function() {
-    return this.get('allRosterEntries').filter((item) =>
+    return this.allRosterEntries.filter((item) =>
       (item.belongsTo('person').id() == this.get('session.personId'))
     );
   }),
 
   isDirty: computed('myRosterEntries.{@each,@each.isDeleted}', function() {
-    return this.get('myRosterEntries').any((record) => (record.get('hasDirtyAttributes') || record.get('isDeleted')));
+    return this.myRosterEntries.any((record) => (record.get('hasDirtyAttributes') || record.get('isDeleted')));
   }),
 
   peakRosterEntries: computed('myRosterEntries.@each', function() {
-    return this.get('myRosterEntries').filter((item) =>
+    return this.myRosterEntries.filter((item) =>
       (item.belongsTo('roster_day').value().get('high_season'))
     );
   }),
@@ -38,12 +38,12 @@ export default Controller.extend({
   rosterDaysSorted: sort('model.rosterDays', 'rosterDaysSortOrder'),
 
   filteredRosterDays: computed('rosterDaysSorted.@each', 'monthSelect', 'seasonSelect', 'includeBusy', function() {
-    return this.get('rosterDaysSorted').filter((item) =>
+    return this.rosterDaysSorted.filter((item) =>
       (
        item.get('date').getFullYear() == this.get('model.rosterStatus.renew_for_year') && (
-       (this.get('seasonSelect') == 'all') &&
-       (this.get('includeBusy') ? true : (item.get('roster_entries.length') < item.get('needed_people'))) &&
-       (this.get('monthSelect') == 'all' || Number(this.get('monthSelect')) == item.get('date').getMonth())
+       (this.seasonSelect == 'all') &&
+       (this.includeBusy ? true : (item.get('roster_entries.length') < item.get('needed_people'))) &&
+       (this.monthSelect == 'all' || Number(this.monthSelect) == item.get('date').getMonth())
       ))
     );
   }),
@@ -55,8 +55,8 @@ export default Controller.extend({
 
   actions: {
     addDay(dayEntry) {
-      this.get('store').createRecord('ygg--acao--tow-roster-entry', {
-        person: this.get('store').peekRecord('ygg--core--person', this.get('session.personId')),
+      this.store.createRecord('ygg--acao--tow-roster-entry', {
+        person: this.store.peekRecord('ygg--core--person', this.get('session.personId')),
         day: dayEntry,
       });
     },
@@ -71,7 +71,7 @@ export default Controller.extend({
 
       this.set('saving', true);
 
-      this.get('store').peekAll('ygg--acao--tow-roster-entry').forEach(function(record) {
+      this.store.peekAll('ygg--acao--tow-roster-entry').forEach(function(record) {
         if (record.get('hasDirtyAttributes')) {
           promises.push(record.save());
         }
@@ -87,7 +87,7 @@ export default Controller.extend({
     },
 
     cancel() {
-      this.get('store').peekAll('ygg--acao--tow-roster-entry').forEach(function(record) { record.rollbackAttributes(); });
+      this.store.peekAll('ygg--acao--tow-roster-entry').forEach(function(record) { record.rollbackAttributes(); });
     },
   },
 });

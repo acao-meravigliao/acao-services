@@ -16,7 +16,7 @@ export default Component.extend({
   }),
 
   chiefDisabled: computed('chiefEnabled', 'hasChiefNotMe', function() {
-    return !this.get('chiefEnabled') || this.get('hasChiefNotMe');
+    return !this.chiefEnabled || this.hasChiefNotMe;
   }),
 
   deleteDisabled: computed('entry.{roster_day.date,isNew}', function() {
@@ -26,7 +26,7 @@ export default Component.extend({
 
   actions: {
     del(entry) {
-      this.get('onDelete')(entry);
+      this.onDelete(entry);
     },
   },
 });

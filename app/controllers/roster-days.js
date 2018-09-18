@@ -10,6 +10,6 @@ export default Controller.extend({
     this.rosterDaysSortOrder = [ 'date' ];
   },
 
-  prevYear: computed('currentYear', function() { return this.get('currentYear') - 1; }),
-  nextYear: computed('currentYear', function() { return this.get('currentYear') + 1; }),
+  prevYear: computed('currentYear', function() { return this.currentYear - 1; }),
+  nextYear: computed('currentYear', function() { return this.currentYear + 1; }),
 });

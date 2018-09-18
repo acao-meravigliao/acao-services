@@ -22,6 +22,6 @@ export default DS.Model.extend({
   sog: DS.attr('number'),
 
   latlng: computed('lat', 'lng', function() {
-    return [ this.get('lat'), this.get('lng') ];
+    return [ this.lat, this.lng ];
   }),
 });

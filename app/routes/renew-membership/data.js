@@ -7,7 +7,7 @@ export default Route.extend({
 
   model() {
     return hash({
-      serviceTypes: this.get('store').findAll('ygg--acao--service-type'),
+      serviceTypes: this.store.findAll('ygg--acao--service-type'),
     });
   },
 

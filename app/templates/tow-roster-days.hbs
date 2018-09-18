@@ -2,7 +2,7 @@
   <div class="ui raised segment">
     <div class="ui grid">
       <div class="ui seven wide column">
-        {{#link-to 'tow-roster-days' (query-params year=prevYear) tagname='button' class='fluid ui button'}}
+        {{#link-to "tow-roster-days" (query-params year=prevYear) tagname="button" class="fluid ui button"}}
           <i class="ui left arrow icon"></i>{{prevYear}}
         {{/link-to}}
       </div>
@@ -10,7 +10,7 @@
         <h1 class="ui header">{{currentYear}}</h1>
       </div>
       <div class="ui seven wide column">
-        {{#link-to 'tow-roster-days' (query-params year=nextYear) tagname='button' class='fluid ui button'}}
+        {{#link-to "tow-roster-days" (query-params year=nextYear) tagname="button" class="fluid ui button"}}
           {{nextYear}}<i class="ui right arrow icon"></i>
         {{/link-to}}
       </div>

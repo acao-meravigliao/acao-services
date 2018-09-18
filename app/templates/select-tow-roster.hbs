@@ -1,7 +1,7 @@
 <div class="ui container">
 <div class="ui segment">
-  <button class="ui primary button {{if saveDisabled 'disabled'}} {{if saving 'disabled'}}" {{action 'save' re}}>Salva!</button>
-  <button class="ui button" {{action 'cancel' re}}>Annulla!</button>
+  <button class="ui primary button {{if saveDisabled "disabled"}} {{if saving "disabled"}}" {{action "save" re}}>Salva!</button>
+  <button class="ui button" {{action "cancel" re}}>Annulla!</button>
 
   {{#if saveError}}
   <div class="ui red message">
@@ -18,7 +18,7 @@
     {{#if myRosterEntries}}
       <div class="ui cards">
         {{#each myRosterEntries as |re|}}
-          {{tow-roster-entry entry=re onDelete=(action 'delEntry')}}
+          {{tow-roster-entry entry=re onDelete=(action "delEntry")}}
         {{/each}}
       </div>
     {{/if}}
@@ -60,7 +60,7 @@
 
     <div class="ui cards" style="overflow-y: auto; max-height: 70vh">
       {{#each filteredRosterDays as |day|}}
-        {{tow-roster-day day=day entries=myRosterEntries onAdd=(action 'addDay')}}
+        {{tow-roster-day day=day entries=myRosterEntries onAdd=(action "addDay")}}
       {{/each}}
     </div>
   </div>

@@ -20,5 +20,5 @@ export default DS.Model.extend({
   landing_airfield: DS.belongsTo('ygg--acao--airfield'),
   //towed_by: DS.belongsTo('ygg--acao--flight'),
 
-  duration: computed('takeoff_time,landing_time', function() { return this.get('landing_time') - this.get('takeoff_time'); }),
+  duration: computed('takeoff_time,landing_time', function() { return this.landing_time - this.takeoff_time; }),
 });

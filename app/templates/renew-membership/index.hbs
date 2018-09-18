@@ -9,7 +9,7 @@
         </h1>
 
         {{#if paymentIsPending}}
-          {{#link-to 'payment' context.membership.payment_id class="massive ui orange button" tagName="button"}}
+          {{#link-to "payment" context.membership.payment_id class="massive ui orange button" tagName="button"}}
             Il pagamento è pendente
           {{/link-to}}
         {{/if}}
@@ -24,13 +24,13 @@
       </p>
       <p>
         Nome: <strong>{{session.person.first_name}} {{session.person.last_name}}</strong><br />
-        Data di nascita: <strong>{{moment-format session.person.birth_date 'DD-MM-YYYY'}}</strong><br />
-        Email: <strong>{{#each myEmails as |item index|}}{{if index ', '}}{{item.value}}{{/each}}</strong><br />
-        Telefono fisso: <strong>{{#each myFixedPhones as |item index|}}{{if index ', '}}{{item.value}}{{/each}}</strong><br />
-        Cellulare: <strong>{{#each myMobiles as |item index|}}{{if index ', '}}{{item.value}}{{/each}}</strong><br />
+        Data di nascita: <strong>{{moment-format session.person.birth_date "DD-MM-YYYY"}}</strong><br />
+        Email: <strong>{{#each myEmails as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
+        Telefono fisso: <strong>{{#each myFixedPhones as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
+        Cellulare: <strong>{{#each myMobiles as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
       </p>
 
-      <button class="huge ui fluid primary button" disabled={{formInvalid}} {{action 'commit'}}>Procedi...</button>
+      <button class="huge ui fluid primary button" disabled={{formInvalid}} {{action "commit"}}>Procedi...</button>
       {{/if}}
     </div>
   {{else}}

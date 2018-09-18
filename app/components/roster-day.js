@@ -9,7 +9,7 @@ export default Component.extend({
   tagName: '',
 
   alreadySelectedByMe: computed('day.@each', 'entries.[]', function() {
-    return this.get('entries').every((item) => (item.belongsTo('roster_day').id() != this.get('day.id')))
+    return this.entries.every((item) => (item.belongsTo('roster_day').id() != this.get('day.id')));
   }),
 
   missingChief: computed('day.roster_entries.@each.chief', function() {
@@ -17,7 +17,7 @@ export default Component.extend({
   }),
 
   missingNonChiefs: computed('day.{roster_entries.length,needed_people}', 'missingChief', function() {
-    return Array(Math.max(this.get('day.needed_people') - this.get('day.roster_entries.length') - (this.get('missingChief') ? 1 : 0), 0));
+    return Array(Math.max(this.get('day.needed_people') - this.get('day.roster_entries.length') - (this.missingChief ? 1 : 0), 0));
   }),
 
   missingAny: computed('day.{roster_entries.length,needed_people}', function() {
@@ -26,9 +26,9 @@ export default Component.extend({
 
   enableAdd: computed('day.@each', 'entries.[]', 'alreadySelectedByMe',
                             'missingChief', 'missingNonChiefs', 'missingAny', function() {
-    return this.get('entries').every((item) => (item.belongsTo('roster_day').id() != this.get('day.id'))) &&
-           (this.get('missingChief') || this.get('missingNonChiefs')) &&
-           this.get('missingAny') &&
+    return this.entries.every((item) => (item.belongsTo('roster_day').id() != this.get('day.id'))) &&
+           (this.missingChief || this.missingNonChiefs) &&
+           this.missingAny &&
            this.get('day.date') > moment().add(2, 'd').toDate();
   }),
 
@@ -44,7 +44,7 @@ export default Component.extend({
 
   actions: {
     add(day) {
-      this.get('onAdd')(day);
+      this.onAdd(day);
     },
   },
 });

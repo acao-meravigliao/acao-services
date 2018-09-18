@@ -8,8 +8,8 @@ export default Route.extend({
 
   model(params) {
     return hash({
-      payment: this.get('store').findRecord('ygg--acao--payment', params.id, { adapterOptions: { view: 'full' } }),
-      memberships: this.get('store').query('ygg--acao--membership', { filter: { person_id: this.get('session.personId') } }),
+      payment: this.store.findRecord('ygg--acao--payment', params.id, { adapterOptions: { view: 'full' } }),
+      memberships: this.store.query('ygg--acao--membership', { filter: { person_id: this.get('session.personId') } }),
     });
   },
 

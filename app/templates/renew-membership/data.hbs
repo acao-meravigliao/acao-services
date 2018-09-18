@@ -10,7 +10,7 @@
     <tr>
       <td></td>
       <td>{{assService.name}}</td>
-      <td class="price">{{format-number assService.price format="0.00"}} €</td>
+      <td class="price">{{numeral-format assService.price format="0.00"}} €</td>
     </tr>
     {{#if context.cav_type}}
     <tr>
@@ -18,23 +18,23 @@
         {{ui-checkbox class="ui fitted toggle" checked=enableCav onChange=(action (mut enableCav))}}
       </td>
       <td>{{cavService.name}}</td>
-      <td class="price">{{format-number cavService.price format="0.00"}} €</td>
+      <td class="price">{{numeral-format cavService.price format="0.00"}} €</td>
     </tr>
     {{/if}}
 
     {{#each services key="@index" as |service index|}}
     <tr>
       <td>
-        <a {{action 'removeService' index}}><i class="big trash icon"></i></a>
+        <a {{action "removeService" index}}><i class="big trash icon"></i></a>
       </td>
       <td>
-        {{#ui-dropdown class="selection fluid" onChange=(action 'setServiceType' index) as |execute mapper|}}
+        {{#ui-dropdown class="selection fluid" onChange=(action "setServiceType" index) as |execute mapper|}}
           <div class="default text">Seleziona servizio...</div>
           <i class="dropdown icon"></i>
           <div class="menu">
             {{#each serviceTypesSorted as |st|}}
               {{#if st.available_for_membership_renewal}}
-              <div class="item" data-value="{{st.id}}">
+              <div class="item" data-value={{st.id}}>
                 {{st.name}}
               </div>
               {{/if}}
@@ -56,17 +56,17 @@
           </div>
         {{/if}}
       </td>
-      <td class="price">{{format-number service.type.price format="0.00"}} €</td>
+      <td class="price">{{numeral-format service.type.price format="0.00"}} €</td>
     </tr>
     {{/each}}
 
-    <tr><td></td><td><a {{action 'addService'}}><i class="plus icon"></i> <strong>Posto carrello, tessera FAI, ecc</strong></a></td></tr>
+    <tr><td></td><td><a {{action "addService"}}><i class="plus icon"></i> <strong>Posto carrello, tessera FAI, ecc</strong></a></td></tr>
 
   </tbody>
   <tfoot>
     <tr>
-      <th colspan=2>Totale</th>
-      <th class="total price">{{format-number total format="0.00"}} €</th>
+      <th colspan="2">Totale</th>
+      <th class="total price">{{numeral-format total format="0.00"}} €</th>
     </tr>
   </tfoot>
 </table>
@@ -80,7 +80,7 @@
 
 <div class="ui segment">
   {{ui-checkbox class="ui fitted" checked=acceptRules onChange=(action (mut acceptRules))}}
-  Dichiaro  di aver preso visione del <a {{action 'openRules'}}>Regolamento dell'Aeroclub</a>
+  Dichiaro  di aver preso visione del <a {{action "openRules"}}>Regolamento dell'Aeroclub</a>
   e di accettarlo in modo totale e incondizionato.
 
   <div class="ui sixteen wide column fullscreen modal rules-modal" style="height: 80%">
@@ -98,9 +98,9 @@
   Metodo di pagamento:
 </p>
 <div class="three ui buttons">
-  <button class="ui button {{if paymentWire 'active'}}" {{action (mut paymentMethod) 'wire'}}><i class="ui university icon"></i><br /> Bonifico Bancario</button>
-  <button class="ui button {{if paymentCheck 'active'}}" {{action (mut paymentMethod) 'check'}}><i class="ui tag icon"></i><br /> Assegno</button>
-  <button class="ui button {{if paymentCard 'active'}}" {{action (mut paymentMethod) 'card'}}><i class="ui credit card alternative icon"></i><br /> Carte (in segreteria)</button>
+  <button class="ui button {{if paymentWire "active"}}" {{action (mut paymentMethod) "wire"}}><i class="ui university icon"></i><br /> Bonifico Bancario</button>
+  <button class="ui button {{if paymentCheck "active"}}" {{action (mut paymentMethod) "check"}}><i class="ui tag icon"></i><br /> Assegno</button>
+  <button class="ui button {{if paymentCard "active"}}" {{action (mut paymentMethod) "card"}}><i class="ui credit card alternative icon"></i><br /> Carte (in segreteria)</button>
 </div>
 
 {{#if commitDisabled}}
@@ -108,5 +108,5 @@
     Acetta il regolamento aeroportuale e scegli il metodo di pagamento.
   </div>
 {{else}}
-  <button class="huge ui fluid primary button" disabled={{commitDisabled}} {{action 'commit'}}>Avanti...</button>
+  <button class="huge ui fluid primary button" disabled={{commitDisabled}} {{action "commit"}}>Avanti...</button>
 {{/if}}

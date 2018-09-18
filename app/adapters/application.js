@@ -20,9 +20,9 @@ export default DS.Adapter.extend({
 console.log("================= FIND RECORD", type.modelName, id, params);
 
     if (snapshotRecordArray.adapterOptions && snapshotRecordArray.adapterOptions.doNotBind)
-      return this.get('ws').get(type.modelName, params);
+      return this.ws.get(type.modelName, params);
     else
-      return this.get('ws').getAndBind(type.modelName, params);
+      return this.ws.getAndBind(type.modelName, params);
   },
 
   findMany(store, type, ids, snapshotRecordArray) {
@@ -32,7 +32,7 @@ console.log("================= FIND RECORD", type.modelName, id, params);
 
 console.log("================= FIND MANY", type.modelName, ids, params);
 
-    return this.get('ws').getManyAndBind(type.modelName, params);
+    return this.ws.getManyAndBind(type.modelName, params);
   },
 
   findAll(store, type, sinceToken, snapshotRecordArray) {
@@ -41,7 +41,7 @@ console.log("================= FIND MANY", type.modelName, ids, params);
 
 console.log("================= FIND ALL", type.modelName, params);
 
-    return this.get('ws').indexAndBind(type.modelName, params);
+    return this.ws.indexAndBind(type.modelName, params);
   },
 
   query(store, type, query, snapshotRecordArray) {
@@ -53,7 +53,7 @@ console.log("================= QUERY", type.modelName, query, params);
 //    if (snapshotRecordArray.adapterOptions && snapshotRecordArray.adapterOptions.transport == 'HTTP')
 //      return this.get('ws').getAndBind(type.modelName, null, query);
 //    else
-    return this.get('ws').indexAndBind(type.modelName, params);
+    return this.ws.indexAndBind(type.modelName, params);
   },
 
   queryRecord(store, type, query) {
@@ -62,7 +62,7 @@ console.log("================= QUERY", type.modelName, query, params);
 
 console.log("================= QUERY RECORD", type.modelName, query, params);
 
-    return this.get('ws').indexAndBind(type.modelName, params);
+    return this.ws.indexAndBind(type.modelName, params);
   },
 
   createRecord(store, type, snapshot) {
@@ -76,7 +76,7 @@ console.log("================= QUERY RECORD", type.modelName, query, params);
 
 console.log("================= CREATE_RECORD", data);
 
-    return this.get('ws').createAndBind(type.modelName, data, params);
+    return this.ws.createAndBind(type.modelName, data, params);
   },
 
   updateRecord(store, type, snapshot) {
@@ -90,11 +90,11 @@ console.log("================= CREATE_RECORD", data);
 
 console.log("================= UPDATE_RECORD", data);
 
-    return this.get('ws').update(type.modelName, data, params);
+    return this.ws.update(type.modelName, data, params);
   },
 
   deleteRecord(store, type, snapshot) {
 console.log("================= DELETE_RECORD", snapshot.id);
-    return this.get('ws').destroy(type.modelName, snapshot.id);
+    return this.ws.destroy(type.modelName, snapshot.id);
   },
 });

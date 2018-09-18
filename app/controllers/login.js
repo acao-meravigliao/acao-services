@@ -6,14 +6,14 @@ export default Controller.extend({
 
   actions: {
     authenticate() {
-      let { username, password } = this.getProperties('username', 'password');
+      let { username, password } = this;
 
       if (username.indexOf('@') == -1)
         username = username + '@cp.acao.it';
 
       this.set('loggingIn', true);
 
-      this.get('session').authenticate(username, password).then(() => {
+      this.session.authenticate(username, password).then(() => {
         this.set('loggingIn', false);
         this.transitionToRoute('index');
       }).catch((reason) => {

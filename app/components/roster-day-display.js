@@ -11,7 +11,7 @@ export default Component.extend({
   }),
 
   missingNonChiefs: computed('day.{roster_entries.length,needed_people}', 'missingChief', function() {
-    return Array(Math.max(this.get('day.needed_people') - this.get('day.roster_entries.length') - (this.get('missingChief') ? 1 : 0), 0));
+    return Array(Math.max(this.get('day.needed_people') - this.get('day.roster_entries.length') - (this.missingChief ? 1 : 0), 0));
   }),
 
   sortedEntries: sort('day.roster_entries', function(a, b) {

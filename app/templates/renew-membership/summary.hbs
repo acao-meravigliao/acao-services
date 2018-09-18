@@ -8,12 +8,12 @@
   <tbody>
     <tr>
       <td>{{assService.name}}</td>
-      <td class="price">{{format-number assService.price format="0.00"}} €</td>
+      <td class="price">{{numeral-format assService.price format="0.00"}} €</td>
     </tr>
     {{#if enableCav}}
     <tr>
       <td>{{cavService.name}}</td>
-      <td class="price">{{format-number cavService.price format="0.00"}} €</td>
+      <td class="price">{{numeral-format cavService.price format="0.00"}} €</td>
     </tr>
     {{/if}}
 
@@ -22,19 +22,19 @@
       <td>
         {{service.type.name}}{{#if service.extraInfo}} - {{service.extraInfo}}{{/if}}
       </td>
-      <td class="price">{{format-number service.type.price format="0.00"}} €</td>
+      <td class="price">{{numeral-format service.type.price format="0.00"}} €</td>
     </tr>
     {{/each}}
   </tbody>
   <tfoot>
     <tr>
       <th>Totale</th>
-      <th class="total price">{{format-number total format="0.00"}} €</th>
+      <th class="total price">{{numeral-format total format="0.00"}} €</th>
     </tr>
   </tfoot>
 </table>
 
-<button class="huge ui fluid primary button {{if submitting 'loading disabled'}}" {{action 'commit'}}>Conferma iscrizione!</button>
+<button class="huge ui fluid primary button {{if submitting "loading disabled"}}" {{action "commit"}}>Conferma iscrizione!</button>
 {{#if submitError}}
 <div class="ui red message">
   {{submitError}}

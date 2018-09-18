@@ -8,8 +8,8 @@ const Router = EmberRouter.extend({
   headData: service(),
 
   setTitle(title, tokens) {
-    this.get('headData').set('title', title);
-    this.get('headData').set('titleTokens', tokens);
+    this.headData.set('title', title);
+    this.headData.set('titleTokens', tokens);
   },
 });
 

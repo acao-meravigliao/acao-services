@@ -6,22 +6,22 @@
         Inserisci codice pilota e password:
       </div>
     </h2>
-    <form class="ui large form" {{action 'authenticate' on='submit'}}>
+    <form class="ui large form" {{action "authenticate" on="submit"}}>
       <div class="ui stacked segment">
         <div class="field">
           <div class="ui left icon input">
             <i class="user icon"></i>
-            {{input id='username' placeholder='Codice Pilota' value=username}}
+            {{input id="username" placeholder="Codice Pilota" value=username}}
           </div>
         </div>
         <div class="field">
           <div class="ui left icon input">
             <i class="lock icon"></i>
-            {{input id='password' placeholder='Password' type='password' value=password}}
+            {{input id="password" placeholder="Password" type="password" value=password}}
           </div><br />
-          {{#link-to 'password-recovery'}}Non mi ricordo la password{{/link-to}}
+          {{#link-to "password-recovery"}}Non mi ricordo la password{{/link-to}}
         </div>
-        <button type=submit class="ui fluid large submit button {{if loggingIn 'disabled loading'}}">Login</button>
+        <button type="submit" class="ui fluid large submit button {{if loggingIn "disabled loading"}}">Login</button>
       </div>
 
       <div class="ui error message"></div>

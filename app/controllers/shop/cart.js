@@ -6,7 +6,7 @@ export default Controller.extend({
 
   actions: {
     emptyCart() {
-      this.get('cart').empty();
+      this.cart.empty();
     },
   },
 });

@@ -1,11 +1,11 @@
-<div class="ui raised blurring {{if entry.roster_day.high_season 'red' 'blue'}} fluid card">
+<div class="ui raised blurring {{if entry.roster_day.high_season "red" "blue"}} fluid card">
   <div class="content">
     <div class="header">
-      {{moment-format entry.roster_day.date 'dddd D MMMM'}}
+      {{moment-format entry.roster_day.date "dddd D MMMM"}}
     </div>
 
     {{#each entry.roster_day.roster_entries as |sameDayEntry|}}
-      <i class="ui {{if sameDayEntry.chief 'spy' 'user'}} icon"></i>
+      <i class="ui {{if sameDayEntry.chief "spy" "user"}} icon"></i>
       {{sameDayEntry.person.first_name}} {{sameDayEntry.person.last_name}}<br />
     {{/each}}
 

@@ -11,8 +11,8 @@ export default Mixin.create({
   init() {
     this._super(...arguments);
 
-    this.get('session').on('sessionBecomesNotAuthenticated', () => {
-      this.transitionTo(this.get('loginRoute'));
+    this.session.on('sessionBecomesNotAuthenticated', () => {
+      this.transitionTo(this.loginRoute);
     });
   },
 
@@ -20,11 +20,11 @@ export default Mixin.create({
     // Trigger session loading if not loaded already, if not authenticated transition to login route
     if (!this.get('session.isLoaded')) {
       return new Promise((resolve, reject) => {
-        this.get('session').load().then((response) => {
+        this.session.load().then((response) => {
           if (this.get('session.isAuthenticated'))
             resolve(this._super(...arguments));
           else {
-            this.transitionTo(this.get('loginRoute'));
+            this.transitionTo(this.loginRoute);
             resolve();
           }
         });
@@ -32,7 +32,7 @@ export default Mixin.create({
     } else if (this.get('session.isAuthenticated')) {
       return this._super(...arguments);
     } else {
-      this.transitionTo(this.get('loginRoute'));
+      this.transitionTo(this.loginRoute);
     }
   },
 });
