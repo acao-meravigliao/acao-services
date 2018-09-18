@@ -268,7 +268,7 @@ console.log("REBINDING COLLECTIONS", me.savedCollectionBindings);
           if (ids.length > 0) {
             console.log("RESTORING MODEL", modelType, ids);
 
-            me.getAndBind(modelType, {
+            me.getManyAndBind(modelType, {
               ids: ids,
             }).catch((e) => {
               console.warn("Cannot rebind model", modelType, ids, e);
