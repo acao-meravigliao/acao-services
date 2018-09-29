@@ -3,4 +3,8 @@ import AuthenticatedRouteMixin from 'acao-services/mixins/authenticated-route-mi
 
 export default Route.extend(AuthenticatedRouteMixin, {
   titleToken: 'Movimenti Bollini',
+
+  model(params) {
+    return this.store.query('ygg--acao--token-transaction', { filter: { person_id: this.get('session.personId') } });
+  },
 });
