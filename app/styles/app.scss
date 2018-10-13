@@ -1,6 +1,6 @@
 @import '@addepar/style-toolbox';
 
-body {
+body > {
   .ember-view {
     height: 100%;
   }
@@ -18,38 +18,34 @@ a {
   padding-top: 50px;
 }
 
-.renew-services {
+span.price {
+  font-family: monospace;
+}
+
+table.renew-services, table.shop-checkout, table.payment, table.invoice {
   .price {
     text-align: right !important;
     font-family: monospace;
   }
   .total {
     font-weight: bold !important;
+    background-color: #f9fafb;
   }
 }
 
-.shop-checkout {
-  .price {
-    text-align: right !important;
-    font-family: monospace;
-  }
-  .total {
-    font-weight: bold !important;
-  }
-}
-
-table.payments {
+table.payments, table.invoices {
   tbody {
     tr {
       cursor: pointer;
     }
   }
-  .price {
-    text-align: right !important;
-    font-family: monospace;
-  }
+}
+
+.roster-day-edit {
+  cursor: grabbing;
 }
 
 .roster-day-edit.disabled {
   cursor: not-allowed;
 }
+

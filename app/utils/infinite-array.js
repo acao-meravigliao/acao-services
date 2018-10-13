@@ -5,17 +5,17 @@ export default EmberObject.extend({
   store: service(),
 
   init() {
-console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUuuu 1");
+//console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUuuu 1");
     this._super(...arguments);
   },
 
   length() {
-console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUuuu 2");
+//console.log("UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUuuu 2");
     return 1;
   },
 
   objectAt(index) {
-console.log("OBJECT AT ==========================================", index);
+//console.log("OBJECT AT ==========================================", index);
     return this.store.fetchAll('ygg--acao--flight').first();
   },
 });

@@ -1,3 +1,4 @@
+{{title "ACAO Servizi"}}
 {{head-layout}}
 <div class="ui fixed inverted main menu">
   {{#if session.isAuthenticated}}
@@ -7,12 +8,7 @@
   {{/if}}
 
   <div class="ui breadcrumb item">
-    {{#link-to "index" class="selection"}}ACAO Servizi{{/link-to}}
-
-    {{#each headData.titleTokens as |token|}}
-      <span class="divider">/</span>
-      <div class="active selection">{{token}}</div>
-    {{/each}}
+    {{#link-to "index" class="selection"}}{{myPageTitle}}{{/link-to}}
   </div>
 
   {{#if session.isAuthenticated}}
@@ -34,18 +30,17 @@
 
 </div>
 <div id="sidebar-context">
-{{#ui-sidebar class="ui left vertical inverted menu tablet or lower hidden" id="main-sidebar" context="#sidebar-context"}}
-  {{#link-to "index" class="item"}} Home {{/link-to}}
-
-<!--
-  {{#link-to "radar" class="item"}} Radar {{/link-to}}
-  {{#link-to "meteo" class="item"}} Meteo {{/link-to}}
-  {{#link-to "shop" class="item"}} Shop {{/link-to}}
--->
-  {{#link-to "payments" class="item"}} Pagamenti {{/link-to}}
-  {{#link-to "roster-days" class="item"}} Turni di linea {{/link-to}}
-  {{#link-to "today-roster" class="item"}} Turni di oggi {{/link-to}}
-{{/ui-sidebar}}
+{{#if session.isAuthenticated}}
+  {{#ui-sidebar class="ui inverted menu left inline vertical visible" dimPage=false closable=false id="main-sidebar" context="#sidebar-context"}}
+    {{main-menu-items
+        person=session.person
+        pendingPayments=pendingPayments
+        renewYear=renewYear
+        rosterEntriesSelectable=rosterEntriesSelectable
+        rosterEntriesPresent=rosterEntriesPresent
+    }}
+  {{/ui-sidebar}}
+{{/if}}
 
 <!-- height:1px;-->
   <div class="pusher main content" style="background-color: #FFF;">

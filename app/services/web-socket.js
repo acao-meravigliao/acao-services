@@ -24,8 +24,8 @@ export default Service.extend(Evented, {
 
     this._super(...arguments);
 
-    //me.uri = (window.location.protocol == 'http:' ? 'ws://' : 'wss://') + window.location.host + '/ws';
-    me.uri = 'ws://linobis.acao.it:3330/ws'
+    me.uri = (window.location.protocol == 'http:' ? 'ws://' : 'wss://') + window.location.host + '/ws';
+    //me.uri = 'ws://linobis.acao.it:3330/ws'
 
     me.state = 'DISCONNECTED';
     me.reconnectAttempt = 0;
@@ -241,9 +241,9 @@ console.log("WELCOME", msg);
 console.log("REBINDING COLLECTIONS", me.savedCollectionBindings);
 
         $.each(me.savedCollectionBindings, function(key, binding) {
-          me.indexAndBind(key, {
-            // TODO ADD QUERY PARAMETERS
-          });
+          let params = JSON.parse(key);
+
+          me.indexAndBind(params.model, params.query);
         });
 
         me.savedCollectionBindings = null;
@@ -316,11 +316,13 @@ console.log("REBINDING COLLECTIONS", me.savedCollectionBindings);
     break;
 
     case 'create':
+console.log("CREATE OBJ=", msg);
+
       me.get('store').pushPayload(msg.object);
     break;
 
     case 'update':
-console.log("OBJ=", msg);
+console.log("UPDATE OBJ=", msg);
 
       me.get('store').pushPayload(msg.object);
     break;
@@ -507,6 +509,8 @@ console.log("WS LOGOUT");
 
 console.log("INDEX_AND_BIND", modelName, params);
 
+    let sig = this.querySignature(modelName, params);
+
     let defer = rsvpDefer();
 
     let req = {
@@ -516,8 +520,7 @@ console.log("INDEX_AND_BIND", modelName, params);
         bind: true,
       }, params),
       success: function(msg) {
-        me.collectionBindings[modelName] = true;
-        // FIXME record query parameters
+        me.collectionBindings[sig] = msg.binding_id;
 
         defer.resolve(msg.objects);
       },
@@ -533,6 +536,21 @@ console.log("INDEX_AND_BIND", modelName, params);
     me.makeRequest(req);
 
     return defer.promise;
+  },
+
+  querySignature(modelName, params) {
+    let sig = JSON.stringify({
+      model: modelName,
+      query: params,
+    });
+
+    return sig;
+  },
+
+  isQueryCached(modelName, params) {
+    let sig = this.querySignature(modelName, params);
+
+    return !!this.collectionBindings[sig];
   },
 
   getAndBind(modelName, params) {
@@ -612,7 +630,6 @@ console.log("CREATE_AND_BIND", modelName, data, params);
         accept: 'application/vnd.api+json',
       }, params),
       success: function(msg) {
-        me.collectionBindings[modelName] = true;
         defer.resolve(msg.object);
       },
       failure: function(msg) {

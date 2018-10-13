@@ -1,22 +1,18 @@
-<div class="roster-day-edit {{unless enableAdd "disabled"}} ui {{if day.high_season "red" "blue"}} {{if enableAdd "raised link"}} card" onclick={{if enableAdd (action "add" day)}}>
+<div class="ui {{if day.high_season "red" "blue"}} card">
   <div class="content">
     <div class="header">
+      <i class="ui gray {{if day.high_season "sun" "snowflake"}} icon" style="color: #bbbbbb"/>
       {{moment-format day.date "dddd D MMMM"}}
     </div>
 
-    {{#if missingChief}}
-      <i class="ui spy icon"></i>
-      <span style="display: inline-block; width: 10em; border-bottom: solid 1px black;">&nbsp;</span><br />
+    {{#if day.descr}}
+      {{day.descr}}
     {{/if}}
+  </div>
 
+  <div class="content">
     {{#each sortedEntries as |entry|}}
-      <i class="ui {{if entry.chief "spy" "user"}} icon"></i>
-      {{entry.person.first_name}} {{entry.person.last_name}}<br />
-    {{/each}}
-
-    {{#each missingNonChiefs}}
-      <i class="ui user icon"></i>
-      <span style="display: inline-block; width: 10em; border-bottom: solid 1px black;">&nbsp;</span><br />
+      • {{entry.person.first_name}} {{entry.person.last_name}}<br />
     {{/each}}
   </div>
 </div>

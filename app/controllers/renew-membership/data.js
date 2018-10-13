@@ -1,16 +1,23 @@
-import $ from 'jquery';
+import Controller from '@ember/controller';
+import { inject as controller } from '@ember/controller';
+import EmberObject, { computed } from '@ember/object';
 import { sort, alias, equal } from '@ember/object/computed';
 import { A } from '@ember/array';
-import EmberObject, { computed } from '@ember/object';
-import Controller from '@ember/controller';
+import $ from 'jquery';
 
 export default Controller.extend({
-  assService: computed('model.serviceTypes', 'context.ass_type', function() {
-    return this.get('model.serviceTypes').findBy('symbol', this.get('context.ass_type'));
+  wizard: controller('renew-membership'),
+  context: alias('wizard.context'),
+  state: alias('wizard.state'),
+
+  services: A(),
+
+  assService: computed('wizard.serviceTypes', 'context.ass_type', function() {
+    return this.get('wizard.serviceTypes').findBy('symbol', this.get('context.ass_type'));
   }),
 
-  cavService: computed('model.serviceTypes', 'context.cav_type', 'enableCav', function() {
-    return this.enableCav ? this.get('model.serviceTypes').findBy('symbol', this.get('context.cav_type')) : null;
+  cavService: computed('wizard.serviceTypes', 'context.cav_type', 'enableCav', function() {
+    return this.enableCav ? this.get('wizard.serviceTypes').findBy('symbol', this.get('context.cav_type')) : null;
   }),
 
   total: computed('context.{membershipAmount,cavAmount}', 'enableCav', 'services.@each.type', function() {
@@ -21,9 +28,7 @@ export default Controller.extend({
            }, 0);
   }),
 
-  services: A(),
-
-  serviceTypesSorted: sort('model.serviceTypes', 'serviceTypesSortOrder'),
+  serviceTypesSorted: sort('wizard.serviceTypes', 'serviceTypesSortOrder'),
 
   formInvalid: computed('acceptRules', 'paymentMethod', function() {
     return !this.acceptRules  || !this.paymentMethod;
@@ -31,9 +36,9 @@ export default Controller.extend({
 
   commitDisabled: alias('formInvalid'),
 
-  paymentWire: equal('paymentMethod', 'wire'),
-  paymentCheck: equal('paymentMethod', 'check'),
-  paymentCard: equal('paymentMethod', 'card'),
+  paymentWire: equal('paymentMethod', 'WIRE'),
+  paymentCheck: equal('paymentMethod', 'CHECK'),
+  paymentCard: equal('paymentMethod', 'CARD'),
 
   init() {
     this._super(...arguments);
@@ -60,8 +65,10 @@ export default Controller.extend({
     commit() {
       var me = this;
 
+      this.state.services = this.get('services').filter((x) => (x.type));
+
       this.state.setProperties(this.getProperties(
-        'services', 'enableCav', 'enableEmail', 'acceptRules', 'paymentMethod',
+        'enableCav', 'enableEmail', 'acceptRules', 'paymentMethod',
       ));
 
       this.transitionToRoute('renew-membership.summary');

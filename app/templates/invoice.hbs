@@ -1,0 +1,33 @@
+{{title "Ricevuta"}}
+<div class="ui container">
+  <div class="ui segment">
+  <div>
+    <h1>Ricevuta {{model.invoice.identifier}}
+    </h1>
+    Data: {{moment-format model.invoice.created_at "DD-MM-YYYY HH:mm:ss"}}<br />
+  </div>
+
+  <table class="invoice ui celled table">
+    <thead>
+      <tr>
+        <th>Descrizione</th>
+        <th>Costo</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each model.invoice.details key="@index" as |detail|}}
+      <tr>
+        <td>{{detail.descr}}{{#if detail.data}} - {{detail.data}}{{/if}}</td>
+        <td class="price">{{numeral-format detail.price format="0.00"}} €</td>
+      </tr>
+      {{/each}}
+    </tbody>
+    <tfoot>
+      <tr>
+        <th>Totale</th>
+        <td class="total price">{{numeral-format model.invoice.total format="0.00"}} €</td>
+      </tr>
+    </tfoot>
+  </table>
+  </div>
+</div>

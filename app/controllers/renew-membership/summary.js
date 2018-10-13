@@ -1,16 +1,22 @@
 import Controller from '@ember/controller';
-import { computed } from '@ember/object';
+import { inject as controller } from '@ember/controller';
 import { inject as service } from '@ember/service';
+import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
 
 export default Controller.extend({
+  wizard: controller('renew-membership'),
+  context: alias('wizard.context'),
+  state: alias('wizard.state'),
+
   ajax: service(),
 
-  assService: computed('model.serviceTypes', 'context.ass_type', function() {
-    return this.get('model.serviceTypes').findBy('symbol', this.get('context.ass_type'));
+  assService: computed('wizard.serviceTypes', 'context.ass_type', function() {
+    return this.get('wizard.serviceTypes').findBy('symbol', this.get('context.ass_type'));
   }),
 
-  cavService: computed('model.serviceTypes', 'context.cav_type', 'enableCav', function() {
-    return this.enableCav ? this.get('model.serviceTypes').findBy('symbol', this.get('context.cav_type')) : null;
+  cavService: computed('wizard.serviceTypes', 'context.cav_type', 'enableCav', function() {
+    return this.enableCav ? this.get('wizard.serviceTypes').findBy('symbol', this.get('context.cav_type')) : null;
   }),
 
   total: computed('context.{membershipAmount,cavAmount}', 'assService.@each', 'cavService.@each', 'services.@each', function() {

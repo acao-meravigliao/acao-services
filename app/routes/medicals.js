@@ -1,13 +1,8 @@
 import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'acao-services/mixins/authenticated-route-mixin';
-import { inject as service } from '@ember/service';
 
-export default Route.extend({
-  titleToken: 'Visite Mediche',
-
-  session: service('session'),
-
+export default Route.extend(AuthenticatedRouteMixin, {
   model() {
-    return this.store.query('ygg--acao--medicals', { filter: { pilot_id: this.get('session.personId') } });
+    return this.store.query('ygg--acao--medical', { filter: { pilot_id: this.get('session.personId') } });
   },
-}, AuthenticatedRouteMixin);
+});

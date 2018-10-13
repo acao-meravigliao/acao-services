@@ -21,6 +21,13 @@ export default DS.Model.extend({
 
   acao_bar_credit: DS.attr('number'),
   acao_bollini: DS.attr('number'),
+  acao_is_student: DS.attr('boolean'),
+  acao_is_tug_pilot: DS.attr('boolean'),
+  acao_is_board_member: DS.attr('boolean'),
+  acao_is_instructor: DS.attr('boolean'),
+  acao_is_fireman: DS.attr('boolean'),
+  acao_roster_allowed: DS.attr('boolean'),
+  acao_roster_chief: DS.attr('boolean'),
 
   contacts: DS.hasMany('ygg--core--person--contact'),
 });

@@ -1,24 +1,15 @@
-import { hash } from 'rsvp';
-import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'acao-services/mixins/authenticated-route-mixin';
+import Route from '@ember/routing/route';
+import { hash } from 'rsvp';
 
-export default Route.extend({
-  titleToken: 'Riassunto',
-
+export default Route.extend(AuthenticatedRouteMixin, {
   model() {
     return hash({
-      serviceTypes: this.store.findAll('ygg--acao--service-type'),
     });
   },
 
   setupController(controller, model) {
     this._super(controller, model);
-
-    let parentModel = this.modelFor('renew-membership');
-
-    controller.set('context', parentModel.context);
-    controller.set('state', parentModel.state);
-    controller.setProperties(parentModel.state);
+    controller.setProperties(this.modelFor('renew-membership').state);
   },
-
-}, AuthenticatedRouteMixin);
+});

@@ -1,0 +1,57 @@
+{{#link-to "index" class="item"}} Home {{/link-to}}
+
+<!--
+{{#link-to "radar" class="item"}} Radar {{/link-to}}
+{{#link-to "meteo" class="item"}} Meteo {{/link-to}}
+-->
+
+{{#if renewIsOpenAndNeeded}}
+  {{#link-to "renew-membership" class="item"}}Rinnova l'iscrizione {{renewYear}}{{/link-to}}
+{{/if}}
+
+
+{{#link-to "shop" class="item"}} Shop {{/link-to}}
+
+{{#link-to "payments" class="item teal"}}
+  Pagamenti
+  {{#if pendingPayments}}
+    <div class="ui red label">{{pendingPayments.length}}</div>
+  {{/if}}
+{{/link-to}}
+
+{{#link-to "invoices" class="item teal"}}
+  Ricevute
+  {{#if pendingInvoices}}
+    <div class="ui red label">{{pendingInvoices.length}}</div>
+  {{/if}}
+{{/link-to}}
+
+{{#link-to "licenses" class="item"}} Licenze {{/link-to}}
+{{#link-to "medicals" class="item"}} Visite mediche {{/link-to}}
+{{#link-to "bar-transactions" class="item"}} Conto Bar {{/link-to}}
+{{#link-to "token-transactions" class="item"}} Conto Bollini {{/link-to}}
+{{#link-to "flights" class="item"}} Stralcio Voli {{/link-to}}
+{{#link-to "aircrafts" class="item"}} Miei Alianti {{/link-to}}
+
+<div class="item">
+  <div class="header">Turni di linea</div>
+  {{#if rosterEntriesSelectable}}
+    {{#link-to "select-roster" class="item"}}
+      Selezione
+      {{#unless rosterEntriesPresent}}
+        <div class="ui medium red circular label">&nbsp;&nbsp;<i class="exclamation icon" /></div>
+      {{/unless}}
+    {{/link-to}}
+  {{/if}}
+  {{#link-to "roster-days" class="item"}} Tutti i turni {{/link-to}}
+  {{#link-to "today-roster" class="item"}} Turni di oggi {{/link-to}}
+</div>
+
+{{#if person.acao_is_tug_pilot}}
+<div class="item">
+  <div class="header">Turni di traino</div>
+  {{#link-to "select-tow-roster" class="item"}} Selezione {{/link-to}}
+  {{#link-to "tow-roster-days" class="item"}} I tuoi turni {{/link-to}}
+  {{#link-to "today-tow-roster" class="item"}} Turni di oggi {{/link-to}}
+</div>
+{{/if}}

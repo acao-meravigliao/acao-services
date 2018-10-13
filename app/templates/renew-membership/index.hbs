@@ -1,3 +1,5 @@
+{{title "Inizio"}}
+
 <div class="ui container">
   {{#if renewIsOpen}}
     <div class="ui segment">
@@ -5,7 +7,7 @@
 
       {{#if context.membership}}
         <h1 class="ui header">
-          Risulti già iscritto per l'anno {{context.renew_for_year}}<i class="huge thumbs outline up icon"></i>
+          Risulti già iscritto per l'anno {{context.year}}<i class="huge thumbs outline up icon"></i>
         </h1>
 
         {{#if paymentIsPending}}
@@ -16,7 +18,7 @@
 
       {{else}}
       <p>
-        Con questa procedura potrai rinnovare la tua iscrizione per l'anno {{context.renew_for_year}}.
+        Con questa procedura potrai rinnovare la tua iscrizione per l'anno {{context.year}}.
       </p>
 
       <p>
@@ -36,8 +38,8 @@
   {{else}}
     <div class="ui orange message">
       <h1 class="ui header">
-        {{#if context.renew_for_year}}
-          L'iscrizione per l'anno {{context.renew_for_year}} non è ancora aperta, aprirà {{moment-from-now context.opening_time interval=1000}}
+        {{#if context.year}}
+          L'iscrizione per l'anno {{context.year}} non è ancora aperta, aprirà {{moment-from-now context.opening_time interval=1000}}
         {{else}}
           L'iscrizione non è aperta.
         {{/if}}

@@ -1,8 +1,11 @@
 import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'acao-services/mixins/authenticated-route-mixin';
+import { hash } from 'rsvp';
 
 export default Route.extend(AuthenticatedRouteMixin, {
   model(params) {
-    return this.store.query('ygg--acao--flight', { filter: { person_id: this.get('session.personId') } });
+    return hash({
+      invoice: this.store.findRecord('ygg--acao--invoice', params.id, { adapterOptions: { view: 'full' } }),
+    });
   },
 });

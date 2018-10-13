@@ -2,8 +2,6 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
 export default Route.extend({
-  titleToken: 'Login',
-
   session: service('session'),
 
   authenticatedRoute: 'index',

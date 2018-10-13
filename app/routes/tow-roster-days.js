@@ -1,8 +1,6 @@
 import Route from '@ember/routing/route';
 
 export default Route.extend({
-  titleToken: 'Tutti i turni di traino',
-
   queryParams: {
     year: {
       refreshModel: true,

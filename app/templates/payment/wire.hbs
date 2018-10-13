@@ -4,9 +4,9 @@
   <div class="ui raised segment">
     <h4 class="ui header">Aero Club Adele Orsi Associazione Sportiva Dilettantistica</h4>
     Banca Popolare di Sondrio - Agenzia di Gavirate<br />
-    IBAN: <span style="font-family: monospace">IT70R0569650250000020249X74</span><br />
-    Causale: <strong>Pagamento codice {{model.payment.code}}{{#if model.payment.reason_for_payment}} per {{model.payment.reason_for_payment}}{{/if}}</strong><br />
-    Importo: <strong>{{numeral-format model.payment.total format="0.00"}} €</strong>
+    IBAN: <strong><span style="font-family: monospace">IT70R0569650250000020249X74</span></strong><br />
+    Causale: <strong>Pagamento codice {{model.payment.identifier}}{{#if model.payment.reason_for_payment}} per {{model.payment.reason_for_payment}}{{/if}}</strong><br />
+    Importo: <strong>{{numeral-format model.payment.amount format="0.00"}} €</strong>
   </div>
 
   <div class="small green ui message">

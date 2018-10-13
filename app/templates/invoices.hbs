@@ -1,0 +1,33 @@
+{{title "Ricevute"}}
+{{#if model}}
+<table class="invoices ui selectable celled table" style="margin-left: 2em">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Data</th>
+      <th>Codice</th>
+      <th>Metodo</th>
+      <th>Ammontare</th>
+      <th>Scadenza</th>
+    </tr>
+  </thead>
+  <tbody>
+  {{#each model key="id" as |invoice|}}
+    {{#link-to "invoice" invoice.id tagName="tr"}}
+      <td><div class="ui ribbon label {{get stateColors invoice.state}}">{{invoice.state}}</div></td>
+      <td>{{moment-format invoice.created_at "DD-MM-YYYY HH:mm:ss" }}</td>
+      <td>{{invoice.identifier}}</td>
+      <td>{{invoice.invoice_method}}</td>
+      <td class="price">{{numeral-format invoice.total format="0.00"}} €</td>
+      <td>{{if invoice.expires_at (moment-format invoice.created_at "DD-MM-YYYY")}}</td>
+    {{/link-to}}
+  {{/each}}
+  </tbody>
+</table>
+{{else}}
+<div class="ui container">
+  <div class="ui message">
+    Nessuna ricevuta associata al tuo account
+  </div>
+</div>
+{{/if}}

@@ -1,46 +1,23 @@
+{{title (concat "Pagamento " model.payment.identifier)}}
 <div class="ui container">
   <div class="ui segment">
-  <div>
-    <h1>Pagamento numero {{model.payment.code}}
+    <h1>Pagamento numero {{model.payment.identifier}}
     {{#if isPending}} <div class="ui orange tag label">Pendente</div> {{/if}}
     {{#if isPaid}} <div class="ui green tag label">Pagato</div> {{/if}}
     {{#if isCanceled}} <div class="ui blue tag label">Annullato</div> {{/if}}
     </h1>
+    Totale: <span class="price">{{numeral-format model.payment.amount format="0.00"}} €</span><br />
+
     Data: {{moment-format model.payment.created_at "DD-MM-YYYY HH:mm:ss"}}<br />
-    Scadenza: {{moment-format model.payment.expires_at "DD-MM-YYYY HH:mm:ss"}}<br />
+
+    {{#if model.payment.expires_at}}
+      Scadenza: {{moment-format model.payment.expires_at "DD-MM-YYYY HH:mm:ss"}}<br />
+    {{/if}}
 
     {{#if model.payment.completed_at}}
     Completato: {{moment-format model.payment.completed_at "DD-MM-YYYY HH:mm:ss"}}<br />
     {{/if}}
   </div>
 
-  <table class="renew-services ui celled table">
-    <thead>
-      <tr>
-        <th>Descrizione</th>
-        <th>Costo</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each model.payment.payment_services key="@index" as |service|}}
-      <tr>
-        <td>{{service.service_type.name}}{{#if service.extra_info}} - {{service.extra_info}}{{/if}}</td>
-        <td class="price">{{numeral-format service.price format="0.00"}} €</td>
-      </tr>
-      {{/each}}
-    </tbody>
-    <tfoot>
-      <tr>
-        <th>Totale</th>
-        <th class="total price">{{numeral-format model.payment.total format="0.00"}} €</th>
-      </tr>
-    </tfoot>
-  </table>
-  </div>
-
   {{partial (concat "payment/" paymentMethodPartial)}}
-
-  {{#if forMembership}}
-    {{#link-to "select-roster" type="button" class="ui primary button"}}Scegli i turni di linea{{/link-to}}
-  {{/if}}
 </div>

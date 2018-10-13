@@ -56,6 +56,10 @@ console.log("================= QUERY", type.modelName, query, params);
     return this.ws.indexAndBind(type.modelName, params);
   },
 
+  shouldReloadQuery(modelName, params) {
+    return this.ws.isQueryCached(modelName, params);
+  },
+
   queryRecord(store, type, query) {
     let params =  assign({
     }, query);

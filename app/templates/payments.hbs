@@ -1,3 +1,4 @@
+{{title "Pagamenti"}}
 {{#if model}}
 <table class="payments ui selectable celled table" style="margin-left: 2em">
   <thead>
@@ -15,9 +16,9 @@
     {{#link-to "payment" payment.id tagName="tr"}}
       <td><div class="ui ribbon label {{get stateColors payment.state}}">{{payment.state}}</div></td>
       <td>{{moment-format payment.created_at "DD-MM-YYYY HH:mm:ss" }}</td>
-      <td>{{payment.code}}</td>
+      <td>{{payment.identifier}}</td>
       <td>{{payment.payment_method}}</td>
-      <td class="price">{{numeral-format payment.total format="0.00"}} €</td>
+      <td class="price">{{numeral-format payment.amount format="0.00"}} €</td>
       <td>{{if payment.expires_at (moment-format payment.created_at "DD-MM-YYYY")}}</td>
     {{/link-to}}
   {{/each}}

@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import { hash, all } from 'rsvp';
 
 export default Route.extend({
   session: service(),
@@ -9,9 +10,16 @@ export default Route.extend({
     this.moment.setLocale('it');
   },
 
-  title: function(tokens) {
-    return tokens.join(' - ');
+  model() {
+    return hash({
+      payments: this.store.peekAll('ygg--acao--payment'),
+      renewalContext: $.getJSON('/ygg/acao/memberships/renew'),
+      memberships: this.store.query('ygg--acao--membership', { filter: { person_id: this.get('session.personId') } }),
+      rosterStatus: $.getJSON('/ygg/acao/roster_entries/status'),
+
+    });
   },
+
 
   actions: {
 //    error(error, transition) {

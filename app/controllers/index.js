@@ -1,10 +1,25 @@
-import { sort } from '@ember/object/computed';
-import { computed } from '@ember/object';
 import Controller from '@ember/controller';
+import { sort, alias } from '@ember/object/computed';
+import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 export default Controller.extend({
   session: service('session'),
+  clock: service('my-clock'),
+  applicationController: Ember.inject.controller('application'),
+
+  //------------------- Renewal -------------------
+  renewalContext: alias('applicationController.model.renewalContext'),
+
+  renewIsGoingToOpen: computed('renewalContext.next.@each', 'clock.time', function() {
+    return this.get('renewalContext.next.announce_time') &&
+           this.get('renewalContext.next.opening_time') &&
+           this.get('clock.date') > new Date(this.get('renewalContext.next.announce_time')) &&
+           this.get('clock.date') < new Date(this.get('renewalContext.next.opening_time'));
+  }),
+
+  //------------------- Roster -------------------
+  myNextRosterEntries: sort('myNextRosterEntriesUnsorted', 'rosterEntriesSortOrder'),
 
   allRosterEntries: computed(function() {
     return this.store.peekAll('ygg--acao--roster-entry');
@@ -16,30 +31,6 @@ export default Controller.extend({
        item.belongsTo('roster_day').value().get('date') > new Date()
       )
     );
-  }),
-
-  clock: service('my-clock'),
-
-  renewIsOpen: computed('model.{renewalContext.opening_time,memberships.[]}', 'clock.time', function() {
-    return this.get('model.renewalContext') &&
-           !this.get('model.memberships').any((item) => (item.get('reference_year_id') == this.get('model.renewalContext.renew_for_year_id'))) &&
-           this.get('model.renewalContext.opening_time') &&
-           this.get('clock.date') > new Date(this.get('model.renewalContext.opening_time'));
-  }),
-
-  renewIsGoingToOpen: computed('model.renewalContext.{renewal_time,announce_time}', 'clock.time', function() {
-    return this.get('model.renewalContext') &&
-           this.get('model.renewalContext.announce_time') &&
-           this.get('model.renewalContext.opening_time') &&
-           !this.get('model.memberships').any((item) => (item.get('reference_year_id') == this.get('model.renewalContext.renew_for_year_id'))) &&
-           this.get('clock.date') > new Date(this.get('model.renewalContext.announce_time')) &&
-           this.get('clock.date') < new Date(this.get('model.renewalContext.opening_time'));
-  }),
-
-  myNextRosterEntries: sort('myNextRosterEntriesUnsorted', 'rosterEntriesSortOrder'),
-
-  havePendingPayments: computed('model.payments', function() {
-    return this.get('model.payments').any((item) => (item.get('state') == 'PENDING'));
   }),
 
   init() {

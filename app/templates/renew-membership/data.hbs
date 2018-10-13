@@ -1,3 +1,4 @@
+{{title "Dati"}}
 <table class="renew-services ui celled table">
   <thead>
     <tr>
@@ -27,8 +28,8 @@
       <td>
         <a {{action "removeService" index}}><i class="big trash icon"></i></a>
       </td>
-      <td>
-        {{#ui-dropdown class="selection fluid" onChange=(action "setServiceType" index) as |execute mapper|}}
+      <td style="overflow:visible;">
+        {{#ui-dropdown class="selection float fluid" selected=service.type.id onChange=(action "setServiceType" index) as |execute mapper|}}
           <div class="default text">Seleziona servizio...</div>
           <i class="dropdown icon"></i>
           <div class="menu">
@@ -98,9 +99,9 @@
   Metodo di pagamento:
 </p>
 <div class="three ui buttons">
-  <button class="ui button {{if paymentWire "active"}}" {{action (mut paymentMethod) "wire"}}><i class="ui university icon"></i><br /> Bonifico Bancario</button>
-  <button class="ui button {{if paymentCheck "active"}}" {{action (mut paymentMethod) "check"}}><i class="ui tag icon"></i><br /> Assegno</button>
-  <button class="ui button {{if paymentCard "active"}}" {{action (mut paymentMethod) "card"}}><i class="ui credit card alternative icon"></i><br /> Carte (in segreteria)</button>
+  <button class="ui button {{if paymentWire "active"}}" {{action (mut paymentMethod) "WIRE"}}><i class="ui university icon"></i><br /> Bonifico Bancario</button>
+  <button class="ui button {{if paymentCheck "active"}}" {{action (mut paymentMethod) "CHECK"}}><i class="ui tag icon"></i><br /> Assegno</button>
+  <button class="ui button {{if paymentCard "active"}}" {{action (mut paymentMethod) "CARD"}}><i class="ui credit card alternative icon"></i><br /> Carte (in segreteria)</button>
 </div>
 
 {{#if commitDisabled}}

@@ -7,10 +7,10 @@ const Router = EmberRouter.extend({
   rootURL: config.rootURL,
   headData: service(),
 
-  setTitle(title, tokens) {
-    this.headData.set('title', title);
-    this.headData.set('titleTokens', tokens);
-  },
+//  setTitle(title, tokens) {
+//    this.headData.set('title', title);
+//    this.headData.set('titleTokens', tokens);
+//  },
 });
 
 Router.map(function() {
@@ -36,6 +36,9 @@ Router.map(function() {
   this.route('payments');
   this.route('payment', { path: '/payment/:id' });
 
+  this.route('invoices');
+  this.route('invoice', { path: '/invoice/:id' });
+
   this.route('select-roster');
   this.route('today-roster');
   this.route('today-roster-not-found');
@@ -43,14 +46,19 @@ Router.map(function() {
 
   this.route('select-tow-roster');
   this.route('today-tow-roster');
+  this.route('today-tow-roster-not-found');
   this.route('tow-roster-days');
 
   this.route('bar-transactions');
+
   this.route('token-transactions');
+
   this.route('flights');
   this.route('flight', { path: '/flight/:id' });
+
   this.route('aircrafts');
   this.route('aircraft', { path: '/aircraft/:id' });
+
   this.route('aircraft-types');
   this.route('aircraft-type', { path: '/aircraft-type/:id' });
 });

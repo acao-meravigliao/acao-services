@@ -1,15 +1,17 @@
-import { all } from 'rsvp';
-import { sort } from '@ember/object/computed';
-import { computed } from '@ember/object';
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
+import { all } from 'rsvp';
+import { sort, alias } from '@ember/object/computed';
+import { computed } from '@ember/object';
 
 export default Controller.extend({
-  session: service('session'),
+  session: service(),
 
   monthSelect: 'all',
   seasonSelect: 'all',
   includeBusy: false,
+
+  canBeChief: alias('session.person.acao_roster_chief'),
 
   saveDisabled: computed('saving', 'isDirty', function() {
     return this.saving || !this.isDirty;
@@ -70,13 +72,16 @@ export default Controller.extend({
     this.rosterDaysSortOrder = ['date'];
   },
 
+  cancelSelections() {
+console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA CANCEL SELECTIONS");
+    this.store.peekAll('ygg--acao--roster-entry').forEach(function(record) { record.rollbackAttributes(); });
+  },
+
   actions: {
     addDay(dayEntry) {
       this.store.createRecord('ygg--acao--roster-entry', {
         person: this.store.peekRecord('ygg--core--person', this.get('session.personId')),
         roster_day: dayEntry,
-        chief: this.get('model.rosterStatus.possible_roster_chief') &&
-               !dayEntry.get('roster_entries').any((item) => (item.get('chief'))),
       });
     },
 
@@ -106,7 +111,7 @@ export default Controller.extend({
     },
 
     cancel() {
-      this.store.peekAll('ygg--acao--roster-entry').forEach(function(record) { record.rollbackAttributes(); });
+      this.cancelSelections();
     },
   },
 });

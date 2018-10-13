@@ -1,25 +1,32 @@
+import Route from '@ember/routing/route';
+import AuthenticatedRouteMixin from 'acao-services/mixins/authenticated-route-mixin';
 import $ from 'jquery';
 import { hash } from 'rsvp';
 import EmberObject from '@ember/object';
-import Route from '@ember/routing/route';
-import AuthenticatedRouteMixin from 'acao-services/mixins/authenticated-route-mixin';
 
-export default Route.extend({
-
-  titleToken: 'Rinnovo iscrizione',
-
-  state: EmberObject.create({
-    currentStep: 'index',
-    enableCav: true,
-    enableEmail: true,
-    acceptRules: false,
-  }),
-
+export default Route.extend(AuthenticatedRouteMixin, {
   model() {
     return hash({
       context: $.getJSON('/ygg/acao/memberships/renew'),
-      state: this.state,
+      serviceTypes: this.store.findAll('ygg--acao--service-type'),
+      state: EmberObject.create({
+        currentStep: 'index',
+        enableCav: true,
+        enableEmail: true,
+        acceptRules: false,
+      }),
     });
+  },
+
+  setupController(controller, model) {
+    this._super(controller, model);
+console.log("PPPPPPPPPPPPPPPPPPPPP", this.store.peekRecord('ygg--acao--service-type', 6));
+    controller.set('state.services',
+      model.context.current.services.map((x) => EmberObject.create({
+        type: this.store.peekRecord('ygg--acao--service-type', x.service_type_id),
+        extraInfo: x.extra_info,
+      })
+    ));
   },
 
   afterModel(model, transition) {
@@ -27,5 +34,4 @@ export default Route.extend({
       this.transitionTo(this.routeName + '.' + model.state.get('currentStep'));
     }
   },
-
-}, AuthenticatedRouteMixin);
+});

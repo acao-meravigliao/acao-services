@@ -1,32 +1,34 @@
-import { computed } from '@ember/object';
-import Controller, { inject as controller } from '@ember/controller';
+import Controller from '@ember/controller';
+import { inject as controller } from '@ember/controller';
 import { inject as service } from '@ember/service';
+import { computed } from '@ember/object';
+import { alias } from '@ember/object/computed';
 
 export default Controller.extend({
+  wizard: controller('renew-membership'),
+  context: alias('wizard.context'),
+  state: alias('wizard.state'),
   session: service('session'),
+
   clock: service('my-clock'),
 
-  wizard: controller('renew-membership'),
+  renewIsOpen: alias('wizard.renewIsOpen'),
 
-  renewIsOpen: computed('context.opening_time', 'clock.time', function() {
-    return this.get('clock.date') > new Date(this.get('context.opening_time'));
+  paymentIsPending: computed('context.current.membership.status', function() {
+    return this.get('context.current.membership.status') == 'WAITING_PAYMENT' &&
+           this.get('context.current.membership.payment_id');
   }),
 
-  paymentIsPending: computed('context.membership.status', function() {
-    return this.get('context.membership.status') == 'WAITING_PAYMENT' &&
-           this.get('context.membership.payment_id');
+  myEmails: computed('wizard.person.contacts.@each', function() {
+    return this.get('wizard.person.contacts').filterBy('type', 'email');
   }),
 
-  myEmails: computed('model.person.contacts.@each', function() {
-    return this.get('model.person.contacts').filterBy('type', 'email');
+  myFixedPhones: computed('wizard.person.contacts.@each', function() {
+    return this.get('wizard.person.contacts').filterBy('type', 'phone');
   }),
 
-  myFixedPhones: computed('model.person.contacts.@each', function() {
-    return this.get('model.person.contacts').filterBy('type', 'phone');
-  }),
-
-  myMobiles: computed('model.person.contacts.@each', function() {
-    return this.get('model.person.contacts').filterBy('type', 'mobile');
+  myMobiles: computed('wizard.person.contacts.@each', function() {
+    return this.get('wizard.person.contacts').filterBy('type', 'mobile');
   }),
 
   actions: {

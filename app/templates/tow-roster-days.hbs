@@ -1,3 +1,4 @@
+{{title "Tutti i turni di traino"}}
 <div class="ui container">
   <div class="ui raised segment">
     <div class="ui grid">
@@ -20,7 +21,7 @@
     {{#if model}}
       <div class="ui cards">
       {{#each sortedRosterDays as |day|}}
-        {{tow-roster-day-display day=day}}
+        {{tow-roster-day day=day}}
       {{/each}}
       </div>
     {{else}}

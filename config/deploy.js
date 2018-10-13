@@ -15,6 +15,13 @@ module.exports = function(deployTarget) {
   if (deployTarget === 'staging') {
     ENV.build.environment = 'production';
     // configure other plugins for staging deploy target here
+
+    ENV['rsync-assets'] = {
+      destination: '/opt/acao-services/',
+      source: 'tmp/deploy-dist/.',
+      excludeIndexHTML: false, // default is `true` to exclude index.html
+//      flags: ['z'], // compress, gzip
+    }
   }
 
   if (deployTarget === 'production') {
@@ -23,13 +30,6 @@ module.exports = function(deployTarget) {
     //ENV.plugins = 'build rsync-assets'.split(' ');
     ENV.build = { environment: 'production' };
 
-//    ENV['scp'] = {
-//      nodes: [{
-//        username: 'yggdra',
-//        host: 'iserver.acao.it',
-//        path: '/opt/acao-services-deploytest',
-//      }],
-//    }
     ENV['rsync-assets'] = {
       destination: 'yggdra@iserver.acao.it:/opt/acao-services/',
       source: 'tmp/deploy-dist/.',

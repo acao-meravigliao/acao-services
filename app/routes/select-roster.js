@@ -1,11 +1,9 @@
-import $ from 'jquery';
-import { hash } from 'rsvp';
 import Route from '@ember/routing/route';
 import AuthenticatedRouteMixin from 'acao-services/mixins/authenticated-route-mixin';
+import $ from 'jquery';
+import { hash } from 'rsvp';
 
 export default Route.extend(AuthenticatedRouteMixin, {
-
-  titleToken: 'Turni di linea',
 
   model(params) {
     return hash({
@@ -20,4 +18,14 @@ export default Route.extend(AuthenticatedRouteMixin, {
       this.transitionTo('/');
   },
 
+  actions: {
+    willTransition(transition) {
+      if (this.get('controller.isDirty')) {
+        if (confirm('Annulla le modifiche?'))
+          this.get('controller').cancelSelections();
+        else
+          transition.abort();
+      }
+    },
+  },
 });

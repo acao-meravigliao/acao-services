@@ -4,8 +4,8 @@
   {{#if renewIsGoingToOpen}}
     <div class="ui orange message">
       <h1 class="ui header">
-        L'iscrizione per l'anno {{model.renewalContext.renew_for_year}} non è ancora aperta,
-        aprirà {{moment-from-now model.renewalContext.opening_time interval=1000}}
+        L'iscrizione per l'anno {{renewalContext.next.renew_for_year}} non è ancora aperta,
+        aprirà {{moment-from-now renewalContext.next.opening_time interval=1000}}
       </h1>
     </div>
   {{/if}}
@@ -77,22 +77,6 @@
       </div>
     </div>
     <div class="column">
-      <div class="ui vertical buttons">
-        {{#if havePendingPayments}}
-          {{#link-to "payments" class="massive ui orange button" tagName="button"}}Ci sono dei pagamenti pendenti{{/link-to}}
-        {{/if}}
-
-        {{#if renewIsOpen}}
-          {{#link-to "renew-membership" class="massive ui primary button" tagName="button"}}Rinnova l'iscrizione {{model.renewalContext.year}}{{/link-to}}
-        {{/if}}
-
-        {{#if model.rosterStatus.can_select_entries}}
-          {{#link-to "select-roster" class="massive ui green button" tagName="button"}}Scegli i turni di linea{{/link-to}}
-        {{/if}}
-
-        {{#link-to "roster-days" class="ui blue button"}} Tutti i turni di linea {{/link-to}}
-        {{#link-to "today-roster" class="ui blue button"}} Turni di oggi {{/link-to}}
-      </div>
     </div>
   </div>
 
