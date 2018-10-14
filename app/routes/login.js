@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 export default Route.extend({
   session: service('session'),
 
-  authenticatedRoute: 'index',
+  authenticatedRoute: 'logged-in.index',
 
   beforeModel(transition) {
     // Trigger session loading if not loaded already, if authenticated jump to index

@@ -1,8 +1,7 @@
 import Route from '@ember/routing/route';
-import AuthenticatedRouteMixin from 'acao-services/mixins/authenticated-route-mixin';
 import { hash, all } from 'rsvp';
 
-export default Route.extend(AuthenticatedRouteMixin, {
+export default Route.extend({
   model() {
     return hash({
       //payments: this.store.query('ygg--acao--payment', { filter: { state: 'PENDING', person_id: this.get('session.personId') } }),

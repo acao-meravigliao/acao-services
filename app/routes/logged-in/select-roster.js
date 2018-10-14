@@ -1,9 +1,8 @@
 import Route from '@ember/routing/route';
-import AuthenticatedRouteMixin from 'acao-services/mixins/authenticated-route-mixin';
 import $ from 'jquery';
 import { hash } from 'rsvp';
 
-export default Route.extend(AuthenticatedRouteMixin, {
+export default Route.extend({
 
   model(params) {
     return hash({

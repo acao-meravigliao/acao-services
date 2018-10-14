@@ -77,6 +77,27 @@ console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA CANCEL SELECTIONS");
     this.store.peekAll('ygg--acao--roster-entry').forEach(function(record) { record.rollbackAttributes(); });
   },
 
+  saveSelections() {
+    let me = this;
+    let promises = [];
+
+    this.set('saving', true);
+
+    this.store.peekAll('ygg--acao--roster-entry').forEach(function(record) {
+      if (record.get('hasDirtyAttributes')) {
+        promises.push(record.save());
+      }
+    });
+
+    all(promises).then(function() {
+      me.set('saving', false);
+      me.set('saveSuccess', true);
+    }).catch((error) => {
+      me.set('saving', false);
+      me.set('saveError', error.reason);
+    });
+  },
+
   actions: {
     addDay(dayEntry) {
       this.store.createRecord('ygg--acao--roster-entry', {
@@ -90,24 +111,11 @@ console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA CANCEL SELECTIONS");
     },
 
     save() {
-      let me = this;
-      let promises = [];
-
-      this.set('saving', true);
-
-      this.store.peekAll('ygg--acao--roster-entry').forEach(function(record) {
-        if (record.get('hasDirtyAttributes')) {
-          promises.push(record.save());
-        }
-      });
-
-      all(promises).then(function() {
-        me.set('saving', false);
-        me.set('saveSuccess', true);
-      }).catch((error) => {
-        me.set('saving', false);
-        me.set('saveError', error.reason);
-      });
+      if (this.get('requisiteEntriesMissing')) {
+        if (confirm('Non tutti i turni necessari sono stati selezionati, continuare comunque?'))
+          this.saveSelections();
+      } else
+        this.saveSelections();
     },
 
     cancel() {

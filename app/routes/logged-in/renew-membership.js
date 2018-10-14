@@ -1,10 +1,9 @@
 import Route from '@ember/routing/route';
-import AuthenticatedRouteMixin from 'acao-services/mixins/authenticated-route-mixin';
 import $ from 'jquery';
 import { hash } from 'rsvp';
 import EmberObject from '@ember/object';
 
-export default Route.extend(AuthenticatedRouteMixin, {
+export default Route.extend({
   model() {
     return hash({
       context: $.getJSON('/ygg/acao/memberships/renew'),

@@ -13,7 +13,7 @@
   </thead>
   <tbody>
   {{#each model key="id" as |invoice|}}
-    {{#link-to "invoice" invoice.id tagName="tr"}}
+    {{#link-to "logged-in.invoice" invoice.id tagName="tr"}}
       <td><div class="ui ribbon label {{get stateColors invoice.state}}">{{invoice.state}}</div></td>
       <td>{{moment-format invoice.created_at "DD-MM-YYYY HH:mm:ss" }}</td>
       <td>{{invoice.identifier}}</td>

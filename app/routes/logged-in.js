@@ -1,10 +1,10 @@
-import Mixin from '@ember/object/mixin';
+import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import { Promise } from 'rsvp';
-//import { computed } from '@ember/object';
+import { hash, all } from 'rsvp';
 
-export default Mixin.create({
-  session: service('session'),
+export default Route.extend({
+  session: service(),
+  moment: service(),
 
   loginRoute: 'login',
 
@@ -17,6 +17,8 @@ export default Mixin.create({
   },
 
   beforeModel(transition) {
+
+console.log("-------------------------- BEFORE MODEL");
     // Trigger session loading if not loaded already, if not authenticated transition to login route
     if (!this.get('session.isLoaded')) {
       return new Promise((resolve, reject) => {
@@ -35,4 +37,15 @@ export default Mixin.create({
       this.transitionTo(this.loginRoute);
     }
   },
+
+  model() {
+    return hash({
+      payments: this.store.peekAll('ygg--acao--payment'),
+      renewalContext: $.getJSON('/ygg/acao/memberships/renew'),
+      memberships: this.store.query('ygg--acao--membership', { filter: { person_id: this.get('session.personId') } }),
+      rosterStatus: $.getJSON('/ygg/acao/roster_entries/status'),
+
+    });
+  },
+
 });

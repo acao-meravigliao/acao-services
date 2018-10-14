@@ -2,7 +2,7 @@ import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 
 export default Controller.extend({
-  session: service('session'),
+  session: service(),
 
   actions: {
     authenticate() {
@@ -15,7 +15,7 @@ export default Controller.extend({
 
       this.session.authenticate(username, password).then(() => {
         this.set('loggingIn', false);
-        this.transitionToRoute('index');
+        this.transitionToRoute('logged-in.index');
       }).catch((reason) => {
         this.set('loggingIn', false);
 

@@ -1,0 +1,93 @@
+<div class="ui container">
+  <h1 class="ui header">Ciao {{session.person.first_name}}!</h1>
+
+  {{#if renewIsGoingToOpen}}
+    <div class="ui orange message">
+      <h1 class="ui header">
+        L'iscrizione per l'anno {{renewalContext.next.renew_for_year}} non è ancora aperta,
+        aprirà {{moment-from-now renewalContext.next.opening_time interval=1000}}
+      </h1>
+    </div>
+  {{/if}}
+
+  <div class="ui stackable mobile reversed equal width grid">
+    <div class="column">
+      <div>
+        <div class="ui statistics">
+          <div class="statistic">
+            <div class="value">
+              {{numeral-format session.person.acao_bar_credit format="0.00"}} €
+            </div>
+            <div class="label">
+              Conto bar
+            </div>
+          </div>
+        </div>
+
+        <div class="ui statistics">
+          <div class="statistic">
+            <div class="value">
+              {{session.person.acao_bollini}}
+            </div>
+            <div class="label">
+              Bollini
+            </div>
+          </div>
+        </div>
+
+
+<!--        {{#if model.memberships}}
+          Socio nel:
+          <div class="ui celled horizontal list">
+            {{#each model.memberships key="id" as |membership|}}
+              <div class="item">{{membership.reference_year.year}}</div>
+            {{/each}}
+          </div>
+        {{/if}}
+-->
+
+        {{#if myNextRosterEntries}}
+          <div class="ui segment">
+            Prossimi turni di linea:
+            {{#each myNextRosterEntries as |re|}}
+              {{roster-entry-display entry=re}}
+            {{/each}}
+          </div>
+        {{/if}}
+
+<!--
+        {{#if model.medicals}}
+          <div class="ui segment">
+            Visita medica:
+            {{#each model.medicals as |med|}}
+              {{med.type}}: {{moment-format med.valid_to "DD-MM-YYYY"}}<br />
+            {{/each}}
+          </div>
+        {{/if}}
+
+        {{#if model.licenses}}
+          <div class="ui segment">
+            Licenze:
+            {{#each model.licenses as |lic|}}
+              {{lic.type}}: {{lic.identifier}}: {{moment-format lic.valid_to "DD-MM-YYYY"}}
+            {{/each}}
+          </div>
+        {{/if}}
+-->
+      </div>
+    </div>
+    <div class="column">
+    </div>
+  </div>
+
+
+<!--  <div class="ui statistic">
+    <div class="value">
+      <i class="plane icon"></i> 15
+    </div>
+    <div class="label">
+      Voli
+    </div>
+  </div>
+-->
+</div>

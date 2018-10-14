@@ -6,20 +6,10 @@ export default Route.extend({
   session: service(),
   moment: service(),
 
-  beforeModel() {
+  beforeModel(transition) {
+console.log("PPPPPPPPPPPPPPPPPPPP");
     this.moment.setLocale('it');
   },
-
-  model() {
-    return hash({
-      payments: this.store.peekAll('ygg--acao--payment'),
-      renewalContext: $.getJSON('/ygg/acao/memberships/renew'),
-      memberships: this.store.query('ygg--acao--membership', { filter: { person_id: this.get('session.personId') } }),
-      rosterStatus: $.getJSON('/ygg/acao/roster_entries/status'),
-
-    });
-  },
-
 
   actions: {
 //    error(error, transition) {

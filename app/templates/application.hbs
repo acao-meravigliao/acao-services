@@ -1,49 +1,7 @@
-{{title "ACAO Servizi"}}
-{{head-layout}}
-<div class="ui fixed inverted main menu">
-  {{#if session.isAuthenticated}}
-    <a class="launch icon item sidebar-toggle" {{action "sidebarToggle" "main-sidebar"}}>
-      <i class="sidebar icon"></i>
-    </a>
-  {{/if}}
-
-  <div class="ui breadcrumb item">
-    {{#link-to "index" class="selection"}}{{myPageTitle}}{{/link-to}}
-  </div>
-
-  {{#if session.isAuthenticated}}
-    <div class="right item">
-      {{#if cart.items}}
-        {{#link-to "shop.cart" class="ui small button"}}
-          <i class="cart icon"></i>
-          {{if cart.items.length cart.items.length ""}}
-        {{/link-to}}
-      {{/if}}
-
-      <button class="ui small button" {{action "logout"}}>Logout</button>
-    </div>
-  {{else}}
-<!--    <div class="right item">
-      {{#link-to "login" class="ui primary button" tagName="button"}}Login{{/link-to}}
-    </div>-->
-  {{/if}}
-
-</div>
-<div id="sidebar-context">
-{{#if session.isAuthenticated}}
-  {{#ui-sidebar class="ui inverted menu left inline vertical visible" dimPage=false closable=false id="main-sidebar" context="#sidebar-context"}}
-    {{main-menu-items
-        person=session.person
-        pendingPayments=pendingPayments
-        renewYear=renewYear
-        rosterEntriesSelectable=rosterEntriesSelectable
-        rosterEntriesPresent=rosterEntriesPresent
-    }}
-  {{/ui-sidebar}}
-{{/if}}
-
-<!-- height:1px;-->
-  <div class="pusher main content" style="background-color: #FFF;">
-    {{outlet}}
-  </div>
+<div class="ember-view">
+  {{title "ACAO Servizi"}}
+  {{head-layout}}
+  <!--App outlet-->
+  {{outlet}}
+  <!--App outlet end-->
 </div>

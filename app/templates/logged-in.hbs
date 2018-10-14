@@ -1,0 +1,37 @@
+{{head-layout}}
+<div class="ui fixed inverted main menu">
+    <a class="launch icon item sidebar-toggle" {{action "sidebarToggle" "main-sidebar"}}>
+      <i class="sidebar icon"></i>
+    </a>
+
+  <div class="ui breadcrumb item">
+    {{#link-to "logged-in.index" class="selection"}}{{myPageTitle}}{{/link-to}}
+  </div>
+
+    <div class="right item">
+      {{#if cart.items}}
+        {{#link-to "shop.cart" class="ui small button"}}
+          <i class="cart icon"></i>
+          {{if cart.items.length cart.items.length ""}}
+        {{/link-to}}
+      {{/if}}
+
+      <button class="ui small button" {{action "logout"}}>Logout</button>
+    </div>
+</div>
+<div id="sidebar-context">
+  {{#ui-sidebar class="ui inverted menu left inline vertical visible" dimPage=false closable=false id="main-sidebar" context="#sidebar-context"}}
+    {{main-menu-items
+        person=session.person
+        pendingPayments=pendingPayments
+        renewYear=renewYear
+        rosterEntriesSelectable=rosterEntriesSelectable
+        rosterEntriesPresent=rosterEntriesPresent
+    }}
+  {{/ui-sidebar}}
+
+<!-- height:1px;-->
+  <div class="pusher main content" style="background-color: #FFF;">
+    {{outlet}}
+  </div>
+</div>
