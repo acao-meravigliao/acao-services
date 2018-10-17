@@ -9,11 +9,9 @@ export default Controller.extend({
 
   loadDataTask: task(function * (args) {
     let params = {
-      filter: { pilot1_id: this.get('session.personId') },
-      order: { 'takeoff_time': 'DESC' },
+      filter: { pilot_id: this.get('session.personId') },
+      order: { 'valid_to': 'DESC' },
     };
-
-    let partializers;
 
     if (args.paginationData) {
       assign(params, {
@@ -22,7 +20,7 @@ export default Controller.extend({
       });
     }
 
-    let result = yield this.store.query('ygg--acao--flight', params);
+    let result = yield this.store.query('ygg--acao--license', params);
 
     this.set('totalRows', result.get('meta.total_count'));
 

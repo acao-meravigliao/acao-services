@@ -90,7 +90,7 @@
     {{#if myRosterEntries}}
       <div class="ui cards">
         {{#each myRosterEntries as |re|}}
-          {{roster-entry entry=re onDelete=(action "delEntry") chiefEnabled=model.rosterStatus.possible_roster_chief}}
+          {{roster-entry-edit entry=re onDelete=(action "delEntry")}}
         {{/each}}
       </div>
     {{/if}}

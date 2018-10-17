@@ -1,22 +1,58 @@
 {{title "Voli"}}
 <div class="ui container">
+  <YetiTable class="ui selectable celled table"
+      @filter={{filter}}
+      @pagination={{true}} @pageSize={{20}} @totalRows={{totalRows}}
+      @loadData={{perform loadDataTask}} as |table|>
+    <table.header as |header|>
+      <header.column>Aeromobile</header.column>
+      <header.column>Decollo</header.column>
+      <header.column>Luogo Decollo</header.column>
+      <header.column>Atterraggio</header.column>
+      <header.column>Luogo Att.</header.column>
+      <header.column>Pilota</header.column>
+      <header.column>Passeggero</header.column>
+      <header.column>Durata</header.column>
+    </table.header>
 
-<p>
-Aircraft: {{input value=(mut aircraftReg)}}
-</p>
+    <table.body as |body data|>
+      <body.row @onClick={{transition-to "logged-in.flight" data.id}} as |row|>
+        <row.cell>
+          {{data.aircraft_reg}}
+          {{#if (not-eq data.aircraft_reg data.aircraft.registration)}}<br /><em>{{data.aircraft.registration}}</em>{{/if}}
+        </row.cell>
+        <row.cell>
+          {{if data.takeoff_time (moment-format data.takeoff_time "DD-MM-YYYY hh:mm:ss")}}
+        </row.cell>
+        <row.cell>
+          {{data.takeoff_location_raw}}
+        </row.cell>
+        <row.cell>
+          {{if data.landing_time (moment-format data.landing_time "hh:mm:ss")}}
+        </row.cell>
+        <row.cell>
+          {{data.landing_location_raw}}
+        </row.cell>
+        <row.cell>
+          {{data.pilot1.first_name}} {{data.pilot1.last_name}}
+        </row.cell>
+        <row.cell>
+          {{data.pilot2.first_name}} {{data.pilot2.last_name}}
+        </row.cell>
+        <row.cell>
+          {{moment-format data.duration "hh:mm:ss"}}
+        </row.cell>
+      </body.row>
+    </table.body>
 
-<EmberTable as |t|>
-  <t.head @columns={{columns}} />
-  <t.body @rows={{porcodio}} @enableTree={{false}} as |b|>
-    <b.row as |r|>
-      <r.cell as |value column row|>
-        {{#if column.cellComponent}}
-          {{component column.cellComponent value=value}}
-        {{else}}
-          {{value}}
-        {{/if}}
-      </r.cell>
-    </b.row>
-  </t.body>
-</EmberTable>
+    <tfoot>
+      {{#if (gt table.paginationData.totalRows table.paginationData.pageSize)}}
+      <tr>
+        <td colspan={{table.totalColumns}}>
+          {{table-pagination table=table}}
+        </td>
+      </tr>
+      {{/if}}
+    </tfoot>
+  </YetiTable>
 </div>

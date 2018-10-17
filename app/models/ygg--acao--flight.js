@@ -3,10 +3,17 @@ import { computed } from '@ember/object';
 
 export default DS.Model.extend({
   uuid: DS.attr('string'),
-  takeoff_time: DS.attr('date'),
-  landing_time: DS.attr('date'),
-  instruction_flight: DS.attr('boolean'),
+
+  aircraft_reg: DS.attr('string'),
+  aircraft_id: DS.attr('number'),
   aircraft_class: DS.attr('string'),
+
+  takeoff_time: DS.attr('date'),
+  takeoff_location_raw: DS.attr('string'),
+  landing_time: DS.attr('date'),
+  landing_location_raw: DS.attr('string'),
+
+  instruction_flight: DS.attr('boolean'),
   launch_type: DS.attr('string'),
   acao_quota: DS.attr('string'),
 

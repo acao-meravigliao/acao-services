@@ -1,33 +1,46 @@
 {{title "Ricevute"}}
-{{#if model}}
-<table class="invoices ui selectable celled table" style="margin-left: 2em">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Data</th>
-      <th>Codice</th>
-      <th>Metodo</th>
-      <th>Ammontare</th>
-      <th>Scadenza</th>
-    </tr>
-  </thead>
-  <tbody>
-  {{#each model key="id" as |invoice|}}
-    {{#link-to "logged-in.invoice" invoice.id tagName="tr"}}
-      <td><div class="ui ribbon label {{get stateColors invoice.state}}">{{invoice.state}}</div></td>
-      <td>{{moment-format invoice.created_at "DD-MM-YYYY HH:mm:ss" }}</td>
-      <td>{{invoice.identifier}}</td>
-      <td>{{invoice.invoice_method}}</td>
-      <td class="price">{{numeral-format invoice.total format="0.00"}} €</td>
-      <td>{{if invoice.expires_at (moment-format invoice.created_at "DD-MM-YYYY")}}</td>
-    {{/link-to}}
-  {{/each}}
-  </tbody>
-</table>
-{{else}}
 <div class="ui container">
-  <div class="ui message">
-    Nessuna ricevuta associata al tuo account
-  </div>
+  <YetiTable class="invoices ui selectable celled table"
+      @filter={{filter}}
+      @pagination={{true}} @pageSize={{20}} @totalRows={{totalRows}}
+      @loadData={{perform loadDataTask}} as |table|>
+    <table.header as |header|>
+      <header.column></header.column>
+      <header.column>Data</header.column>
+      <header.column>Codice</header.column>
+      <header.column>Metodo</header.column>
+      <header.column>Ammontare</header.column>
+    </table.header>
+
+    <table.body as |body data|>
+      <body.row @onClick={{transition-to "logged-in.invoice" data.id}} as |row|>
+        <row.cell>
+          <div class="ui ribbon label {{get stateColors data.state}}">{{data.state}}</div>
+        </row.cell>
+        <row.cell>
+          {{moment-format data.created_at "DD-MM-YYYY HH:mm:ss" }}
+        </row.cell>
+        <row.cell>
+          {{data.identifier}}
+        </row.cell>
+        <row.cell>
+          {{data.payment_method}}
+        </row.cell>
+        <row.cell @class="price">
+          {{numeral-format invoice.total format="0.00"}} €
+        </row.cell>
+      </body.row>
+    </table.body>
+
+    <tfoot>
+      {{#if (gt table.paginationData.totalRows table.paginationData.pageSize)}}
+      <tr>
+        <td colspan={{table.totalColumns}}>
+          {{table-pagination table=table}}
+        </td>
+      </tr>
+      {{/if}}
+    </tfoot>
+  </YetiTable>
 </div>
-{{/if}}
+

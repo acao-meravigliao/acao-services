@@ -1,18 +1,49 @@
 {{title "Licenze"}}
-{{#if model}}
-  {{#each model key="id" as |lic|}}
-    <div>
-      <p>{{lic.type}}</p>
-      <p>{{identifier}}</p>
-      <p>{{lic.valid_to}}</p>
-      <p>{{lic.issued_at}}</p>
-      <p>{{lic.valid_to2}}</p>
-    </div>
-  {{/each}}
-{{else}}
 <div class="ui container">
-  <div class="ui message">
-    Nessuna licenza trovata
-  </div>
+  <YetiTable class="ui selectable celled table"
+      @filter={{filter}}
+      @pagination={{true}} @pageSize={{20}} @totalRows={{totalRows}}
+      @loadData={{perform loadDataTask}} as |table|>
+    <table.header as |header|>
+      <header.column>
+        Tipo
+      </header.column>
+      <header.column>
+        Identificatore
+      </header.column>
+      <header.column>
+        Scadenza
+      </header.column>
+      <header.column>
+        Scadenza Annotazione Annuale
+      </header.column>
+    </table.header>
+
+    <table.body as |body data|>
+      <body.row as |row|>
+        <row.cell>
+          {{data.type}}
+        </row.cell>
+        <row.cell>
+          {{data.identifier}}
+        </row.cell>
+        <row.cell>
+          {{if data.valid_to (moment-format data.valid_to "DD-MM-YYYY")}}
+        </row.cell>
+        <row.cell>
+          {{if data.valid_to2 (moment-format data.valid_to2 "DD-MM-YYYY")}}
+        </row.cell>
+      </body.row>
+    </table.body>
+
+    <tfoot>
+      {{#if (gt table.paginationData.totalRows table.paginationData.pageSize)}}
+      <tr>
+        <td colspan={{table.totalColumns}}>
+          {{table-pagination table=table}}
+        </td>
+      </tr>
+      {{/if}}
+    </tfoot>
+  </YetiTable>
 </div>
-{{/if}}

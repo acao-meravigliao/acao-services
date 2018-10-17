@@ -1,18 +1,17 @@
-<div class="ui {{if day.high_season "red" "blue"}} card">
+<div class="roster-day ui card">
   <div class="content">
-    <div class="header">
-      <i class="ui gray {{if day.high_season "sun" "snowflake"}} icon" style="color: #bbbbbb"/>
-      {{moment-format day.date "dddd D MMMM"}}
+    <div class="ui grid">
+      <div class="three wide column date-block {{if day.high_season "high-season" "low-season"}}">
+        <div class="date">
+          {{moment-format day.date "ddd"}}<br />
+          {{moment-format day.date "D/M"}}
+        </div>
+      </div>
+      <div class="thirteen wide column">
+        {{#each sortedEntries as |entry|}}
+          • {{entry.person.first_name}} {{entry.person.last_name}}<br />
+        {{/each}}
+      </div>
     </div>
-
-    {{#if day.descr}}
-      {{day.descr}}
-    {{/if}}
-  </div>
-
-  <div class="content">
-    {{#each sortedEntries as |entry|}}
-      • {{entry.person.first_name}} {{entry.person.last_name}}<br />
-    {{/each}}
   </div>
 </div>

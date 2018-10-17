@@ -36,8 +36,10 @@ Router.map(function() {
     this.route('select-tow-roster');
 
     this.route('bar-transactions');
+    this.route('bar-transaction', { path: '/bar-transaction/:id' });
 
     this.route('token-transactions');
+    this.route('token-transaction', { path: '/token-transaction/:id' });
 
     this.route('flights');
     this.route('flight', { path: '/flight/:id' });

@@ -1,15 +1,3 @@
-@import '@addepar/style-toolbox';
-
-body > {
-  .ember-view {
-    height: 100%;
-  }
-}
-
-a {
-  cursor: pointer;
-}
-
 .main.content {
   padding-top: 50px;
 }
@@ -22,12 +10,12 @@ span.price {
   font-family: monospace;
 }
 
-table.renew-services, table.shop-checkout, table.payment, table.invoice {
-  .price {
+table {
+  td.price {
     text-align: right !important;
     font-family: monospace;
   }
-  .total {
+  td.total {
     font-weight: bold !important;
     background-color: #f9fafb;
   }
@@ -41,11 +29,42 @@ table.payments, table.invoices {
   }
 }
 
-.roster-day-edit {
+.roster-day,.roster-entry {
   cursor: grabbing;
+
+  &.edit {
+    &.disabled {
+      cursor: not-allowed;
+    }
+  }
+
+  .date-block {
+    min-height: 4em;
+    text-transform: uppercase;
+    text-align: center;
+
+    .date {
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-weight: bold;
+    }
+
+    &.low-season {
+      background-color: #abf0ff;
+    }
+
+    &.high-season {
+      background-color: #ffd367;
+    }
+  }
 }
 
-.roster-day-edit.disabled {
-  cursor: not-allowed;
+.roster-entry {
+  .header {
+    text-align: center;
+    text-transform: uppercase;
+  }
 }
-

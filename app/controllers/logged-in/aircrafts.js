@@ -1,44 +1,30 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
-import { isEmpty } from '@ember/utils';
 import { inject as service } from '@ember/service';
-import Semantic from 'acao-services/themes/semantic';
-import moment from 'moment';
-import numeral from 'numeral';
+import { task } from 'ember-concurrency';
+import { assign } from '@ember/polyfills';
 
 export default Controller.extend({
-  columns: computed(function() {
-    return [
-     {
-      title: 'Marche',
-      propertyName: 'registration',
-      width: '160px',
-     },
-     {
-      title: 'Sigle Gara',
-      propertyName: 'race_registration',
-      width: '120px',
-     },
-     {
-      title: 'Proprietario',
-      propertyName: 'owner.last_name',
-      width: '200px',
-     },
-     {
-      title: 'ID Flarm',
-      propertyName: 'flarm_identifier',
-     },
-     {
-      title: 'ID ICAO',
-      propertyName: 'icao_identifier',
-     },
-    ];
+  session: service(),
+
+  loadDataTask: task(function * (args) {
+    let params = {
+      filter: { owner_id: this.get('session.personId') },
+      order: { 'created_at': 'DESC' },
+    };
+
+    if (args.paginationData) {
+      assign(params, {
+        offset: args.paginationData.pageStart - 1,
+        limit: args.paginationData.pageSize,
+      });
+    }
+
+    let result = yield this.store.query('ygg--acao--aircraft', params);
+
+    this.set('totalRows', result.get('meta.total_count'));
+
+    return result;
   }),
-
-  themeInstance: Semantic,
-
-  offset: 0,
-  limit: 50,
-  sort: 'registration',
-  dir: 'asc',
 });
+

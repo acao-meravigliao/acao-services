@@ -1,35 +1,54 @@
 {{title "Pagamenti"}}
 <div class="ui container">
-  {{#if model}}
-  <table class="payments ui selectable celled table" style="margin-left: 2em">
-    <thead>
+  <YetiTable class="payments ui celled striped table"
+      @filter={{filter}}
+      @pagination={{true}} @pageSize={{20}} @totalRows={{totalRows}}
+      @loadData={{perform loadDataTask}} as |table|>
+    <table.header as |header|>
+      <header.column></header.column>
+      <header.column>Data</header.column>
+      <header.column>Codice</header.column>
+      <header.column>Metodo</header.column>
+      <header.column @columnClass="price">Ammontare</header.column>
+      <header.column>Scadenza</header.column>
+    </table.header>
+
+    <table.body as |body data|>
+      <body.row @onClick={{transition-to "logged-in.payment" data.id}} as |row|>
+        <row.cell>
+         <div class="ui ribbon label {{get stateColors data.state}}">{{data.state}}</div>
+        </row.cell>
+        <row.cell>
+          {{if data.created_at (moment-format data.created_at "DD-MM-YYYY")}}
+        </row.cell>
+        <row.cell>
+          {{data.identifier}}
+        </row.cell>
+        <row.cell>
+          {{data.payment_method}}
+        </row.cell>
+        <row.cell>
+          {{numeral-format data.amount format="0.00"}} €
+        </row.cell>
+        <row.cell>
+          {{if data.expires_at (moment-format data.expires_at "DD-MM-YYYY")}}
+        </row.cell>
+      </body.row>
+    </table.body>
+
+    <tfoot>
+      {{#if (gt table.paginationData.totalRows table.paginationData.pageSize)}}
       <tr>
-        <th></th>
-        <th>Data</th>
-        <th>Codice</th>
-        <th>Metodo</th>
-        <th>Ammontare</th>
-        <th>Scadenza</th>
+        <td colspan={{table.totalColumns}}>
+          {{table-pagination table=table}}
+        </td>
       </tr>
-    </thead>
-    <tbody>
-    {{#each model key="id" as |payment|}}
-      {{#link-to "logged-in.payment" payment.id tagName="tr"}}
-        <td><div class="ui ribbon label {{get stateColors payment.state}}">{{payment.state}}</div></td>
-        <td>{{moment-format payment.created_at "DD-MM-YYYY HH:mm:ss" }}</td>
-        <td>{{payment.identifier}}</td>
-        <td>{{payment.payment_method}}</td>
-        <td class="price">{{numeral-format payment.amount format="0.00"}} €</td>
-        <td>{{if payment.expires_at (moment-format payment.created_at "DD-MM-YYYY")}}</td>
-      {{/link-to}}
-    {{/each}}
-    </tbody>
-  </table>
-  {{else}}
-  <div class="ui container">
-    <div class="ui message">
-      Nessun pagamento associato al tuo account
-    </div>
-  </div>
-  {{/if}}
+      {{/if}}
+    </tfoot>
+  </YetiTable>
 </div>
+
+<!--
+      {{#link-to "logged-in.payment" payment.id tagName="tr"}}
+      {{/link-to}}
+-->

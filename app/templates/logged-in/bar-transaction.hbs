@@ -1,0 +1,12 @@
+{{title "Movimento Bar"}}
+<div class="ui container">
+  <div class="ui segment">
+    <h1>Movimento bar</h1>
+    ID: {{model.uuid}}<br />
+    Registrato il: {{moment-format model.recorded_at "YYYY-MM-DD hh:mm:ss"}}<br />
+    Numero: {{model.cnt}}<br />
+    Descrizione: {{model.descr}}<br />
+    Ammontare: {{numeral-format model.amount format='0.00'}} {{model.unit}}<br />
+    Credito: {{numeral-format model.prev_credit format='0.00'}} → {{numeral-format model.credit format='0.00'}} {{model.unit}}
+  </div>
+</div>

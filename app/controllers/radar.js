@@ -5,7 +5,7 @@ import EmberLeafletComponent from 'ember-leaflet/components/leaflet-map';
 import L from 'L';
 
 export default Controller.extend({
-  ws: service('web-socket'),
+  vos: service('vihai-object-streaming'),
   lat: 45.809836,
   lng: 8.771022,
   zoom: 14,

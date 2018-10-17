@@ -12,17 +12,17 @@
 
 {{#link-to "logged-in.shop" class="item"}} Shop {{/link-to}}
 
-{{#link-to "logged-in.payments" class="item teal"}}
-  Pagamenti
-  {{#if pendingPayments}}
-    <div class="ui red label">{{pendingPayments.length}}</div>
-  {{/if}}
-{{/link-to}}
-
 {{#link-to "logged-in.invoices" class="item teal"}}
   Ricevute
   {{#if pendingInvoices}}
     <div class="ui red label">{{pendingInvoices.length}}</div>
+  {{/if}}
+{{/link-to}}
+
+{{#link-to "logged-in.payments" class="item teal"}}
+  Pagamenti
+  {{#if pendingPayments}}
+    <div class="ui red label">{{pendingPayments.length}}</div>
   {{/if}}
 {{/link-to}}
 

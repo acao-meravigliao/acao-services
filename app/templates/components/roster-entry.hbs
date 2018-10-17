@@ -1,29 +1,12 @@
-<div class="ui raised blurring {{if entry.roster_day.high_season "red" "blue"}} fluid card">
-  <div class="ui dimmer {{if entry.isDeleted "active"}}">
-    <div class="content">
-      <h3 class="ui inverted header">
-        Da eliminare
-      </h3>
-    </div>
-  </div>
+<div class="roster-entry ui raised blurring fluid card">
   <div class="content">
     <div class="header">
       {{moment-format entry.roster_day.date "dddd D MMMM"}}
     </div>
 
-    {{#unless chiefDisabled}}
-      <div class="ui checkbox toggle" style="float: right">
-        {{input type="checkbox" name="entry.chief" checked=entry.chief}}
-        <label>Capolinea</label>
-      </div>
-    {{/unless}}
-
-    <div>
-      {{#each entry.roster_day.roster_entries as |sameDayEntry|}}
-        <i class="ui {{if sameDayEntry.chief "spy" "user"}} icon"></i>
-        {{sameDayEntry.person.first_name}} {{sameDayEntry.person.last_name}}<br />
-      {{/each}}
-    </div>
+    {{#each entry.roster_day.roster_entries as |sameDayEntry|}}
+      • {{sameDayEntry.person.first_name}} {{sameDayEntry.person.last_name}}<br />
+    {{/each}}
 
     {{#if entry.notes}}
       <div class="ui message">
@@ -31,6 +14,25 @@
       </div>
     {{/if}}
   </div>
-
-  <button class="ui bottom attached button" disabled={{deleteDisabled}} {{action "del" entry}}><i class="red ui delete icon"></i> Elimina</button>
+  <div class="extra content">
+  {{#if entry.on_offer_since}}
+    In offerta da {{moment-from-now entry.on_offer_since interval=10000}}<br />
+    <button class="ui orange button" {{action "doCancelExchange"}}>Annulla scambio!</button>
+  {{else}}
+    {{#ui-popup tagName='button' on='click' class="ui button"}}
+      <i class="exchange icon"></i>
+      Scambio
+    {{/ui-popup}}
+    <div class="ui special popup">
+      <div class="ui grid">
+        <div class="ui form six column">
+          <div class="field">
+            Sei sicuro di voler offrire in scambio il tuo turno di linea?
+          </div>
+          <button class="ui button orange save" {{action "doExchange"}}>Scambia!</button>
+        </div>
+      </div>
+    </div>
+  {{/if}}
+  </div>
 </div>

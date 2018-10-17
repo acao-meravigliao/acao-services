@@ -7,13 +7,16 @@ import { assign } from '@ember/polyfills';
 export default Controller.extend({
   session: service(),
 
+  stateColors: {
+    'PENDING': 'orange',
+    'COMPLETED': 'green',
+  },
+
   loadDataTask: task(function * (args) {
     let params = {
-      filter: { pilot1_id: this.get('session.personId') },
-      order: { 'takeoff_time': 'DESC' },
+      filter: { person_id: this.get('session.personId') },
+      order: { 'created_at': 'DESC' },
     };
-
-    let partializers;
 
     if (args.paginationData) {
       assign(params, {
@@ -22,7 +25,7 @@ export default Controller.extend({
       });
     }
 
-    let result = yield this.store.query('ygg--acao--flight', params);
+    let result = yield this.store.query('ygg--acao--invoice', params);
 
     this.set('totalRows', result.get('meta.total_count'));
 

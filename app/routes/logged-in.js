@@ -40,12 +40,10 @@ console.log("-------------------------- BEFORE MODEL");
 
   model() {
     return hash({
-      payments: this.store.peekAll('ygg--acao--payment'),
       renewalContext: $.getJSON('/ygg/acao/memberships/renew'),
-      memberships: this.store.query('ygg--acao--membership', { filter: { person_id: this.get('session.personId') } }),
+      memberships: this.store.query('ygg--acao--membership', { params: { filter: { person_id: this.get('session.personId') } } }),
       rosterStatus: $.getJSON('/ygg/acao/roster_entries/status'),
-
+      pendingPayments: this.store.query('ygg--acao--payment', { params: { filter: { person_id: this.get('session.personId'), state: 'PENDING', } } }),
     });
   },
-
 });
