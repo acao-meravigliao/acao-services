@@ -8,20 +8,22 @@ export default DS.Store.extend({
     let normalizedModelName = DS.normalizeModelName(modelName);
     let adapter = this.adapterFor(normalizedModelName);
 
-    if (typeof(adapter.shouldReloadQuery) === 'function' && adapter.shouldReloadQuery(modelName, query)) {
-      let array = this.peekAll(normalizedModelName);
+    return this._super(...arguments);
 
-console.log("ARRAY LEN=", array.length, query);
-      let filter = query.filter;
-      if (filter) {
-        array = array.filter((item) => (
-          Object.keys(filter).every((key) => (item[key] == filter[key]))
-        ));
-      }
-console.log("ARRAY LEN2=", array.length);
-
-      return DS.PromiseArray.create({ promise: Promise.resolve(array) });
-    } else
-      return this._super(...arguments);
+//    if (typeof(adapter.shouldReloadQuery) === 'function' && adapter.shouldReloadQuery(modelName, query)) {
+//      let array = this.peekAll(normalizedModelName);
+//
+//console.log("ARRAY LEN=", array.length, query);
+//      let filter = query.params.filter;
+//      if (filter) {
+//        array = array.filter((item) => (
+//          Object.keys(filter).every((key) => (item[key] == filter[key]))
+//        ));
+//      }
+//console.log("ARRAY LEN2=", array.length);
+//
+//      return DS.PromiseArray.create({ promise: Promise.resolve(array) });
+//    } else
+//      return this._super(...arguments);
   },
 });

@@ -5,8 +5,8 @@ import { Promise } from 'rsvp';
 
 export default Service.extend(Evented, {
   store: service(),
-  ws: service('web-socket'),
   ajax: service(),
+  vos: service('vihai-object-streaming'),
 
   isAuthenticated: false,
 

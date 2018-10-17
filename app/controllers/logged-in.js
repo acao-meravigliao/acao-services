@@ -7,29 +7,21 @@ import { on } from '@ember/object/evented';
 import $ from 'jquery';
 
 export default Controller.extend({
-  ws: service('web-socket'),
+  vos: service('vihai-object-streaming'),
   session: service('session'),
   cart: service('shopping-cart'),
   clock: service('my-clock'),
   headData: service(),
 
-//  // -------- Page title hack  -------------------
-//  pageTitleList: service(),
-//  myPageTitle: '',
-//
-//  titleChangeObserver: on('init', observer('pageTitleList.sortedTokens.@each', function() {
-//    once(this, function() {
-//      this.set('myPageTitle', this.get('pageTitleList').toString());
-//    });
-//  })),
+  // -------- Page title hack  -------------------
+  pageTitleList: service(),
+  myPageTitle: '',
 
-  // ------------------- Payments ---------------------
-  pendingPayments: computed('session.personId', 'model.payments.[]', function() {
-    if (this.get('session.isLoaded')) {
-      return this.store.query('ygg--acao--payment', { filter: { state: 'PENDING', person_id: this.get('session.personId') } });
-    } else
-      return [];
-  }),
+  titleChangeObserver: on('init', observer('pageTitleList.sortedTokens.@each', function() {
+    once(this, function() {
+      this.set('myPageTitle', this.get('pageTitleList').toString());
+    });
+  })),
 
   // ------------------- Renewal ---------------------
   renewalContext: alias('model.renewalContext'),

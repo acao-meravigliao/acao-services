@@ -3,7 +3,7 @@ import { inject as service } from '@ember/service';
 import { assign } from '@ember/polyfills';
 
 export default DS.Adapter.extend({
-  ws: service('web-socket'),
+  vos: service('vihai-object-streaming'),
 
   defaultSerializer: '-json-api',
 
@@ -13,60 +13,85 @@ export default DS.Adapter.extend({
 //  },
 
   findRecord(store, type, id, snapshotRecordArray) {
-    let params =  assign({
-      id: id,
-    }, snapshotRecordArray.adapterOptions);
-
-console.log("================= FIND RECORD", type.modelName, id, params);
-
-    if (snapshotRecordArray.adapterOptions && snapshotRecordArray.adapterOptions.doNotBind)
-      return this.ws.get(type.modelName, params);
-    else
-      return this.ws.getAndBind(type.modelName, params);
+    return this.vos.getSingle(type.modelName, id, snapshotRecordArray.adapterOptions);
   },
 
   findMany(store, type, ids, snapshotRecordArray) {
-    let params =  assign({
-      ids: ids,
-    }, snapshotRecordArray.adapterOptions);
-
-console.log("================= FIND MANY", type.modelName, ids, params);
-
-    return this.ws.getManyAndBind(type.modelName, params);
+    return this.vos.getMany(type.modelName, ids, snapshotRecordArray.adapterOptions);
   },
 
+//  querySignature(modelName, params) {
+//    let sig = JSON.stringify({
+//      model: modelName,
+//      query: params,
+//    });
+//
+//    return sig;
+//  },
+//
+//  isQueryFullyLoaded(modelName, params) {
+//    let sig = this.querySignature(modelName, params);
+//
+//    return this.fullyLoadedQueries[sig];
+//  },
+
   findAll(store, type, sinceToken, snapshotRecordArray) {
-    let params =  assign({
-    }, snapshotRecordArray.adapterOptions);
-
-console.log("================= FIND ALL", type.modelName, params);
-
-    return this.ws.indexAndBind(type.modelName, params);
+    return this.vos.select({
+      model: type.modelName,
+      view: snapshotRecordArray.adapterOptions && snapshotRecordArray.adapterOptions.view,
+      bind: true,
+      fetchAll: true, // FIXME: find a way to disable fetchAll and return objects from the store
+      persistent: true,
+    }).then(function(res) {
+      return res.objects;
+    });
   },
 
   query(store, type, query, snapshotRecordArray) {
-    let params =  assign({
-    }, query, snapshotRecordArray.adapterOptions);
+//    let sig = this.querySignature(type.modelName, {});
+//    if (!sig) {
+//      
+//    }
 
-console.log("================= QUERY", type.modelName, query, params);
+    return this.vos.select({
+      model: type.modelName,
+      params: query.params,
+      limit: query.limit,
+      offset: query.offset,
+      order: query.order,
+      fetchAll: true,  // FIXME: find a way to disable fetchAll and return objects from the store
+      persistent: false,
+      view: snapshotRecordArray.adapterOptions && snapshotRecordArray.adapterOptions.view,
+    }).then(function(res) {
+//
+//          me.collectionBindings[msg.cbinding_id] = { model: modelName, params: params, view: args.view };
+//          me.collectionBindingsBySig[sig] = msg.cbinding_id;
+//
+//          if (!partial)
+//            me.fullyLoadedQueries[sig] = msg.cbinding_id;
+//
 
-//    if (snapshotRecordArray.adapterOptions && snapshotRecordArray.adapterOptions.transport == 'HTTP')
-//      return this.get('ws').getAndBind(type.modelName, null, query);
-//    else
-    return this.ws.indexAndBind(type.modelName, params);
+      return res.objects;
+    });
   },
 
   shouldReloadQuery(modelName, params) {
-    return this.ws.isQueryCached(modelName, params);
+    return this.vos.isQueryFullyLoaded(modelName, params);
   },
 
-  queryRecord(store, type, query) {
-    let params =  assign({
-    }, query);
-
-console.log("================= QUERY RECORD", type.modelName, query, params);
-
-    return this.ws.indexAndBind(type.modelName, params);
+  queryRecord(store, type, query, snapshotRecordArray) {
+    return this.vos.select({
+      model: type.modelName,
+      params: query.params,
+      limit: 1,
+      fetchAll: true,  // FIXME: find a way to disable fetchAll and return objects from the store
+      view: snapshotRecordArray.adapterOptions && snapshotRecordArray.adapterOptions.view,
+    }).then(function(res) {
+console.log("RES=========================", res);
+      return {
+        data: res.objects[0] || null,
+      };
+    });
   },
 
   createRecord(store, type, snapshot) {
@@ -78,9 +103,7 @@ console.log("================= QUERY RECORD", type.modelName, query, params);
 
     serializer.serializeIntoHash(data, type, snapshot, { includeId: true });
 
-console.log("================= CREATE_RECORD", data);
-
-    return this.ws.createAndBind(type.modelName, data, params);
+    return this.vos.create(type.modelName, data, params);
   },
 
   updateRecord(store, type, snapshot) {
@@ -94,11 +117,11 @@ console.log("================= CREATE_RECORD", data);
 
 console.log("================= UPDATE_RECORD", data);
 
-    return this.ws.update(type.modelName, data, params);
+    return this.vos.update(type.modelName, data, params);
   },
 
   deleteRecord(store, type, snapshot) {
 console.log("================= DELETE_RECORD", snapshot.id);
-    return this.ws.destroy(type.modelName, snapshot.id);
+    return this.vos.destroy(type.modelName, snapshot.id);
   },
 });
