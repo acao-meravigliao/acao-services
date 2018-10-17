@@ -1,6 +1,7 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import { hash, all } from 'rsvp';
+import $ from 'jquery';
 
 export default Route.extend({
   session: service(),

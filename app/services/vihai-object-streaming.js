@@ -6,7 +6,7 @@ import { assign } from '@ember/polyfills';
 import { cancel, later } from '@ember/runloop';
 import { Promise, defer as rsvpDefer } from 'rsvp';
 import $ from 'jquery';
-//import { require } from 'require';
+import { requirejs } from 'require';
 
 export default Service.extend(Evented, {
 
@@ -602,7 +602,6 @@ console.log("GET_MANY", modelName, ids, params);
       method: 'getmany',
       params: {
         model: modelName,
-        bind: bind,
         ids: ids,
         bind: bind,
         view: params.view,
