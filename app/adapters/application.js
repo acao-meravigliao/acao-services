@@ -20,73 +20,71 @@ export default DS.Adapter.extend({
     return this.vos.getMany(type.modelName, ids, snapshotRecordArray.adapterOptions);
   },
 
-//  querySignature(modelName, params) {
-//    let sig = JSON.stringify({
-//      model: modelName,
-//      query: params,
-//    });
-//
-//    return sig;
-//  },
-//
-//  isQueryFullyLoaded(modelName, params) {
-//    let sig = this.querySignature(modelName, params);
-//
-//    return this.fullyLoadedQueries[sig];
-//  },
+  querySignature(modelName, query) {
+    let sig = JSON.stringify({
+      model: modelName,
+      query: { filter: query.filter },
+    });
+
+    return sig;
+  },
 
   findAll(store, type, sinceToken, snapshotRecordArray) {
+    let sig = this.querySignature(type.modelName, {});
+    if (this.selections[sig]) {
+      this.selections[sig].complete = true;
+      //return { data: [] }; FIXME, we can not refreain from returning all the objects
+    }
+
     return this.vos.select({
       model: type.modelName,
       view: snapshotRecordArray.adapterOptions && snapshotRecordArray.adapterOptions.view,
       bind: true,
       fetchAll: true, // FIXME: find a way to disable fetchAll and return objects from the store
       persistent: true,
-    }).then(function(res) {
+    }).then((res) => {
+      this.selections[sig] = { id: res.selection_id, complete: true };
       return res.objects;
     });
   },
 
   query(store, type, query, snapshotRecordArray) {
-//    let sig = this.querySignature(type.modelName, {});
-//    if (!sig) {
-//      
-//    }
+    let sig = this.querySignature(type.modelName, { filter: query.filter });
+    if (this.selections[sig]) {
+      this.selections[sig].complete = this.selections[sig].complete || !(query.limit || query.offset);
+      //return { data: [] }; FIXME, we can not refreain from returning all the objects
+    }
 
     return this.vos.select({
       model: type.modelName,
-      params: query.params,
+      params: { filter: query.filter },
       limit: query.limit,
       offset: query.offset,
       order: query.order,
       fetchAll: true,  // FIXME: find a way to disable fetchAll and return objects from the store
-      persistent: false,
+      persistent: true,
       view: snapshotRecordArray.adapterOptions && snapshotRecordArray.adapterOptions.view,
-    }).then(function(res) {
-//
-//          me.collectionBindings[msg.cbinding_id] = { model: modelName, params: params, view: args.view };
-//          me.collectionBindingsBySig[sig] = msg.cbinding_id;
-//
-//          if (!partial)
-//            me.fullyLoadedQueries[sig] = msg.cbinding_id;
-//
-
+    }).then((res) => {
+      this.selections[sig] = { id: res.selection_id, complete: res.objects.data.length == res.objects.meta.total_count };
       return res.objects;
     });
   },
 
-  shouldReloadQuery(modelName, params) {
-    return this.vos.isQueryFullyLoaded(modelName, params);
+  shouldReloadQuery(modelName, query) {
+    let sig = this.querySignature(modelName, query);
+console.log("SHOULD RELOAD QUERY", this.selections);
+
+    return !this.selections[sig] || !this.selections[sig].complete;
   },
 
   queryRecord(store, type, query, snapshotRecordArray) {
     return this.vos.select({
       model: type.modelName,
-      params: query.params,
+      params: { filter: query.filter },
       limit: 1,
       fetchAll: true,  // FIXME: find a way to disable fetchAll and return objects from the store
       view: snapshotRecordArray.adapterOptions && snapshotRecordArray.adapterOptions.view,
-    }).then(function(res) {
+    }).then((res) => {
 console.log("RES=========================", res);
       return {
         data: res.objects[0] || null,
@@ -123,5 +121,10 @@ console.log("================= UPDATE_RECORD", data);
   deleteRecord(store, type, snapshot) {
 console.log("================= DELETE_RECORD", snapshot.id);
     return this.vos.destroy(type.modelName, snapshot.id);
+  },
+
+  init() {
+    this._super(...arguments);
+    this.selections = {};
   },
 });

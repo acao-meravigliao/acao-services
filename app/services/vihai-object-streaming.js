@@ -41,6 +41,7 @@ export default Service.extend(Evented, {
     me.deferredRequests = [];
 
     me.selections = {};
+    me.selectionsByModel = {};
 
     me.subs = {};
 
@@ -219,14 +220,14 @@ console.log("WELCOME", msg);
 
       me.session = msg.session;
 
-      me.connectionRequests.forEach((req) => (req.resolve(me.session)));
-      me.connectionRequests = [];
-
       if (!me.app_version)
         me.app_version = msg.app_version;
 
       if (me.app_version != msg.app_version)
         me.trigger('version_mismatch', me.app_version, msg.app_version);
+
+      me.connectionRequests.forEach((req) => (req.resolve(me.session)));
+      me.connectionRequests = [];
 
       me.trigger('welcome', msg);
 
@@ -238,10 +239,10 @@ console.log("WELCOME", msg);
         },
       });
 
-      if (me.savedCollectionBindings) {
-console.log("REBINDING COLLECTIONS", me.savedCollectionBindings);
+      if (me.selectionsSaved) {
+console.log("RECREATING SELECTIONS", me.selectionsSaved);
 
-        $.each(me.savedCollectionBindings, function(key, binding) {
+        $.each(me.selectionsSaved, function(key, binding) {
           me.select({
             model: binding.model,
             params: binding.params,
@@ -331,8 +332,8 @@ console.log("UPDATE OBJ=", msg);
     break;
 
     case 'destroy': {
-      let model = me.get('store').peekRecord(msg.object, msg.id);
-
+console.log("DESTROY OBJ=", msg);
+      let model = me.get('store').peekRecord(msg.object_type, msg.object_id);
       // XXX Send didDelete event??
 
       if (model)
@@ -346,10 +347,7 @@ console.log("UPDATE OBJ=", msg);
     case 'create_ok':
     case 'update_ok':
     case 'destroy_ok':
-    case 'bind_ok':
     case 'unbind_ok':
-    case 'cbind_ok':
-    case 'cunbind_ok':
     case 'sub_ok':
     case 'unsub_ok':
     case 'auth_ok':
@@ -359,6 +357,17 @@ console.log("UPDATE OBJ=", msg);
       delete me.requests[msg.reply_to];
 
       req.success(msg);
+    break;
+
+    case 'auth_fail':
+    case 'exception':
+    case 'message_not_handled':
+console.log("EXCEPTION", msg, "REQ=", req);
+
+      delete me.requests[msg.reply_to];
+
+      if (req)
+        req.failure(msg);
     break;
 
     case 'msg':
@@ -372,17 +381,6 @@ console.log("UPDATE OBJ=", msg);
           console.warn("Received message from exchange", msg.exchange, "on unexistant sub", sub_id);
       });
 
-    break;
-
-    case 'auth_fail':
-    case 'exception':
-    case 'message_not_handled':
-console.log("EXCEPTION", msg, "REQ=", req);
-
-      delete me.requests[msg.reply_to];
-
-      if (req)
-        req.failure(msg);
     break;
 
     default:
@@ -401,6 +399,7 @@ console.log("EXCEPTION", msg, "REQ=", req);
     if (!me.selectionsSaved) {
       me.selectionsSaved = me.selections;
       me.selections = {};
+      me.selectionsByModel = {};
 
   console.log("PERSISTENT SELECTIONS SAVED", me.selections, me.selectionsSaved);
     }
@@ -418,7 +417,6 @@ console.log("EXCEPTION", msg, "REQ=", req);
     me.reconnectAttempt += 1;
 
     if (document.visibilityState == 'visible') {
-console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPP", me.reconnectAttempt);
       if (me.reconnectAttempt == 1) {
         me.changeState('RECONNECTING');
         me.doConnect();
@@ -439,14 +437,6 @@ console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPP", me.reconnectAttempt);
     } else {
       me.changeState('INVISIBLE_IDLE');
     }
-  },
-
-  changeState(newState) {
-    let me = this;
-
-    console.log('WS', me.uri, 'Changed state from', me.state, 'to', newState);
-
-    me.set('state', newState);
   },
 
   pickRequestId() {
@@ -528,16 +518,23 @@ console.log("SELECT", args);
         params: params,
         offset: args.offset,
         limit: args.limit,
+        order: args.order,
         view: args.view,
         persistent: persistent,
         fetch_all: args.fetchAll,
       },
       success: function(msg) {
         if (persistent) {
-          me.selections[msg.selection_id] = { model: modelName, params: params, view: args.view };
+          let selection = { model: modelName, params: params, view: args.view };
+          me.selections[msg.selection_id] = selection;
+          me.selectionsByModel[modelName] = selection;
         }
 
-        defer.resolve({ objects: msg.objects, ids: msg.object_ids });
+        defer.resolve({
+          objects: msg.objects,
+          ids: msg.ids,
+          selection_id: msg.selection_id,
+        });
       },
       failure: function(msg) {
         console.error("SELECT FAILURE REQ=", req, "RESULT=", msg);
@@ -788,4 +785,13 @@ console.log("SUBSCRIBE", arguments);
 
     me.deferredRequests = [];
   },
+
+  changeState(newState) {
+    let me = this;
+
+    console.log('WS', me.uri, 'Changed state from', me.state, 'to', newState);
+
+    me.set('state', newState);
+  },
+
 });
