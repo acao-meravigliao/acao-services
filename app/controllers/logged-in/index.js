@@ -38,30 +38,6 @@ export default Controller.extend({
     this.rosterEntriesSortOrder = ['roster_day.date'];
   },
 
-//  setupCOntroller() {
-//    var me = this;
-////
-////    Ember.run.schedule("afterRender", this, function() {
-////      me.get('ws').subscribe('ygg.glideradar.processed_traffic.linobis', me.onMessage, me);
-//
-//
-////      var aircraft = this.aircrafts.get('firstObject');
-////console.log("AIRCRAFT=", aircraft);
-//
-////      setInterval(function() {
-////
-////        // XXX Measure update time and change refresh time automatically
-////        aircrafts.forEach(function(aircraft) {
-////          aircraft.set('lat', aircraft.get('lat') + 0.01 - Math.random() * 0.02);
-////          aircraft.set('lng', aircraft.get('lng') + 0.01 - Math.random() * 0.02);
-////          aircraft.set('cog', Math.random() * 360);
-////        });
-////      }, 100);
-////    });
-//  },
-
-
-
   actions: {
   },
 });

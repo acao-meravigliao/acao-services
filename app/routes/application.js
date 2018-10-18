@@ -7,7 +7,6 @@ export default Route.extend({
   moment: service(),
 
   beforeModel(transition) {
-console.log("PPPPPPPPPPPPPPPPPPPP");
     this.moment.setLocale('it');
   },
 
