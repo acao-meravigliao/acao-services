@@ -22,6 +22,9 @@ Router.map(function() {
       this.route('summary');
     });
 
+    this.route('people');
+    this.route('person', { path: '/person/:id' });
+
     this.route('licenses');
     this.route('medicals');
 
@@ -49,6 +52,8 @@ Router.map(function() {
 
     this.route('aircraft-types');
     this.route('aircraft-type', { path: '/aircraft-type/:id' });
+
+    this.route('airfield', { path: '/airfield/:id' });
   });
 
   this.route('login');

@@ -1,0 +1,24 @@
+{{title "Aeroporto"}}
+<div class="ui container">
+  <div class="ui segment">
+    <h1>Aeroporto {{model.icao_code}}</h1>
+    Nome: {{model.name}}<br />
+    Luogo: {{model.location.full_address}},
+      {{#if model.location.latlng}} ({{model.location.lat}},{{model.location.lng}}){{/if}}<br />
+  </div>
+
+  <div class="ui segment" style="height: 600px">
+    {{#if model.location.latlng}}
+      {{#leaflet-map center=model.location.latlng zoom=11 class="flight-map" as |layers|}}
+        {{layers.tile url="https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png" maxZoom=13}}
+        {{#layers.marker location=model.location.latlng}}
+          {{#popup-layer}}
+            <b>{{model.icao_code}}</b><br />
+            {{model.location.full_address}}
+            {{model.location.lat}},{{model.location.lng}}
+          {{/popup-layer}}
+        {{/layers.marker}}
+      {{/leaflet-map}}
+    {{/if}}
+  </div>
+</div>
