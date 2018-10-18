@@ -5,7 +5,7 @@ import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 
 export default Controller.extend({
-  wizard: controller('renew-membership'),
+  wizard: controller('logged-in.renew-membership'),
   context: alias('wizard.context'),
   state: alias('wizard.state'),
 
@@ -44,23 +44,19 @@ export default Controller.extend({
       };
 
       me.set('submitting', true);
-      this.ajax.request('/ygg/acao/memberships/renew', {
-        method: 'POST',
-        data: JSON.stringify(req),
-//        dataType: 'json',
+      this.ajax.post('/ygg/acao/memberships/renew', {
         contentType: 'application/json',
-      }).then(function(response) {
+        data: req,
+      }).then((response) => {
+        me.set('submitting', false);
+        me.transitionToRoute('logged-in.payment', response.payment_id);
+      }).catch((error) => {
         me.set('submitting', false);
 
-        me.transitionToRoute('payment', response.payment_id);
-
-      }, function(xhr, status, error) {
-        me.set('submitting', false);
-
-        if (xhr.responseJSON) {
-          me.set('submitError', xhr.responseJSON.title + ': ' + xhr.responseJSON.descr);
+        if (error.payload && typeof(error.payload) == 'object') {
+          me.set('submitError', error.payload.title + ': ' + error.payload.descr);
         } else {
-          me.set('submitError', xhr.responseText);
+          me.set('submitError', error.payload);
         }
       });
     },

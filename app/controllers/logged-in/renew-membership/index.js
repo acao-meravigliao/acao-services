@@ -5,7 +5,7 @@ import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 
 export default Controller.extend({
-  wizard: controller('renew-membership'),
+  wizard: controller('logged-in.renew-membership'),
   context: alias('wizard.context'),
   state: alias('wizard.state'),
   session: service('session'),
@@ -33,7 +33,7 @@ export default Controller.extend({
 
   actions: {
     commit() {
-      this.transitionToRoute('renew-membership.data');
+      this.transitionToRoute('logged-in.renew-membership.data');
     },
   },
 });
