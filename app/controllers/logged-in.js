@@ -23,6 +23,16 @@ export default Controller.extend({
     });
   })),
 
+  allPayments: computed(function() {
+    return this.store.peekAll('ygg--acao--payment');
+  }),
+
+  pendingPayments: computed('allPayments.@each.state', function() {
+console.log("PENDINGPAYMENTS UPDATE");
+    return this.get('allPayments').filter((x) => (x.state == 'PENDING'));
+  }),
+
+
   // ------------------- Renewal ---------------------
   renewalContext: alias('model.renewalContext'),
 
@@ -32,9 +42,9 @@ export default Controller.extend({
            this.get('clock.date') > new Date(this.get('renewalContext.current.opening_time'));
   }),
 
-  renewIsOpenAndNeeded: computed('renewIsOpen', function() {
+  renewIsOpenAndNeeded: computed('renewIsOpen', 'model.memberships.@each', function() {
     return this.get('renewIsOpen') &&
-           !this.get('model.memberships').any((item) => (item.get('reference_year_id') == this.get('model.renewalContext.current.year_id')));
+           !this.get('model.memberships').any((item) => (item.get('reference_year_id') == this.get('renewalContext.current.year_id')));
   }),
 
   renewYear: computed('renewIsOpenAndNeeded', 'renewalContext.current.renew_for_year', function() {

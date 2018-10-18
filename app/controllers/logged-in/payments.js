@@ -3,18 +3,27 @@ import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
 import { assign } from '@ember/polyfills';
+import { observer } from '@ember/object';
+import { on } from '@ember/object/evented';
 
 export default Controller.extend({
   session: service(),
+
+  model: 'ygg--acao--payment',
 
   stateColors: {
     'PENDING': 'orange',
     'COMPLETED': 'green',
   },
 
+  allModels: computed(function() { return this.store.peekAll(this.model); }),
+  creationObserver: observer('allModels.length', function() {
+    console.log("CREATION  OBSERVER");
+  }),
+
   loadDataTask: task(function * (args) {
     let params = {
-      filter: { pilot_id: this.get('session.personId') },
+      filter: { person_id: this.get('session.personId') },
       order: { 'created_at': 'DESC' },
     };
 
@@ -25,7 +34,7 @@ export default Controller.extend({
       });
     }
 
-    let result = yield this.store.query('ygg--acao--payment', params);
+    let result = yield this.store.query(this.model, params);
 
     this.set('totalRows', result.get('meta.total_count'));
 

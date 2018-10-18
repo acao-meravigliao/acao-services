@@ -18,8 +18,6 @@ export default Route.extend({
   },
 
   beforeModel(transition) {
-
-console.log("-------------------------- BEFORE MODEL");
     // Trigger session loading if not loaded already, if not authenticated transition to login route
     if (!this.get('session.isLoaded')) {
       return new Promise((resolve, reject) => {
@@ -41,10 +39,10 @@ console.log("-------------------------- BEFORE MODEL");
 
   model() {
     return hash({
+      memberships: this.store.query('ygg--acao--membership', { filter: { person_id: this.get('session.personId') } }),
+      pendingPayments: this.store.query('ygg--acao--payment', { filter: { person_id: this.get('session.personId'), state: 'PENDING', } }),
       renewalContext: $.getJSON('/ygg/acao/memberships/renew'),
-      memberships: this.store.query('ygg--acao--membership', { params: { filter: { person_id: this.get('session.personId') } } }),
       rosterStatus: $.getJSON('/ygg/acao/roster_entries/status'),
-      pendingPayments: this.store.query('ygg--acao--payment', { params: { filter: { person_id: this.get('session.personId'), state: 'PENDING', } } }),
     });
   },
 });

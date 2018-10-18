@@ -5,7 +5,7 @@
     ID: {{model.uuid}}<br />
     Registrato il: {{moment-format model.recorded_at "YYYY-MM-DD hh:mm:ss"}}<br />
     Descrizione: {{model.descr}}<br />
-    Ammontare: {{numeral-format model.amount format='+0.0'}} {{model.unit}}<br />
-    Credito: {{numeral-format model.prev_credit format='0.0'}} → {{numeral-format model.credit format='0.0'}} {{model.unit}}
+    Ammontare: {{numeral-format model.amount format="+0.0"}} {{model.unit}}<br />
+    Credito: {{numeral-format model.prev_credit format="0.0"}} → {{numeral-format model.credit format="0.0"}} {{model.unit}}
   </div>
 </div>
