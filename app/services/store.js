@@ -21,7 +21,7 @@ console.log("STORE QUERY CAN FILTER WITHOUT QUERYING", modelName, query);
         ));
       }
 
-      return array;
+      return DS.PromiseArray.create({ promise: Promise.resolve(array) });
     } else {
       return this._super(...arguments);
     }
