@@ -1,4 +1,5 @@
 import DS from 'ember-data';
+import { computed } from '@ember/object';
 
 export default DS.Model.extend({
   uuid: DS.attr('string'),
@@ -30,4 +31,6 @@ export default DS.Model.extend({
   acao_roster_chief: DS.attr('boolean'),
 
   contacts: DS.hasMany('ygg--core--person--contact'),
+
+  full_name: computed('first_name', 'last_name', function() { return this.first_name + ' ' + this.last_name; }),
 });

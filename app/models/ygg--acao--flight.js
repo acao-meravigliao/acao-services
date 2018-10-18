@@ -25,7 +25,11 @@ export default DS.Model.extend({
   pilot2: DS.belongsTo('ygg--core--person'),
   takeoff_airfield: DS.belongsTo('ygg--acao--airfield'),
   landing_airfield: DS.belongsTo('ygg--acao--airfield'),
-  //towed_by: DS.belongsTo('ygg--acao--flight'),
+  takeoff_location: DS.belongsTo('ygg--core--location'),
+  landing_location: DS.belongsTo('ygg--core--location'),
+
+  towed_by: DS.belongsTo('ygg--acao--flight', { inverse: 'towing' }),
+  towing: DS.belongsTo('ygg--acao--flight', { inverse: 'towed_by' }),
 
   duration: computed('takeoff_time,landing_time', function() { return this.landing_time - this.takeoff_time; }),
 });

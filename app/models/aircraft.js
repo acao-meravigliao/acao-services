@@ -1,5 +1,5 @@
-import { computed } from '@ember/object';
 import DS from 'ember-data';
+import { computed } from '@ember/object';
 
 export default DS.Model.extend({
   created_at: DS.attr('date'),
