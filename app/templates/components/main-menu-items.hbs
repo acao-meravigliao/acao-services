@@ -36,7 +36,7 @@
 <div class="item">
   <div class="header">Turni di linea</div>
   {{#if rosterEntriesSelectable}}
-    {{#link-to "logged-in.select-roster" class="item"}}
+    {{#link-to "logged-in.roster-select" class="item"}}
       Selezione
       {{#unless rosterEntriesPresent}}
         <div class="ui medium red circular label">&nbsp;&nbsp;<i class="exclamation icon" /></div>
@@ -50,7 +50,7 @@
 {{#if person.acao_is_tug_pilot}}
 <div class="item">
   <div class="header">Turni di traino</div>
-  {{#link-to "logged-in.select-tow-roster" class="item"}} Selezione {{/link-to}}
+  {{#link-to "logged-in.tow-roster-select" class="item"}} Selezione {{/link-to}}
   {{#link-to "tow-roster-days" class="item"}} I tuoi turni {{/link-to}}
   {{#link-to "today-tow-roster" class="item"}} Turni di oggi {{/link-to}}
 </div>

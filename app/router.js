@@ -34,9 +34,9 @@ Router.map(function() {
     this.route('invoices');
     this.route('invoice', { path: '/invoice/:id' });
 
-    this.route('select-roster');
+    this.route('roster-select');
 
-    this.route('select-tow-roster');
+    this.route('tow-roster-select');
 
     this.route('bar-transactions');
     this.route('bar-transaction', { path: '/bar-transaction/:id' });
