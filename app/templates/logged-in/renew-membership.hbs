@@ -1,4 +1,19 @@
 {{title "Rinnovo iscrizione"}}
-<div class="ui container">
-{{outlet}}
-</div>
+{{#if renewIsOpenAndNeeded}}
+  <div class="ui container">
+  {{outlet}}
+  </div>
+{{else if renewIsGoingToOpen}}
+  <div class="ui orange message">
+    <h1 class="ui header">
+      L'iscrizione per l'anno {{model.context.next.year}} non è ancora aperta,
+      aprirà {{moment-from-now model.context.next.opening_time interval=1000}}
+    </h1>
+  </div>
+{{else}}
+  <div class="ui blue message">
+    <h1 class="ui header">
+      L'iscrizione per l'anno {{context.year}} non è necessaria
+    </h1>
+  </div>
+{{/if}}

@@ -61,13 +61,13 @@
     </tr>
     {{/each}}
 
-    <tr><td></td><td><a {{action "addService"}}><i class="plus icon"></i> <strong>Posto carrello, tessera FAI, ecc</strong></a></td></tr>
+    <tr><td colspan=3><a {{action "addService"}}><i class="plus icon"></i> <strong>Posto carrello, tessera FAI, ecc</strong></a></td></tr>
 
   </tbody>
   <tfoot>
     <tr>
       <th colspan="2">Totale</th>
-      <th class="total price">{{numeral-format total format="0.00"}} €</th>
+      <td class="total price">{{numeral-format total format="0.00"}} €</td>
     </tr>
   </tfoot>
 </table>

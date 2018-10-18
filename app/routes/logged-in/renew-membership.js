@@ -8,6 +8,7 @@ export default Route.extend({
     return hash({
       context: $.getJSON('/ygg/acao/memberships/renew'),
       serviceTypes: this.store.findAll('ygg--acao--service-type'),
+      memberships: this.store.query('ygg--acao--membership', { filter: { person_id: this.get('session.personId') } }),
       state: EmberObject.create({
         currentStep: 'index',
         enableCav: true,
@@ -19,7 +20,6 @@ export default Route.extend({
 
   setupController(controller, model) {
     this._super(controller, model);
-console.log("PPPPPPPPPPPPPPPPPPPPP", this.store.peekRecord('ygg--acao--service-type', 6));
     controller.set('state.services',
       model.context.current.services.map((x) => EmberObject.create({
         type: this.store.peekRecord('ygg--acao--service-type', x.service_type_id),
