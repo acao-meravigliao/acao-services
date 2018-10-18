@@ -1,8 +1,7 @@
-import AuthenticatedRouteMixin from 'acao-services/mixins/authenticated-route-mixin';
 import Route from '@ember/routing/route';
 import { hash } from 'rsvp';
 
-export default Route.extend(AuthenticatedRouteMixin, {
+export default Route.extend({
   model() {
     return hash({
     });
@@ -10,6 +9,6 @@ export default Route.extend(AuthenticatedRouteMixin, {
 
   setupController(controller, model) {
     this._super(controller, model);
-    controller.setProperties(this.modelFor('renew-membership').state);
+    controller.setProperties(this.modelFor('logged-in.renew-membership').state);
   },
 });
