@@ -30,4 +30,24 @@
     </tfoot>
   </table>
   </div>
+
+<!--
+  <table class="invoice ui celled table">
+    <thead>
+      <tr>
+        <th>Identificatore</th>
+        <th>Stato</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each model.invoice.payments key="@index" as |payment|}}
+      <tr>
+        <td>{{payment.identifier}}</td>
+        <td>{{payment.status}}</td>
+        <td class="price">{{numeral-format payment.amount format="0.00"}} €</td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+-->
 </div>

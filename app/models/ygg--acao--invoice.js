@@ -11,6 +11,7 @@ export default DS.Model.extend({
   created_at: DS.attr('date'),
   completed_at: DS.attr('date'),
   state: DS.attr('string'),
+  payment_state: DS.attr('string'),
   notes: DS.attr('string'),
   payment_method: DS.attr('string'),
   total: DS.attr('number'),

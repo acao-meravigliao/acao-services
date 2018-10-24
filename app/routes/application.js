@@ -8,6 +8,9 @@ export default Route.extend({
 
   beforeModel(transition) {
     this.moment.setLocale('it');
+
+    if (!this.get('session.isLoaded'))
+      return this.session.load();
   },
 
   actions: {

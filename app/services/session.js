@@ -59,6 +59,37 @@ export default Service.extend(Evented, {
     });
   },
 
+  proxyAuthenticate: function(fqda, password, other_fqda) {
+    this.set('authenticating', true);
+
+    return new Promise((resolve, reject) => {
+      this.ajax.post('/ygg/session/proxy_authenticate_by_fqda_and_password', {
+        contentType: 'application/json',
+        data: {
+          fqda: fqda,
+          password: password,
+          other_fqda: other_fqda,
+        }
+      }).then((response) => {
+        this.set('authenticating', false);
+
+        this.update(response).then(() => {
+          if (response.authenticated) {
+            resolve(response);
+          } else {
+            reject(response);
+          }
+        }).catch((error) => {
+          reject(error);
+        });
+
+      }).catch((error) => {
+        this.set('authenticating', false);
+        reject(error);
+      });
+    });
+  },
+
   logout: function() {
     console.log('LOGOUT...');
 

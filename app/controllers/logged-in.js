@@ -42,7 +42,7 @@ console.log("PENDINGPAYMENTS UPDATE");
            this.get('clock.date') > new Date(this.get('renewalContext.current.opening_time'));
   }),
 
-  renewIsOpenAndNeeded: computed('renewIsOpen', 'model.memberships.@each', function() {
+  renewIsOpenAndNeeded: computed('renewIsOpen', 'model.memberships.@each', 'model.storeMemberships.@each', function() {
     return this.get('renewIsOpen') &&
            !this.get('model.memberships').any((item) => (item.get('reference_year_id') == this.get('renewalContext.current.year_id')));
   }),

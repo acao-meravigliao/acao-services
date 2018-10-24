@@ -1,13 +1,17 @@
 import Route from '@ember/routing/route';
-import $ from 'jquery';
+import { inject as service } from '@ember/service';
 import { hash } from 'rsvp';
+import $ from 'jquery';
 import EmberObject from '@ember/object';
 
 export default Route.extend({
+  session: service(),
+
   model() {
     return hash({
       context: $.getJSON('/ygg/acao/memberships/renew'),
       serviceTypes: this.store.findAll('ygg--acao--service-type'),
+      storeMemberships: this.store.peekAll('ygg--acao--membership'),
       memberships: this.store.query('ygg--acao--membership', { filter: { person_id: this.get('session.personId') } }),
       state: EmberObject.create({
         currentStep: 'index',

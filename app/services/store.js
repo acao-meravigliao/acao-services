@@ -17,7 +17,7 @@ console.log("STORE QUERY CAN FILTER WITHOUT QUERYING", modelName, query);
       let filter = query.filter;
       if (filter) {
         array = array.filter((item) => (
-          Object.keys(filter).every((key) => (item[key] == filter[key]))
+          Object.keys(filter).every((key) => (item.get(key) == filter[key]))
         ));
       }
 

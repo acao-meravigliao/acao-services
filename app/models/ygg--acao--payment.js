@@ -14,4 +14,5 @@ export default DS.Model.extend({
   reason_for_payment: DS.attr('string'),
 
   person: DS.belongsTo('ygg--core--person'),
+  invoice: DS.belongsTo('ygg--acao--invoice'),
 });

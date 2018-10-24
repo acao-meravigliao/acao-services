@@ -20,16 +20,7 @@ export default Route.extend({
   beforeModel(transition) {
     // Trigger session loading if not loaded already, if not authenticated transition to login route
     if (!this.get('session.isLoaded')) {
-      return new Promise((resolve, reject) => {
-        this.session.load().then((response) => {
-          if (this.get('session.isAuthenticated'))
-            resolve(this._super(...arguments));
-          else {
-            this.transitionTo(this.loginRoute);
-            resolve();
-          }
-        });
-      });
+      this.transitionTo(this.loginRoute);
     } else if (this.get('session.isAuthenticated')) {
       return this._super(...arguments);
     } else {
@@ -39,6 +30,7 @@ export default Route.extend({
 
   model() {
     return hash({
+      storeMemberships: this.store.peekAll('ygg--acao--membership'),
       memberships: this.store.query('ygg--acao--membership', { filter: { person_id: this.get('session.personId') } }),
       pendingPayments: this.store.query('ygg--acao--payment', { filter: { person_id: this.get('session.personId'), state: 'PENDING', } }),
       renewalContext: $.getJSON('/ygg/acao/memberships/renew'),

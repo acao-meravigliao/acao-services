@@ -5,7 +5,17 @@
     Aeromobile: {{link-to model.aircraft_reg "logged-in.aircraft" model.aircraft_id}}
                {{#if (not-eq data.aircraft_reg data.aircraft.registration)}} ora {{data.aircraft.registration}}{{/if}}<br />
     Pilota: {{link-to model.pilot1.full_name "logged-in.person" model.pilot1.id}}<br />
-    Passeggero: {{#if model.pilot2}}{{link-to model.pilot2.full_name "logged-in.person" model.pilot2.id}}{{/if}}<br />
+    Passeggero:
+      {{#if (eq model.pilot2_role "PAX")}}
+        Passeggero
+      {{else}}
+        {{#if model.pilot2}}
+          {{link-to model.pilot2.full_name "logged-in.person" model.pilot2.id}}
+        {{else}}
+          N/A
+        {{/if}}
+      {{/if}}
+    <br />
     Decollo: {{moment-format model.takeoff_time "DD-MM-YYYY hh:mm:ss z"}}<br />
     Aeroporto Decollo: {{link-to model.takeoff_airfield.icao_code "logged-in.airfield" model.takeoff_airfield.id}} ({{model.takeoff_airfield.name}})<br />
     Luogo Decollo: {{model.takeoff_location.full_address}},
