@@ -1,0 +1,45 @@
+{{title "Login"}}
+<div class="ui middle aligned center aligned grid">
+  <div class="column" style="max-width: 450px">
+    <h2 class="ui image header">
+      <div class="content">
+        Questa procedura di login serve ad autenticarsi per conto di altri. È ovviamente riservata solo alle persone autorizzate.
+      </div>
+    </h2>
+    <form class="ui large form" {{action "authenticate" on="submit"}}>
+      <div class="ui stacked segment">
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            {{input id="username" placeholder="Codice Tuo" value=username autocomplete="username"}}
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            {{input id="password" placeholder="Password" type="password" value=password autocomplete="current-password"}}
+          </div><br />
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            {{input id="username2" placeholder="Codice altro pilota" value=username2 autocomplete="other-username"}}
+          </div>
+        </div>
+        <button type="submit" class="ui fluid large submit button {{if loggingIn "disabled loading"}}">Login</button>
+
+        {{#link-to "password-recovery"}}Non mi ricordo la password{{/link-to}}
+      </div>
+
+      <div class="ui error message"></div>
+
+    </form>
+
+  {{#if errorMessage}}
+    <div class="ui red message">
+      {{errorMessage}}
+    </div>
+  {{/if}}
+
+  </div>
+</div>
