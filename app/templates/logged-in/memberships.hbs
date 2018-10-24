@@ -1,0 +1,45 @@
+{{title "Iscrizioni"}}
+<div class="ui container">
+  <YetiTable class="ui selectable celled table"
+      @filter={{filter}}
+      @pagination={{true}} @pageSize={{20}} @totalRows={{totalRows}}
+      @loadData={{perform loadDataTask}} as |table|>
+    <table.header as |header|>
+      <header.column>
+        Anno
+      </header.column>
+      <header.column>
+        Stato
+      </header.column>
+      <header.column>
+        Ricevuta
+      </header.column>
+    </table.header>
+
+    <table.body as |body data|>
+      <body.row as |row|>
+        <row.cell>
+          {{data.reference_year.year}}
+        </row.cell>
+        <row.cell>
+          {{data.status}}
+        </row.cell>
+        <row.cell>
+          {{#if data.invoice_detail}}
+            {{#link-to "logged-in.invoice" data.invoice_detail.invoice.id}}Ricevuta {{data.invoice_detail.invoice.identifier}}{{/link-to}}
+          {{/if}}
+        </row.cell>
+      </body.row>
+    </table.body>
+
+    <tfoot>
+      {{#if (gt table.paginationData.totalRows table.paginationData.pageSize)}}
+      <tr>
+        <td colspan={{table.totalColumns}}>
+          {{table-pagination table=table}}
+        </td>
+      </tr>
+      {{/if}}
+    </tfoot>
+  </YetiTable>
+</div>

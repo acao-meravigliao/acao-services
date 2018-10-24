@@ -25,6 +25,8 @@ Router.map(function() {
     this.route('people');
     this.route('person', { path: '/person/:id' });
 
+    this.route('memberships');
+
     this.route('licenses');
     this.route('medicals');
 
@@ -57,6 +59,7 @@ Router.map(function() {
   });
 
   this.route('login');
+  this.route('login2');
   this.route('password-recovery');
 
   this.route('radar');
