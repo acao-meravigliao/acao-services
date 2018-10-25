@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 export default Route.extend({
   session: service('session'),
 
-  authenticatedRoute: 'logged-in.index',
+  authenticatedRoute: 'authen.index',
 
   beforeModel(transition) {
     if (this.get('session.isAuthenticated')) {

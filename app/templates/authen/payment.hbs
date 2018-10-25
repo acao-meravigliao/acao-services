@@ -6,7 +6,7 @@
     {{#if isPaid}} <div class="ui green tag label">Pagato</div> {{/if}}
     {{#if isCanceled}} <div class="ui blue tag label">Annullato</div> {{/if}}
     </h1>
-    Ricevuta: {{#link-to "logged-in.invoice" model.payment.invoice.id}}{{model.payment.invoice.identifier}}{{/link-to}}<br />
+    Ricevuta: {{#link-to "authen.invoice" model.payment.invoice.id}}{{model.payment.invoice.identifier}}{{/link-to}}<br />
     Totale: <span class="price">{{numeral-format model.payment.amount format="0.00"}} €</span><br />
 
     Data: {{moment-format model.payment.created_at "DD-MM-YYYY HH:mm:ss"}}<br />
@@ -20,5 +20,5 @@
     {{/if}}
   </div>
 
-  {{partial (concat "logged-in/payment/" paymentMethodPartial)}}
+  {{partial (concat "authen/payment/" paymentMethodPartial)}}
 </div>

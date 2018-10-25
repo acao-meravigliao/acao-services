@@ -5,12 +5,12 @@
     </a>
 
   <div class="ui breadcrumb item">
-    {{#link-to "logged-in.index" class="selection"}}{{myPageTitle}}{{/link-to}}
+    {{#link-to "authen.index" class="selection"}}{{myPageTitle}}{{/link-to}}
   </div>
 
   <div class="right item">
     {{#if cart.items}}
-      {{#link-to "logged-in.shop.cart" class="ui small button"}}
+      {{#link-to "authen.shop.cart" class="ui small button"}}
         <i class="cart icon"></i>
         {{if cart.items.length cart.items.length}}
       {{/link-to}}
@@ -26,8 +26,8 @@
         renewYear=renewYear
         renewIsOpenAndNeeded=renewIsOpenAndNeeded
         pendingPayments=pendingPayments
-        rosterEntriesSelectable=rosterEntriesSelectable
-        rosterEntriesPresent=rosterEntriesPresent
+        rosterCurStatus=rosterCurStatus
+        rosterNextStatus=rosterNextStatus
     }}
   {{/ui-sidebar}}
 

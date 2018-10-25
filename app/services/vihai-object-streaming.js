@@ -362,7 +362,7 @@ console.log("DESTROY OBJ=", msg);
     case 'auth_fail':
     case 'exception':
     case 'message_not_handled':
-console.log("EXCEPTION", msg, "REQ=", req);
+      console.error("EXCEPTION", msg, "REQ=", req);
 
       delete me.requests[msg.reply_to];
 
@@ -462,7 +462,7 @@ console.log("WS AUTHENTICATE");
       failure: ((msg) => {
         console.error("AUTH FAILURE REQ=", req, "RESULT=", msg);
         defer.reject({
-          reason: msg.reason,
+          exception: msg.payload,
           requestId: msg.reply_to,
         });
       }),
@@ -487,7 +487,7 @@ console.log("WS LOGOUT");
       }),
       failure: ((msg) => {
         defer.reject({
-          reason: msg.reason,
+          exception: msg.payload,
           requestId: msg.reply_to,
         });
       }),
@@ -539,7 +539,7 @@ console.log("SELECT", args);
       failure: function(msg) {
         console.error("SELECT FAILURE REQ=", req, "RESULT=", msg);
         defer.reject({
-          reason: msg.reason,
+          exception: msg.payload,
           requestId: msg.reply_to,
         });
       },
@@ -574,7 +574,7 @@ console.log("GET_SINGLE", modelName, id, params);
       failure: function(msg) {
         console.error("GET_SINGLE FAILURE REQ=", req, "RESULT=", msg);
         defer.reject({
-          reason: msg.reason,
+          exception: msg.payload,
           requestId: msg.reply_to,
         });
       },
@@ -609,7 +609,7 @@ console.log("GET_MANY", modelName, ids, params);
       failure: function(msg) {
         console.error("GET_MANY FAILURE REQ=", req, "RESULT=", msg);
         defer.reject({
-          reason: msg.reason,
+          exception: msg.payload,
           requestId: msg.reply_to,
         });
       },
@@ -641,7 +641,10 @@ console.log("CREATE_AND_BIND", modelName, data, params);
       },
       failure: function(msg) {
         console.error("CREATE_AND_BIND FAILURE REQ=", req, "RESULT=", msg);
-        defer.reject(msg.reason);
+        defer.reject({
+          exception: msg.payload,
+          requestId: msg.reply_to,
+        });
       },
     };
 
@@ -669,7 +672,10 @@ console.log("UPDATE", modelName, data, params);
         defer.resolve(msg.object);
       },
       failure: function(msg) {
-        defer.reject(msg.reason);
+        defer.reject({
+          exception: msg.payload,
+          requestId: msg.reply_to,
+        });
       },
     };
 
@@ -695,7 +701,10 @@ console.log("DESTROY", modelName, id);
         defer.resolve(msg.object);
       },
       failure: function(msg) {
-        defer.reject(msg.reason);
+        defer.reject({
+          exception: msg.payload,
+          requestId: msg.reply_to,
+        });
       },
     };
 
@@ -727,7 +736,10 @@ console.log("SUBSCRIBE", arguments);
         defer.resolve(msg.data);
       },
       failure: function(msg) {
-        defer.reject(msg.reason);
+        defer.reject({
+          exception: msg.payload,
+          requestId: msg.reply_to,
+        });
       },
     };
 
@@ -758,7 +770,16 @@ console.log("SUBSCRIBE", arguments);
 
     case 'RECONNECT_WAIT':
     case 'READY_OFFLINE':
-      req.failure({ reason: 'ws_offline' });
+      // Simulate a failure message
+      req.failure({
+        type: 'exception',
+        content_type: 'application/problem+json',
+        payload: {
+          type: 'ws_offline',
+          title: 'Lost connection with websocket',
+          title_sym: 'ws_lost_connection',
+        },
+      });
     break;
     }
   },

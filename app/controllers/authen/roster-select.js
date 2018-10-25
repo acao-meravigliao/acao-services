@@ -13,23 +13,21 @@ export default Controller.extend({
 
   canBeChief: alias('session.person.acao_roster_chief'),
 
+  year: alias('model.year'),
+
   saveDisabled: computed('saving', 'isDirty', function() {
     return this.saving || !this.isDirty;
   }),
 
-  allRosterEntries: computed(function() {
-    return this.store.peekAll('ygg--acao--roster-entry');
-  }),
-
-  myRosterEntries: computed('allRosterEntries.{@each,@each.isDeleted}', function() {
-    return this.allRosterEntries.filter((item) =>
+  myRosterEntries: computed('model.allRosterEntries.@each', function() {
+    return this.get('model.allRosterEntries').filter((item) =>
       (item.belongsTo('person').id() == this.get('session.personId') &&
-       item.get('roster_day.date').getFullYear() == this.get('model.rosterStatus.renew_for_year')
+       item.get('roster_day.date').getFullYear() == this.get('year')
       )
     );
   }),
 
-  isDirty: computed('myRosterEntries.{@each,@each.isDeleted}', function() {
+  isDirty: computed('myRosterEntries.{@each,@each.isDeleted,@each.hasDirtyAttributes}', function() {
     return this.myRosterEntries.any((record) => (record.get('hasDirtyAttributes') || record.get('isDeleted')));
   }),
 
@@ -39,18 +37,21 @@ export default Controller.extend({
     );
   }),
 
-  rosterDaysSorted: sort('model.rosterDays', 'rosterDaysSortOrder'),
+  allRosterDays: computed('model.rosterDays.@each', function() {
+    return this.get('model.rosterDays').filter((x) => (x.date.getFullYear() == this.year));
+  }),
+
+  rosterDaysSorted: sort('allRosterDays', 'rosterDaysSortOrder'),
 
   filteredRosterDays: computed('rosterDaysSorted.@each', 'monthSelect', 'seasonSelect', 'includeBusy', function() {
     return this.rosterDaysSorted.filter((item) =>
       (
-       item.get('date').getFullYear() == this.get('model.rosterStatus.renew_for_year') && (
        (this.seasonSelect == 'all' ||
        (this.seasonSelect == 'high' && item.get('high_season')) ||
        (this.seasonSelect == 'low' && !item.get('high_season'))) &&
        (this.includeBusy ? true : (item.get('roster_entries.length') < item.get('needed_people'))) &&
        (this.monthSelect == 'all' || Number(this.monthSelect) == item.get('date').getMonth())
-      ))
+      )
     );
   }),
 
@@ -83,10 +84,8 @@ console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA CANCEL SELECTIONS");
 
     this.set('saving', true);
 
-    this.store.peekAll('ygg--acao--roster-entry').forEach(function(record) {
-      if (record.get('hasDirtyAttributes')) {
-        promises.push(record.save());
-      }
+    this.get('myRosterEntries').filter((x) => (x.get('hasDirtyAttributes') || x.get('isDeleted'))).forEach(function(record) {
+      promises.push(record.save());
     });
 
     all(promises).then(function() {
@@ -94,7 +93,7 @@ console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA CANCEL SELECTIONS");
       me.set('saveSuccess', true);
     }).catch((error) => {
       me.set('saving', false);
-      me.set('saveError', error.reason);
+      me.set('saveError', error.exception ? error.exception.title : 'Unspecified error');
     });
   },
 

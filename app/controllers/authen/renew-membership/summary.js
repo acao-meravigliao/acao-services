@@ -5,7 +5,7 @@ import { computed } from '@ember/object';
 import { alias } from '@ember/object/computed';
 
 export default Controller.extend({
-  wizard: controller('logged-in.renew-membership'),
+  wizard: controller('authen.renew-membership'),
   context: alias('wizard.context'),
   state: alias('wizard.state'),
 
@@ -49,7 +49,7 @@ export default Controller.extend({
         data: req,
       }).then((response) => {
         me.set('submitting', false);
-        me.transitionToRoute('logged-in.payment', response.payment_id);
+        me.transitionToRoute('authen.payment', response.payment_id);
       }).catch((error) => {
         me.set('submitting', false);
 

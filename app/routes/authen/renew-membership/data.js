@@ -10,6 +10,6 @@ export default Route.extend({
 
   setupController(controller, model) {
     this._super(controller, model);
-    controller.setProperties(this.modelFor('logged-in.renew-membership').state);
+    controller.setProperties(this.modelFor('authen.renew-membership').state);
   },
 });

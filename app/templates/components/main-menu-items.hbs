@@ -1,4 +1,4 @@
-{{#link-to "logged-in.index" class="item"}} Home {{/link-to}}
+{{#link-to "authen.index" class="item"}} Home {{/link-to}}
 
 <!--
 {{#link-to "radar" class="item"}} Radar {{/link-to}}
@@ -6,42 +6,50 @@
 -->
 
 {{#if renewIsOpenAndNeeded}}
-  {{#link-to "logged-in.renew-membership" class="item"}}Rinnova l'iscrizione {{renewYear}}{{/link-to}}
+  {{#link-to "authen.renew-membership" class="item"}}Rinnova l'iscrizione {{renewYear}}{{/link-to}}
 {{/if}}
 
 
 <!--
-{{#link-to "logged-in.shop" class="item"}} Shop {{/link-to}}
+{{#link-to "authen.shop" class="item"}} Shop {{/link-to}}
 -->
 
-{{#link-to "logged-in.invoices" class="item teal"}}
+{{#link-to "authen.invoices" class="item teal"}}
   Ricevute
   {{#if pendingInvoices}}
     <div class="ui red label">{{pendingInvoices.length}}</div>
   {{/if}}
 {{/link-to}}
 
-{{#link-to "logged-in.payments" class="item teal"}}
+{{#link-to "authen.payments" class="item teal"}}
   Pagamenti
   {{#if pendingPayments}}
     <div class="ui red label">{{pendingPayments.length}}</div>
   {{/if}}
 {{/link-to}}
 
-{{#link-to "logged-in.memberships" class="item"}} Iscrizioni {{/link-to}}
-{{#link-to "logged-in.licenses" class="item"}} Licenze {{/link-to}}
-{{#link-to "logged-in.medicals" class="item"}} Visite mediche {{/link-to}}
-{{#link-to "logged-in.bar-transactions" class="item"}} Conto Bar {{/link-to}}
-{{#link-to "logged-in.token-transactions" class="item"}} Conto Bollini {{/link-to}}
-{{#link-to "logged-in.flights" class="item"}} Stralcio Voli {{/link-to}}
-{{#link-to "logged-in.aircrafts" class="item"}} Miei Alianti {{/link-to}}
+{{#link-to "authen.memberships" class="item"}} Iscrizioni {{/link-to}}
+{{#link-to "authen.licenses" class="item"}} Licenze {{/link-to}}
+{{#link-to "authen.medicals" class="item"}} Visite mediche {{/link-to}}
+{{#link-to "authen.bar-transactions" class="item"}} Conto Bar {{/link-to}}
+{{#link-to "authen.token-transactions" class="item"}} Conto Bollini {{/link-to}}
+{{#link-to "authen.flights" class="item"}} Stralcio Voli {{/link-to}}
+{{#link-to "authen.aircrafts" class="item"}} Miei Alianti {{/link-to}}
 
 <div class="item">
   <div class="header">Turni di linea</div>
-  {{#if rosterEntriesSelectable}}
-    {{#link-to "logged-in.roster-select" class="item"}}
-      Selezione
-      {{#unless rosterEntriesPresent}}
+  {{#if rosterCurStatus.can_select_entries}}
+    {{#link-to "authen.roster-select" rosterCurStatus.year class="item"}}
+      Selezione {{rosterCurStatus.year}}
+      {{#unless rosterCurStatus.needed_entries_present}}
+        <div class="ui medium red circular label">&nbsp;&nbsp;<i class="exclamation icon" /></div>
+      {{/unless}}
+    {{/link-to}}
+  {{/if}}
+  {{#if rosterNextStatus.can_select_entries}}
+    {{#link-to "authen.roster-select" rosterNextStatus.year class="item"}}
+      Selezione {{rosterNextStatus.year}}
+      {{#unless rosterNextStatus.needed_entries_present}}
         <div class="ui medium red circular label">&nbsp;&nbsp;<i class="exclamation icon" /></div>
       {{/unless}}
     {{/link-to}}
@@ -53,7 +61,7 @@
 {{#if person.acao_is_tug_pilot}}
 <div class="item">
   <div class="header">Turni di traino</div>
-  {{#link-to "logged-in.tow-roster-select" class="item"}} Selezione {{/link-to}}
+  {{#link-to "authen.tow-roster-select" class="item"}} Selezione {{/link-to}}
   {{#link-to "tow-roster-days" class="item"}} I tuoi turni {{/link-to}}
   {{#link-to "today-tow-roster" class="item"}} Turni di oggi {{/link-to}}
 </div>

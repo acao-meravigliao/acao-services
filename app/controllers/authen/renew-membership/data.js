@@ -6,7 +6,7 @@ import { A } from '@ember/array';
 import $ from 'jquery';
 
 export default Controller.extend({
-  wizard: controller('logged-in.renew-membership'),
+  wizard: controller('authen.renew-membership'),
   context: alias('wizard.context'),
   state: alias('wizard.state'),
 
@@ -71,7 +71,7 @@ export default Controller.extend({
         'enableCav', 'enableEmail', 'acceptRules', 'paymentMethod',
       ));
 
-      this.transitionToRoute('logged-in.renew-membership.summary');
+      this.transitionToRoute('authen.renew-membership.summary');
     },
   },
 });

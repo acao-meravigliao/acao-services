@@ -16,7 +16,7 @@
     </table.header>
 
     <table.body as |body data|>
-      <body.row @onClick={{transition-to "logged-in.flight" data.id}} as |row|>
+      <body.row @onClick={{transition-to "authen.flight" data.id}} as |row|>
         <row.cell>
           {{data.aircraft_reg}}
           {{#if (not-eq data.aircraft_reg data.aircraft.registration)}}<br /><em>{{data.aircraft.registration}}</em>{{/if}}

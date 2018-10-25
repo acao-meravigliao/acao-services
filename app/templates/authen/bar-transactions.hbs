@@ -17,7 +17,7 @@
     </table.header>
 
     <table.body as |body data|>
-      <body.row @onClick={{transition-to "logged-in.bar-transaction" data.id}} as |row|>
+      <body.row @onClick={{transition-to "authen.bar-transaction" data.id}} as |row|>
         <row.cell>
           {{if data.recorded_at (moment-format data.recorded_at "DD-MM-YYYY")}}
         </row.cell>

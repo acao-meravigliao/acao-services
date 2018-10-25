@@ -52,8 +52,12 @@ console.log("PENDINGPAYMENTS UPDATE");
   }),
 
   // ------------------- Roster ---------------------
-  rosterEntriesSelectable: alias('model.rosterStatus.can_select_entries'),
-  rosterEntriesPresent: alias('model.rosterStatus.needed_entries_present'),
+  rosterCurStatus: alias('model.rosterStatus.current'),
+  rosterNextStatus: alias('model.rosterStatus.next'),
+  //rosterCurEntriesSelectable: alias('model.rosterStatus.current.can_select_entries'),
+  //rosterCurEntriesPresent: alias('model.rosterStatus.current.needed_entries_present'),
+  //rosterNextEntriesSelectable: alias('model.rosterStatus.next.can_select_entries'),
+  //rosterNextEntriesPresent: alias('model.rosterStatus.next.needed_entries_present'),
 
   actions: {
     logout() {

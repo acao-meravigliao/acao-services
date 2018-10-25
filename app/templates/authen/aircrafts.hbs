@@ -1,33 +1,43 @@
-{{title "Ricevute"}}
+{{title "Miei Aeromobili"}}
 <div class="ui container">
-  <YetiTable class="invoices ui selectable celled table"
+  <YetiTable class="ui selectable celled table"
       @filter={{filter}}
       @pagination={{true}} @pageSize={{20}} @totalRows={{totalRows}}
       @loadData={{perform loadDataTask}} as |table|>
     <table.header as |header|>
-      <header.column></header.column>
-      <header.column>Data</header.column>
-      <header.column>Codice</header.column>
-      <header.column>Metodo</header.column>
-      <header.column>Ammontare</header.column>
+      <header.column>
+        Marche
+      </header.column>
+      <header.column>
+        Sigle di gara
+      </header.column>
+      <header.column>
+        Tipo
+      </header.column>
+      <header.column>
+        ID FLARM
+      </header.column>
+      <header.column>
+        ID ICAO
+      </header.column>
     </table.header>
 
     <table.body as |body data|>
-      <body.row @onClick={{transition-to "logged-in.invoice" data.id}} as |row|>
+      <body.row @onClick={{transition-to "authen.aircraft" data.id}} as |row|>
         <row.cell>
-          <div class="ui ribbon label {{get stateColors data.state}}">{{data.state}}</div>
+          {{data.registration}}
         </row.cell>
         <row.cell>
-          {{moment-format data.created_at "DD-MM-YYYY HH:mm:ss" }}
+          {{data.race_registration}}
         </row.cell>
         <row.cell>
-          {{data.identifier}}
+          {{data.aitcraft_type.name}}
         </row.cell>
         <row.cell>
-          {{data.payment_method}}
+          {{data.flarm_identifier}}
         </row.cell>
-        <row.cell @class="price">
-          {{numeral-format invoice.total format="0.00"}} €
+        <row.cell>
+          {{data.icao_identifier}}
         </row.cell>
       </body.row>
     </table.body>
@@ -43,4 +53,5 @@
     </tfoot>
   </YetiTable>
 </div>
+
 

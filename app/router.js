@@ -1,15 +1,13 @@
 import EmberRouter from '@ember/routing/router';
 import config from './config/environment';
-import { inject as service } from '@ember/service';
 
 const Router = EmberRouter.extend({
   location: config.locationType,
   rootURL: config.rootURL,
-  headData: service(),
 });
 
 Router.map(function() {
-  this.route('logged-in', { path: '/' }, function() {
+  this.route('authen', { path: '/' }, function() {
     this.route('index', { path: '/'});
 
     this.route('shop', function() {
@@ -36,9 +34,8 @@ Router.map(function() {
     this.route('invoices');
     this.route('invoice', { path: '/invoice/:id' });
 
-    this.route('roster-select');
-
-    this.route('tow-roster-select');
+    this.route('roster-select', { path: '/roster-select/:year' });
+    this.route('tow-roster-select', { path: '/tow-roster-select/:year' });
 
     this.route('bar-transactions');
     this.route('bar-transaction', { path: '/bar-transaction/:id' });

@@ -18,13 +18,13 @@ export default Controller.extend({
 
       this.session.proxyAuthenticate(username, password, username2).then(() => {
         this.set('loggingIn', false);
-        this.transitionToRoute('logged-in.index');
+        this.transitionToRoute('authen.index');
       }).catch((reason) => {
         this.set('loggingIn', false);
 
         if (reason.xhr) {
           if (reason.xhr.responseJSON) {
-            this.set('errorMessage', reason.xhr.responseJSON.title + ': ' + reason.xhr.responseJSON.descr);
+            this.set('errorMessage', reason.xhr.responseJSON.title + ': ' + reason.xhr.responseJSON.detail);
           } else {
             this.set('errorMessage', reason.xhr.responseText);
           }

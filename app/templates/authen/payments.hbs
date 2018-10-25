@@ -1,6 +1,8 @@
-{{title "Tipi di Aeromobile"}}
+{{title "Pagamenti"}}
+{{allModels.length}}
+
 <div class="ui container">
-  <YetiTable class="invoices ui selectable celled table"
+  <YetiTable class="payments ui celled striped table"
       @filter={{filter}}
       @pagination={{true}} @pageSize={{20}} @totalRows={{totalRows}}
       @loadData={{perform loadDataTask}} as |table|>
@@ -9,16 +11,17 @@
       <header.column>Data</header.column>
       <header.column>Codice</header.column>
       <header.column>Metodo</header.column>
-      <header.column>Ammontare</header.column>
+      <header.column @columnClass="price">Ammontare</header.column>
+      <header.column>Scadenza</header.column>
     </table.header>
 
     <table.body as |body data|>
-      <body.row @onClick={{transition-to "logged-in.aircraft-types" data.id}} as |row|>
+      <body.row @onClick={{transition-to "authen.payment" data.id}} as |row|>
         <row.cell>
-          <div class="ui ribbon label {{get stateColors data.state}}">{{data.state}}</div>
+         <div class="ui ribbon label {{get stateColors data.state}}">{{data.state}}</div>
         </row.cell>
         <row.cell>
-          {{moment-format data.created_at "DD-MM-YYYY HH:mm:ss" }}
+          {{if data.created_at (moment-format data.created_at "DD-MM-YYYY")}}
         </row.cell>
         <row.cell>
           {{data.identifier}}
@@ -26,8 +29,11 @@
         <row.cell>
           {{data.payment_method}}
         </row.cell>
-        <row.cell @class="price">
-          {{numeral-format invoice.total format="0.00"}} €
+        <row.cell>
+          {{numeral-format data.amount format="0.00"}} €
+        </row.cell>
+        <row.cell>
+          {{if data.expires_at (moment-format data.expires_at "DD-MM-YYYY")}}
         </row.cell>
       </body.row>
     </table.body>
@@ -44,3 +50,7 @@
   </YetiTable>
 </div>
 
+<!--
+      {{#link-to "authen.payment" payment.id tagName="tr"}}
+      {{/link-to}}
+-->

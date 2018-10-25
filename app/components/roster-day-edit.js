@@ -34,7 +34,7 @@ export default Component.extend({
       return "Turno Pieno";
     else if (this.get('alreadySelectedByMe'))
       return "Turno già selezionato";
-    else if (this.get('chiefNeeded') && !this.get('session.person.acao_roster_chief'))
+    else if (this.get('chiefNeeded') && !this.get('canBeChief'))
       return "È richiesto un capolinea e non sei abilitato a fare il capolinea";
     else if (this.get('day.date') <= moment().add(2, 'd').toDate())
       return "Troppo tardi, questa giornata è chiusa";
