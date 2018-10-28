@@ -16,14 +16,16 @@
         {{/if}}
       {{/if}}
     <br />
-    Decollo: {{moment-format model.takeoff_time "DD-MM-YYYY hh:mm:ss z"}}<br />
+    Decollo: {{moment-format model.takeoff_time "DD-MM-YYYY HH:mm:ss Z"}}<br />
     Aeroporto Decollo: {{link-to model.takeoff_airfield.icao_code "authen.airfield" model.takeoff_airfield.id}} ({{model.takeoff_airfield.name}})<br />
     Luogo Decollo: {{model.takeoff_location.full_address}},
       {{#if model.takeoff_location.latlng}} ({{model.takeoff_location.lat}},{{model.takeoff_location.lng}}){{/if}}<br/>
-    Atterraggio: {{moment-format model.landing_time "DD-MM-YYYY hh:mm:ss z"}}<br />
+    Atterraggio: {{moment-format model.landing_time "DD-MM-YYYY HH:mm:ss Z"}}<br />
     Aeroporto Decollo: {{link-to model.landing_airfield.icao_code "authen.airfield" model.landing_airfield.id}} ({{model.landing_airfield.name}})<br />
     Luogo Decollo: {{model.landing_location.full_address}},
       {{#if model.landing_location.latlng}} ({{model.landing_location.lat}},{{model.landing_location.lng}}){{/if}}<br />
+    Durata: {{moment-format (utc model.duration) "HH:mm:ss"}}<br />
+
     {{#if model.towed_by}}
       Trainato da: {{link-to model.towed_by.aircraft_reg "authen.flight" model.towed_by.id}}<br />
     {{/if}}
