@@ -19,7 +19,12 @@
   </div>
 </div>
 <div id="sidebar-context">
-  {{#ui-sidebar class="ui inverted menu left inline vertical visible" dimPage=false closable=false id="main-sidebar" context="#sidebar-context"}}
+  {{#ui-sidebar
+      class=(concat "ui inverted menu left inline vertical " sidebarVisible)
+      dimPage=false
+      closable=false
+      id="main-sidebar"
+      context="#sidebar-context"}}
     {{main-menu-items
         person=session.person
         currentYear=currentYear

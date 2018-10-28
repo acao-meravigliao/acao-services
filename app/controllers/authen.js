@@ -79,6 +79,20 @@ console.log("PENDINGPAYMENTS UPDATE");
   rosterCurStatus: alias('model.rosterStatus.current'),
   rosterNextStatus: alias('model.rosterStatus.next'),
 
+  sidebarVisible: computed(function() {
+    return ($(window).width() > 617) ? 'visible' : '';
+  }),
+
+  sidebarHandler: function() {
+    $(window).resize(function() {
+      if($(window).width() > 617) {
+        $('#main-sidebar').sidebar('show');
+      } else {
+       $('#main-sidebar').sidebar('hide');
+      }
+    }).resize();
+  }.on('init'),
+
   actions: {
     logout() {
       if (confirm("Sicuro di voler uscire?"))
