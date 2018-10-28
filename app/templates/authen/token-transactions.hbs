@@ -9,29 +9,29 @@
         Data/Ora
       </header.column>
       <header.column>
+        Aeromobile
+      </header.column>
+      <header.column>
         Descrizione
       </header.column>
-      <header.column>
+      <header.column @columnClass="number">
         Ammontare
-      </header.column>
-      <header.column>
-        Note
       </header.column>
     </table.header>
 
-    <table.body as |body data|>
-      <body.row @onClick={{transition-to "authen.token-transaction" data.id}} as |row|>
+    <table.body as |body model|>
+      <body.row @onClick={{transition-to "authen.token-transaction" model.id}} as |row|>
         <row.cell>
-          {{if data.recorded_at (moment-format data.recorded_at "DD-MM-YYYY")}}
+          {{if model.recorded_at (moment-format model.recorded_at "DD-MM-YYYY HH:mm:ss")}}
         </row.cell>
         <row.cell>
-          {{data.descr}}
+          {{#if model.aircraft }}{{link-to model.aircraft.registration 'authent.aircraft' model.aircraft.id}}{{/if}}
         </row.cell>
         <row.cell>
-          {{numeral-format data.amount format='0.0'}}
+          {{model.descr}}
         </row.cell>
         <row.cell>
-          {{data.old_operator}} {{data.old_marche_mezzo}}
+          {{numeral-format model.amount format='+0.0'}}
         </row.cell>
       </body.row>
     </table.body>
