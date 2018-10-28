@@ -2,5 +2,13 @@
 <div class="ui container">
   <div class="ui segment">
     <h1>Aeromobile {{model.registration}}</h1>
+    Tipo: {{#link-to "authen.aircraft-type" model.aircraft_type.id}}{{model.aircraft_type.manufacturer}} {{model.aircraft_type.name}}{{/link-to}}<br />
+    Sigle di gara: {{model.race_registration}}<br />
+    Numero di serie: {{model.serial_number}}<br />
+    {{#if model.flarm_identifier}}Codice FLARM: {{model.flarm_identifier}}<br />{{/if}}
+    {{#if model.icao_identifier}}Codice ICAO: {{model.icao_identifier}}<br />{{/if}}
+    {{#if model.club}}Club di riferimento: {{link-to model.club.name "authen.club" model.club.id}}<br />{{/if}}
+    Proprietario: {{#if model.owner}}{{link-to model.owner.full_name "authen.person" model.owner.id}}{{else}}N/A{{/if}}<br />
+    Posto hangar: {{if model.hangar "SÌ" "NO"}}<br />
   </div>
 </div>
