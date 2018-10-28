@@ -53,7 +53,6 @@ module.exports = function(environment) {
       projectId:  '1',
       projectKey: '8af5b361c917d0f581a40552ff4c1ac0'
     };
-
   }
 
   return ENV;
