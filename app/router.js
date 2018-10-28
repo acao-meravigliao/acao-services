@@ -15,7 +15,7 @@ Router.map(function() {
       this.route('checkout');
     });
 
-    this.route('renew-membership', function() {
+    this.route('renew-membership', { path: '/renew-membership/:year' }, function() {
       this.route('data');
       this.route('summary');
     });
@@ -51,6 +51,9 @@ Router.map(function() {
 
     this.route('aircraft-types');
     this.route('aircraft-type', { path: '/aircraft-type/:id' });
+
+    this.route('clubs');
+    this.route('club', { path: '/club/:id' });
 
     this.route('airfield', { path: '/airfield/:id' });
   });
