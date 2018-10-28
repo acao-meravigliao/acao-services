@@ -17,7 +17,7 @@
     <tbody>
       {{#each model.invoice.details key="@index" as |detail|}}
       <tr>
-        <td>{{detail.descr}}{{#if detail.data}} - {{detail.data}}{{/if}}</td>
+        <td>{{detail.descr}}{{#if detail.specific_data}} - {{detail.specific_data}}{{/if}}</td>
         <td class="price">{{numeral-format detail.price format="0.00"}} €</td>
       </tr>
       {{/each}}
