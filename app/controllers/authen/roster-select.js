@@ -74,7 +74,6 @@ export default Controller.extend({
   },
 
   cancelSelections() {
-console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA CANCEL SELECTIONS");
     this.store.peekAll('ygg--acao--roster-entry').forEach(function(record) { record.rollbackAttributes(); });
   },
 
@@ -83,6 +82,7 @@ console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA CANCEL SELECTIONS");
     let promises = [];
 
     this.set('saving', true);
+    this.set('saveError', null);
 
     this.get('myRosterEntries').filter((x) => (x.get('hasDirtyAttributes') || x.get('isDeleted'))).forEach(function(record) {
       promises.push(record.save());

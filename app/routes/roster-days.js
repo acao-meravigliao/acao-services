@@ -10,7 +10,7 @@ export default Route.extend({
   },
 
   model(params) {
-    params.year = parseInt(params.year) || (new Date().getYear() + 1900);
+    params.year = parseInt(params.year) || (new Date().getFullYear());
     this.currentYear = params.year;
 
     return this.store.query('ygg--acao--roster-day', { filter: params });

@@ -1,4 +1,4 @@
-{{title "Turni di linea"}}
+{{title (concat "Turni di linea " year)}}
 <div class="ui container">
 
 <div class="ui grid">
@@ -34,7 +34,7 @@
     </div>
     {{/ui-dropdown}}
 
-    {{#ui-checkbox class="ui toggle" checked=includeBusy}}
+    {{#ui-checkbox class="ui toggle" checked=includeBusy onChange=(action (mut includeBusy))}}
       Includi occupati
     {{/ui-checkbox}}
     </div>

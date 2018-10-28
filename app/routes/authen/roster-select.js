@@ -1,8 +1,10 @@
 import Route from '@ember/routing/route';
 import $ from 'jquery';
 import { hash } from 'rsvp';
+import { inject as service } from '@ember/service';
 
 export default Route.extend({
+  session: service(),
 
   model(params) {
     // FIXME, filter server-side roster day by year
