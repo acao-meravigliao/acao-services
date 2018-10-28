@@ -11,7 +11,7 @@
       <header.column>
         Descrizione
       </header.column>
-      <header.column>
+      <header.column @columnClass="number">
         Ammontare
       </header.column>
     </table.header>
@@ -19,13 +19,13 @@
     <table.body as |body data|>
       <body.row @onClick={{transition-to "authen.bar-transaction" data.id}} as |row|>
         <row.cell>
-          {{if data.recorded_at (moment-format data.recorded_at "DD-MM-YYYY")}}
+          {{if data.recorded_at (moment-format data.recorded_at "DD-MM-YYYY HH:mm:ss")}}
         </row.cell>
         <row.cell>
           {{data.descr}}
         </row.cell>
         <row.cell>
-          {{numeral-format data.amount format='0.00'}} {{data.unit}}
+          {{numeral-format data.amount format='+0.00'}} {{data.unit}}
         </row.cell>
       </body.row>
     </table.body>
