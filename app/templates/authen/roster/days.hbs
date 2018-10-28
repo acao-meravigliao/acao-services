@@ -15,13 +15,23 @@
           {{nextYear}}<i class="ui right arrow icon"></i>
         {{/link-to}}
       </div>
+
+      <div class="ui sixteen wide column">
+        {{#ui-checkbox class="ui toggle" checked=showSlots onChange=(action (mut showSlots))}}
+          Mostra slot
+        {{/ui-checkbox}}
+
+        {{#ui-checkbox class="ui toggle" checked=filterComplete onChange=(action (mut filterComplete))}}
+          Solo Incompleti
+        {{/ui-checkbox}}
+      </div>
     </div>
   </div>
   <div class="ui raised segment">
     {{#if model}}
       <div class="ui cards">
-      {{#each sortedRosterDays as |day|}}
-        {{roster-day day=day}}
+      {{#each sortedFilteredRosterDays as |day|}}
+        {{roster-day day=day showSlots=showSlots}}
       {{/each}}
       </div>
     {{else}}

@@ -11,6 +11,12 @@
         {{#each sortedEntries as |entry|}}
           • {{entry.person.first_name}} {{entry.person.last_name}}<br />
         {{/each}}
+
+        {{#if showSlots}}
+          {{#each missingEntries}}
+            • <span style="display: inline-block; width: 10em; border-bottom: solid 1px grey;">&nbsp;</span><br />
+          {{/each}}
+        {{/if}}
       </div>
     </div>
   </div>
