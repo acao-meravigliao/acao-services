@@ -1,9 +1,9 @@
-{{title "Tutti i turni di traino"}}
+{{title "Tutti i turni di linea"}}
 <div class="ui container">
   <div class="ui raised segment">
     <div class="ui grid">
       <div class="ui seven wide column">
-        {{#link-to "tow-roster-days" (query-params year=prevYear) tagname="button" class="fluid ui button"}}
+        {{#link-to "authen.roster.days" (query-params year=prevYear) tagname="button" class="fluid ui button"}}
           <i class="ui left arrow icon"></i>{{prevYear}}
         {{/link-to}}
       </div>
@@ -11,7 +11,7 @@
         <h1 class="ui header">{{currentYear}}</h1>
       </div>
       <div class="ui seven wide column">
-        {{#link-to "tow-roster-days" (query-params year=nextYear) tagname="button" class="fluid ui button"}}
+        {{#link-to "authen.roster.days" (query-params year=nextYear) tagname="button" class="fluid ui button"}}
           {{nextYear}}<i class="ui right arrow icon"></i>
         {{/link-to}}
       </div>
@@ -21,13 +21,13 @@
     {{#if model}}
       <div class="ui cards">
       {{#each sortedRosterDays as |day|}}
-        {{tow-roster-day day=day}}
+        {{roster-day day=day}}
       {{/each}}
       </div>
     {{else}}
       <div class="ui blue message">
         <h1 class="ui header">
-          Non ci sono giornate di traino nel {{currentYear}}
+          Non ci sono giornate di linea nel {{currentYear}}
         </h1>
       </div>
     {{/if}}

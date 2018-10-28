@@ -42,7 +42,7 @@
 <div class="item">
   <div class="header">Turni di linea</div>
   {{#if rosterCurStatus.can_select_entries}}
-    {{#link-to "authen.roster-select" rosterCurStatus.year class="item"}}
+    {{#link-to "authen.roster.select" rosterCurStatus.year class="item"}}
       Selezione {{rosterCurStatus.year}}
       {{#unless rosterCurStatus.needed_entries_present}}
         <div class="ui medium red circular label">&nbsp;&nbsp;<i class="exclamation icon" /></div>
@@ -50,22 +50,22 @@
     {{/link-to}}
   {{/if}}
   {{#if rosterNextStatus.can_select_entries}}
-    {{#link-to "authen.roster-select" rosterNextStatus.year class="item"}}
+    {{#link-to "authen.roster.select" rosterNextStatus.year class="item"}}
       Selezione {{rosterNextStatus.year}}
       {{#unless rosterNextStatus.needed_entries_present}}
         <div class="ui medium red circular label">&nbsp;&nbsp;<i class="exclamation icon" /></div>
       {{/unless}}
     {{/link-to}}
   {{/if}}
-  {{#link-to "roster-days" class="item"}} Tutti i turni {{/link-to}}
-  {{#link-to "today-roster" class="item"}} Turni di oggi {{/link-to}}
+  {{#link-to "authen.roster.days" class="item"}} Tutti i turni {{/link-to}}
+  {{#link-to "authen.roster.today" class="item"}} Turni di oggi {{/link-to}}
 </div>
 
 {{#if person.acao_is_tug_pilot}}
 <div class="item">
   <div class="header">Turni di traino</div>
-  {{#link-to "authen.tow-roster-select" class="item"}} Selezione {{/link-to}}
-  {{#link-to "tow-roster-days" class="item"}} I tuoi turni {{/link-to}}
-  {{#link-to "today-tow-roster" class="item"}} Turni di oggi {{/link-to}}
+  {{#link-to "authen.tow-roster.select" class="item"}} Selezione {{/link-to}}
+  {{#link-to "authen.tow-roster.days" class="item"}} I tuoi turni {{/link-to}}
+  {{#link-to "authen.tow-roster.today" class="item"}} Turni di oggi {{/link-to}}
 </div>
 {{/if}}

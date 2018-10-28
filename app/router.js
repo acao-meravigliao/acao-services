@@ -34,9 +34,6 @@ Router.map(function() {
     this.route('invoices');
     this.route('invoice', { path: '/invoice/:id' });
 
-    this.route('roster-select', { path: '/roster-select/:year' });
-    this.route('tow-roster-select', { path: '/tow-roster-select/:year' });
-
     this.route('bar-transactions');
     this.route('bar-transaction', { path: '/bar-transaction/:id' });
 
@@ -56,6 +53,18 @@ Router.map(function() {
     this.route('club', { path: '/club/:id' });
 
     this.route('airfield', { path: '/airfield/:id' });
+
+    this.route('roster', function() {
+      this.route('today');
+      this.route('days');
+      this.route('select', { path: '/select/:year' });
+    });
+
+    this.route('tow-roster', function() {
+      this.route('today');
+      this.route('days');
+      this.route('select', { path: '/select/:year' });
+    });
   });
 
   this.route('login');
@@ -65,13 +74,15 @@ Router.map(function() {
   this.route('radar');
   this.route('meteo');
 
-  this.route('today-tow-roster');
-  this.route('today-tow-roster-not-found');
-  this.route('tow-roster-days');
+  this.route('roster', { path: '/public/roster' }, function() {
+    this.route('today');
+    this.route('days');
+  });
 
-  this.route('today-roster');
-  this.route('today-roster-not-found');
-  this.route('roster-days');
+  this.route('tow-roster', { path: '/public/tow-roster' }, function() {
+    this.route('today');
+    this.route('days');
+  });
 });
 
 export default Router;
