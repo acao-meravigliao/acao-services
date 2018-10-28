@@ -20,5 +20,7 @@
     {{/if}}
   </div>
 
-  {{partial (concat "authen/payment/" paymentMethodPartial)}}
+  {{#if (eq model.payment.state "PENDING")}}
+    {{partial (concat "authen/payment/" paymentMethodPartial)}}
+  {{/if}}
 </div>
