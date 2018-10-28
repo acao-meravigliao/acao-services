@@ -6,17 +6,12 @@ import { inject as service } from '@ember/service';
 export default Controller.extend({
   session: service('session'),
   clock: service('my-clock'),
-  applicationController: controller('application'),
+  authenController: controller('authen'),
 
   //------------------- Renewal -------------------
-  renewalContext: alias('applicationController.model.renewalContext'),
-
-  renewIsGoingToOpen: computed('renewalContext.next.@each', 'clock.time', function() {
-    return this.get('renewalContext.next.announce_time') &&
-           this.get('renewalContext.next.opening_time') &&
-           this.get('clock.date') > new Date(this.get('renewalContext.next.announce_time')) &&
-           this.get('clock.date') < new Date(this.get('renewalContext.next.opening_time'));
-  }),
+  currentYear: alias('authenController.currentYear'),
+  nextYear: alias('authenController.nextYear'),
+  renewIsGoingToOpen: alias('authenController.renewIsGoingToOpen'),
 
   //------------------- Roster -------------------
   myNextRosterEntries: sort('myNextRosterEntriesUnsorted', 'rosterEntriesSortOrder'),

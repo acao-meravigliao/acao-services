@@ -1,9 +1,10 @@
 {{title "Iscrizioni"}}
 <div class="ui container">
   <YetiTable class="ui selectable celled table"
+      @data={{memberships}}
       @filter={{filter}}
       @pagination={{true}} @pageSize={{20}} @totalRows={{totalRows}}
-      @loadData={{perform loadDataTask}} as |table|>
+      as |table|>
     <table.header as |header|>
       <header.column>
         Anno

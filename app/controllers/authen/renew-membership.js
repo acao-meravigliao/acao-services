@@ -7,7 +7,7 @@ import EmberObject from '@ember/object';
 export default Controller.extend({
   session: service('session'),
   clock: service('my-clock'),
-  context: alias('model.context.current'),
+  context: alias('model.context'),
   person: alias('session.person'),
   serviceTypes: alias('model.serviceTypes'),
   state: alias('model.state'),

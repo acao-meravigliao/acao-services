@@ -4,8 +4,8 @@
   {{#if renewIsGoingToOpen}}
     <div class="ui orange message">
       <h1 class="ui header">
-        L'iscrizione per l'anno {{renewalContext.next.renew_for_year}} non è ancora aperta,
-        aprirà {{moment-from-now renewalContext.next.opening_time interval=1000}}
+        L'iscrizione per l'anno {{nextYear.year}} non è ancora aperta,
+        aprirà {{moment-from-now nextYear.renew_opening_time interval=1000}}
       </h1>
     </div>
   {{/if}}

@@ -12,7 +12,7 @@ export default DS.Model.extend({
   valid_from: DS.attr('date'),
   valid_to: DS.attr('date'),
   reference_year_id: DS.attr('number'),
-  invoice_detail_id: DS.attr('number'),
+  invoice_detail_id: DS.attr('string'),
   status: DS.attr('string'),
 
   reference_year: DS.belongsTo('ygg--acao--year'),

@@ -50,6 +50,7 @@ export default Controller.extend({
       }).then((response) => {
         me.set('submitting', false);
         me.transitionToRoute('authen.payment', response.payment_id);
+        me.send('refreshModel');
       }).catch((error) => {
         me.set('submitting', false);
 

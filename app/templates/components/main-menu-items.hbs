@@ -5,8 +5,11 @@
 {{#link-to "meteo" class="item"}} Meteo {{/link-to}}
 -->
 
+{{#if currentRenewIsOpenAndNeeded}}
+  {{#link-to "authen.renew-membership" currentYear.year class="item"}}Rinnova l'iscrizione {{currentYear.year}}{{/link-to}}
+{{/if}}
 {{#if renewIsOpenAndNeeded}}
-  {{#link-to "authen.renew-membership" class="item"}}Rinnova l'iscrizione {{renewYear}}{{/link-to}}
+  {{#link-to "authen.renew-membership" nextYear.year class="item"}}Rinnova l'iscrizione {{nextYear.year}}{{/link-to}}
 {{/if}}
 
 

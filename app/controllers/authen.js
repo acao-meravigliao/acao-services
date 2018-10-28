@@ -34,30 +34,50 @@ console.log("PENDINGPAYMENTS UPDATE");
 
 
   // ------------------- Renewal ---------------------
-  renewalContext: alias('model.renewalContext'),
+//  renewalContext: alias('model.renewalContext'),
 
-  renewIsOpen: computed('renewalContext.@each', 'model.memberships.[]', 'clock.time', function() {
-    return this.get('renewalContext') &&
-           this.get('renewalContext.current.opening_time') &&
-           this.get('clock.date') > new Date(this.get('renewalContext.current.opening_time'));
+  currentYear: computed('model.years.@each', 'clock.date', function() {
+    return this.get('model.years').findBy('year', this.get('clock.date').getFullYear());
   }),
 
-  renewIsOpenAndNeeded: computed('renewIsOpen', 'model.memberships.@each', 'model.storeMemberships.@each', function() {
+  nextYear: computed('model.years.@each', 'clock.date', function() {
+    return this.get('model.years').findBy('year', this.get('clock.date').getFullYear() + 1);
+  }),
+
+  myMemberships: computed('model.storeMemberships', function() {
+    return this.get('model.storeMemberships').filter((x) => (x.person_id == this.get('session.personId')));
+  }),
+
+  currentRenewIsOpen: computed('currentYear.@each', 'clock.date', function() {
+    return this.get('nextYear.renew_opening_time') &&
+           this.get('clock.date') > new Date(this.get('currentYear.renew_opening_time'));
+  }),
+
+  currentRenewIsOpenAndNeeded: computed('currentRenewIsOpen', 'myMemberships.@each', function() {
     return this.get('renewIsOpen') &&
-           !this.get('model.memberships').any((item) => (item.get('reference_year_id') == this.get('renewalContext.current.year_id')));
+           !this.get('myMemberships').any((item) => (item.get('reference_year_id') == this.get('currentYear.id')));
   }),
 
-  renewYear: computed('renewIsOpenAndNeeded', 'renewalContext.current.renew_for_year', function() {
-    return this.get('renewIsOpenAndNeeded') ? this.get('renewalContext.current.year') : null;
+  renewIsOpen: computed('nextYear.@each', 'clock.date', function() {
+    return this.get('nextYear.renew_opening_time') &&
+           this.get('clock.date') > new Date(this.get('nextYear.renew_opening_time'));
+  }),
+
+  renewIsOpenAndNeeded: computed('renewIsOpen', 'myMemberships.@each', function() {
+    return this.get('renewIsOpen') &&
+           !this.get('myMemberships').any((item) => (item.get('reference_year_id') == this.get('nextYear.id')));
+  }),
+
+  renewIsGoingToOpen: computed('nextYear.@each', 'clock.time', function() {
+    return this.get('nextYear.renew_announce_time') &&
+           this.get('nextYear.renew_opening_time') &&
+           this.get('clock.time') > new Date(this.get('nextYear.renew_announce_time')) &&
+           this.get('clock.time') < new Date(this.get('nextYear.renew_opening_time'));
   }),
 
   // ------------------- Roster ---------------------
   rosterCurStatus: alias('model.rosterStatus.current'),
   rosterNextStatus: alias('model.rosterStatus.next'),
-  //rosterCurEntriesSelectable: alias('model.rosterStatus.current.can_select_entries'),
-  //rosterCurEntriesPresent: alias('model.rosterStatus.current.needed_entries_present'),
-  //rosterNextEntriesSelectable: alias('model.rosterStatus.next.can_select_entries'),
-  //rosterNextEntriesPresent: alias('model.rosterStatus.next.needed_entries_present'),
 
   actions: {
     logout() {

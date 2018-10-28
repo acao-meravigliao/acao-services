@@ -14,9 +14,9 @@ export default Controller.extend({
 
   renewIsOpen: alias('wizard.renewIsOpen'),
 
-  paymentIsPending: computed('context.current.membership.status', function() {
-    return this.get('context.current.membership.status') == 'WAITING_PAYMENT' &&
-           this.get('context.current.membership.payment_id');
+  paymentIsPending: computed('context.membership.status', function() {
+    return this.get('context.membership.status') == 'WAITING_PAYMENT' &&
+           this.get('context.membership.payment_id');
   }),
 
   myEmails: computed('wizard.person.contacts.@each', function() {

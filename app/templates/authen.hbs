@@ -23,7 +23,9 @@
   {{#ui-sidebar class="ui inverted menu left inline vertical visible" dimPage=false closable=false id="main-sidebar" context="#sidebar-context"}}
     {{main-menu-items
         person=session.person
-        renewYear=renewYear
+        currentYear=currentYear
+        nextYear=nextYear
+        currentRenewIsOpenAndNeeded=currentRenewIsOpenAndNeeded
         renewIsOpenAndNeeded=renewIsOpenAndNeeded
         pendingPayments=pendingPayments
         rosterCurStatus=rosterCurStatus

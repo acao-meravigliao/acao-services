@@ -30,11 +30,17 @@ export default Route.extend({
 
   model() {
     return hash({
+      years: this.store.findAll('ygg--acao--year'),
       storeMemberships: this.store.peekAll('ygg--acao--membership'),
       memberships: this.store.query('ygg--acao--membership', { filter: { person_id: this.get('session.personId') } }),
       pendingPayments: this.store.query('ygg--acao--payment', { filter: { person_id: this.get('session.personId'), state: 'PENDING', } }),
-      renewalContext: $.getJSON('/ygg/acao/memberships/renew'),
       rosterStatus: $.getJSON('/ygg/acao/roster_entries/status'),
     });
+  },
+
+  actions: {
+    refreshModel() {
+      this.refresh();
+    },
   },
 });
