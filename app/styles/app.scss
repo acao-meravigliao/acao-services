@@ -1,9 +1,14 @@
-.main.content {
-  padding-top: 50px;
+.sidebar-context {
+  position: absolute;
+  top: 48px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  height: auto;
 }
 
-#main-sidebar {
-  padding-top: 50px;
+.sidebar-pusher {
+  height: 100% !important;
 }
 
 span.price {

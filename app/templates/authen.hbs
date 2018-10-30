@@ -18,12 +18,13 @@
     <button class="ui small button" {{action "logout"}}>Logout</button>
   </div>
 </div>
-<div id="sidebar-context">
+<div id="sidebar-context" class="sidebar-context">
   {{#ui-sidebar
       class=(concat "ui inverted menu left inline vertical " sidebarVisible)
       dimPage=false
       closable=false
       id="main-sidebar"
+      click=(action "sidebarClick")
       context="#sidebar-context"}}
     {{main-menu-items
         person=session.person
@@ -37,7 +38,7 @@
     }}
   {{/ui-sidebar}}
 
-  <div class="pusher main content" style="background-color: #FFF;">
+  <div class="pusher main content sidebar-pusher">
     {{outlet}}
   </div>
 </div>
