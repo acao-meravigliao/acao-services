@@ -63,7 +63,7 @@ Router.map(function() {
     this.route('tow-roster', function() {
       this.route('today');
       this.route('days');
-      this.route('select', { path: '/select/:year' });
+      this.route('select');
     });
   });
 
