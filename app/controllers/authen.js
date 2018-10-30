@@ -102,5 +102,11 @@ console.log("PENDINGPAYMENTS UPDATE");
     sidebarToggle(id) {
       $(`#${id}`).sidebar('toggle');
     },
+
+    sidebarClick() {
+      if($(window).width() <= 617) {
+       $('#main-sidebar').sidebar('hide');
+      }
+    },
   },
 });
