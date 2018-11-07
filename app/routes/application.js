@@ -8,13 +8,18 @@ export default Route.extend({
 
   beforeModel(transition) {
     this.moment.setLocale('it');
+  },
 
+  model() {
     if (!this.get('session.isLoaded'))
       return this.session.load();
   },
 
   actions: {
-//    error(error, transition) {
+//    loading(error, transition) {
+//      return true;
+//    },
+//     error(error, transition) {
 //      return true;
 //    },
   },
