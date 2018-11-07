@@ -80,12 +80,12 @@ console.log("PENDINGPAYMENTS UPDATE");
   rosterNextStatus: alias('model.rosterStatus.next'),
 
   sidebarVisible: computed(function() {
-    return ($(window).width() > 617) ? 'visible' : '';
+    return ($(window).width() >= 768) ? 'visible' : '';
   }),
 
   sidebarHandler: function() {
     $(window).resize(function() {
-      if($(window).width() > 617) {
+      if($(window).width() >= 768) {
         $('#main-sidebar').sidebar('show');
       } else {
        $('#main-sidebar').sidebar('hide');
@@ -104,7 +104,7 @@ console.log("PENDINGPAYMENTS UPDATE");
     },
 
     sidebarClick() {
-      if($(window).width() <= 617) {
+      if($(window).width() < 768) {
        $('#main-sidebar').sidebar('hide');
       }
     },
