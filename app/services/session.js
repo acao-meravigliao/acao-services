@@ -18,6 +18,7 @@ export default Service.extend(Evented, {
   load() {
     return new Promise((resolve, reject) => {
       this.ajax.post('/ygg/session/check_or_create', {
+        timeout: 5000,
         contentType: 'application/json',
         data: {},
       }).then((response) => {
