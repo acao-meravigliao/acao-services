@@ -48,7 +48,7 @@ export default DS.Adapter.extend({
     });
   },
 
-  query(store, type, query, snapshotRecordArray) {
+  query(store, type, query, snapshotRecordArray, options) {
     let sig = this.querySignature(type.modelName, { filter: query.filter });
     if (this.selections[sig]) {
       this.selections[sig].complete = this.selections[sig].complete || !(query.limit || query.offset);
@@ -63,7 +63,7 @@ export default DS.Adapter.extend({
       order: query.order,
       fetchAll: true,  // FIXME: find a way to disable fetchAll and return objects from the store
       persistent: true,
-      view: snapshotRecordArray.adapterOptions && snapshotRecordArray.adapterOptions.view,
+      view: options.adapterOptions && options.adapterOptions.view,
     }).then((res) => {
       this.selections[sig] = { id: res.selection_id, complete: res.objects.data.length == res.objects.meta.total_count };
       return res.objects;
