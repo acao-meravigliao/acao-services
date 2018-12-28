@@ -25,7 +25,7 @@
           {{if model.recorded_at (moment-format model.recorded_at "DD-MM-YYYY HH:mm:ss")}}
         </row.cell>
         <row.cell>
-          {{#if model.aircraft }}{{link-to model.aircraft.registration 'authent.aircraft' model.aircraft.id}}{{/if}}
+          {{#if model.aircraft }}{{link-to model.aircraft.registration 'authen.aircraft' model.aircraft.id}}{{/if}}
         </row.cell>
         <row.cell>
           {{model.descr}}
