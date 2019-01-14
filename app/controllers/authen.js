@@ -34,41 +34,39 @@ console.log("PENDINGPAYMENTS UPDATE");
 
 
   // ------------------- Renewal ---------------------
-//  renewalContext: alias('model.renewalContext'),
+  myMemberships: computed('model.storeMemberships', function() {
+    return this.get('model.storeMemberships').filter((x) => (x.person_id == this.get('session.personId')));
+  }),
 
   currentYear: computed('model.years.@each', 'clock.date', function() {
     return this.get('model.years').findBy('year', this.get('clock.date').getFullYear());
+  }),
+
+  currentRenewIsOpen: computed('currentYear.@each', 'clock.date', function() {
+    return this.get('currentYear.renew_opening_time') &&
+           this.get('clock.date') > new Date(this.get('currentYear.renew_opening_time'));
+  }),
+
+  currentRenewIsOpenAndNeeded: computed('currentRenewIsOpen', 'myMemberships.@each', function() {
+    return this.get('currentRenewIsOpen') &&
+           !this.get('myMemberships').any((item) => (item.get('reference_year_id') == this.get('currentYear.id')));
   }),
 
   nextYear: computed('model.years.@each', 'clock.date', function() {
     return this.get('model.years').findBy('year', this.get('clock.date').getFullYear() + 1);
   }),
 
-  myMemberships: computed('model.storeMemberships', function() {
-    return this.get('model.storeMemberships').filter((x) => (x.person_id == this.get('session.personId')));
-  }),
-
-  currentRenewIsOpen: computed('currentYear.@each', 'clock.date', function() {
-    return this.get('nextYear.renew_opening_time') &&
-           this.get('clock.date') > new Date(this.get('currentYear.renew_opening_time'));
-  }),
-
-  currentRenewIsOpenAndNeeded: computed('currentRenewIsOpen', 'myMemberships.@each', function() {
-    return this.get('renewIsOpen') &&
-           !this.get('myMemberships').any((item) => (item.get('reference_year_id') == this.get('currentYear.id')));
-  }),
-
-  renewIsOpen: computed('nextYear.@each', 'clock.date', function() {
+  nextRenewIsOpen: computed('nextYear.@each', 'clock.date', function() {
     return this.get('nextYear.renew_opening_time') &&
            this.get('clock.date') > new Date(this.get('nextYear.renew_opening_time'));
   }),
 
-  renewIsOpenAndNeeded: computed('renewIsOpen', 'myMemberships.@each', function() {
-    return this.get('renewIsOpen') &&
+  nextRenewIsOpenAndNeeded: computed('nextRenewIsOpen', 'myMemberships.@each', function() {
+    return this.get('nextRenewIsOpen') &&
            !this.get('myMemberships').any((item) => (item.get('reference_year_id') == this.get('nextYear.id')));
   }),
 
-  renewIsGoingToOpen: computed('nextYear.@each', 'clock.time', function() {
+  nextRenewIsGoingToOpen: computed('nextYear.@each', 'clock.time', function() {
     return this.get('nextYear.renew_announce_time') &&
            this.get('nextYear.renew_opening_time') &&
            this.get('clock.time') > new Date(this.get('nextYear.renew_announce_time')) &&
