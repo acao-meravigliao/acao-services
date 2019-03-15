@@ -9,7 +9,7 @@ export default Route.extend({
 
   beforeModel(transition) {
     this.moment.setLocale('it');
-    this.get('versionChecker');
+    this.versionChecker;
   },
 
   model() {

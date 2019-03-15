@@ -30,11 +30,11 @@ export default Component.extend({
   }),
 
   addDisabledReason: computed('day.@each', 'entries.[]', 'missingAny', 'alreadySelectedByMe', 'chiefNeeded', function() {
-    if (!this.get('missingAny'))
+    if (!this.missingAny)
       return "Turno Pieno";
-    else if (this.get('alreadySelectedByMe'))
+    else if (this.alreadySelectedByMe)
       return "Turno già selezionato";
-    else if (this.get('chiefNeeded') && !this.get('canBeChief'))
+    else if (this.chiefNeeded && !this.canBeChief)
       return "È richiesto un capolinea e non sei abilitato a fare il capolinea";
     else if (this.get('day.date') <= moment().add(2, 'd').toDate())
       return "Troppo tardi, questa giornata è chiusa";

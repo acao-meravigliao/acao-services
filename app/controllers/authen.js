@@ -19,7 +19,7 @@ export default Controller.extend({
 
   titleChangeObserver: on('init', observer('pageTitleList.sortedTokens.@each', function() {
     once(this, function() {
-      this.set('myPageTitle', this.get('pageTitleList').toString());
+      this.set('myPageTitle', this.pageTitleList.toString());
     });
   })),
 
@@ -29,7 +29,7 @@ export default Controller.extend({
 
   pendingPayments: computed('allPayments.@each.state', function() {
 console.log("PENDINGPAYMENTS UPDATE");
-    return this.get('allPayments').filter((x) => (x.state == 'PENDING'));
+    return this.allPayments.filter((x) => (x.state == 'PENDING'));
   }),
 
 
@@ -48,8 +48,8 @@ console.log("PENDINGPAYMENTS UPDATE");
   }),
 
   currentRenewIsOpenAndNeeded: computed('currentRenewIsOpen', 'myMemberships.@each', function() {
-    return this.get('currentRenewIsOpen') &&
-           !this.get('myMemberships').any((item) => (item.get('reference_year_id') == this.get('currentYear.id')));
+    return this.currentRenewIsOpen &&
+           !this.myMemberships.any((item) => (item.get('reference_year_id') == this.get('currentYear.id')));
   }),
 
   nextYear: computed('model.years.@each', 'clock.date', function() {
@@ -62,8 +62,8 @@ console.log("PENDINGPAYMENTS UPDATE");
   }),
 
   nextRenewIsOpenAndNeeded: computed('nextRenewIsOpen', 'myMemberships.@each', function() {
-    return this.get('nextRenewIsOpen') &&
-           !this.get('myMemberships').any((item) => (item.get('reference_year_id') == this.get('nextYear.id')));
+    return this.nextRenewIsOpen &&
+           !this.myMemberships.any((item) => (item.get('reference_year_id') == this.get('nextYear.id')));
   }),
 
   nextRenewIsGoingToOpen: computed('nextYear.@each', 'clock.time', function() {

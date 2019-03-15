@@ -13,13 +13,13 @@ export default Controller.extend({
   state: alias('model.state'),
 
   renewIsOpen: computed('context.opening_time', 'clock.time', function() {
-    return this.get('context') &&
+    return this.context &&
            this.get('context.opening_time') &&
            this.get('clock.date') > new Date(this.get('context.opening_time'));
   }),
 
   renewIsOpenAndNeeded: computed('renewIsOpen', 'model.memberships.@each', 'model.storeMemberships.@each', function() {
-    return this.get('renewIsOpen') &&
+    return this.renewIsOpen &&
            !this.get('model.memberships').any((item) => (item.get('reference_year_id') == this.get('context.year_id')));
   }),
 

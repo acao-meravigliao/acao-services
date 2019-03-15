@@ -28,7 +28,8 @@ module.exports = {
         'ember-cli-build.js',
         'blueprints/*/index.js',
         'config/**/*.js',
-        'lib/*/index.js'
+        'lib/*/index.js',
+        'server/**/*.js'
       ],
       parserOptions: {
         sourceType: 'script',

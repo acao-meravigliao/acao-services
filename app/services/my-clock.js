@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import Service, { inject as service } from '@ember/service';
 import { computed, observer } from '@ember/object';
 import { run } from '@ember/runloop';
@@ -8,7 +7,7 @@ export default Service.extend({
 
   time: null,
   date: computed('time', function() {
-    return new Date(this.get('time'));
+    return new Date(this.time);
   }),
 
   init() {
@@ -18,11 +17,11 @@ export default Service.extend({
 
   start() {
     this.update();
-    this.set('intervalId', window.setInterval(() => this.update(), this.get('interval')));
+    this.set('intervalId', window.setInterval(() => this.update(), this.interval));
   },
 
   stop() {
-    window.clearInterval(this.get('intervalId'));
+    window.clearInterval(this.intervalId);
   },
 
   willDestroy() {

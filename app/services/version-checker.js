@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import Service, { inject as service } from '@ember/service';
 import { computed, observer } from '@ember/object';
 import { run } from '@ember/runloop';
@@ -17,11 +16,11 @@ export default Service.extend({
     this._super(...arguments);
 
     this.version = ENV.APP.version;
-    this.intervalId = window.setInterval(() => this.timer(), this.get('interval'));
+    this.intervalId = window.setInterval(() => this.timer(), this.interval);
   },
 
   stop() {
-    window.clearInterval(this.get('intervalId'));
+    window.clearInterval(this.intervalId);
   },
 
   willDestroy() {

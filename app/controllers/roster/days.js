@@ -7,7 +7,7 @@ export default Controller.extend({
   showSlots: false,
 
   filteredRosterDays: computed('model', 'filterComplete', function() {
-    return this.get('model').filter((x) => (this.get('filterComplete') ? x.get('roster_entries.length') < x.get('needed_people') : true));
+    return this.model.filter((x) => (this.filterComplete ? x.get('roster_entries.length') < x.get('needed_people') : true));
   }),
 
   sortedFilteredRosterDays: sort('filteredRosterDays', 'rosterDaysSortOrder'),

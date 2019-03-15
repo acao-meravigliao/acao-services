@@ -26,7 +26,7 @@ export default Route.extend({
     willTransition(transition) {
       if (this.get('controller.isDirty')) {
         if (confirm('Annulla le modifiche?'))
-          this.get('controller').cancelSelections();
+          this.controller.cancelSelections();
         else
           transition.abort();
       }

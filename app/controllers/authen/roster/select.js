@@ -22,7 +22,7 @@ export default Controller.extend({
   myRosterEntries: computed('model.allRosterEntries.@each', function() {
     return this.get('model.allRosterEntries').filter((item) =>
       (item.belongsTo('person').id() == this.get('session.personId') &&
-       item.get('roster_day.date').getFullYear() == this.get('year')
+       item.get('roster_day.date').getFullYear() == this.year
       )
     );
   }),
@@ -84,7 +84,7 @@ export default Controller.extend({
     this.set('saving', true);
     this.set('saveError', null);
 
-    this.get('myRosterEntries').filter((x) => (x.get('hasDirtyAttributes') || x.get('isDeleted'))).forEach(function(record) {
+    this.myRosterEntries.filter((x) => (x.get('hasDirtyAttributes') || x.get('isDeleted'))).forEach(function(record) {
       promises.push(record.save());
     });
 
@@ -110,7 +110,7 @@ export default Controller.extend({
     },
 
     save() {
-      if (this.get('requisiteEntriesMissing')) {
+      if (this.requisiteEntriesMissing) {
         if (confirm('Non tutti i turni necessari sono stati selezionati, continuare comunque?'))
           this.saveSelections();
       } else

@@ -65,7 +65,7 @@ export default Controller.extend({
     commit() {
       var me = this;
 
-      this.state.services = this.get('services').filter((x) => (x.type));
+      this.state.services = this.services.filter((x) => (x.type));
 
       this.state.setProperties(this.getProperties(
         'enableCav', 'enableEmail', 'acceptRules', 'paymentMethod',
