@@ -10,8 +10,8 @@ variables:
 install_dependencies:
   image: node:12-buster
   stage: prepare
-  tags:
-    - docker
+#  tags:
+#    - docker
   cache:
     paths:
       - node_modules
@@ -51,8 +51,8 @@ build_production:
   stage: build
   only:
     - master
-  tags:
-    - docker
+#  tags:
+#    - docker
   script:
     - $(npm bin)/ember build --environment production
 #    - rm -rf public
