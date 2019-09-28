@@ -1,0 +1,82 @@
+stages:
+  - prepare
+  - test
+  - build
+  - deploy
+
+variables:
+  EMBER_CLI_VERSION: "3.12.0"
+
+install_dependencies:
+  image: node:12-buster
+  stage: prepare
+  tags:
+    - docker
+  cache:
+    paths:
+      - node_modules
+  before_script:
+    - npm config set spin false
+    - npm install ember-cli@${EMBER_CLI_VERSION}
+  script:
+    - npm install
+  artifacts:
+    paths:
+      - node_modules/
+
+#test:
+#  image: node:6.10.2
+#  stage: test
+#  tags:
+#    - docker
+#  cache:
+#    paths:
+#      - node_modules
+#      - bower_components
+#  before_script:
+#    - set -xe
+#    - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+#    - echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list
+#    # Update packages
+#    - apt-get update -yqqq
+#    # Install Chrome browser
+#    - apt-get install -y google-chrome-stable
+#    # Install Virtual Display emulator
+#    - apt-get install -y xvfb
+#  script:
+#    - xvfb-run -a npm test
+
+build_production:
+  image: node:12-buster
+  stage: build
+  only:
+    - master
+  tags:
+    - docker
+  script:
+    - $(npm bin)/ember build --environment production
+#    - rm -rf public
+#    - mkdir public
+#    # Copy the generated web to the local public/ directory
+#    - cp -r $CI_PROJECT_DIR/dist/* public/
+  artifacts:
+      paths:
+        - dist
+
+## Deploy the pages generated to DFS
+#dfsdeploy:
+#  # Executed during the deploy stage
+#  stage: deploy
+#  # Only when the master branch is pushed
+#  only:
+#    - master
+#  # Custom docker image providing the needed tools to deploy in DFS
+#  image: gitlab-registry.cern.ch/ci-tools/ci-web-deployer:latest
+#  script:
+#  # Script that performs the deploy to DFS. Makes use of the variables defined in the project
+#  # It will not sync the generated content with the folder in DFS (risk of deleting DFS management files)
+#  # It will just override the contents of DFS or copy new files
+#  - deploy-dfs
+#  # do not run any globally defined before_script or after_script for this step
+#  before_script: []
+#  after_script: []
