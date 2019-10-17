@@ -24,7 +24,7 @@ export default Route.extend({
   },
 
   setupController(controller, model) {
-    this._super(controller, model);
+    this._super(...arguments);
 
     controller.set('state.services',
       model.context.services.map((x) => EmberObject.create({

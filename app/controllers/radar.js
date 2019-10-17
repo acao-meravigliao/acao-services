@@ -18,7 +18,7 @@ export default Controller.extend({
   init: function () {
     var me = this;
 
-    this._super();
+    this._super(...arguments);
 
 //    var aircrafts = this.aircrafts = this.get('store').findAll('aircraft');
 
