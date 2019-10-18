@@ -1,10 +1,11 @@
 import $ from 'jquery';
 import { observer, computed } from '@ember/object';
 import Component from '@ember/component';
-//import { translationMacro as t } from "ember-i18n";
+import { inject as service } from '@ember/service';
 
 export default Component.extend({
   elementId: 'exception-box',
+  intl: service(),
 
   // Until we have i18n
   classNameToI18nKey: function(val) {
@@ -32,7 +33,7 @@ export default Component.extend({
       return 'Errore interno';
 
     return this.get('exception.title') ||
-           t(this.classNameToI18nKey(this.get('exception.type') + '.title')) ||
+           this.intl.t(this.classNameToI18nKey(this.get('exception.type') + '.title')) ||
            this.get('exception.type');
   }),
 
@@ -45,7 +46,7 @@ export default Component.extend({
              ' prega il prodigioso spaghetto volante e, se proprio non va, chiedi alla segreteria.';
 
     return this.get('exception.descr') ||
-           t(this.classNameToI18nKey(this.get('exception.type') + '.descr'));
+           this.intl.t(this.classNameToI18nKey(this.get('exception.type') + '.descr'));
   }),
 
   actions: {
