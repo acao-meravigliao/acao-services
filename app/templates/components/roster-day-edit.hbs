@@ -8,8 +8,8 @@
         </div>
       </div>
       <div class="thirteen wide column">
-        <div class="ui move down reveal {{unless addDisabledReason "disabled"}}">
-          <div class="visible content" style="background-color: #FFF; width: 100%">
+        <div class="ui fade reveal {{unless addDisabledReason "disabled"}}">
+          <div class="visible content" style="width: 100%">
             {{#each sortedEntries as |entry|}}
               • {{entry.person.first_name}} {{entry.person.last_name}}<br />
             {{/each}}
@@ -20,9 +20,7 @@
           </div>
 
           <div class="hidden content">
-            <div class="ui red message">
-              {{addDisabledReason}}
-            </div>
+            {{addDisabledReason}}
           </div>
         </div>
       </div>

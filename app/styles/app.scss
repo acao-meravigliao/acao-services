@@ -35,11 +35,22 @@ table.payments, table.invoices {
 }
 
 .roster-day,.roster-entry {
-  cursor: grabbing;
-
   &.edit {
+    cursor: grabbing;
+
     &.disabled {
       cursor: not-allowed;
+    }
+
+    .ui.reveal {
+      .visible.content {
+        background-color: white;
+      }
+
+      .hidden.content {
+        background-color: green;
+      }
+
     }
   }
 
