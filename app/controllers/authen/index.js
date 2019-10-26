@@ -11,7 +11,7 @@ export default Controller.extend({
   //------------------- Renewal -------------------
   currentYear: alias('authenController.currentYear'),
   nextYear: alias('authenController.nextYear'),
-  renewIsGoingToOpen: alias('authenController.renewIsGoingToOpen'),
+  nextRenewIsGoingToOpen: alias('authenController.nextRenewIsGoingToOpen'),
 
   //------------------- Roster -------------------
   myNextRosterEntries: sort('myNextRosterEntriesUnsorted', 'rosterEntriesSortOrder'),
