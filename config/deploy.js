@@ -6,8 +6,8 @@ module.exports = function(deployTarget) {
     build: {
       outputPath: 'dist',
     },
-    revision-data: {
-      type: 'git-tag-commit',
+    'revision-data': {
+      type: 'git-commit',
     },
     gzip: {
       keep: true,
@@ -23,7 +23,7 @@ module.exports = function(deployTarget) {
 
     ENV['rsync-assets'] = {
       destination: '/opt/acao-services/',
-      source: 'tmp/deploy-dist/.',
+      source: 'dist/',
       excludeIndexHTML: false,
     }
   }
@@ -33,7 +33,7 @@ module.exports = function(deployTarget) {
 
     ENV['rsync-assets'] = {
       destination: 'yggdra@iserver.acao.it:/opt/acao-services/',
-      source: 'tmp/deploy-dist/.',
+      source: 'dist/',
       excludeIndexHTML: false,
       ssh: true,
     }
