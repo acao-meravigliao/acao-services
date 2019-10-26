@@ -6,7 +6,7 @@ import { assign } from '@ember/polyfills';
 import { cancel, later } from '@ember/runloop';
 import { Promise, defer as rsvpDefer } from 'rsvp';
 import $ from 'jquery';
-import { requirejs } from 'require';
+import { getOwner } from '@ember/application';
 
 export default Service.extend(Evented, {
 
@@ -14,8 +14,8 @@ export default Service.extend(Evented, {
   reconnectBackoff: 2.0,
   reconnectLimit: 15000,
 
-  pingFrequency: 5000,
-  pingTimeout: 10000,
+  keepaliveFrequency: 5000,
+  keepaliveTimeout: 10000,
 
   store: service('store'),
 
@@ -24,13 +24,13 @@ export default Service.extend(Evented, {
 
     this._super(...arguments);
 
-    me.uri = (window.location.protocol == 'http:' ? 'ws://' : 'wss://') + window.location.host + '/ws';
-    //me.uri = 'ws://linobis.acao.it:3330/ws'
+    me.uri = (window.location.protocol == 'http:' ? 'ws://' : 'wss://') + window.location.host + '/vos';
+    //me.uri = 'ws://linobis.acao.it:3330/vos'
 
     me.state = 'DISCONNECTED';
     me.reconnectAttempt = 0;
-    me.pingTimer = null;
-    me.pingTimeoutTimer = null;
+    me.keepaliveTimer = null;
+    me.keepaliveTimeoutTimer = null;
 
     me.session = null;
 
@@ -50,12 +50,12 @@ console.log("VISIBILITY_CHANGE", document.visibilityState, "IN STATE", me.state)
       switch(me.state) {
       case 'READY':
         if (document.visibilityState == 'visible') {
-          me.startPing();
+          me.startKeepalive();
           me.transmit({
             type: 'awake',
           });
         } else {
-          me.stopPing();
+          me.stopKeepalive();
           me.transmit({
             type: 'idle',
           });
@@ -68,39 +68,48 @@ console.log("VISIBILITY_CHANGE", document.visibilityState, "IN STATE", me.state)
     });
   },
 
-  startPing() {
+  startKeepalive() {
     let me = this;
 
-    me.pingTimer = later(me, me.doPing, me.pingFrequency);
+    me.keepaliveTimer = later(me, me.keepalive, me.keepaliveFrequency);
+
+    me.resetKeepalive();
   },
 
-  stopPing() {
+  resetKeepalive() {
     let me = this;
 
-    cancel(me.pingTimer);
-    me.pingTimer = null;
+    if (me.keepaliveTimeoutTimer !== null)
+      cancel(me.keepaliveTimeoutTimer);
 
-    if (me.pingTimeoutTimer) {
-      cancel(me.pingTimeoutTimer);
-      me.pingTimeoutTimer = null;
+    me.keepaliveTimeoutTimer = later(me, function() {
+      me.keepaliveTimedout();
+    }, me.keepaliveTimeout);
+  },
+
+  stopKeepalive() {
+    let me = this;
+
+    cancel(me.keepaliveTimer);
+    me.keepaliveTimer = null;
+
+    if (me.keepaliveTimeoutTimer !== null) {
+      cancel(me.keepaliveTimeoutTimer);
+      me.keepaliveTimeoutTimer = null;
     }
   },
 
-  doPing() {
+  keepalive() {
     let me = this;
 
     me.transmit({
-      type: 'ping',
+      type: 'keepalive',
     });
 
-    me.pingTimer = later(me, me.doPing, me.pingFrequency);
-
-    me.pingTimeoutTimer = later(me, function() {
-      me.pingTimedout();
-    }, me.pingTimeout);
+    me.keepaliveTimer = later(me, me.keepalive, me.keepaliveFrequency);
   },
 
-  pingTimedout() {
+  keepaliveTimedout() {
     this.socket.close();
   },
 
@@ -209,12 +218,14 @@ console.log("VISIBILITY_CHANGE", document.visibilityState, "IN STATE", me.state)
       }
     }
 
+    me.resetKeepalive();
+
     switch(msg.type) {
     case 'welcome': {
 console.log("WELCOME", msg);
 
       if (me.state != 'OPEN_WAIT_WELCOME') {
-        console.warn('WS received \'welcome\' in unexpected state', me.state);
+        console.warn('VOS received \'welcome\' in unexpected state', me.state);
         return;
       }
 
@@ -232,8 +243,10 @@ console.log("WELCOME", msg);
       me.trigger('welcome', msg);
 
       me.transmit({
-        type: 'set',
+        type: 'set_params',
         pars: {
+          keepalive_time: me.keepaliveFrequency / 1000.0,
+          keepalive_timeout: me.keepaliveTimeout / 1000.0,
           accept: 'application/vnd.api+json',
           content_type: 'application/vnd.api+json',
         },
@@ -258,10 +271,10 @@ console.log("RECREATING SELECTIONS", me.selectionsSaved);
       /////////// FIXME, don't go in ready state until all models/resources have been rebound
 
       let regexp = new RegExp(config.modulePrefix + '/models/(.*)$');
+      let owner = getOwner(this);
+      let typeNames = owner.lookup('data-adapter:main').getModelTypes().map(type => type.name);
 
-      Object.keys(require._eak_seen).filter((name) => regexp.test(name)).
-                   map((name) => regexp.exec(name)[1]).forEach(function(modelType) {
-
+      typeNames.forEach(function(modelType) {
         if (me.get('store').adapterFor(modelType) == me.get('store').adapterFor('application')) {
           let models = me.get('store').peekAll(modelType);
 
@@ -293,8 +306,11 @@ console.log("RECREATING SELECTIONS", me.selectionsSaved);
         me.flushDeferredRequests();
       }
 
-      me.startPing();
+      me.startKeepalive();
     }
+    break;
+
+    case 'keepalive':
     break;
 
     case 'online':
@@ -312,11 +328,8 @@ console.log("RECREATING SELECTIONS", me.selectionsSaved);
     case 'ping':
       me.transmit({
         type: 'pong',
+        reply_to: msg.request_id,
       });
-    break;
-
-    case 'pong':
-      cancel(me.pingTimeoutTimer);
     break;
 
     case 'create':
@@ -341,7 +354,9 @@ console.log("DESTROY OBJ=", msg);
     }
     break;
 
+    case 'pong':
     case 'select_ok':
+    case 'select_unbind_ok':
     case 'get_ok':
     case 'getmany_ok':
     case 'create_ok':
@@ -410,7 +425,7 @@ console.log("DESTROY OBJ=", msg);
     me.trigger('close', ev);
     me.trigger('offline', me.offlineReason);
 
-    me.stopPing();
+    me.stopKeepalive();
 
     console.log("CLOSE", ev);
 
@@ -444,7 +459,7 @@ console.log("DESTROY OBJ=", msg);
   },
 
   authenticate(username, password) {
-console.log("WS AUTHENTICATE");
+console.log("VOS AUTHENTICATE");
 
     let defer = rsvpDefer();
 
@@ -456,15 +471,24 @@ console.log("WS AUTHENTICATE");
       },
       success: ((msg) => {
         this.session = msg.session;
+console.log("VOS AUTHENTICATE SUCCESS", msg);
 
         defer.resolve(msg.session);
       }),
       failure: ((msg) => {
         console.error("AUTH FAILURE REQ=", req, "RESULT=", msg);
-        defer.reject({
-          exception: msg.payload,
-          requestId: msg.reply_to,
-        });
+
+        if (msg.type == 'auth_fail') {
+          defer.reject({
+            reason: msg.reason,
+            requestId: msg.reply_to,
+          });
+        } else {
+          defer.reject({
+            exception: msg.payload,
+            requestId: msg.reply_to,
+          });
+        }
       }),
     };
 
@@ -474,7 +498,7 @@ console.log("WS AUTHENTICATE");
   },
 
   logout() {
-console.log("WS LOGOUT");
+console.log("VOS LOGOUT");
     let defer = rsvpDefer();
 
     let req = {
@@ -498,13 +522,40 @@ console.log("WS LOGOUT");
     return defer.promise;
   },
 
+  ping() {
+    let me = this;
+
+    let defer = rsvpDefer();
+
+    let req = {
+      method: 'ping',
+      params: {},
+      success: function(msg) {
+        defer.resolve(msg.objects);
+      },
+      failure: function(msg) {
+        console.error("PING FAILURE REQ=", req, "RESULT=", msg);
+        defer.reject({
+          exception: msg.payload,
+          requestId: msg.reply_to,
+        });
+      },
+    };
+
+    me.makeRequest(req);
+
+    return defer.promise;
+  },
+
   select(args) {
     let me = this;
 
     let modelName = args.model;
     let params = args.params;
     let persistent = args.persistent !== false;
-    let bind = args.bind !== false;
+    let bind_objects = args.bind_objects !== false;
+    let bind_selection = args.bind_selection !== false;
+    let bind_on_create = args.bind_on_create !== false;
 
 console.log("SELECT", args);
 
@@ -514,7 +565,9 @@ console.log("SELECT", args);
       method: 'select',
       params: {
         model: modelName,
-        bind: bind,
+        bind_objects: bind_objects,
+        bind_selection: bind_selection,
+        bind_on_create: bind_on_create,
         params: params,
         offset: args.offset,
         limit: args.limit,
@@ -557,6 +610,8 @@ console.log("GET_SINGLE", modelName, id, params);
 
     params = params || {};
     let bind = params.bind !== false;
+    let bind_relations = params.bind_relations !== false;
+    let bind_sideloadings = params.bind_sideloadings !== false;
 
     let defer = rsvpDefer();
 
@@ -566,6 +621,8 @@ console.log("GET_SINGLE", modelName, id, params);
         model: modelName,
         id: id,
         bind: bind,
+        bind_relations: bind_relations,
+        bind_sideloadings: bind_sideloadings,
         view: params.view,
       }),
       success: function(msg) {
@@ -775,9 +832,9 @@ console.log("SUBSCRIBE", arguments);
         type: 'exception',
         content_type: 'application/problem+json',
         payload: {
-          type: 'ws_offline',
-          title: 'Lost connection with websocket',
-          title_sym: 'ws_lost_connection',
+          type: 'vos_offline',
+          title: 'Lost connection with vihai-object-streaming',
+          title_sym: 'vos_lost_connection',
         },
       });
     break;
@@ -810,7 +867,7 @@ console.log("SUBSCRIBE", arguments);
   changeState(newState) {
     let me = this;
 
-    console.log('WS', me.uri, 'Changed state from', me.state, 'to', newState);
+    console.log('VOS', me.uri, 'Changed state from', me.state, 'to', newState);
 
     me.set('state', newState);
   },
