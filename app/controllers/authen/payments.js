@@ -9,17 +9,15 @@ import { on } from '@ember/object/evented';
 export default Controller.extend({
   session: service(),
 
-  model: 'ygg--acao--payment',
-
   stateColors: {
     'PENDING': 'orange',
     'COMPLETED': 'green',
   },
 
-  allModels: computed(function() { return this.store.peekAll(this.model); }),
-  creationObserver: observer('allModels.length', function() {
-    console.log("CREATION  OBSERVER");
-  }),
+//  allModels: computed(function() { return this.store.peekAll(this.model); }),
+//  creationObserver: observer('allModels.length', function() {
+//    console.log("CREATION  OBSERVER");
+//  }),
 
   loadDataTask: task(function * (args) {
     let params = {
@@ -34,7 +32,7 @@ export default Controller.extend({
       });
     }
 
-    let result = yield this.store.query(this.model, params);
+    let result = yield this.store.query('ygg--acao--payment', params);
 
     this.set('totalRows', result.get('meta.total_count'));
 
