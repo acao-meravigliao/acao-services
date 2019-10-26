@@ -8,7 +8,7 @@
 {{#if currentRenewIsOpenAndNeeded}}
   <LinkTo @route="authen.renew-membership" @model={{currentYear.year}} class="item">Rinnova l'iscrizione {{currentYear.year}}</LinkTo>
 {{/if}}
-{{#if renewIsOpenAndNeeded}}
+{{#if nextRenewIsOpenAndNeeded}}
   <LinkTo @route="authen.renew-membership" @model={{nextYear.year}} class="item">Rinnova l'iscrizione {{nextYear.year}}</LinkTo>
 {{/if}}
 
