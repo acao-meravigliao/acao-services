@@ -16,6 +16,10 @@
           {{/link-to}}
         {{/if}}
 
+      {{else if context.blocked}}
+        <div class="ui message red">
+          L'iscrizione per l'anno {{context.year}} è bloccata. Gentilmente rivolgiti in segreteria.
+        </div>
       {{else}}
       <p>
         Con questa procedura potrai rinnovare la tua iscrizione per l'anno {{context.year}}.
