@@ -36,6 +36,7 @@ export default Service.extend({
   timer() {
     this.ajax.request('/index.json', {
       method: 'GET',
+      cache: false,
     }).then((res) => {
       if (res.meta) {
         let meta = res.meta.findBy('name', ENV.APP.name + '/config/environment');
