@@ -8,10 +8,10 @@
   </div>
 
   <div class="right item">
-    {{#if cart.items}}
+    {{#if this.cart.items}}
       {{#link-to "authen.shop.cart" class="ui small button"}}
         <i class="cart icon"></i>
-        {{if cart.items.length cart.items.length}}
+        {{if this.cart.items.length cart.items.length}}
       {{/link-to}}
     {{/if}}
 
