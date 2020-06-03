@@ -175,7 +175,7 @@ console.log("VISIBILITY_CHANGE", document.visibilityState, "IN STATE", me.state)
 
     me.lastAttempt = Date.now();
 
-    me.socket = new WebSocket(me.uri);
+    me.socket = new WebSocket(me.uri, 'vos.sevio.it');
 
     me.socket.onopen = function(/*ev*/) {
       me.changeState('OPEN_WAIT_WELCOME');
@@ -244,7 +244,7 @@ console.log("WELCOME", msg);
 
       me.transmit({
         type: 'set_params',
-        pars: {
+        body: {
           keepalive_time: me.keepaliveFrequency / 1000.0,
           keepalive_timeout: me.keepaliveTimeout / 1000.0,
           accept: 'application/vnd.api+json',
