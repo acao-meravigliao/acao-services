@@ -79,6 +79,6 @@
   },
   "dependencies": {
     "airbrake-js": "^0.5.9",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.19"
   }
 }
