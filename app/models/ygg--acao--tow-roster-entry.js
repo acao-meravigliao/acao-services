@@ -1,9 +1,10 @@
-import DS from 'ember-data';
+import Model, { attr } from '@ember-data/model';
+import { vosBelongsTo, vosHasMany } from 'ember-vos';
 
-export default DS.Model.extend({
-  uuid: DS.attr('string'),
+export default class YggAcaoTowRosterEntryModel extends Model {
+  @attr('string') notes;
+  @attr('date') selected_at;
+
   person: DS.belongsTo('ygg--core--person'),
   day: DS.belongsTo('ygg--acao--tow-roster-day'),
-  notes: DS.attr('string'),
-  selected_at: DS.attr('date'),
-});
+}

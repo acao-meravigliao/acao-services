@@ -1,5 +1,6 @@
-import DS from 'ember-data';
+import Model, { attr } from '@ember-data/model';
+import { vosBelongsTo, vosHasMany } from 'ember-vos';
 
-export default DS.Model.extend({
+export default class YggAcaoPaymentSatispayChargeModel extends Model {
   payment: DS.belongsTo('ygg--acao--payment'),
-});
+}

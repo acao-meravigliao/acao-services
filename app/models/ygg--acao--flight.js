@@ -1,24 +1,24 @@
-import DS from 'ember-data';
+import Model, { attr } from '@ember-data/model';
+import { vosBelongsTo, vosHasMany } from 'ember-vos';
+
 import { computed } from '@ember/object';
 
-export default DS.Model.extend({
-  uuid: DS.attr('string'),
+export default class YggAcaoFlightModel extends Model {
+  @attr('string') aircraft_reg;
+  @attr('number') aircraft_id;
+  @attr('string') aircraft_class;
 
-  aircraft_reg: DS.attr('string'),
-  aircraft_id: DS.attr('number'),
-  aircraft_class: DS.attr('string'),
+  @attr('date') takeoff_time;
+  @attr('string') takeoff_location_raw;
+  @attr('date') landing_time;
+  @attr('string') landing_location_raw;
 
-  takeoff_time: DS.attr('date'),
-  takeoff_location_raw: DS.attr('string'),
-  landing_time: DS.attr('date'),
-  landing_location_raw: DS.attr('string'),
+  @attr('boolean') instruction_flight;
+  @attr('string') launch_type;
+  @attr('string') acao_quota;
 
-  instruction_flight: DS.attr('boolean'),
-  launch_type: DS.attr('string'),
-  acao_quota: DS.attr('string'),
-
-  pilot1_role: DS.attr('string'),
-  pilot2_role: DS.attr('string'),
+  @attr('string') pilot1_role;
+  @attr('string') pilot2_role;
 
   aircraft: DS.belongsTo('ygg--acao--aircraft'),
   pilot1: DS.belongsTo('ygg--core--person'),
@@ -32,4 +32,4 @@ export default DS.Model.extend({
   towing: DS.belongsTo('ygg--acao--flight', { inverse: 'towed_by' }),
 
   duration: computed('takeoff_time,landing_time', function() { return this.landing_time - this.takeoff_time; }),
-});
+}

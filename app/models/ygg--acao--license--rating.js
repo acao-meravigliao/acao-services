@@ -1,10 +1,10 @@
-import DS from 'ember-data';
+import Model, { attr } from '@ember-data/model';
+import { vosBelongsTo, vosHasMany } from 'ember-vos';
 
-export default DS.Model.extend({
-  uuid: DS.attr('string'),
-  type: DS.attr('string'),
-  issued_at: DS.attr('date'),
-  valid_to: DS.attr('date'),
+export default class YggAcaoLicenseRatingModel extends Model {
+  @attr('string') type;
+  @attr('date') issued_at;
+  @attr('date') valid_to;
 
   license: DS.belongsTo('ygg--acao--license'),
-});
+}

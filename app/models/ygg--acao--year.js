@@ -1,8 +1,8 @@
-import DS from 'ember-data';
+import Model, { attr } from '@ember-data/model';
+import { vosBelongsTo, vosHasMany } from 'ember-vos';
 
-export default DS.Model.extend({
-  uuid: DS.attr('string'),
-  year: DS.attr('number'),
-  renew_opening_time: DS.attr('date'),
-  renew_announce_time: DS.attr('date'),
-});
+export default class YggAcaoYearModel extends Model {
+  @attr('number') year;
+  @attr('date') renew_opening_time;
+  @attr('date') renew_announce_time;
+}

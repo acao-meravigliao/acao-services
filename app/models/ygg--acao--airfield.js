@@ -1,10 +1,10 @@
-import DS from 'ember-data';
+import Model, { attr } from '@ember-data/model';
+import { vosBelongsTo, vosHasMany } from 'ember-vos';
 
-export default DS.Model.extend({
-  uuid: DS.attr('string'),
-  name: DS.attr('string'),
-  icao_code: DS.attr('string'),
-  symbol: DS.attr('string'),
+export default class YggAcaoAirfieldModel extends Model {
+  @attr('string') name;
+  @attr('string') icao_code;
+  @attr('string') symbol;
 
   location: DS.belongsTo('ygg--core--location'),
-});
+}

@@ -1,16 +1,16 @@
-import DS from 'ember-data';
+import Model, { attr } from '@ember-data/model';
+import { vosBelongsTo, vosHasMany } from 'ember-vos';
 
-export default DS.Model.extend({
-  uuid: DS.attr('string'),
-  person_id: DS.attr('number'),
-  aircraft_id: DS.attr('number'),
-  recorded_at: DS.attr('date'),
-  descr: DS.attr('string'),
-  amount: DS.attr('number'),
-  prev_credit: DS.attr('number'),
-  credit: DS.attr('number'),
-  old_operator: DS.attr('string'),
-  old_marche_mezzo: DS.attr('string'),
+export default class YggAcaoTokenTransactionModel extends Model {
+  @attr('number') person_id;
+  @attr('number') aircraft_id;
+  @attr('date') recorded_at;
+  @attr('string') descr;
+  @attr('number') amount;
+  @attr('number') prev_credit;
+  @attr('number') credit;
+  @attr('string') old_operator;
+  @attr('string') old_marche_mezzo;
 
   aircraft: DS.belongsTo('ygg--acao--aircraft'),
-});
+}

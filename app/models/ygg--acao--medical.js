@@ -1,12 +1,12 @@
-import DS from 'ember-data';
+import Model, { attr } from '@ember-data/model';
+import { vosBelongsTo, vosHasMany } from 'ember-vos';
 
-export default DS.Model.extend({
-  uuid: DS.attr('string'),
-  pilot_id: DS.attr('number'),
-  type: DS.attr('string'),
-  identifier: DS.attr('string'),
-  issued_at: DS.attr('date'),
-  valid_to: DS.attr('date'),
+export default class YggAcaoMedicalModel extends Model {
+  @attr('number') pilot_id;
+  @attr('string') type;
+  @attr('string') identifier;
+  @attr('date') issued_at;
+  @attr('date') valid_to;
 
   pilot: DS.belongsTo('ygg--core--person'),
-});
+}

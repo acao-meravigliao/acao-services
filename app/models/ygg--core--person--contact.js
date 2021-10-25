@@ -1,8 +1,8 @@
-import DS from 'ember-data';
+import Model, { attr } from '@ember-data/model';
+import { vosBelongsTo, vosHasMany } from 'ember-vos';
 
-export default DS.Model.extend({
-  uuid: DS.attr('string'),
-  type: DS.attr('string'),
-  value: DS.attr('string'),
-  descr: DS.attr('string'),
-});
+export default class YggCorePersonContactModel extends Model {
+  @attr('string') type;
+  @attr('string') value;
+  @attr('string') descr;
+}

@@ -1,25 +1,26 @@
-import DS from 'ember-data';
+import Model, { attr } from '@ember-data/model';
+import { vosBelongsTo, vosHasMany } from 'ember-vos';
+
 import { computed } from '@ember/object';
 
-export default DS.Model.extend({
-  created_at: DS.attr('date'),
-  updated_at: DS.attr('date'),
-  uuid: DS.attr('string'),
-  race_registration: DS.attr('string'),
-  registration: DS.attr('string'),
-  flarm_identifier: DS.attr('string'),
-  icao_identifier: DS.attr('string'),
-  fn_owner_name: DS.attr('string'),
-  fn_home_airport: DS.attr('string'),
-  fn_type_name: DS.attr('string'),
-  fn_common_radio_frequency: DS.attr('string'),
+export default class AircarftModel extends Model {
+  @attr('date') created_at;
+  @attr('date') updated_at;
+  @attr('string') race_registration;
+  @attr('string') registration;
+  @attr('string') flarm_identifier;
+  @attr('string') icao_identifier;
+  @attr('string') fn_owner_name;
+  @attr('string') fn_home_airport;
+  @attr('string') fn_type_name;
+  @attr('string') fn_common_radio_frequency;
 
-  lat: DS.attr('number'),
-  lng: DS.attr('number'),
-  cog: DS.attr('number'),
-  sog: DS.attr('number'),
+  @attr('number') lat;
+  @attr('number') lng;
+  @attr('number') cog;
+  @attr('number') sog;
 
   latlng: computed('lat', 'lng', function() {
     return [ this.lat, this.lng ];
   }),
-});
+}

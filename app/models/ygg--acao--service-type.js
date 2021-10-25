@@ -1,15 +1,15 @@
-import DS from 'ember-data';
+import Model, { attr } from '@ember-data/model';
+import { vosBelongsTo, vosHasMany } from 'ember-vos';
 
-export default DS.Model.extend({
+export default class YggAcaoServiceTypeModel extends Model {
   wsModelName: 'Ygg::Acao::ServiceType',
 
-  uuid: DS.attr('string'),
-  symbol: DS.attr('string'),
-  name: DS.attr('string'),
-  descr: DS.attr('string'),
-  price: DS.attr('number'),
-  extra_info: DS.attr('string'),
-  notes: DS.attr('string'),
-  available_for_shop: DS.attr('boolean'),
-  available_for_membership_renewal: DS.attr('boolean'),
-});
+  @attr('string') symbol;
+  @attr('string') name;
+  @attr('string') descr;
+  @attr('number') price;
+  @attr('string') extra_info;
+  @attr('string') notes;
+  @attr('boolean') available_for_shop;
+  @attr('boolean') available_for_membership_renewal;
+}

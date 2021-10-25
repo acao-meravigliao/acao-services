@@ -1,6 +1,8 @@
-import DS from 'ember-data';
+import Model, { attr } from '@ember-data/model';
+import { vosBelongsTo, vosHasMany } from 'ember-vos';
 
-export default DS.Model.extend({
-  count: DS.attr('number'),
+export default class CartEntryModel extends Model {
+  @attr('number') count;
+
   service: DS.belongsTo('ygg--acao--service-type'),
-});
+}

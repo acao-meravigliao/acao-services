@@ -1,12 +1,12 @@
-import DS from 'ember-data';
+import Model, { attr } from '@ember-data/model';
+import { vosBelongsTo, vosHasMany } from 'ember-vos';
 
-export default DS.Model.extend({
-  uuid: DS.attr('string'),
-  recorded_at: DS.attr('date'),
-  cnt: DS.attr('number'),
-  descr: DS.attr('string'),
-  amount: DS.attr('number'),
-  unit: DS.attr('string'),
-  prev_credit: DS.attr('number'),
-  credit: DS.attr('number'),
-});
+export default class YggAcaoBarTransactionModel extends Model {
+  @attr('date') recorded_at;
+  @attr('number') cnt;
+  @attr('string') descr;
+  @attr('number') amount;
+  @attr('string') unit;
+  @attr('number') prev_credit;
+  @attr('number') credit;
+}

@@ -1,13 +1,13 @@
-import DS from 'ember-data';
+import Model, { attr } from '@ember-data/model';
+import { vosBelongsTo, vosHasMany } from 'ember-vos';
 
-export default DS.Model.extend({
-  uuid: DS.attr('string'),
-  manufacturer: DS.attr('string'),
-  name: DS.attr('string'),
-  seats: DS.attr('number'),
-  motor: DS.attr('number'),
-  link_wp: DS.attr('string'),
-  handicap: DS.attr('number'),
-  club_handicap: DS.attr('number'),
-  aircraft_class: DS.attr('string'),
-});
+export default class YggAcaoAircraftTypeModel extends Model {
+  @attr('string') manufacturer;
+  @attr('string') name;
+  @attr('number') seats;
+  @attr('number') motor;
+  @attr('string') link_wp;
+  @attr('number') handicap;
+  @attr('number') club_handicap;
+  @attr('string') aircraft_class;
+}
