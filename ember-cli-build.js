@@ -4,6 +4,12 @@ const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function (defaults) {
   let app = new EmberApp(defaults, {
+    sassOptions: {
+      includePaths: [
+        'node_modules/',
+        'node_modules/xterm/css/',
+      ],
+    },
     fingerprint: {
       exclude: [
         'images/layers-2x.png',
@@ -13,10 +19,6 @@ module.exports = function (defaults) {
         'images/marker-shadow.png'
       ]
     },
-//    sourcemaps: {
-//      enabled: true,
-//      extensions: ['js'],
-//    },
   });
 
   // Use `app.import` to add additional libraries to the generated
