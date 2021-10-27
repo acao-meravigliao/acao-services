@@ -1,11 +1,14 @@
-<<<<<<< HEAD
-{{title "ACAO Servizi"}}
-<HeadLayout />
+{{page-title "ACAO Servizi"}}
 {{outlet}}
-=======
-{{page-title "AcaoServices"}}
 
-<h2 id="title">Welcome to Ember</h2>
-
-{{outlet}}
->>>>>>> 806e8cd (v3.13.1...v3.26.0)
+{{#if this.offline}}
+  <div class="offline-modal modal is-active">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="box">
+        <h1 class="title">Offline!</h1><br />
+        {{this.vosState}}
+      </div>
+    </div>
+  </div>
+{{/if}}
