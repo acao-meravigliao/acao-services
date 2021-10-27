@@ -4,11 +4,10 @@ import { hash, all } from 'rsvp';
 
 export default Route.extend({
   session: service(),
-  moment: service(),
   versionChecker: service(),
 
   beforeModel(transition) {
-    this.moment.setLocale('it');
+    //this.moment.setLocale('it');
     this.versionChecker;
   },
 

@@ -11,7 +11,6 @@ export default Controller.extend({
   session: service('session'),
   cart: service('shopping-cart'),
   clock: service('my-clock'),
-  headData: service(),
 
   // -------- Page title hack  -------------------
   pageTitleList: service(),

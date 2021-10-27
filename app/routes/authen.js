@@ -5,7 +5,6 @@ import $ from 'jquery';
 
 export default Route.extend({
   session: service(),
-  moment: service(),
 
   loginRoute: 'login',
 
