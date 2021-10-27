@@ -1,10 +1,10 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
-export default Route.extend({
-  session: service('session'),
+export default class Login2Route extends Route {
+  @service session;
 
-  authenticatedRoute: 'authen.index',
+  authenticatedRoute = 'authen.index';
 
   beforeModel(transition) {
     if (this.get('session.isAuthenticated')) {
@@ -12,5 +12,5 @@ export default Route.extend({
     } else {
       return this._super(...arguments);
     }
-  },
-});
+  }
+}

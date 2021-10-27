@@ -1,8 +1,8 @@
 import Route from '@ember/routing/route';
 
-export default Route.extend({
+export default class ApplicationErrorRoute extends Route {
   setupController(controller, error) {
-    console.log("=============================> APPLICATION ERROR: ", error);
+    console.log("=============================> APPLICATION ERROR: ", arguments);
 
     if (error.exception) {
       controller.set('title', error.exception.title); // FIXME implement i18n
@@ -18,5 +18,5 @@ export default Route.extend({
     } else {
       controller.set('title', 'Errore non specificato');
     }
-  },
-});
+  }
+}

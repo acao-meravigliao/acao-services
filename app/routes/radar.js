@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 
-export default Route.extend({
+export default class RadarRoute extends Route {
     //this.store.push({
     //  data: [
     //   {
@@ -17,4 +17,4 @@ export default Route.extend({
     //  ]
     //});
   //},
-});
+}

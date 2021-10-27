@@ -4,8 +4,8 @@ import { hash } from 'rsvp';
 import $ from 'jquery';
 import EmberObject from '@ember/object';
 
-export default Route.extend({
-  session: service(),
+export default class AuthenRenewMembershipRoute extends Route {
+  @service session;
 
   model(params) {
     return hash({
@@ -21,7 +21,7 @@ export default Route.extend({
         acceptRules: false,
       }),
     });
-  },
+  }
 
   setupController(controller, model) {
     this._super(...arguments);
@@ -32,11 +32,11 @@ export default Route.extend({
         extraInfo: x.extra_info,
       })
     ));
-  },
+  }
 
   afterModel(model, transition) {
     if (model.state.get('currentStep') != transition.targetName.split('.').pop()) {
       this.transitionTo(this.routeName + '.' + model.state.get('currentStep'));
     }
-  },
-});
+  }
+}

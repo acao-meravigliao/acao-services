@@ -1,20 +1,21 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
 import { hash, all } from 'rsvp';
 import $ from 'jquery';
 
-export default Route.extend({
-  session: service(),
+export default class AuthenRoute extends Route {
+  @service session;
 
-  loginRoute: 'login',
+  loginRoute = 'login';
 
-  init() {
-    this._super(...arguments);
+  constructor() {
+    super(...arguments);
 
     this.session.on('sessionBecomesNotAuthenticated', () => {
       this.transitionTo(this.loginRoute);
     });
-  },
+  }
 
   beforeModel(transition) {
     // Trigger session loading if not loaded already, if not authenticated transition to login route
@@ -25,7 +26,7 @@ export default Route.extend({
     } else {
       this.transitionTo(this.loginRoute);
     }
-  },
+  }
 
   model() {
     return hash({
@@ -35,11 +36,9 @@ export default Route.extend({
       pendingPayments: this.store.query('ygg--acao--payment', { filter: { person_id: this.get('session.personId'), state: 'PENDING', } }),
       rosterStatus: $.getJSON('/ygg/acao/roster_entries/status'),
     });
-  },
+  }
 
-  actions: {
-    refreshModel() {
-      this.refresh();
-    },
-  },
-});
+  @action refreshModel() {
+    this.refresh();
+  }
+}
