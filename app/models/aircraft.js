@@ -1,8 +1,6 @@
 import Model, { attr } from '@ember-data/model';
 import { vosBelongsTo, vosHasMany } from 'ember-vos';
 
-import { computed } from '@ember/object';
-
 export default class AircarftModel extends Model {
   @attr('date') created_at;
   @attr('date') updated_at;
@@ -20,7 +18,7 @@ export default class AircarftModel extends Model {
   @attr('number') cog;
   @attr('number') sog;
 
-  latlng: computed('lat', 'lng', function() {
+  get latlng() {
     return [ this.lat, this.lng ];
-  }),
+  }
 }

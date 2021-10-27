@@ -1,6 +1,8 @@
 import Model, { attr } from '@ember-data/model';
 import { vosBelongsTo, vosHasMany } from 'ember-vos';
 
+import { belongsTo, hasMany } from '@ember-data/model';
+
 export default class YggAcaoTokenTransactionModel extends Model {
   @attr('number') person_id;
   @attr('number') aircraft_id;
@@ -12,5 +14,5 @@ export default class YggAcaoTokenTransactionModel extends Model {
   @attr('string') old_operator;
   @attr('string') old_marche_mezzo;
 
-  aircraft: DS.belongsTo('ygg--acao--aircraft'),
+  @belongsTo('ygg--acao--aircraft') aircraft;
 }

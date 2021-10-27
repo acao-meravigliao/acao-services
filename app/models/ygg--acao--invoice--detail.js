@@ -1,6 +1,8 @@
 import Model, { attr } from '@ember-data/model';
 import { vosBelongsTo, vosHasMany } from 'ember-vos';
 
+import { belongsTo, hasMany } from '@ember-data/model';
+
 export default class YggAcaoInvoiceDetailModel extends Model {
   @attr('number') invoice_id;
   @attr('number') service_type_id;
@@ -8,8 +10,8 @@ export default class YggAcaoInvoiceDetailModel extends Model {
   @attr('string') descr;
   @attr('number') count;
 
-  specific_data: DS.attr('string', { key: 'data' }),
+  @attr('string', { key: 'data' }) specific_data;
 
-  invoice: DS.belongsTo('ygg--acao--invoice'),
-  service_type: DS.belongsTo('ygg--acao--service-type'),
+  @belongsTo('ygg--acao--invoice') invoice;
+  @belongsTo('ygg--acao--service-type') service_type;
 }

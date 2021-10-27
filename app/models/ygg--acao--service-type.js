@@ -1,8 +1,10 @@
 import Model, { attr } from '@ember-data/model';
 import { vosBelongsTo, vosHasMany } from 'ember-vos';
 
+import { belongsTo, hasMany } from '@ember-data/model';
+
 export default class YggAcaoServiceTypeModel extends Model {
-  wsModelName: 'Ygg::Acao::ServiceType',
+  wsModelName = 'Ygg::Acao::ServiceType'
 
   @attr('string') symbol;
   @attr('string') name;

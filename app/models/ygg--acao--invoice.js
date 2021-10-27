@@ -1,6 +1,8 @@
 import Model, { attr } from '@ember-data/model';
 import { vosBelongsTo, vosHasMany } from 'ember-vos';
 
+import { belongsTo, hasMany } from '@ember-data/model';
+
 export default class YggAcaoInvoiceModel extends Model {
   @attr('number') person_id;
   @attr('string') identifier;
@@ -15,7 +17,7 @@ export default class YggAcaoInvoiceModel extends Model {
   @attr('string') payment_method;
   @attr('number') total;
 
-  details: DS.hasMany('ygg--acao--invoice--detail'),
-  person: DS.belongsTo('ygg--core--person'),
-  payments: DS.hasMany('ygg--acao--payment'),
+  @hasMany('ygg--acao--invoice--detail') details;
+  @hasMany('ygg--core--person') person;
+  @hasMany('ygg--acao--payment') payments;
 }

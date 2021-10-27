@@ -1,6 +1,8 @@
 import Model, { attr } from '@ember-data/model';
 import { vosBelongsTo, vosHasMany } from 'ember-vos';
 
+import { belongsTo, hasMany } from '@ember-data/model';
+
 export default class YggAcaoAircraftModel extends Model {
   @attr('string') registration;
   @attr('string') race_registration;
@@ -11,7 +13,7 @@ export default class YggAcaoAircraftModel extends Model {
   @attr('date') arc_valid_to;
   @attr('date') insurance_valid_to;
 
-  aircraft_type: DS.belongsTo('ygg--acao--aircraft-type'),
-  club: DS.belongsTo('ygg--acao--club'),
-  owner: DS.belongsTo('ygg--core--person'),
+  @belongsTo('ygg--acao--aircraft-type') aircraft_type;
+  @belongsTo('ygg--acao--club') club;
+  @belongsTo('ygg--core--person') owner;
 }

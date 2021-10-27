@@ -1,7 +1,7 @@
 import Model, { attr } from '@ember-data/model';
 import { vosBelongsTo, vosHasMany } from 'ember-vos';
 
-import { computed } from '@ember/object';
+import { belongsTo, hasMany } from '@ember-data/model';
 
 export default class YggCorePersonModel extends Model {
   @attr('date') created_at;
@@ -31,7 +31,9 @@ export default class YggCorePersonModel extends Model {
   @attr('boolean') acao_roster_allowed;
   @attr('boolean') acao_roster_chief;
 
-  contacts: DS.hasMany('ygg--core--person--contact'),
+  @belongsTo('ygg--core--person--contact') contacts;
 
-  full_name: computed('first_name', 'last_name', function() { return this.first_name + ' ' + this.last_name; }),
+  get full_name() {
+    return this.first_name + ' ' + this.last_name;
+  }
 }

@@ -1,8 +1,6 @@
 import Model, { attr } from '@ember-data/model';
 import { vosBelongsTo, vosHasMany } from 'ember-vos';
 
-import { computed } from '@ember/object';
-
 export default class YggCoreLocationModel extends Model {
   @attr('string') street_address;
   @attr('string') city;
@@ -17,11 +15,11 @@ export default class YggCoreLocationModel extends Model {
   @attr('number') lng;
   @attr('number') alt;
 
-  full_address: computed('street_address', 'city', 'zip', function() {
+  get full_address() {
     return [ this.street_address, this.city, this.zip ].filter((x) => (x)).join(', ');
-  }),
+  }
 
-  latlng: computed('lat', 'lng', function() {
+  get latlng() {
     return this.lat && this.lng ? [ this.lat, this.lng ] : null;
-  }),
+  }
 }
