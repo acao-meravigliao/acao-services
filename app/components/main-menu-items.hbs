@@ -1,0 +1,73 @@
+<LinkTo @route="authen.index" class="item"> Home </LinkTo>
+
+<!--
+<LinkTo @route="radar" class="item"> Radar </LinkTo>
+<LinkTo @route="meteo" class="item"> Meteo </LinkTo>
+-->
+
+{{#if currentRenewIsOpenAndNeeded}}
+  <LinkTo @route="authen.renew-membership" @model={{currentYear.year}} class="item">Rinnova l'iscrizione {{currentYear.year}}</LinkTo>
+{{/if}}
+{{#if nextRenewIsOpenAndNeeded}}
+  <LinkTo @route="authen.renew-membership" @model={{nextYear.year}} class="item">Rinnova l'iscrizione {{nextYear.year}}</LinkTo>
+{{/if}}
+
+
+<!--
+<LinkTo @route="authen.shop" class="item"> Shop </LinkTo>
+-->
+
+<LinkTo @route="authen.invoices" class="item teal">
+  Ricevute
+  {{#if pendingInvoices}}
+    <div class="ui red label">{{pendingInvoices.length}}</div>
+  {{/if}}
+</LinkTo>
+
+<LinkTo @route="authen.payments" class="item teal">
+  Pagamenti
+  {{#if pendingPayments}}
+    <div class="ui red label">{{pendingPayments.length}}</div>
+  {{/if}}
+</LinkTo>
+
+<LinkTo @route="authen.memberships" class="item"> Iscrizioni </LinkTo>
+<LinkTo @route="authen.licenses" class="item"> Licenze </LinkTo>
+<LinkTo @route="authen.medicals" class="item"> Visite mediche </LinkTo>
+<LinkTo @route="authen.bar-transactions" class="item"> Conto Bar </LinkTo>
+<LinkTo @route="authen.token-transactions" class="item"> Conto Bollini </LinkTo>
+<LinkTo @route="authen.flights" class="item"> Stralcio Voli </LinkTo>
+<LinkTo @route="authen.aircrafts" class="item"> Miei Alianti </LinkTo>
+
+<div class="item">
+  <div class="header">Turni di linea</div>
+  {{#if rosterCurStatus.can_select_entries}}
+    <LinkTo @route="authen.roster.select" @model={{rosterCurStatus.year}} class="item">
+      Selezione {{rosterCurStatus.year}}
+      {{#unless rosterCurStatus.needed_entries_present}}
+        <div class="ui medium red circular label">&nbsp;&nbsp;<i class="exclamation icon" /></div>
+      {{/unless}}
+    </LinkTo>
+  {{/if}}
+  {{#if rosterNextStatus.can_select_entries}}
+    <LinkTo @route="authen.roster.select" @model={{rosterNextStatus.year}} class="item">
+      Selezione {{rosterNextStatus.year}}
+      {{#unless rosterNextStatus.needed_entries_present}}
+        <div class="ui medium red circular label">&nbsp;&nbsp;<i class="exclamation icon" /></div>
+      {{/unless}}
+    </LinkTo>
+  {{/if}}
+  <LinkTo @route="authen.roster.days" class="item"> Tutti i turni </LinkTo>
+  <LinkTo @route="authen.roster.today" class="item"> Turni di oggi </LinkTo>
+</div>
+
+<!--
+{{#if person.acao_is_tug_pilot}}
+<div class="item">
+  <div class="header">Turni di traino</div>
+  <LinkTo @route="authen.tow-roster.select" class="item"> Selezione </LinkTo>
+  <LinkTo @route="authen.tow-roster.days" class="item"> I tuoi turni </LinkTo>
+  <LinkTo @route="authen.tow-roster.today" class="item"> Turni di oggi </LinkTo>
+</div>
+{{/if}}
+-->

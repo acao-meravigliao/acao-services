@@ -1,0 +1,28 @@
+<div class="roster-entry edit ui raised blurring fluid card">
+  <div class="ui dimmer {{if entry.isDeleted "active"}}">
+    <div class="content">
+      <h3 class="ui inverted header">
+        Da eliminare
+      </h3>
+    </div>
+  </div>
+  <div class="content">
+    <div class="header">
+      {{moment-format entry.roster_day.date "dddd D MMMM"}}
+    </div>
+
+    <div>
+      {{#each entry.roster_day.roster_entries as |sameDayEntry|}}
+        • {{sameDayEntry.person.first_name}} {{sameDayEntry.person.last_name}}<br />
+      {{/each}}
+    </div>
+
+    {{#if entry.notes}}
+      <div class="ui message">
+        {{entry.notes}}
+      </div>
+    {{/if}}
+  </div>
+
+  <button class="ui bottom attached button" disabled={{deleteDisabled}} {{action "del" entry}}><i class="red ui delete icon"></i> Elimina</button>
+</div>
