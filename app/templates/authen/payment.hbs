@@ -9,14 +9,14 @@
     Ricevuta: {{#link-to "authen.invoice" model.payment.invoice.id}}{{model.payment.invoice.identifier}}{{/link-to}}<br />
     Totale: <span class="price">{{numeral-format model.payment.amount format="0.00"}} €</span><br />
 
-    Data: {{moment-format model.payment.created_at "DD-MM-YYYY HH:mm:ss"}}<br />
+    Data: {{format-date model.payment.created_at "DD-MM-YYYY HH:mm:ss"}}<br />
 
     {{#if model.payment.expires_at}}
-      Scadenza: {{moment-format model.payment.expires_at "DD-MM-YYYY HH:mm:ss"}}<br />
+      Scadenza: {{format-date model.payment.expires_at "DD-MM-YYYY HH:mm:ss"}}<br />
     {{/if}}
 
     {{#if model.payment.completed_at}}
-    Completato: {{moment-format model.payment.completed_at "DD-MM-YYYY HH:mm:ss"}}<br />
+    Completato: {{format-date model.payment.completed_at "DD-MM-YYYY HH:mm:ss"}}<br />
     {{/if}}
   </div>
 

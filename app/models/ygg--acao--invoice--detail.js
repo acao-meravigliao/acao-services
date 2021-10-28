@@ -4,8 +4,8 @@ import { vosBelongsTo, vosHasMany } from 'ember-vos';
 import { belongsTo, hasMany } from '@ember-data/model';
 
 export default class YggAcaoInvoiceDetailModel extends Model {
-  @attr('number') invoice_id;
-  @attr('number') service_type_id;
+  @attr('string') invoice_id;
+  @attr('string') service_type_id;
   @attr('number') price;
   @attr('string') descr;
   @attr('number') count;

@@ -4,8 +4,8 @@ import { vosBelongsTo, vosHasMany } from 'ember-vos';
 import { belongsTo, hasMany } from '@ember-data/model';
 
 export default class YggAcaoTokenTransactionModel extends Model {
-  @attr('number') person_id;
-  @attr('number') aircraft_id;
+  @attr('string') person_id;
+  @attr('string') aircraft_id;
   @attr('date') recorded_at;
   @attr('string') descr;
   @attr('number') amount;

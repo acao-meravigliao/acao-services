@@ -1,26 +1,22 @@
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
 
-import { computed } from '@ember/object';
-import Component from '@ember/component';
+export default class ShopCartItemComponent extends Component {
 
-export default Component.extend({
-  tagName: '',
-
-  totalPrice: computed('item.{count,service.price}', function() {
+  get totalPrice() {
     return this.get('item.count') * this.get('item.service.price');
-  }),
+  }
 
-  actions: {
-    plusOne() {
-      this.set('item.count', this.get('item.count') + 1);
-    },
+  @action plusOne() {
+    this.set('item.count', this.get('item.count') + 1);
+  }
 
-    minusOne() {
+  @action minusOne() {
       this.set('item.count', Math.max(this.get('item.count') - 1, 0));
-    },
+  }
 
-    remove() {
-      this.item.deleteRecord();
-      this.item.save();
-    },
-  },
-});
+  @action remove() {
+    this.item.deleteRecord();
+    this.item.save();
+  }
+}

@@ -1,11 +1,13 @@
-import { computed } from '@ember/object';
-import { sort } from '@ember/object/computed';
 import Controller from '@ember/controller';
+import { tracked } from '@glimmer/tracking';
 
-export default Controller.extend({
-  rosterDaysSortOrder: [ 'date' ],
-  sortedRosterDays: sort('model', 'rosterDaysSortOrder'),
+export default class DaysController extends Controller {
+  @service session;
 
-  prevYear: computed('currentYear', function() { return this.currentYear - 1; }),
-  nextYear: computed('currentYear', function() { return this.currentYear + 1; }),
-});
+  @tracked rosterDaysSortOrder = [ 'date' ];
+
+  get sortedRosterDays() { return this.model.sortBy('rosterDaysSortOrder'); }
+
+  get prevYear() { return this.currentYear - 1; }
+  get nextYear() { return this.currentYear + 1; }
+}

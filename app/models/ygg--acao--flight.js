@@ -5,7 +5,7 @@ import { belongsTo, hasMany } from '@ember-data/model';
 
 export default class YggAcaoFlightModel extends Model {
   @attr('string') aircraft_reg;
-  @attr('number') aircraft_id;
+  @attr('string') aircraft_id;
   @attr('string') aircraft_class;
 
   @attr('date') takeoff_time;

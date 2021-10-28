@@ -1,7 +1,7 @@
 <div class="roster-entry ui raised blurring fluid card">
   <div class="content">
     <div class="header">
-      {{moment-format entry.roster_day.date "dddd D MMMM YYYY"}}
+      {{format-date entry.roster_day.date "dddd D MMMM YYYY"}}
     </div>
 
     {{#each entry.roster_day.roster_entries as |sameDayEntry|}}

@@ -3,8 +3,8 @@
     <div class="ui grid">
       <div class="three wide column date-block {{if day.high_season "high-season" "low-season"}}">
         <div class="date">
-          {{moment-format day.date "ddd"}}<br />
-          {{moment-format day.date "D/M"}}
+          {{format-date day.date "ddd"}}<br />
+          {{format-date day.date "D/M"}}
         </div>
       </div>
       <div class="thirteen wide column">

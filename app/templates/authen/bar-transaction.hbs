@@ -3,7 +3,7 @@
   <div class="ui segment">
     <h1>Movimento bar</h1>
     ID: {{model.uuid}}<br />
-    Registrato il: {{moment-format model.recorded_at "DD-MM-YYYY HH:mm:ss"}}<br />
+    Registrato il: {{format-date model.recorded_at "DD-MM-YYYY HH:mm:ss"}}<br />
     Numero: {{model.cnt}}<br />
     Descrizione: {{model.descr}}<br />
     Ammontare: {{numeral-format model.amount format="0.00"}} {{model.unit}}<br />

@@ -1,11 +1,11 @@
 <div class="ui container">
-  <h1 class="ui header">Ciao {{session.person.first_name}}!</h1>
+  <h1 class="ui header">Ciao {{this.session.person.first_name}}!</h1>
 
-  {{#if nextRenewIsGoingToOpen}}
+  {{#if this.nextRenewIsGoingToOpen}}
     <div class="ui orange message">
       <h1 class="ui header">
-        L'iscrizione per l'anno {{nextYear.year}} non è ancora aperta,
-        aprirà {{moment-from-now nextYear.renew_opening_time interval=1000}}
+        L'iscrizione per l'anno {{this.nextYear.year}} non è ancora aperta,
+        aprirà {{format-date-from-now this.nextYear.renew_opening_time}}
       </h1>
     </div>
   {{/if}}
@@ -16,7 +16,7 @@
         <div class="ui statistics">
           <div class="statistic">
             <div class="value">
-              {{numeral-format session.person.acao_bar_credit format="0.00"}} €
+              {{numeral-format this.session.person.acao_bar_credit format="0.00"}} €
             </div>
             <div class="label">
               Conto bar
@@ -27,7 +27,7 @@
         <div class="ui statistics">
           <div class="statistic">
             <div class="value">
-              {{session.person.acao_bollini}}
+              {{this.session.person.acao_bollini}}
             </div>
             <div class="label">
               Bollini
@@ -36,7 +36,7 @@
         </div>
 
 
-<!--        {{#if model.memberships}}
+<!--        {{#if this.model.memberships}}
           Socio nel:
           <div class="ui celled horizontal list">
             {{#each model.memberships key="id" as |membership|}}
@@ -46,10 +46,10 @@
         {{/if}}
 -->
 
-        {{#if myNextRosterEntries}}
+        {{#if this.myNextRosterEntries}}
           <div class="ui segment">
             Prossimi turni di linea:
-            {{#each myNextRosterEntries as |re|}}
+            {{#each this.myNextRosterEntries as |re|}}
               {{roster-entry entry=re}}
             {{/each}}
           </div>
@@ -59,17 +59,17 @@
         {{#if model.medicals}}
           <div class="ui segment">
             Visita medica:
-            {{#each model.medicals as |med|}}
-              {{med.type}}: {{moment-format med.valid_to "DD-MM-YYYY"}}<br />
+            {{#each this.model.medicals as |med|}}
+              {{med.type}}: {{format-date this.med.valid_to "DD-MM-YYYY"}}<br />
             {{/each}}
           </div>
         {{/if}}
 
-        {{#if model.licenses}}
+        {{#if this.model.licenses}}
           <div class="ui segment">
             Licenze:
             {{#each model.licenses as |lic|}}
-              {{lic.type}}: {{lic.identifier}}: {{moment-format lic.valid_to "DD-MM-YYYY"}}
+              {{lic.type}}: {{lic.identifier}}: {{format-date this.lic.valid_to "DD-MM-YYYY"}}
             {{/each}}
           </div>
         {{/if}}

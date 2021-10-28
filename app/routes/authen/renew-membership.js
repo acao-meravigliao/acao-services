@@ -1,8 +1,16 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 import { hash } from 'rsvp';
 import $ from 'jquery';
 import EmberObject from '@ember/object';
+
+class WizardState extends EmberObject {
+  @tracked currentStep = 'index';
+  @tracked enableCav = true;
+  @tracked enableEmail = true;
+  @tracked acceptRules = false;
+}
 
 export default class AuthenRenewMembershipRoute extends Route {
   @service session;
@@ -14,17 +22,12 @@ export default class AuthenRenewMembershipRoute extends Route {
       serviceTypes: this.store.findAll('ygg--acao--service-type'),
       storeMemberships: this.store.peekAll('ygg--acao--membership'),
       memberships: this.store.query('ygg--acao--membership', { filter: { person_id: this.get('session.personId') } }),
-      state: EmberObject.create({
-        currentStep: 'index',
-        enableCav: true,
-        enableEmail: true,
-        acceptRules: false,
-      }),
+      state: new WizardState,
     });
   }
 
   setupController(controller, model) {
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     controller.set('state.services',
       model.context.services.map((x) => EmberObject.create({
@@ -35,8 +38,8 @@ export default class AuthenRenewMembershipRoute extends Route {
   }
 
   afterModel(model, transition) {
-    if (model.state.get('currentStep') != transition.targetName.split('.').pop()) {
-      this.transitionTo(this.routeName + '.' + model.state.get('currentStep'));
+    if (model.state.currentStep != transition.targetName.split('.').pop()) {
+      this.transitionTo(this.routeName + '.' + model.state.currentStep);
     }
   }
 }

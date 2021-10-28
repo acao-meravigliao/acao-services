@@ -1,43 +1,47 @@
-import { all } from 'rsvp';
-import { sort } from '@ember/object/computed';
-import { computed } from '@ember/object';
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
+import { all } from 'rsvp';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 
-export default Controller.extend({
-  session: service('session'),
+export default class TowRosterSelectController extends Controller {
+  @service session;
 
-  monthSelect: 'all',
-  seasonSelect: 'all',
-  includeBusy: false,
+  monthSelect = 'all';
+  seasonSelect = 'all';
+  includeBusy = false;
 
-  saveDisabled: computed('saving', 'isDirty', function() {
+  @tracked rosterDaysSortOrder = ['date'];
+
+  get saveDisabled() {
     return this.saving || !this.isDirty;
-  }),
+  }
 
-  allRosterEntries: computed(function() {
+  get allRosterEntries() {
     return this.store.peekAll('ygg--acao--day-roster-entry');
-  }),
+  }
 
-  myRosterEntries: computed('allRosterEntries.{@each,@each.isDeleted}', function() {
+  get myRosterEntries() {
     return this.allRosterEntries.filter((item) =>
       (item.belongsTo('person').id() == this.get('session.personId'))
     );
-  }),
+  }
 
-  isDirty: computed('myRosterEntries.{@each,@each.isDeleted}', function() {
+  get isDirty() {
     return this.myRosterEntries.any((record) => (record.get('hasDirtyAttributes') || record.get('isDeleted')));
-  }),
+  }
 
-  peakRosterEntries: computed('myRosterEntries.@each', function() {
+  get peakRosterEntries() {
     return this.myRosterEntries.filter((item) =>
       (item.belongsTo('roster_day').value().get('high_season'))
     );
-  }),
+  }
 
-  rosterDaysSorted: sort('model.rosterDays', 'rosterDaysSortOrder'),
+  get rosterDaysSorted() {
+    return this.model.rosterDays.sortBy('rosterDaysSortOrder');
+  }
 
-  filteredRosterDays: computed('rosterDaysSorted.@each', 'monthSelect', 'seasonSelect', 'includeBusy', function() {
+  get filteredRosterDays() {
     return this.rosterDaysSorted.filter((item) =>
       (
        item.get('date').getFullYear() == this.get('model.rosterStatus.renew_for_year') && (
@@ -46,48 +50,41 @@ export default Controller.extend({
        (this.monthSelect == 'all' || Number(this.monthSelect) == item.get('date').getMonth())
       ))
     );
-  }),
+  }
 
-  init() {
-    this._super(...arguments);
-    this.rosterDaysSortOrder = ['date'];
-  },
+  @action addDay(dayEntry) {
+    this.store.createRecord('ygg--acao--tow-roster-entry', {
+      person: this.store.peekRecord('ygg--core--person', this.get('session.personId')),
+      day: dayEntry,
+    });
+  }
 
-  actions: {
-    addDay(dayEntry) {
-      this.store.createRecord('ygg--acao--tow-roster-entry', {
-        person: this.store.peekRecord('ygg--core--person', this.get('session.personId')),
-        day: dayEntry,
-      });
-    },
+  @action delEntry(entry) {
+    entry.deleteRecord();
+  }
 
-    delEntry(entry) {
-      entry.deleteRecord();
-    },
+  @action save() {
+    let me = this;
+    let promises = [];
 
-    save() {
-      let me = this;
-      let promises = [];
+    this.set('saving', true);
 
-      this.set('saving', true);
+    this.store.peekAll('ygg--acao--tow-roster-entry').forEach(function(record) {
+      if (record.get('hasDirtyAttributes')) {
+        promises.push(record.save());
+      }
+    });
 
-      this.store.peekAll('ygg--acao--tow-roster-entry').forEach(function(record) {
-        if (record.get('hasDirtyAttributes')) {
-          promises.push(record.save());
-        }
-      });
+    all(promises).then(function() {
+      me.set('saving', false);
+      me.set('saveSuccess', true);
+    }).catch((error) => {
+      me.set('saving', false);
+      me.set('saveError', error.reason);
+    });
+  }
 
-      all(promises).then(function() {
-        me.set('saving', false);
-        me.set('saveSuccess', true);
-      }).catch((error) => {
-        me.set('saving', false);
-        me.set('saveError', error.reason);
-      });
-    },
-
-    cancel() {
-      this.store.peekAll('ygg--acao--tow-roster-entry').forEach(function(record) { record.rollbackAttributes(); });
-    },
-  },
-});
+  @action cancel() {
+    this.store.peekAll('ygg--acao--tow-roster-entry').forEach(function(record) { record.rollbackAttributes(); });
+  }
+}

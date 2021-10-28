@@ -1,12 +1,11 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
 
-export default Controller.extend({
-  cart: service('shopping-cart'),
+export default class ShopCartController extends Controller {
+  @service('shopping-cart') cart;
 
-  actions: {
-    emptyCart() {
-      this.cart.empty();
-    },
-  },
-});
+  @action emptyCart() {
+    this.cart.empty();
+  }
+}

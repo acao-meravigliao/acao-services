@@ -10,7 +10,7 @@ export default class YggAcaoPaymentModel extends Model {
   @attr('date') completed_at;
   @attr('string') state;
   @attr('number') amount;
-  @attr('number') person_id;
+  @attr('string') person_id;
   @attr('string') payment_method;
   @attr('string') reason_for_payment;
 

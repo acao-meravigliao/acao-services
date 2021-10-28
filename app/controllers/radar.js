@@ -4,21 +4,22 @@ import { inject as service } from '@ember/service';
 import EmberLeafletComponent from 'ember-leaflet/components/leaflet-map';
 import L from 'L';
 
-export default Controller.extend({
-  vos: service('vihai-object-streaming'),
-  lat: 45.809836,
-  lng: 8.771022,
-  zoom: 14,
-  mrk: [45.809836, 8.771022],
-  icon: L.icon({
+export default class RadarController extends Controller {
+  @service('vihai-object-streaming') vos;
+
+  lat = 45.809836;
+  lng = 8.771022;
+  zoom = 14;
+  mrk = [45.809836, 8.771022];
+  icon = L.icon({
     iconUrl: '/assets/glider.svg',
     iconSize: [ 64, 64 ],
-  }),
+  });
 
-  init: function () {
+  constructor() {
+    super(...arguments);
+
     var me = this;
-
-    this._super(...arguments);
 
 //    var aircrafts = this.aircrafts = this.get('store').findAll('aircraft');
 
@@ -48,7 +49,7 @@ export default Controller.extend({
 //        });
 //      }, 100);
     });
-  },
+  }
 
   onMessage(msg) {
     var me = this;
@@ -66,9 +67,9 @@ export default Controller.extend({
       me.onTrafficNew(msg.payload);
     break;
     }
-  },
+  }
 
-  onTrafficNew: function(msg) {
+  onTrafficNew(msg) {
     var me = this;
 
 //    var tra = me.findOrCreateTraffic(msg.flarm_id);
@@ -76,9 +77,9 @@ export default Controller.extend({
 //    tra.plane_info = msg.plane_info;
 //
 //    me.updateTrafficLabel(tra);
-  },
+  }
 
-  onTrafficsUpdate: function(msg) {
+  onTrafficsUpdate(msg) {
     var me = this;
 
 //    msg.stations.forEach(function(tra) {
@@ -91,7 +92,6 @@ export default Controller.extend({
       var aircraft = this.store.findRecord('aircraft', tra.aircraft_id);
 console.log("AIRCRAFT=", aircraft);
 
-
     });
 
 
@@ -102,7 +102,7 @@ console.log("AIRCRAFT=", aircraft);
 //    Ext.Object.each(msg.traffics, function(flarm_id, tra) {
 //      me.onTrafficUpdate(flarm_id, tra);
 //    });
-  },
+  }
 
 
 
@@ -112,4 +112,4 @@ console.log("AIRCRAFT=", aircraft);
 //console.log("HHHHHHHH", this.icon.getContent());
 //    },
 //  },
-});
+}

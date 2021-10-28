@@ -1,15 +1,15 @@
 import Controller from '@ember/controller';
-import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
 import { assign } from '@ember/polyfills';
-import { sort, alias } from '@ember/object/computed';
+import { tracked } from '@glimmer/tracking';
 
-export default Controller.extend({
-  session: service(),
+export default class MembershipsController extends Controller {
+  @service session;
 
-  memberships: sort('model', 'membershipsSortOrder'),
-  membershipsSortOrder: [ 'reference_year.year:desc' ],
+  @tracked membershipsSortOrder = [ 'reference_year.year:desc' ];
+
+  get memberships() { return this.model.sortBy('membershipsSortOrder'); }
 
 //  loadDataTask: task(function * (args) {
 //    let params = {
@@ -30,5 +30,4 @@ export default Controller.extend({
 //
 //    return result;
 //  }),
-});
-
+}

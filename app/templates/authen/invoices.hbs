@@ -1,46 +1,38 @@
 {{page-title "Ricevute"}}
 <div class="ui container">
-  <YetiTable class="invoices ui selectable celled table"
-      @filter={{filter}}
-      @pagination={{true}} @pageSize={{20}} @totalRows={{totalRows}}
-      @loadData={{perform loadDataTask}} as |table|>
-    <table.header as |header|>
-      <header.column></header.column>
-      <header.column>Data</header.column>
-      <header.column>Codice</header.column>
-      <header.column>Metodo</header.column>
-      <header.column>Ammontare</header.column>
-    </table.header>
-
-    <table.body as |body data|>
-      <body.row @onClick={{transition-to "authen.invoice" data.id}} as |row|>
-        <row.cell>
-          <div class="ui ribbon label {{get stateColors data.state}}">{{data.state}}</div>
-        </row.cell>
-        <row.cell>
-          {{moment-format data.created_at "DD-MM-YYYY HH:mm:ss" }}
-        </row.cell>
-        <row.cell>
-          {{data.identifier}}
-        </row.cell>
-        <row.cell>
-          {{data.payment_method}}
-        </row.cell>
-        <row.cell @class="price">
-          {{numeral-format data.total format="0.00"}} €
-        </row.cell>
-      </body.row>
-    </table.body>
-
-    <tfoot>
-      {{#if (gt table.paginationData.totalRows table.paginationData.pageSize)}}
+  <table class="invoices ui selectable celled table">
+    <thead>
       <tr>
-        <td colspan={{table.totalColumns}}>
-          {{table-pagination table=table}}
+        <th></th>
+        <th>Data</th>
+        <th>Codice</th>
+        <th>Metodo</th>
+        <th>Ammontare</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {{#each this.model key="id" as |data|}}
+
+      <tr {{on 'click' (transition-to "authen.invoice" data.id)}}>
+        <td>
+          <div class="ui ribbon label {{get this.stateColors data.state}}">{{data.state}}</div>
+        </td>
+        <td>
+          {{format-date data.created_at "DD-MM-YYYY HH:mm:ss" }}
+        </td>
+        <td>
+          {{data.identifier}}
+        </td>
+        <td>
+          {{data.payment_method}}
+        </td>
+        <td class="price">
+          {{numeral-format data.total format="0.00"}} €
         </td>
       </tr>
-      {{/if}}
-    </tfoot>
-  </YetiTable>
+      {{/each}}
+    </tbody>
+  </table>
 </div>
 

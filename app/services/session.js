@@ -1,19 +1,20 @@
-import Service, { inject as service } from '@ember/service';
+import Service from '@ember/service';
+import { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 import Evented from '@ember/object/evented';
-import { computed, observer } from '@ember/object';
 import { Promise } from 'rsvp';
 
-export default Service.extend(Evented, {
-  store: service(),
-  ajax: service(),
-  vos: service('vihai-object-streaming'),
+export default class SessionService extends Service.extend(Evented) {
+  @service store;
+  @service ajax;
+  @service('vihai-object-streaming') vos;
 
-  isAuthenticated: false,
+  @tracked isAuthenticated = false;
 
-  personId: null,
-  person: null,
+  @tracked personId = null;
+  @tracked person = null;
 
-  isLoaded: false,
+  @tracked isLoaded = false;
 
   load() {
     return new Promise((resolve, reject) => {
@@ -22,15 +23,15 @@ export default Service.extend(Evented, {
         contentType: 'application/json',
         data: {},
       }).then((response) => {
-        this.set('isLoaded', true);
+        this.isLoaded = true;
         this.update(response).then(() => (resolve(response))).catch((error) => (reject(error)));
       }).catch((error) => {
         reject(error);
       });
     });
-  },
+  }
 
-  authenticate: function(fqda, password) {
+  authenticate(fqda, password) {
     this.set('authenticating', true);
 
     return new Promise((resolve, reject) => {
@@ -58,9 +59,9 @@ export default Service.extend(Evented, {
         reject(error);
       });
     });
-  },
+  }
 
-  proxyAuthenticate: function(fqda, password, other_fqda) {
+  proxyAuthenticate(fqda, password, other_fqda) {
     this.set('authenticating', true);
 
     return new Promise((resolve, reject) => {
@@ -89,9 +90,9 @@ export default Service.extend(Evented, {
         reject(error);
       });
     });
-  },
+  }
 
-  logout: function() {
+  logout() {
     console.log('LOGOUT...');
 
     return new Promise((resolve, reject) => {
@@ -102,36 +103,35 @@ export default Service.extend(Evented, {
         this.update(response).then(() => (resolve(response))).catch((error) => (reject(error)));
       })
     });
-  },
+  }
 
   update(sessionData) {
     let oldAuthenticated = this.isAuthenticated;
 
-    this.set('sessionId', sessionData.id);
-    this.set('capabilities', sessionData.capabilities);
-    this.set('authMethod', sessionData.auth_method);
-    this.set('isAuthenticated', sessionData.authenticated);
+    this.sessionId = sessionData.id;
+    this.capabilities = sessionData.capabilities;
+    this.authMethod = sessionData.auth_method;
+    this.isAuthenticated = sessionData.authenticated;
 
     return new Promise((resolve, reject) => {
       if (!oldAuthenticated && sessionData.authenticated) {
-        this.set('personId', sessionData.auth_person.id);
+        this.personId = sessionData.auth_person.id;
 
         this.trigger('sessionBecomesAuthenticated', arguments);
 
-        this.store.findRecord('ygg--core--person', this.personId
-        ).then((person) => {
-          this.set('person', person);
+        this.store.findRecord('ygg--core--person', this.personId).then((person) => {
+          this.person = person;
           resolve();
         }).catch((error) => {
-          reject();
+          reject(error);
         });
-
       } else if (oldAuthenticated && !sessionData.authenticated) {
         this.set('personId', null);
         this.trigger('sessionBecomesNotAuthenticated', arguments);
         resolve();
-      } else
+      } else {
         resolve();
+      }
     });
-  },
-});
+  }
+}

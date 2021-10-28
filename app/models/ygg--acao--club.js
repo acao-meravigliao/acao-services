@@ -5,7 +5,7 @@ import { belongsTo, hasMany } from '@ember-data/model';
 
 export default class YggAcaoClubModel extends Model {
   @attr('string') name;
-  @attr('number') airfield_id;
+  @attr('string') airfield_id;
 
   @belongsTo('ygg--acao--airfield') airfield;
 }

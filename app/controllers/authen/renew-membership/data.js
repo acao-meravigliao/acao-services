@@ -1,77 +1,95 @@
 import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
 import { inject as controller } from '@ember/controller';
-import EmberObject, { computed } from '@ember/object';
-import { sort, alias, equal } from '@ember/object/computed';
 import { A } from '@ember/array';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 import $ from 'jquery';
 
-export default Controller.extend({
-  wizard: controller('authen.renew-membership'),
-  context: alias('wizard.context'),
-  state: alias('wizard.state'),
+export default class AuthenRenewMembershipDataController extends Controller {
+  @service session;
+  @controller('authen.renew-membership') wizard;
 
-  services: A(),
+  @tracked enableCav = true;
+  @tracked enableEmail = true;
+  @tracked acceptRules = false;
+  @tracked paymentMethod;
 
-  assService: computed('wizard.serviceTypes', 'context.ass_type', function() {
+  services = A();
+  serviceTypesSortOrder = ['name'];
+
+  get context() { return this.wizard.context; }
+  get state() { return this.wizard.state; }
+
+  get assService() {
     return this.get('wizard.serviceTypes').findBy('symbol', this.get('context.ass_type'));
-  }),
+  }
 
-  cavService: computed('wizard.serviceTypes', 'context.cav_type', 'enableCav', function() {
+  get cavService() {
     return this.enableCav ? this.get('wizard.serviceTypes').findBy('symbol', this.get('context.cav_type')) : null;
-  }),
+  }
 
-  total: computed('context.{membershipAmount,cavAmount}', 'enableCav', 'services.@each.type', function() {
+  get total() {
     return this.get('assService.price') +
            (this.enableCav ? this.get('cavService.price') : 0) +
            this.services.reduce(function(previous, service) {
              return previous + (service.get('type') ? service.get('type.price') : 0);
            }, 0);
-  }),
+  }
 
-  serviceTypesSorted: sort('wizard.serviceTypes', 'serviceTypesSortOrder'),
+  get serviceTypesSorted() { return this.wizard.serviceTypes.sortBy('serviceTypesSortOrder'); }
 
-  formInvalid: computed('acceptRules', 'paymentMethod', function() {
+  get formInvalid() {
     return !this.acceptRules  || !this.paymentMethod;
-  }),
+  }
 
-  commitDisabled: alias('formInvalid'),
+  get commitDisabled() { return this.formInvalid; }
 
-  paymentWire: equal('paymentMethod', 'WIRE'),
-  paymentCheck: equal('paymentMethod', 'CHECK'),
-  paymentCard: equal('paymentMethod', 'CARD'),
+  get paymentWire() { return this.paymentMethod == 'WIRE'; }
+  get paymentCheck() { return this.paymentMethod == 'CHECK'; }
+  get paymentCard() { return this.paymentMethod == 'CARD'; }
 
-  init() {
-    this._super(...arguments);
-    this.serviceTypesSortOrder = ['name'];
-  },
+  @action openRules() {
+    $('.rules-modal').modal('show');
+  }
 
-  actions: {
-    openRules() {
-      $('.rules-modal').modal('show');
-    },
+  @action addService() {
+    this.services.addObject(EmberObject.create({ type: null }));
+  }
 
-    addService() {
-      this.services.addObject(EmberObject.create({ type: null }));
-    },
+  @action removeService(index) {
+    this.services.removeAt(index);
+  }
 
-    removeService(index) {
-      this.services.removeAt(index);
-    },
+  @action setServiceType(index, serviceTypeId) {
+    this.services[index].set('type', this.store.peekRecord('ygg--acao--service-type', serviceTypeId));
+  }
 
-    setServiceType(index, serviceTypeId) {
-      this.services[index].set('type', this.store.peekRecord('ygg--acao--service-type', serviceTypeId));
-    },
+  @action enableEmailToggled(ev) {
+    this.enableEmail = ev.target.checked;
+  }
 
-    commit() {
-      var me = this;
+  @action acceptRulesToggled(ev) {
+    this.acceptRules = ev.target.checked;
+  }
 
-      this.state.services = this.services.filter((x) => (x.type));
+  @action paymentMethodSet(value) {
+console.log(value);
+    this.paymentMethod = value;
+  }
 
-      this.state.setProperties(this.getProperties(
-        'enableCav', 'enableEmail', 'acceptRules', 'paymentMethod',
-      ));
 
-      this.transitionToRoute('authen.renew-membership.summary');
-    },
-  },
-});
+  @action commit() {
+    var me = this;
+
+    this.state.services = this.services.filter((x) => (x.type));
+
+console.log("COMMMMMMMMMMMMMMMMMM", this.getProperties( 'enableCav', 'enableEmail', 'acceptRules', 'paymentMethod'));
+
+    this.state.setProperties(this.getProperties(
+      'enableCav', 'enableEmail', 'acceptRules', 'paymentMethod',
+    ));
+
+    this.transitionToRoute('authen.renew-membership.summary');
+  }
+}

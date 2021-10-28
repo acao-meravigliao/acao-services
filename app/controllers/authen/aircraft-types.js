@@ -1,6 +1,4 @@
-import { oneWay } from '@ember/object/computed';
 import Controller from '@ember/controller';
-import { computed } from '@ember/object';
 import { isEmpty } from '@ember/utils';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
@@ -10,10 +8,11 @@ import { A } from '@ember/array';
 import moment from 'moment';
 import numeral from 'numeral';
 
-export default Controller.extend({
-  moment: service(),
-  session: service(),
-  columns: computed(function() {
+export default class AuthenAircraftTypesController extends Controller {
+  @service session;
+  @service store;
+
+  get columns() {
     return [
      {
       label: 'Nome',
@@ -48,22 +47,32 @@ export default Controller.extend({
       format: function(value) { return value ? numeral(value).format('0.00') : ''; },
      },
     ];
-  }),
+  }
 
-  store: service(),
+  offset = 0;
+  limit = 50;
+  sort = 'name';
+  dir = 'asc';
 
-  offset: 0,
-  limit: 50,
-  sort: 'name',
-  dir: 'asc',
+//  isLoading: oneWay('fetchRecords.isRunning'),
+//  canLoadMore: true,
+//  enableSync: true,
+//
+//  model: A(),
+//  meta: null,
+//  table: null,
 
-  isLoading: oneWay('fetchRecords.isRunning'),
-  canLoadMore: true,
-  enableSync: true,
 
-  model: A(),
-  meta: null,
-  table: null,
+
+
+
+
+
+
+
+
+
+
 
 //  init() {
 //    this._super(...arguments);
@@ -114,4 +123,4 @@ export default Controller.extend({
 //      }
 //    }
 //  }
-});
+}

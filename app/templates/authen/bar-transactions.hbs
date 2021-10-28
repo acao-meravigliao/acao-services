@@ -19,7 +19,7 @@
     <table.body as |body data|>
       <body.row @onClick={{transition-to "authen.bar-transaction" data.id}} as |row|>
         <row.cell>
-          {{if data.recorded_at (moment-format data.recorded_at "DD-MM-YYYY HH:mm:ss")}}
+          {{if data.recorded_at (format-date data.recorded_at "DD-MM-YYYY HH:mm:ss")}}
         </row.cell>
         <row.cell>
           {{data.descr}}

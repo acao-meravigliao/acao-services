@@ -73,14 +73,14 @@
 </table>
 
 <div class="ui segment">
-  {{ui-checkbox class="ui fitted" checked=enableEmail onChange=(action (mut enableEmail))}}
+  <input class="ui fitted" type="checkbox" checked={{this.enableEmail}} {{on 'change' this.enableEmailToggled}} />
   Autorizzo l'invio per e-mail delle comunicazioni, convocazioni di assemblee e ogni altra disposizione obbligatoria.
   (DPR 15 marzo 1997&nbsp; n. 59 art 15 secondo comma, D.P.R. 28 dicembre 2000 n.445 art. 14 comma terzo, D.P.R. 13 febbraio 2001 n. 123 art. 8,
   Direttiva 2000/31/CE 8 giugno 2000 art. 11, comma 1) *
 </div>
 
 <div class="ui segment">
-  {{ui-checkbox class="ui fitted" checked=acceptRules onChange=(action (mut acceptRules))}}
+  <input class="ui fitted" type="checkbox" checked={{this.acceptRules}} {{on 'change' this.acceptRulesToggled}} />
   Dichiaro  di aver preso visione del <a {{action "openRules"}}>Regolamento dell'Aeroclub</a>
   e di accettarlo in modo totale e incondizionato.
 
@@ -101,9 +101,20 @@
   Metodo di pagamento:
 </p>
 <div class="three ui buttons">
-  <button class="ui button {{if paymentWire "active"}}" {{action (mut paymentMethod) "WIRE"}}><i class="ui university icon"></i><br /> Bonifico Bancario</button>
-  <button class="ui button {{if paymentCheck "active"}}" {{action (mut paymentMethod) "CHECK"}}><i class="ui tag icon"></i><br /> Assegno</button>
-  <button class="ui button {{if paymentCard "active"}}" {{action (mut paymentMethod) "CARD"}}><i class="ui credit card alternative icon"></i><br /> Carte (in segreteria)</button>
+  <button class="ui button {{if this.paymentWire "active"}}"
+          {{on 'click' (fn this.paymentMethodSet "WIRE")}}>
+    <i class="ui university icon"></i><br /> Bonifico Bancario
+  </button>
+
+  <button class="ui button {{if this.paymentCheck "active"}}"
+           {{on 'click' (fn this.paymentMethodSet "CHECK")}}>
+    <i class="ui tag icon"></i><br /> Assegno
+  </button>
+
+  <button class="ui button {{if this.paymentCard "active"}}"
+          {{on 'click' (fn this.paymentMethodSet "CARD")}}>
+    <i class="ui credit card alternative icon"></i><br /> Carte (in segreteria)
+  </button>
 </div>
 
 {{#if commitDisabled}}

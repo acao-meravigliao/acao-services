@@ -268,31 +268,31 @@ console.log("RECREATING SELECTIONS", me.selectionsSaved);
         me.savedCollectionBindings = null;
       }
 
-      /////////// FIXME, don't go in ready state until all models/resources have been rebound
-
-      let regexp = new RegExp(config.modulePrefix + '/models/(.*)$');
-      let owner = getOwner(this);
-      let typeNames = owner.lookup('data-adapter:main').getModelTypes().map(type => type.name);
-
-      typeNames.forEach(function(modelType) {
-        if (me.get('store').adapterFor(modelType) == me.get('store').adapterFor('application')) {
-          let models = me.get('store').peekAll(modelType);
-
-          let ids = [];
-          models.forEach(function(model) {
-            if (model.get('isLoaded'))
-              ids.push(model.get('id'));
-          });
-
-          if (ids.length > 0) {
-            console.log("RESTORING MODEL", modelType, ids);
-
-            me.getMany(modelType, ids).catch((e) => {
-              console.warn("Cannot rebind model", modelType, ids, e);
-            });
-          }
-        }
-      });
+//      /////////// FIXME, don't go in ready state until all models/resources have been rebound
+//
+//      let regexp = new RegExp(config.modulePrefix + '/models/(.*)$');
+//      let owner = getOwner(this);
+//      let typeNames = owner.lookup('data-adapter:main').getModelTypes().map(type => type.name);
+//
+//      typeNames.forEach(function(modelType) {
+//        if (me.get('store').adapterFor(modelType) == me.get('store').adapterFor('application')) {
+//          let models = me.get('store').peekAll(modelType);
+//
+//          let ids = [];
+//          models.forEach(function(model) {
+//            if (model.get('isLoaded'))
+//              ids.push(model.get('id'));
+//          });
+//
+//          if (ids.length > 0) {
+//            console.log("RESTORING MODEL", modelType, ids);
+//
+//            me.getMany(modelType, ids).catch((e) => {
+//              console.warn("Cannot rebind model", modelType, ids, e);
+//            });
+//          }
+//        }
+//      });
 
       me.reconnectAttempt = 0;
 

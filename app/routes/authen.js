@@ -33,7 +33,7 @@ export default class AuthenRoute extends Route {
       years: this.store.findAll('ygg--acao--year'),
       storeMemberships: this.store.peekAll('ygg--acao--membership'),
       memberships: this.store.query('ygg--acao--membership', { filter: { person_id: this.get('session.personId') } }),
-      pendingPayments: this.store.query('ygg--acao--payment', { filter: { person_id: this.get('session.personId'), state: 'PENDING', } }),
+      payments: this.store.query('ygg--acao--payment', { filter: { person_id: this.get('session.personId'), } }),
       rosterStatus: $.getJSON('/ygg/acao/roster_entries/status'),
     });
   }

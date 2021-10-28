@@ -7,7 +7,7 @@ export default class ApplicationRoute extends Route {
 
   beforeModel(transition) {
     //this.moment.setLocale('it');
-    this.versionChecker;
+    //this.versionChecker;
   }
 
   model() {

@@ -1,22 +1,20 @@
-import { computed } from '@ember/object';
-import { sort } from '@ember/object/computed';
 import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 
-export default Controller.extend({
-  filterComplete: false,
-  showSlots: false,
+export default class RosterDaysController extends Controller {
+  @service session;
 
-  filteredRosterDays: computed('model', 'filterComplete', function() {
+  @tracked filterComplete = false;
+  @tracked showSlots = false;
+  @tracked rosterDaysSortOrder = [ 'date' ];
+
+  get filteredRosterDays() {
     return this.model.filter((x) => (this.filterComplete ? x.get('roster_entries.length') < x.get('needed_people') : true));
-  }),
+  }
 
-  sortedFilteredRosterDays: sort('filteredRosterDays', 'rosterDaysSortOrder'),
+  get sortedFilteredRosterDays() { return this.filteredRosterDays.sortBy('rosterDaysSortOrder'); }
 
-  init() {
-    this._super(...arguments);
-    this.rosterDaysSortOrder = [ 'date' ];
-  },
-
-  prevYear: computed('currentYear', function() { return this.currentYear - 1; }),
-  nextYear: computed('currentYear', function() { return this.currentYear + 1; }),
-});
+  get prevYear() { return this.currentYear - 1; }
+  get nextYear() { return this.currentYear + 1; }
+}

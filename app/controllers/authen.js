@@ -1,109 +1,101 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
-import { computed, observer } from '@ember/object';
-import { once } from '@ember/runloop';
-import { alias } from '@ember/object/computed';
+import { action } from '@ember/object';
 import { on } from '@ember/object/evented';
 import $ from 'jquery';
 
-export default Controller.extend({
-  vos: service('vihai-object-streaming'),
-  session: service('session'),
-  cart: service('shopping-cart'),
-  clock: service('my-clock'),
+export default class AuthenController extends Controller {
+  @service('vihai-object-streaming') vos;
+  @service store;
+  @service('session') session;
+  @service('shopping-cart') car;
+  @service('my-clock') clock;
+  @service('page-title-list') page_title;
 
-  // -------- Page title hack  -------------------
-  pageTitleList: service(),
-  myPageTitle: '',
+  get my_page_title() {
+    return this.page_title.toString();
+  }
 
-  titleChangeObserver: on('init', observer('pageTitleList.sortedTokens.@each', function() {
-    once(this, function() {
-      this.set('myPageTitle', this.pageTitleList.toString());
-    });
-  })),
+  get myPayments() {
+    return this.store.peekAll('ygg--acao--payment').filter(((x) => (x.person_id == this.session.personId)));
+  }
 
-  allPayments: computed(function() {
-    return this.store.peekAll('ygg--acao--payment');
-  }),
-
-  pendingPayments: computed('allPayments.@each.state', function() {
+  get pendingPayments() {
 console.log("PENDINGPAYMENTS UPDATE");
-    return this.allPayments.filter((x) => (x.state == 'PENDING'));
-  }),
+    return this.myPayments.filter((x) => (x.state == 'PENDING'));
+  }
 
 
   // ------------------- Renewal ---------------------
-  myMemberships: computed('model.storeMemberships', function() {
-    return this.get('model.storeMemberships').filter((x) => (x.person_id == this.get('session.personId')));
-  }),
+  get myMemberships() {
+    return this.model.storeMemberships.filter((x) => (x.person_id == this.session.personId));
+  }
 
-  currentYear: computed('model.years.@each', 'clock.date', function() {
-    return this.get('model.years').findBy('year', this.get('clock.date').getFullYear());
-  }),
+  get currentYear() {
+    return this.model.years.findBy('year', this.clock.date.getFullYear());
+  }
 
-  currentRenewIsOpen: computed('currentYear.@each', 'clock.date', function() {
-    return this.get('currentYear.renew_opening_time') &&
-           this.get('clock.date') > new Date(this.get('currentYear.renew_opening_time'));
-  }),
+  get currentRenewIsOpen() {
+    return this.currentYear.renew_opening_time &&
+           this.clock.date > new Date(this.currentYear.renew_opening_time);
+  }
 
-  currentRenewIsOpenAndNeeded: computed('currentRenewIsOpen', 'myMemberships.@each', function() {
+  get currentRenewIsOpenAndNeeded() {
     return this.currentRenewIsOpen &&
            !this.myMemberships.any((item) => (item.get('reference_year_id') == this.get('currentYear.id')));
-  }),
+  }
 
-  nextYear: computed('model.years.@each', 'clock.date', function() {
+  get nextYear() {
     return this.get('model.years').findBy('year', this.get('clock.date').getFullYear() + 1);
-  }),
+  }
 
-  nextRenewIsOpen: computed('nextYear.@each', 'clock.date', function() {
+  get nextRenewIsOpen() {
     return this.get('nextYear.renew_opening_time') &&
            this.get('clock.date') > new Date(this.get('nextYear.renew_opening_time'));
-  }),
+  }
 
-  nextRenewIsOpenAndNeeded: computed('nextRenewIsOpen', 'myMemberships.@each', function() {
+  get nextRenewIsOpenAndNeeded() {
     return this.nextRenewIsOpen &&
            !this.myMemberships.any((item) => (item.get('reference_year_id') == this.get('nextYear.id')));
-  }),
+  }
 
-  nextRenewIsGoingToOpen: computed('nextYear.@each', 'clock.time', function() {
+  get nextRenewIsGoingToOpen() {
     return this.get('nextYear.renew_announce_time') &&
            this.get('nextYear.renew_opening_time') &&
            this.get('clock.time') > new Date(this.get('nextYear.renew_announce_time')) &&
            this.get('clock.time') < new Date(this.get('nextYear.renew_opening_time'));
-  }),
+  }
 
   // ------------------- Roster ---------------------
-  rosterCurStatus: alias('model.rosterStatus.current'),
-  rosterNextStatus: alias('model.rosterStatus.next'),
+  get rosterCurStatus() { return this.model.rosterStatus.current; }
+  get rosterNextStatus() { return this.model.rosterStatus.next; }
 
-  sidebarVisible: computed(function() {
+  get sidebarVisible() {
     return ($(window).width() >= 768) ? 'visible' : '';
-  }),
+  }
 
-  sidebarHandler: function() {
-    $(window).resize(function() {
-      if($(window).width() >= 768) {
-        $('#main-sidebar').sidebar('show');
-      } else {
-       $('#main-sidebar').sidebar('hide');
-      }
-    }).resize();
-  }.on('init'),
+//  sidebarHandler() {
+//    $(window).resize(function() {
+//      if($(window).width() >= 768) {
+//        $('#main-sidebar').sidebar('show');
+//      } else {
+//       $('#main-sidebar').sidebar('hide');
+//      }
+//    }).resize();
+//  }.on('init')
 
-  actions: {
-    logout() {
-      if (confirm("Sicuro di voler uscire?"))
-        this.session.logout();
-    },
+  @action logout() {
+    if (confirm("Sicuro di voler uscire?"))
+      this.session.logout();
+  }
 
-    sidebarToggle(id) {
-      $(`#${id}`).sidebar('toggle');
-    },
+  @action sidebarToggle(id) {
+    $(`#${id}`).sidebar('toggle');
+  }
 
-    sidebarClick() {
-      if($(window).width() < 768) {
-       $('#main-sidebar').sidebar('hide');
-      }
-    },
-  },
-});
+  @action sidebarClick() {
+    if($(window).width() < 768) {
+     $('#main-sidebar').sidebar('hide');
+    }
+  }
+}

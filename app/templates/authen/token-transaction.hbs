@@ -3,7 +3,7 @@
   <div class="ui segment">
     <h1>Movimento Bollini</h1>
     ID: {{model.uuid}}<br />
-    Registrato il: {{moment-format model.recorded_at "DD-MM-YYYY HH:mm:ss"}}<br />
+    Registrato il: {{format-date model.recorded_at "DD-MM-YYYY HH:mm:ss"}}<br />
     Operatore: {{model.old_operator}}<br />
     Aeromobile: {{#if model.aircraft}}{{link-to model.aircraft.registration "authen.aircraft" model.aircraft.id}}{{else}}N/A{{/if}}<br />
     Descrizione: {{model.descr}}<br />

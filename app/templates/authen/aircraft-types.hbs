@@ -15,10 +15,10 @@
     <table.body as |body data|>
       <body.row @onClick={{transition-to "authen.aircraft-types" data.id}} as |row|>
         <row.cell>
-          <div class="ui ribbon label {{get stateColors data.state}}">{{data.state}}</div>
+          <div class="ui ribbon label {{get this.stateColors data.state}}">{{data.state}}</div>
         </row.cell>
         <row.cell>
-          {{moment-format data.created_at "DD-MM-YYYY HH:mm:ss" }}
+          {{format-date data.created_at "DD-MM-YYYY HH:mm:ss" }}
         </row.cell>
         <row.cell>
           {{data.identifier}}

@@ -1,49 +1,49 @@
 {{page-title "Inizio"}}
 
 <div class="ui container">
-  {{#if renewIsOpen}}
+  {{#if this.renewIsOpen}}
     <div class="ui segment">
-      <h1 class="ui header">Ciao {{session.person.first_name}},</h1>
+      <h1 class="ui header">Ciao {{this.session.person.first_name}},</h1>
 
       {{#if context.membership}}
         <h1 class="ui header">
-          Risulti già iscritto per l'anno {{context.year}}<i class="huge thumbs outline up icon"></i>
+          Risulti già iscritto per l'anno {{this.context.year}}<i class="huge thumbs outline up icon"></i>
         </h1>
 
-        {{#if paymentIsPending}}
-          {{#link-to "authen.payment" context.membership.payment_id class="massive ui orange button" tagName="button"}}
+        {{#if this.paymentIsPending}}
+          {{#link-to "authen.payment" this.context.membership.payment_id class="massive ui orange button" tagName="button"}}
             Il pagamento è pendente
           {{/link-to}}
         {{/if}}
 
-      {{else if context.blocked}}
+      {{else if this.context.blocked}}
         <div class="ui message red">
-          L'iscrizione per l'anno {{context.year}} è bloccata. Gentilmente rivolgiti in segreteria.
+          L'iscrizione per l'anno {{this.context.year}} è bloccata. Gentilmente rivolgiti in segreteria.
         </div>
       {{else}}
       <p>
-        Con questa procedura potrai rinnovare la tua iscrizione per l'anno {{context.year}}.
+        Con questa procedura potrai rinnovare la tua iscrizione per l'anno {{this.context.year}}.
       </p>
 
       <p>
         Assicurati che i tuoi dati siano corretti:
       </p>
       <p>
-        Nome: <strong>{{session.person.first_name}} {{session.person.last_name}}</strong><br />
-        Data di nascita: <strong>{{moment-format session.person.birth_date "DD-MM-YYYY"}}</strong><br />
-        Email: <strong>{{#each myEmails as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
-        Telefono fisso: <strong>{{#each myFixedPhones as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
-        Cellulare: <strong>{{#each myMobiles as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
+        Nome: <strong>{{this.session.person.first_name}} {{this.session.person.last_name}}</strong><br />
+        Data di nascita: <strong>{{format-date this.session.person.birth_date "DD-MM-YYYY"}}</strong><br />
+        Email: <strong>{{#each this.myEmails as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
+        Telefono fisso: <strong>{{#each this.myFixedPhones as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
+        Cellulare: <strong>{{#each this.myMobiles as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
       </p>
 
-      <button class="huge ui fluid primary button" disabled={{formInvalid}} {{action "commit"}}>Procedi...</button>
+      <button class="huge ui fluid primary button" disabled={{this.formInvalid}} {{action "commit"}}>Procedi...</button>
       {{/if}}
     </div>
   {{else}}
     <div class="ui orange message">
       <h1 class="ui header">
-        {{#if context.year}}
-          L'iscrizione per l'anno {{context.year}} non è ancora aperta, aprirà {{moment-from-now context.opening_time interval=1000}}
+        {{#if this.context.year}}
+          L'iscrizione per l'anno {{this.context.year}} non è ancora aperta, aprirà {{format-date-from-now this.context.opening_time}}
         {{else}}
           L'iscrizione non è aperta.
         {{/if}}

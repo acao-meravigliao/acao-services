@@ -28,10 +28,10 @@
           {{data.identifier}}
         </row.cell>
         <row.cell>
-          {{if data.valid_to (moment-format data.valid_to "DD-MM-YYYY")}}
+          {{if data.valid_to (format-date data.valid_to "DD-MM-YYYY")}}
         </row.cell>
         <row.cell>
-          {{if data.valid_to2 (moment-format data.valid_to2 "DD-MM-YYYY")}}
+          {{if data.valid_to2 (format-date data.valid_to2 "DD-MM-YYYY")}}
         </row.cell>
       </body.row>
     </table.body>

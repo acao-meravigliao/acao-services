@@ -1,49 +1,50 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
+import { action } from '@ember/object';
 import { all } from 'rsvp';
-import { sort, alias } from '@ember/object/computed';
-import { computed } from '@ember/object';
 
-export default Controller.extend({
-  session: service(),
+export default class RosterSelectController extends Controller {
+  @service session;
 
-  monthSelect: 'all',
-  seasonSelect: 'all',
-  includeBusy: false,
+  @tracked monthSelect = 'all';
+  @tracked seasonSelect = 'all';
+  @tracked includeBusy = false;
+  @tracked rosterDaysSortOrder = ['date'];
 
-  canBeChief: alias('session.person.acao_roster_chief'),
+  get canBeChief() { return this.session.person.acao_roster_chief; }
 
-  year: alias('model.year'),
+  get year() { return this.model.year; }
 
-  saveDisabled: computed('saving', 'isDirty', function() {
+  get saveDisabled() {
     return this.saving || !this.isDirty;
-  }),
+  }
 
-  myRosterEntries: computed('model.allRosterEntries.@each', function() {
+  get myRosterEntries() {
     return this.get('model.allRosterEntries').filter((item) =>
       (item.belongsTo('person').id() == this.get('session.personId') &&
        item.get('roster_day.date').getFullYear() == this.year
       )
     );
-  }),
+  }
 
-  isDirty: computed('myRosterEntries.{@each,@each.isDeleted,@each.hasDirtyAttributes}', function() {
+  get isDirty() {
     return this.myRosterEntries.any((record) => (record.get('hasDirtyAttributes') || record.get('isDeleted')));
-  }),
+  }
 
-  peakRosterEntries: computed('myRosterEntries.@each', function() {
+  get peakRosterEntries() {
     return this.myRosterEntries.filter((item) =>
       (item.belongsTo('roster_day').value().get('high_season'))
     );
-  }),
+  }
 
-  allRosterDays: computed('model.rosterDays.@each', function() {
+  get allRosterDays() {
     return this.get('model.rosterDays').filter((x) => (x.date.getFullYear() == this.year));
-  }),
+  }
 
-  rosterDaysSorted: sort('allRosterDays', 'rosterDaysSortOrder'),
+  get rosterDaysSorted() { return this.allRosterDays.sortBy('rosterDaysSortOrder'); }
 
-  filteredRosterDays: computed('rosterDaysSorted.@each', 'monthSelect', 'seasonSelect', 'includeBusy', function() {
+  get filteredRosterDays() {
     return this.rosterDaysSorted.filter((item) =>
       (
        (this.seasonSelect == 'all' ||
@@ -53,29 +54,24 @@ export default Controller.extend({
        (this.monthSelect == 'all' || Number(this.monthSelect) == item.get('date').getMonth())
       )
     );
-  }),
+  }
 
-  tooManyEntries: computed('myRosterEntries.length', 'model.rosterStatus.needed_total', function() {
+  get tooManyEntries() {
     return this.get('myRosterEntries.length') > this.get('model.rosterStatus.needed_total')
-  }),
+  }
 
-  requisiteEntriesMissing: computed('myRosterEntries.[]', function() {
+  get requisiteEntriesMissing() {
     return this.get('myRosterEntries.length') < this.get('model.rosterStatus.needed_total') ||
            this.get('peakRosterEntries.length') < this.get('model.rosterStatus.needed_high_season');
-  }),
+  }
 
-  requisiteEntriesOk: computed('requisiteEntriesMissing', 'isDirty', function() {
+  get requisiteEntriesOk() {
     return !this.requisiteEntriesMissing && !this.isDirty;
-  }),
-
-  init() {
-    this._super(...arguments);
-    this.rosterDaysSortOrder = ['date'];
-  },
+  }
 
   cancelSelections() {
     this.store.peekAll('ygg--acao--roster-entry').forEach(function(record) { record.rollbackAttributes(); });
-  },
+  }
 
   saveSelections() {
     let me = this;
@@ -95,30 +91,29 @@ export default Controller.extend({
       me.set('saving', false);
       me.set('saveError', error.exception ? error.exception.title : 'Unspecified error');
     });
-  },
+  }
 
-  actions: {
-    addDay(dayEntry) {
-      this.store.createRecord('ygg--acao--roster-entry', {
-        person: this.store.peekRecord('ygg--core--person', this.get('session.personId')),
-        roster_day: dayEntry,
-      });
-    },
 
-    delEntry(entry) {
-      entry.deleteRecord();
-    },
+  @action addDay(dayEntry) {
+    this.store.createRecord('ygg--acao--roster-entry', {
+      person: this.store.peekRecord('ygg--core--person', this.get('session.personId')),
+      roster_day: dayEntry,
+    });
+  }
 
-    save() {
-      if (this.requisiteEntriesMissing) {
-        if (confirm('Non tutti i turni necessari sono stati selezionati, continuare comunque?'))
-          this.saveSelections();
-      } else
+  @action delEntry(entry) {
+    entry.deleteRecord();
+  }
+
+  @action save() {
+    if (this.requisiteEntriesMissing) {
+      if (confirm('Non tutti i turni necessari sono stati selezionati, continuare comunque?'))
         this.saveSelections();
-    },
+    } else
+      this.saveSelections();
+  }
 
-    cancel() {
-      this.cancelSelections();
-    },
-  },
-});
+  @action cancel() {
+    this.cancelSelections();
+  }
+}

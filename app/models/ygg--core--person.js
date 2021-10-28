@@ -16,7 +16,7 @@ export default class YggCorePersonModel extends Model {
   @attr('string') vat_number;
   @attr('string') italian_fiscal_code;
   @attr('string') handle;
-  @attr('number') preferred_language_id;
+  @attr('string') preferred_language_id;
 
   @attr('number') acao_ext_id;
   @attr('number') acao_code;
@@ -31,7 +31,7 @@ export default class YggCorePersonModel extends Model {
   @attr('boolean') acao_roster_allowed;
   @attr('boolean') acao_roster_chief;
 
-  @belongsTo('ygg--core--person--contact') contacts;
+  @hasMany('ygg--core--person--contact') contacts;
 
   get full_name() {
     return this.first_name + ' ' + this.last_name;

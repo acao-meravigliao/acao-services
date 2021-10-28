@@ -1,41 +1,40 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
 
-export default Controller.extend({
-  ajax: service(),
+export default class PasswordRecoveryController extends Controller {
+  @service ajax;
 
-  actions: {
-    recover() {
-      let me = this;
+  @action recover() {
+    let me = this;
 
-      let req = {
-        acao_code: this.username,
-      };
+    let req = {
+      acao_code: this.username,
+    };
 
-      this.set('success', false);
-      this.set('exception', null);
-      this.set('submitting', true);
+    this.set('success', false);
+    this.set('exception', null);
+    this.set('submitting', true);
 
-      this.ajax.request('/ygg/acao/password_recovery', {
-        method: 'POST',
-        data: JSON.stringify(req),
+    this.ajax.request('/ygg/acao/password_recovery', {
+      method: 'POST',
+      data: JSON.stringify(req),
 //        dataType: 'json',
-        contentType: 'application/json',
-      }).then(function(response) {
-        me.set('submitting', false);
-        me.set('success', true);
-      }, function(xhr, status, error) {
-        me.set('submitting', false);
+      contentType: 'application/json',
+    }).then((response) => {
+      me.set('submitting', false);
+      me.set('success', true);
+    }).catch((xhr, status, error) => {
+      me.set('submitting', false);
 
-        if (xhr.responseJSON)
-          me.set('exception', xhr.responseJSON);
-        else {
-          me.set('exception', {
-            title: 'Request error',
-            descr: xhr.responseText,
-          });
-        }
-      });
-    }
+      if (xhr.responseJSON)
+        me.set('exception', xhr.responseJSON);
+      else {
+        me.set('exception', {
+          title: 'Request error',
+          descr: xhr.responseText,
+        });
+      }
+    });
   }
-});
+}

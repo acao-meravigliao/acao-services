@@ -1,18 +1,17 @@
 import Controller from '@ember/controller';
-import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
 import { task } from 'ember-concurrency';
-import { assign } from '@ember/polyfills';
 
-export default Controller.extend({
-  session: service(),
+export default class InvoicesController extends Controller {
+  @service session;
 
-  stateColors: {
+  stateColors = {
     'PENDING': 'orange',
     'COMPLETED': 'green',
-  },
+  };
 
-  loadDataTask: task(function * (args) {
+  @action async loadData({ paginationData, sortData, filterData }) {
     let params = {
       filter: { person_id: this.get('session.personId') },
       order: { 'created_at': 'DESC' },
@@ -25,10 +24,10 @@ export default Controller.extend({
       });
     }
 
-    let result = yield this.store.query('ygg--acao--invoice', params);
+    let result = await this.store.query('ygg--acao--invoice', params);
 
     this.set('totalRows', result.get('meta.total_count'));
 
     return result;
-  }),
-});
+  }
+}

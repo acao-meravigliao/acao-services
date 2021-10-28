@@ -3,7 +3,7 @@
   <div class="ui raised segment">
 
     {{#if model}}
-      <h1 class="ui header">{{moment-format model.date "DD-MM-YYYY" }}</h1>
+      <h1 class="ui header">{{format-date model.date "DD-MM-YYYY" }}</h1>
 
       {{#each model.roster_entries as |entry|}}
         <i class="ui {{if entry.chief "spy" "user"}} icon"></i>

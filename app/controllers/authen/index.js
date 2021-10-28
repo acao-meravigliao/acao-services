@@ -1,38 +1,33 @@
 import Controller, { inject as controller } from '@ember/controller';
-import { sort, alias } from '@ember/object/computed';
-import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 
-export default Controller.extend({
-  session: service('session'),
-  clock: service('my-clock'),
-  authenController: controller('authen'),
+export default class AuthenIndexController extends Controller {
+  @service session;
+  @service store;
+  @service('my-clock') clock;
+  @controller('authen') authenController;
+
+  rosterEntriesSortOrder = ['roster_day.date'];
 
   //------------------- Renewal -------------------
-  currentYear: alias('authenController.currentYear'),
-  nextYear: alias('authenController.nextYear'),
-  nextRenewIsGoingToOpen: alias('authenController.nextRenewIsGoingToOpen'),
+  get currentYear() { return this.authenController.currentYear; }
+  get nextYear() { return this.authenController.nextYear; }
+  get nextRenewIsGoingToOpen() {  return this.authenController.nextRenewIsGoingToOpen; }
 
   //------------------- Roster -------------------
-  myNextRosterEntries: sort('myNextRosterEntriesUnsorted', 'rosterEntriesSortOrder'),
+  get myNextRosterEntries() {
+    return this.myNextRosterEntriesUnsorted.sortBy('rosterEntriesSortOrder');
+  }
 
-  allRosterEntries: computed(function() {
+  get allRosterEntries() {
     return this.store.peekAll('ygg--acao--roster-entry');
-  }),
+  }
 
-  myNextRosterEntriesUnsorted: computed('allRosterEntries.@each', function() {
+  get myNextRosterEntriesUnsorted() {
     return this.allRosterEntries.filter((item) => (
        item.belongsTo('person').id() == this.get('session.personId') &&
        item.belongsTo('roster_day').value().get('date') > new Date()
       )
     );
-  }),
-
-  init() {
-    this._super(...arguments);
-    this.rosterEntriesSortOrder = ['roster_day.date'];
-  },
-
-  actions: {
-  },
-});
+  }
+}

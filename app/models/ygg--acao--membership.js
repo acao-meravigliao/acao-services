@@ -4,7 +4,7 @@ import { vosBelongsTo, vosHasMany } from 'ember-vos';
 import { belongsTo, hasMany } from '@ember-data/model';
 
 export default class YggAcaoMembershipModel extends Model {
-  @attr('number') person_id;
+  @attr('string') person_id;
   @attr('boolean') email_allowed;
   @attr('boolean') tug_pilot;
   @attr('boolean') board_member;
@@ -13,7 +13,7 @@ export default class YggAcaoMembershipModel extends Model {
   @attr('boolean') fireman;
   @attr('date') valid_from;
   @attr('date') valid_to;
-  @attr('number') reference_year_id;
+  @attr('string') reference_year_id;
   @attr('string') invoice_detail_id;
   @attr('string') status;
 

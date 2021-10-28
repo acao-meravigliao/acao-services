@@ -4,7 +4,7 @@
   <div>
     <h1>Ricevuta {{model.invoice.identifier}}
     </h1>
-    Data: {{moment-format model.invoice.created_at "DD-MM-YYYY HH:mm:ss"}}<br />
+    Data: {{format-date this.model.invoice.created_at "DD-MM-YYYY HH:mm:ss"}}<br />
   </div>
 
   <table class="invoice ui celled table">
@@ -15,7 +15,7 @@
       </tr>
     </thead>
     <tbody>
-      {{#each model.invoice.details key="@index" as |detail|}}
+      {{#each this.model.invoice.details key="@index" as |detail|}}
       <tr>
         <td>{{detail.descr}}{{#if detail.specific_data}} - {{detail.specific_data}}{{/if}}</td>
         <td class="price">{{numeral-format detail.price format="0.00"}} €</td>
@@ -25,7 +25,7 @@
     <tfoot>
       <tr>
         <th>Totale</th>
-        <td class="total price">{{numeral-format model.invoice.total format="0.00"}} €</td>
+        <td class="total price">{{numeral-format this.model.invoice.total format="0.00"}} €</td>
       </tr>
     </tfoot>
   </table>
@@ -40,7 +40,7 @@
       </tr>
     </thead>
     <tbody>
-      {{#each model.invoice.payments key="@index" as |payment|}}
+      {{#each this.model.invoice.payments key="@index" as |payment|}}
       <tr>
         <td>{{payment.identifier}}</td>
         <td>{{payment.status}}</td>

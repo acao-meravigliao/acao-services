@@ -1,32 +1,30 @@
 import Controller from '@ember/controller';
-import { computed } from '@ember/object';
-import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
-import EmberObject from '@ember/object';
 
-export default Controller.extend({
-  session: service('session'),
-  clock: service('my-clock'),
-  context: alias('model.context'),
-  person: alias('session.person'),
-  serviceTypes: alias('model.serviceTypes'),
-  state: alias('model.state'),
+export default class AuthenRenewMembershipController extends Controller {
+  @service session;
+  @service('my-clock') clock;
 
-  renewIsOpen: computed('context.opening_time', 'clock.time', function() {
+  get context() { return this.model.context; }
+  get person() { return this.session.person; }
+  get serviceTypes() { return this.model.serviceTypes; }
+  get state() { return this.model.state; }
+
+  get renewIsOpen() {
     return this.context &&
            this.get('context.opening_time') &&
            this.get('clock.date') > new Date(this.get('context.opening_time'));
-  }),
+  }
 
-  renewIsOpenAndNeeded: computed('renewIsOpen', 'model.memberships.@each', 'model.storeMemberships.@each', function() {
+  get renewIsOpenAndNeeded() {
     return this.renewIsOpen &&
            !this.get('model.memberships').any((item) => (item.get('reference_year_id') == this.get('context.year_id')));
-  }),
+  }
 
-  renewIsGoingToOpen: computed('model.context.next.@each', 'clock.time', function() {
+  get renewIsGoingToOpen() {
     return this.get('model.context.next.announce_time') &&
            this.get('model.context.next.opening_time') &&
            this.get('clock.date') > new Date(this.get('model.context.next.announce_time')) &&
            this.get('clock.date') < new Date(this.get('model.context.next.opening_time'));
-  }),
-});
+  }
+}
