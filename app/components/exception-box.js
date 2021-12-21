@@ -1,7 +1,6 @@
+import Component from '@ember/component';
 import $ from 'jquery';
 import { observer, computed } from '@ember/object';
-import Component from '@ember/component';
-import { inject as service } from '@ember/service';
 
 export default Component.extend({
   elementId: 'exception-box',

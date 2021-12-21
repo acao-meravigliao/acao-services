@@ -14,20 +14,21 @@ export default class AuthenRenewMembershipIndexController extends Controller {
   get renewIsOpen() { return this.wizard.renewIsOpen; }
 
   get paymentIsPending() {
-    return this.get('context.membership.status') == 'WAITING_PAYMENT' &&
-           this.get('context.membership.payment_id');
+    return this.context.membership.status == 'WAITING_PAYMENT' &&
+           this.context.membership.payment_id;
   }
 
   get myEmails() {
-    return this.get('wizard.person.contacts').filterBy('type', 'email');
+console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", this.wizard);
+    return this.context.person.contacts.filterBy('type', 'email');
   }
 
   get myFixedPhones() {
-    return this.get('wizard.person.contacts').filterBy('type', 'phone');
+    return this.context.person.contacts.filterBy('type', 'phone');
   }
 
   get myMobiles() {
-    return this.get('wizard.person.contacts').filterBy('type', 'mobile');
+    return this.context.person.contacts.filterBy('type', 'mobile');
   }
 
   @action commit() {

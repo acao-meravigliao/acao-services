@@ -15,29 +15,28 @@ export default class AuthenRenewMembershipDataController extends Controller {
   @tracked acceptRules = false;
   @tracked paymentMethod;
 
-  services = A();
-  serviceTypesSortOrder = ['name'];
+  @tracked services = A();
 
   get context() { return this.wizard.context; }
   get state() { return this.wizard.state; }
 
   get assService() {
-    return this.get('wizard.serviceTypes').findBy('symbol', this.get('context.ass_type'));
+    return this.context.service_types.findBy('symbol', this.context.ass_type);
   }
 
   get cavService() {
-    return this.enableCav ? this.get('wizard.serviceTypes').findBy('symbol', this.get('context.cav_type')) : null;
+    return this.enableCav ? this.context.service_types.findBy('symbol', this.context.cav_type) : null;
   }
 
   get total() {
-    return this.get('assService.price') +
-           (this.enableCav ? this.get('cavService.price') : 0) +
-           this.services.reduce(function(previous, service) {
-             return previous + (service.get('type') ? service.get('type.price') : 0);
-           }, 0);
+    return this.assService.price +
+           (this.enableCav ? this.cavService.price : 0) +
+           this.services.reduce((previous, service) => (
+             previous + (service.type ? service.type.price : 0)
+           ), 0);
   }
 
-  get serviceTypesSorted() { return this.wizard.serviceTypes.sortBy('serviceTypesSortOrder'); }
+  get serviceTypesSorted() { return this.context.service_types.sortBy('name'); }
 
   get formInvalid() {
     return !this.acceptRules  || !this.paymentMethod;
@@ -90,6 +89,6 @@ console.log("COMMMMMMMMMMMMMMMMMM", this.getProperties( 'enableCav', 'enableEmai
       'enableCav', 'enableEmail', 'acceptRules', 'paymentMethod',
     ));
 
-    this.transitionToRoute('authen.renew-membership.summary');
+    this.transitionToRoute('authen.renew-membership.roster');
   }
 }

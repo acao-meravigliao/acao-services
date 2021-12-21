@@ -3,22 +3,29 @@
 
 module.exports = function(deployTarget) {
   let ENV = {
+    runOrder: {
+      'json-config': { after: 'build' },
+    },
+
     build: {
       outputPath: 'dist',
     },
+
     'revision-data': {
       type: 'git-commit',
     },
+
     gzip: {
       keep: true,
     },
   };
 
-  if (deployTarget === 'development') {
+  switch(deployTarget) {
+  case 'development':
     ENV.build.environment = 'development';
-  }
+  break;
 
-  if (deployTarget === 'staging') {
+  case 'staging':
     ENV.build.environment = 'production';
 
     ENV['rsync-assets'] = {
@@ -26,9 +33,9 @@ module.exports = function(deployTarget) {
       source: 'dist/',
       excludeIndexHTML: false,
     }
-  }
+  break;
 
-  if (deployTarget === 'production') {
+  case 'production':
     ENV.build.environment = 'production';
 
     ENV['rsync-assets'] = {
@@ -37,6 +44,29 @@ module.exports = function(deployTarget) {
       excludeIndexHTML: false,
       ssh: true,
     }
+  break;
+
+  case 'production2':
+    ENV.build.environment = 'production';
+
+    ENV['rsync-assets'] = {
+      destination: 'yggdra@fe.acao.it:/opt/acao-services-staging/',
+      source: 'dist/',
+      excludeIndexHTML: false,
+      ssh: true,
+    }
+  break;
+
+  case 'production3':
+    ENV.build.environment = 'production';
+
+    ENV['rsync-assets'] = {
+      destination: 'yggdra@lino.acao.it:/opt/acao-services/',
+      source: 'dist/',
+      excludeIndexHTML: false,
+      ssh: true,
+    }
+  break;
   }
 
   return ENV;

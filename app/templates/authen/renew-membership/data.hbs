@@ -10,20 +10,20 @@
   <tbody>
     <tr>
       <td></td>
-      <td>{{assService.name}}</td>
-      <td class="price">{{numeral-format assService.price format="0.00"}} €</td>
+      <td>{{this.assService.name}}</td>
+      <td class="price">{{numeral-format this.assService.price format="0.00"}} €</td>
     </tr>
-    {{#if context.cav_type}}
+    {{#if this.context.cav_type}}
     <tr>
       <td class="collapsing">
-        {{ui-checkbox class="ui fitted toggle" checked=enableCav onChange=(action (mut enableCav))}}
+        {{ui-checkbox class="ui fitted toggle" checked=this.enableCav onChange=(action (mut this.enableCav))}}
       </td>
-      <td>{{cavService.name}}</td>
-      <td class="price">{{numeral-format cavService.price format="0.00"}} €</td>
+      <td>{{this.cavService.name}}</td>
+      <td class="price">{{numeral-format this.cavService.price format="0.00"}} €</td>
     </tr>
     {{/if}}
 
-    {{#each services key="@index" as |service index|}}
+    {{#each this.services key="@index" as |service index|}}
     <tr>
       <td>
         <a {{action "removeService" index}}><i class="big trash icon"></i></a>
@@ -67,7 +67,7 @@
   <tfoot>
     <tr>
       <th colspan="2">Totale</th>
-      <td class="total price">{{numeral-format total format="0.00"}} €</td>
+      <td class="total price">{{numeral-format this.total format="0.00"}} €</td>
     </tr>
   </tfoot>
 </table>
@@ -117,10 +117,10 @@
   </button>
 </div>
 
-{{#if commitDisabled}}
+{{#if this.commitDisabled}}
   <div class="ui error message">
     Acetta il regolamento aeroportuale e scegli il metodo di pagamento.
   </div>
 {{else}}
-  <button class="huge ui fluid primary button" disabled={{commitDisabled}} {{action "commit"}}>Avanti...</button>
+  <button class="huge ui fluid primary button" disabled={{this.commitDisabled}} {{action "commit"}}>Avanti...</button>
 {{/if}}

@@ -17,6 +17,7 @@ Router.map(function() {
 
     this.route('renew-membership', { path: '/renew-membership/:year' }, function() {
       this.route('data');
+      this.route('roster');
       this.route('summary');
     });
 

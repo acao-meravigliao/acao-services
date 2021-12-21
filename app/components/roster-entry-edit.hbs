@@ -1,5 +1,5 @@
 <div class="roster-entry edit ui raised blurring fluid card">
-  <div class="ui dimmer {{if entry.isDeleted "active"}}">
+  <div class="ui dimmer {{if @entry.isDeleted "active"}}">
     <div class="content">
       <h3 class="ui inverted header">
         Da eliminare
@@ -8,21 +8,23 @@
   </div>
   <div class="content">
     <div class="header">
-      {{format-date entry.roster_day.date "dddd D MMMM"}}
+      {{format-date @entry.roster_day.date "dddd D MMMM"}}
     </div>
 
     <div>
-      {{#each entry.roster_day.roster_entries as |sameDayEntry|}}
+      {{#each @entry.roster_day.roster_entries as |sameDayEntry|}}
         • {{sameDayEntry.person.first_name}} {{sameDayEntry.person.last_name}}<br />
       {{/each}}
     </div>
 
-    {{#if entry.notes}}
+    {{#if @entry.notes}}
       <div class="ui message">
         {{entry.notes}}
       </div>
     {{/if}}
   </div>
 
-  <button class="ui bottom attached button" disabled={{deleteDisabled}} {{action "del" entry}}><i class="red ui delete icon"></i> Elimina</button>
+  {{#if this.deleteEnabled}}
+    <button class="ui bottom attached button" {{on 'click' this.del}}><i class="red ui delete icon"></i> Elimina</button>
+  {{/if}}
 </div>

@@ -1,0 +1,18 @@
+{{page-title "Selezione turni di linea"}}
+
+<div class="ui container">
+
+<RosterSelector
+  @person={{this.context.person}}
+  @year={{this.context.year}}
+  @roster_entries={{this.model.roster_entries}}
+  @roster_days={{this.model.roster_days}}
+  @needed_total={{this.model.roster_status.needed_total}}
+  @needed_high_season={{this.model.roster_status.needed_high_season}}
+  @store={{this.store}}
+/>
+
+<br />
+<br />
+<button class="huge ui fluid primary button" disabled={{this.commit_disabled}} {{action "commit"}}>Avanti...</button>
+</div>

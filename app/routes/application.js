@@ -1,12 +1,13 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
+import * as moment from 'moment';
 
 export default class ApplicationRoute extends Route {
   @service session;
   @service versionChecker;
 
   beforeModel(transition) {
-    //this.moment.setLocale('it');
+    moment.locale('it');
     //this.versionChecker;
   }
 
