@@ -1,5 +1,5 @@
 import Model, { attr } from '@ember-data/model';
-import { vosBelongsTo, vosHasMany } from 'ember-vos';
+import { vosBelongsTo, vosHasMany } from '@sevio/ember-vos';
 
 import { belongsTo, hasMany } from '@ember-data/model';
 

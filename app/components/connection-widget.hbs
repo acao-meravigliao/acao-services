@@ -1,0 +1,9 @@
+<div>
+  <h1 class="title">{{yield}}</h1>
+  {{this.state}}
+  {{#if (eq this.state "RECONNECT_WAIT")}}
+    <progress class="progress" value={{this.time_waited}} max={{this.time_to_wait}} {{on "click" this.reconnect_now}}>{{this.time_waited}}</progress>
+  {{else}}
+    <progress class="progress"></progress>
+  {{/if}}
+</div>

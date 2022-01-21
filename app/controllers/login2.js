@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
+import config from 'acao-services/config/environment';
 
 export default class Login2Controller extends Controller {
   @service session;
@@ -14,25 +15,18 @@ export default class Login2Controller extends Controller {
     if (username2.indexOf('@') == -1)
       username2 = username2 + '@cp.acao.it';
 
-    this.set('loggingIn', true);
+    ev.preventDefault();
+
+    this.logging_in = true;
 
     this.session.proxyAuthenticate(username, password, username2).then(() => {
-      this.set('loggingIn', false);
-      this.transitionToRoute('authen.index');
+      this.logging_in = false;
+      this.router.replaceWith(config.authenticatedRoute);
     }).catch((reason) => {
-      this.set('loggingIn', false);
+      this.logging_in = false;
 
-      if (reason.xhr) {
-        if (reason.xhr.responseJSON) {
-          this.set('errorMessage', reason.xhr.responseJSON.title + ': ' + reason.xhr.responseJSON.detail);
-        } else {
-          this.set('errorMessage', reason.xhr.responseText);
-        }
-      } else if (reason.msg) {
-        this.set('errorMessage', reason.msg);
-      } else {
-        this.set('errorMessage', 'Unspecified error');
-      }
+      this.error_message = this.intl.t(ex.type) || this.intl.t(ex.title_sym) || ex.title || 'Unspecified error';
+      this.error_detail = this.intl.t(ex.detail_sym) || ex.detail;
     });
   }
 }

@@ -1,45 +1,68 @@
 {{page-title "Login"}}
-<div class="ui middle aligned center aligned grid">
-  <div class="column" style="max-width: 450px">
-    <h2 class="ui image header">
-      <div class="content">
+
+<div class="container">
+  <div class="columns">
+    <div class="column is-offset-3 is-6">
+      <div class="box">
+        <h1 class="title has-text-centered">
+          {{t "login.login_to"}} {{this.vos.welcome_msg.server_identifier}}
+        </h1>
+
         Questa procedura di login serve ad autenticarsi per conto di altri. È ovviamente riservata solo alle persone autorizzate.
-      </div>
-    </h2>
-    <form class="ui large form" {{action "authenticate" on="submit"}}>
-      <div class="ui stacked segment">
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="user icon"></i>
-            {{input id="username" placeholder="Codice Tuo" value=username autocomplete="username"}}
+
+        <form class="{{if this.error_message "error"}}" {{on "submit" this.authenticate}}>
+          <div class="field">
+            <label class="label">{{t "login.username"}}</label>
+            <div class="control has-icons-left has-icons-right">
+              {{t "login.username_request"}}
+              <Input id="username" class="input" placeholder="999" autocomplete="username" @value={{mut this.username}} />
+
+              <span class="icon is-small is-left">
+                <FaIcon @icon="envelope" />
+              </span>
+            </div>
           </div>
-        </div>
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="lock icon"></i>
-            {{input id="password" placeholder="Password" type="password" value=password autocomplete="current-password"}}
-          </div><br />
-        </div>
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="user icon"></i>
-            {{input id="username2" placeholder="Codice altro pilota" value=username2 autocomplete="other-username"}}
+
+          <div class="field">
+            <label class="label">{{t "login.password"}}</label>
+            <div class="control has-icons-left has-icons-right">
+              <Input id="password" @type="password" class="input" placeholder="" autocomplete="password" @value={{mut this.password}} />
+
+              <span class="icon is-small is-left">
+                <FaIcon @icon="key" />
+              </span>
+            </div>
+
+            <LinkTo @route="password-recovery">{{t "login.forgot_password"}}</LinkTo>
           </div>
-        </div>
-        <button type="submit" class="ui fluid large submit button {{if loggingIn "disabled loading"}}">Login</button>
 
-        {{#link-to "password-recovery"}}Non mi ricordo la password{{/link-to}}
+          <div class="field">
+            <label class="label">{{t "login.username"}}</label>
+            <div class="control has-icons-left has-icons-right">
+              {{t "login.username2_request"}}
+              <Input id="username" class="input" placeholder="999" autocomplete="username2" @value={{mut this.username2}} />
+
+              <span class="icon is-small is-left">
+                <FaIcon @icon="envelope" />
+              </span>
+            </div>
+          </div>
+
+          <div class="field">
+            <p class="control">
+              <button type="submit" class="button is-success {{if this.logging_in "disabled loading"}}">
+                {{t "login.login"}}
+              </button>
+            </p>
+          </div>
+        </form>
+
+        {{#if this.error_message}}
+          <div class="notification is-danger">
+            {{this.error_message}}
+          </div>
+        {{/if}}
       </div>
-
-      <div class="ui error message"></div>
-
-    </form>
-
-  {{#if errorMessage}}
-    <div class="ui red message">
-      {{errorMessage}}
     </div>
-  {{/if}}
-
   </div>
 </div>

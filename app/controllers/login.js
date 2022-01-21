@@ -1,9 +1,14 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
+import config from 'acao-services/config/environment';
 
 export default class LoginController extends Controller {
   @service session;
+  @service router;
+
+  @tracked logging_in = false;
+  @tracked ex = null;
 
   @action authenticate() {
     let { username, password } = this;
@@ -11,25 +16,16 @@ export default class LoginController extends Controller {
     if (username.indexOf('@') == -1)
       username = username + '@cp.acao.it';
 
-    this.set('loggingIn', true);
+    ev.preventDefault();
+
+    this.logging_in = true;
 
     this.session.authenticate(username, password).then(() => {
-      this.set('loggingIn', false);
-      this.transitionToRoute('authen.index');
+      this.logging_in = false;
+      this.router.replaceWith(config.authenticatedRoute);
     }).catch((reason) => {
-      this.set('loggingIn', false);
-
-      if (reason.xhr) {
-        if (reason.xhr.responseJSON) {
-          this.set('errorMessage', reason.xhr.responseJSON.title + ': ' + reason.xhr.responseJSON.detail);
-        } else {
-          this.set('errorMessage', reason.xhr.responseText);
-        }
-      } else if (reason.msg) {
-        this.set('errorMessage', reason.msg);
-      } else {
-        this.set('errorMessage', 'Unspecified error');
-      }
+      this.logging_in = false;
+      this.ex = ex;
     });
   }
 }

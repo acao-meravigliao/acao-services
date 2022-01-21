@@ -1,13 +1,15 @@
-{{page-title "ACAO Servizi"}}
+{{page-title (t "application.page_title")}}
 {{outlet}}
+<Toast />
 
 {{#if this.offline}}
   <div class="offline-modal modal is-active">
     <div class="modal-background"></div>
     <div class="modal-content">
       <div class="box">
-        <h1 class="title">Offline!</h1><br />
-        {{this.vosState}}
+        <ConnectionWidget>
+          {{t "application_offline.offline"}}
+        </ConnectionWidget>
       </div>
     </div>
   </div>

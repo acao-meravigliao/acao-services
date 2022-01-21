@@ -6,8 +6,8 @@ module.exports = function (defaults) {
   let app = new EmberApp(defaults, {
     sassOptions: {
       includePaths: [
-        'node_modules/',
       ],
+      onlyIncluded: true,
     },
     fingerprint: {
       exclude: [
@@ -17,6 +17,13 @@ module.exports = function (defaults) {
         'images/marker-icon.png',
         'images/marker-shadow.png'
       ]
+    },
+    'ember-cli-favicon': {
+      faviconsConfig: {
+        icons: {
+          appleStartup: false,
+        },
+      },
     },
   });
 
@@ -33,5 +40,14 @@ module.exports = function (defaults) {
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
 
-  return app.toTree();
+  //return app.toTree();
+
+  const { Webpack } = require('@embroider/webpack');
+  return require('@embroider/compat').compatBuild(app, Webpack, {
+    skipBabel: [
+      {
+        package: 'qunit',
+      },
+    ],
+  });
 };

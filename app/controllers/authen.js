@@ -85,8 +85,11 @@ console.log("PENDINGPAYMENTS UPDATE");
 //  }.on('init')
 
   @action logout() {
-    if (confirm("Sicuro di voler uscire?"))
-      this.session.logout();
+    if (confirm("Sicuro di voler uscire?")) {
+      this.vos.logout().then(() => {
+        this.router.transitionTo(config.loginRoute);
+      });
+    }
   }
 
   @action sidebarToggle(id) {
