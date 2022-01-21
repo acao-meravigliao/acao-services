@@ -15,37 +15,74 @@
             <label class="label">{{t "login.username"}}</label>
             <div class="control has-icons-left has-icons-right">
               {{t "login.username_request"}}
-              <Input id="username" class="input" placeholder="999" autocomplete="username" @value={{mut this.username}} />
+              <input id="username"
+                     type="text"
+                     class="input {{if this.username_warning "is-warning"}}"
+                     value={{this.username}}
+                     autocomplete="username"
+                     autocorrect="off"
+                     autocapitalize="none"
+                     spellcheck="false"
+                     placeholder="email@address.example.com"
+                     {{on "change" this.username_changed}}
+              />
 
               <span class="icon is-small is-left">
                 <FaIcon @icon="envelope" />
               </span>
             </div>
+
+            {{#if this.username_warning}}
+              <p class="help is-warning">{{this.username_warning}}</p>
+            {{/if}}
           </div>
 
           <div class="field">
             <label class="label">{{t "login.password"}}</label>
             <div class="control has-icons-left has-icons-right">
-              <Input id="password" @type="password" class="input" placeholder="" autocomplete="password" @value={{mut this.password}} />
+              <input id="password"
+                     type="password"
+                     class="input {{if this.username_warning "is-warning"}}"
+                     value={{this.password}}
+                     autocomplete="password"
+                     placeholder=""
+                     {{on "change" this.password_changed}}
+              />
 
               <span class="icon is-small is-left">
                 <FaIcon @icon="key" />
               </span>
             </div>
 
-            <LinkTo @route="password-recovery">{{t "login.forgot_password"}}</LinkTo>
+            {{#if this.password_warning}}
+              <p class="help is-warning">{{this.password_warning}}</p>
+            {{/if}}
           </div>
 
           <div class="field">
-            <label class="label">{{t "login.username"}}</label>
+            <label class="label">{{t "login.username2"}}</label>
             <div class="control has-icons-left has-icons-right">
               {{t "login.username2_request"}}
-              <Input id="username" class="input" placeholder="999" autocomplete="username2" @value={{mut this.username2}} />
+              <input id="username2"
+                     type="text"
+                     class="input {{if this.username2_warning "is-warning"}}"
+                     value={{this.username2}}
+                     autocomplete="username2"
+                     autocorrect="off"
+                     autocapitalize="none"
+                     spellcheck="false"
+                     placeholder="email@address.example.com"
+                     {{on "change" this.username2_changed}}
+              />
 
               <span class="icon is-small is-left">
                 <FaIcon @icon="envelope" />
               </span>
             </div>
+
+            {{#if this.username2_warning}}
+              <p class="help is-warning">{{this.username2_warning}}</p>
+            {{/if}}
           </div>
 
           <div class="field">
@@ -57,10 +94,13 @@
           </div>
         </form>
 
-        {{#if this.error_message}}
-          <div class="notification is-danger">
-            {{this.error_message}}
-          </div>
+        {{#if this.ex}}
+          <ExceptionDecode @ex={{this.ex}} as |title detail|>
+            <div class="notification is-danger">
+              <h1 class="title">{{title}}</h1><br />
+              {{detail}}
+            </div>
+          </ExceptionDecode>
         {{/if}}
       </div>
     </div>

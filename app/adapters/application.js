@@ -1,5 +1,5 @@
 import DS from 'ember-data';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { assign } from '@ember/polyfills';
 
 export default DS.Adapter.extend({

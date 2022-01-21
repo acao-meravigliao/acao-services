@@ -1,4 +1,4 @@
-import Service, { inject as service } from '@ember/service';
+import Service, { service } from '@ember/service';
 import { computed, observer } from '@ember/object';
 import { run } from '@ember/runloop';
 

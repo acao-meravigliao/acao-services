@@ -1,0 +1,17 @@
+{{page-title "Erroraccio"}}
+<div class="offline-modal modal is-active">
+  <div class="modal-background"></div>
+  <div class="modal-content">
+    <div class="notification is-danger">
+      Perdincibacco! Si è verificato un errore nell'accesso ai dati, ricarica la pagina con F5, oppure riprova più tardi o segnalaci il problema!
+    </div>
+    <ExceptionDecode @ex={{this.model}} as |title detail backtrace|>
+      <div class="box">
+        <h1 class="title">{{title}}</h1>
+        <div>
+          {{detail}}
+        </div>
+      </div>
+     </ExceptionDecode>
+  </div>
+</div>

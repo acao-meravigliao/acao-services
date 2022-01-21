@@ -1,6 +1,6 @@
 import Controller from '@ember/controller';
 import { isEmpty } from '@ember/utils';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { task } from 'ember-concurrency';
 //import Table from 'ember-light-table';
 import { A } from '@ember/array';

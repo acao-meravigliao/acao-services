@@ -1,6 +1,6 @@
 import { schedule } from '@ember/runloop';
 import Controller from '@ember/controller';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import EmberLeafletComponent from 'ember-leaflet/components/leaflet-map';
 import L from 'L';
 

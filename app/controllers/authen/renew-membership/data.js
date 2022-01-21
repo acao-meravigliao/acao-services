@@ -1,5 +1,5 @@
 import Controller from '@ember/controller';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { inject as controller } from '@ember/controller';
 import { A } from '@ember/array';
 import { action } from '@ember/object';

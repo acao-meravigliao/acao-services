@@ -1,7 +1,7 @@
 import Service from '@ember/service';
 import config from '../config/environment';
 import Evented from '@ember/object/evented';
-import { inject as service } from '@ember/service';
+import { service } from '@ember/service';
 import { assign } from '@ember/polyfills';
 import { cancel, later } from '@ember/runloop';
 import { Promise, defer as rsvpDefer } from 'rsvp';
