@@ -10,10 +10,9 @@ export default class AuthenController extends Controller {
   @service('session') session;
   @service('shopping-cart') car;
   @service('my-clock') clock;
-  @service('page-title-list') page_title;
 
   get my_page_title() {
-    return this.page_title.toString();
+    return 'FIXME';
   }
 
   get myPayments() {

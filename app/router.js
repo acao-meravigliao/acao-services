@@ -7,9 +7,7 @@ export default class Router extends EmberRouter {
 }
 
 Router.map(function() {
-  this.route('authen', { path: '/' }, function() {
-    this.route('index', { path: '/'});
-
+  this.route('authen', function() {
     this.route('shop', function() {
       this.route('cart');
       this.route('checkout');
@@ -72,16 +70,26 @@ Router.map(function() {
   this.route('login2');
   this.route('password-recovery');
 
-  this.route('radar');
-  this.route('meteo');
+  //this.route('radar');
+  //this.route('meteo');
 
-  this.route('roster', { path: '/public/roster' }, function() {
+  this.route('roster', function() {
     this.route('today');
     this.route('days');
   });
 
-  this.route('tow-roster', { path: '/public/tow-roster' }, function() {
+  this.route('tow-roster', function() {
     this.route('today');
     this.route('days');
+  });
+
+  this.route('sap', function() {
+    this.route('registration');
+    this.route('list');
+  });
+
+  this.route('ccv', function() {
+    this.route('registration');
+    this.route('list');
   });
 });

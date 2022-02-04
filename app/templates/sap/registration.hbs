@@ -1,0 +1,85 @@
+{{page-title "Iscrizione"}}
+
+<div class="container">
+  <main class="box">
+    {{#if this.submit_success}}
+      <div class="notification is-success">
+        <h1 class="title">
+          Iscrizione inviata correttamente
+        </h1>
+
+        <LinkTo @route="index">Torna all'indice</LinkTo>
+      </div>
+
+    {{else}}
+
+      <div class="field">
+        <label class="label">
+          Tessera FAI
+          <div class="control has-icons-left">
+            <input type="text" class="input" autofocus value={{this.fai_license}}
+              {{on "change" this.fai_license_changed}}
+              {{on "focusout" this.fai_license_changed}}
+              inputmode="numeric" size=4 minlength=1 maxlength=4 />
+            <span class="icon is-small is-left">
+              D
+            </span>
+          </div>
+        </label>
+        {{#if this.fai_license_error}}
+          <p class="help is-danger">{{this.fai_license_error}}</p>
+        {{/if}}
+      </div>
+
+      <div class="field">
+        <label class="label">
+          Nome
+          <div class="control">
+            <input type="text" class="input {{if this.fai_license_found "is-static"}}"
+                   value={{this.first_name}} {{on "change" this.first_name_changed}} readonly={{this.fai_license_found}} />
+          </div>
+        </label>
+      </div>
+
+      <div class="field">
+        <label class="label">
+          Cognome
+          <div class="control">
+            <input type="text" class="input {{if this.fai_license_found "is-static"}}"
+                   value={{this.last_name}} {{on "change" this.last_name_changed}} readonly={{this.fai_license_found}} />
+          </div>
+        </label>
+      </div>
+
+      <div class="field">
+        <label class="label">
+          Email
+          <div class="control">
+            <input type="email" class="input {{if this.email_error "is-danger"}}"  value={{this.email}} {{on "change" this.email_changed}} />
+          </div>
+        </label>
+        {{#if this.email_error}}
+          <p class="help is-danger">{{this.email_error}}</p>
+        {{/if}}
+      </div>
+
+      <div class="field is-grouped">
+        <div class="control">
+          <button class="button is-link {{if this.submit_in_progress "is-loading"}}" disabled={{this.submit_disabled}} {{on "click" this.submit}}>Invia</button>
+        </div>
+        <div class="control">
+          <button class="button is-link is-light" {{on "click" this.cancel}}>Annulla</button>
+        </div>
+      </div>
+
+      {{#if this.submit_error}}
+        <div class="notification is-danger">
+          <h1 class="title is-4">Errore nell'invio del form:</h1>
+          <p>
+           {{this.submit_error}}
+          </p>
+        </div>
+      {{/if}}
+    {{/if}}
+  </main>
+</div>

@@ -6,7 +6,7 @@ import { Promise } from 'rsvp';
 
 export default class SessionService extends Service.extend(Evented) {
   @service store;
-  @service ajax;
+//  @service ajax;
   @service('vihai-object-streaming') vos;
 
   @tracked isAuthenticated = false;
@@ -17,92 +17,92 @@ export default class SessionService extends Service.extend(Evented) {
   @tracked isLoaded = false;
 
   load() {
-    return new Promise((resolve, reject) => {
-      this.ajax.post('/ygg/session/check_or_create', {
-        timeout: 5000,
-        contentType: 'application/json',
-        data: {},
-      }).then((response) => {
-        this.isLoaded = true;
-        this.update(response).then(() => (resolve(response))).catch((error) => (reject(error)));
-      }).catch((error) => {
-        reject(error);
-      });
-    });
+//    return new Promise((resolve, reject) => {
+//      this.ajax.post('/ygg/session/check_or_create', {
+//        timeout: 5000,
+//        contentType: 'application/json',
+//        data: {},
+//      }).then((response) => {
+//        this.isLoaded = true;
+//        this.update(response).then(() => (resolve(response))).catch((error) => (reject(error)));
+//      }).catch((error) => {
+//        reject(error);
+//      });
+//    });
   }
 
   authenticate(fqda, password) {
     this.set('authenticating', true);
 
-    return new Promise((resolve, reject) => {
-      this.ajax.post('/ygg/session/authenticate_by_fqda_and_password', {
-        contentType: 'application/json',
-        data: {
-          fqda: fqda,
-          password: password
-        }
-      }).then((response) => {
-        this.set('authenticating', false);
-
-        this.update(response).then(() => {
-          if (response.authenticated) {
-            resolve(response);
-          } else {
-            reject(response);
-          }
-        }).catch((error) => {
-          reject(error);
-        });
-
-      }).catch((error) => {
-        this.set('authenticating', false);
-        reject(error);
-      });
-    });
+//    return new Promise((resolve, reject) => {
+//      this.ajax.post('/ygg/session/authenticate_by_fqda_and_password', {
+//        contentType: 'application/json',
+//        data: {
+//          fqda: fqda,
+//          password: password
+//        }
+//      }).then((response) => {
+//        this.set('authenticating', false);
+//
+//        this.update(response).then(() => {
+//          if (response.authenticated) {
+//            resolve(response);
+//          } else {
+//            reject(response);
+//          }
+//        }).catch((error) => {
+//          reject(error);
+//        });
+//
+//      }).catch((error) => {
+//        this.set('authenticating', false);
+//        reject(error);
+//      });
+//    });
   }
 
   proxyAuthenticate(fqda, password, other_fqda) {
     this.set('authenticating', true);
 
-    return new Promise((resolve, reject) => {
-      this.ajax.post('/ygg/session/proxy_authenticate_by_fqda_and_password', {
-        contentType: 'application/json',
-        data: {
-          fqda: fqda,
-          password: password,
-          other_fqda: other_fqda,
-        }
-      }).then((response) => {
-        this.set('authenticating', false);
-
-        this.update(response).then(() => {
-          if (response.authenticated) {
-            resolve(response);
-          } else {
-            reject(response);
-          }
-        }).catch((error) => {
-          reject(error);
-        });
-
-      }).catch((error) => {
-        this.set('authenticating', false);
-        reject(error);
-      });
-    });
+//    return new Promise((resolve, reject) => {
+//      this.ajax.post('/ygg/session/proxy_authenticate_by_fqda_and_password', {
+//        contentType: 'application/json',
+//        data: {
+//          fqda: fqda,
+//          password: password,
+//          other_fqda: other_fqda,
+//        }
+//      }).then((response) => {
+//        this.set('authenticating', false);
+//
+//        this.update(response).then(() => {
+//          if (response.authenticated) {
+//            resolve(response);
+//          } else {
+//            reject(response);
+//          }
+//        }).catch((error) => {
+//          reject(error);
+//        });
+//
+//      }).catch((error) => {
+//        this.set('authenticating', false);
+//        reject(error);
+//      });
+//    });
   }
 
   logout() {
     console.log('LOGOUT...');
 
-    return new Promise((resolve, reject) => {
-      this.ajax.post('/ygg/session/logout', {
-        data: {},
-        contentType: 'application/json',
-      }).then((response) => {
-        this.update(response).then(() => (resolve(response))).catch((error) => (reject(error)));
-      })
-    });
+//    return new Promise((resolve, reject) => {
+//      this.ajax.post('/ygg/session/logout', {
+//        data: {},
+//        contentType: 'application/json',
+//      }).then((response) => {
+//        this.update(response).then(() => (resolve(response))).catch((error) => (reject(error)));
+//      })
+//    });
   }
 
   update(sessionData) {

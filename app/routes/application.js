@@ -4,10 +4,14 @@ import * as moment from 'moment';
 
 export default class ApplicationRoute extends Route {
   @service session;
+  @service intl;
   @service versionChecker;
 
   beforeModel(transition) {
     moment.locale('it');
+
+    this.intl.setLocale([ 'it-it' ]);
+
     //this.versionChecker;
   }
 

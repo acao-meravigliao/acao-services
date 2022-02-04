@@ -1,0 +1,5 @@
+<div class="component toaster">
+  {{#each this.toasts as |toast|}}
+    <Toaster::Toast @toast={{toast}} @onclose={{this.close}} />
+  {{/each}}
+</div>

@@ -1,0 +1,28 @@
+.component.toast {
+  text-align: center;
+  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.30);
+
+  -webkit-animation: fadein 0.5s;
+  animation: fadein 0.5s;
+
+  /* Animations to fade the snackbar in and out */
+  @-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 15px; opacity: 1;}
+  }
+
+  @keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 15px; opacity: 1;}
+  }
+
+  @-webkit-keyframes fadeout {
+    from {bottom: 15px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+  }
+
+  @keyframes fadeout {
+    from {bottom: 15px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+  }
+}

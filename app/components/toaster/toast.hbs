@@ -1,0 +1,5 @@
+<div class="component toast notification is-{{@toast.level}}">
+  <button class="delete" {{on 'click' this.close}}></button>
+  <b>{{@toast.message}}</b><br />
+  {{@toast.detail}}
+</div>

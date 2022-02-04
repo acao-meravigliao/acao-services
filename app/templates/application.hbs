@@ -1,5 +1,15 @@
 {{page-title (t "application.page_title")}}
+
+<header>
+  <h1 class="title">ACAO Servizi</h1>
+</header>
+
 {{outlet}}
+
+<footer>
+  Orgogliosamente non fatto con quella merda di PHP. Copyright © Assorreta {{moment-format (now) 'YYYY'}}.
+</footer>
+
 <Toaster />
 
 {{#if this.offline}}
