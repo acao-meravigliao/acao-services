@@ -1,23 +1,20 @@
-{{page-title "Ricevute"}}
-<div class="ui container">
-  <table class="invoices ui selectable celled table">
+{{page-title (t "invoices.page_title")}}
+<div class="container">
+  <table class="invoices table">
     <thead>
       <tr>
-        <th></th>
         <th>Data</th>
         <th>Codice</th>
         <th>Metodo</th>
         <th>Ammontare</th>
+        <th>Stato</th>
       </tr>
     </thead>
 
     <tbody>
-      {{#each this.model key="id" as |data|}}
+      {{#each this.sorted_models key="id" as |data|}}
 
       <tr {{on 'click' (transition-to "authen.invoice" data.id)}}>
-        <td>
-          <div class="ui ribbon label {{get this.stateColors data.state}}">{{data.state}}</div>
-        </td>
         <td>
           {{format-date data.created_at "DD-MM-YYYY HH:mm:ss" }}
         </td>
@@ -25,10 +22,13 @@
           {{data.identifier}}
         </td>
         <td>
-          {{data.payment_method}}
+          {{t (concat "payment.methods." data.payment_method)}}
         </td>
         <td class="price">
-          {{numeral-format data.total format="0.00"}} €
+          {{format-number data.total 2 "€"}}
+        </td>
+        <td>
+          <span class="tag state {{data.state}}">{{t (concat "invoice.states." data.state)}}</span>
         </td>
       </tr>
       {{/each}}

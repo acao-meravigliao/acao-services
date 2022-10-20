@@ -14,6 +14,6 @@ export default class YggAcaoPaymentModel extends Model {
   @attr('string') payment_method;
   @attr('string') reason_for_payment;
 
-  @belongsTo('ygg--core--person') person;
-  @belongsTo('ygg--acao--invoice') invoice;
+  @belongsTo('ygg--core--person', { async: true }) person;
+  @belongsTo('ygg--acao--invoice', { async: true }) invoice;
 }

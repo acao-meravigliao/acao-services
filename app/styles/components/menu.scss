@@ -1,0 +1,13 @@
+.component.menu {
+  position: absolute;
+  padding: 0 20px;
+  width: 200px;
+
+  a.active {
+    @extend .is-active;
+  }
+
+  p.menu-label.bordered {
+    border-bottom: 1px solid $grey;
+  }
+}

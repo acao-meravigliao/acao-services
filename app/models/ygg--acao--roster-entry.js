@@ -8,6 +8,6 @@ export default class YggAcaoRosterEntryModel extends Model {
   @attr('date', { readOnly: true }) selected_at;
   @attr('date', { readOnly: true }) on_offer_since;
 
-  @belongsTo('ygg--core--person', { readOnly: true }) person;
-  @belongsTo('ygg--acao--roster-day') roster_day;
+  @belongsTo('ygg--core--person', { readOnly: true, async: true }) person;
+  @belongsTo('ygg--acao--roster-day', { async: true }) roster_day;
 }

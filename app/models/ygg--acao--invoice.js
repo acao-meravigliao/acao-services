@@ -17,7 +17,7 @@ export default class YggAcaoInvoiceModel extends Model {
   @attr('string') payment_method;
   @attr('number') total;
 
-  @hasMany('ygg--acao--invoice--detail') details;
-  @belongsTo('ygg--core--person') person;
-  @hasMany('ygg--acao--payment') payments;
+  @hasMany('ygg--acao--invoice--detail', { async: true }) details;
+  @belongsTo('ygg--core--person', { async: true }) person;
+  @hasMany('ygg--acao--payment', { async: true }) payments;
 }

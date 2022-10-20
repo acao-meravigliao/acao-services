@@ -1,5 +1,11 @@
-@import "bulma";
+//$menu-width: 200px;
+//$menu-item-color: white;
+//$menu-item-active-background-color: #7fffff;
+//$menu-item-hover-background-color: #4fffff;
+//$menu-item-hover-color: #9fffff;
+//$menu-item-radius: 0;
 
+@import "bulma";
 
 @import "components.scss";
 @import "pages.scss";
@@ -9,10 +15,19 @@ html {
 
   body {
     header {
-      margin-bottom: 2em;
       background-color: #aaf;
       padding: 0.5em;
       text-align: center;
+
+      .hamburger {
+        position: absolute;
+        left: 4px;
+        top: 4px;
+
+        @include tablet {
+          display: none;
+        }
+      }
     }
 
     footer {
@@ -24,23 +39,31 @@ html {
       background-color: #777;
       color: white;
     }
+
+    .main-container {
+      height: 100%;
+      overflow-y: auto;
+    }
   }
 }
 
 
 
-.sidebar-context {
-  position: absolute;
-  top: 48px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  height: auto;
+
+
+.navbar-menu {
+  a.active {
+    @extend .is-active;
+  }
 }
 
-.sidebar-pusher {
-//  height: 100% !important;
-}
+
+
+
+
+
+
+
 
 span.price {
   font-family: monospace;
@@ -54,58 +77,6 @@ table {
   td.total {
     font-weight: bold !important;
     background-color: #f9fafb;
-  }
-}
-
-table.payments, table.invoices {
-  tbody {
-    tr {
-      cursor: pointer;
-    }
-  }
-}
-
-.roster-day,.roster-entry {
-  &.edit {
-    cursor: grabbing;
-
-    &.disabled {
-      cursor: not-allowed;
-    }
-
-    .ui.reveal {
-      .visible.content {
-        background-color: white;
-      }
-
-      .hidden.content {
-        background-color: red;
-      }
-
-    }
-  }
-
-  .date-block {
-    min-height: 4em;
-    text-transform: uppercase;
-    text-align: center;
-
-    .date {
-      margin: 0;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-weight: bold;
-    }
-
-    &.low-season {
-      background-color: #abf0ff;
-    }
-
-    &.high-season {
-      background-color: #ffd367;
-    }
   }
 }
 

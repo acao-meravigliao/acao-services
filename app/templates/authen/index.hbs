@@ -1,8 +1,10 @@
-<div class="ui container">
-  <h1 class="ui header">Ciao {{this.session.person.first_name}}!</h1>
+{{page-title (t "authen.page_title")}}
+
+<div class="container page">
+  <h1 class="subtitle">Ciao {{this.session.person.first_name}}!</h1>
 
   {{#if this.nextRenewIsGoingToOpen}}
-    <div class="ui orange message">
+    <div class="message">
       <h1 class="ui header">
         L'iscrizione per l'anno {{this.nextYear.year}} non è ancora aperta,
         aprirà {{format-date-from-now this.nextYear.renew_opening_time}}
@@ -16,7 +18,7 @@
         <div class="ui statistics">
           <div class="statistic">
             <div class="value">
-              {{numeral-format this.session.person.acao_bar_credit format="0.00"}} €
+              {{format-number this.session.person.acao_bar_credit 2 "€"}}
             </div>
             <div class="label">
               Conto bar

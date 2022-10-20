@@ -1,14 +1,14 @@
 {{page-title "Pagamenti"}}
-<div class="ui container">
-  <table class="invoices ui selectable celled table">
+<div class="container">
+  <table class="payments table">
     <thead>
       <tr>
-        <th></th>
         <th>Data</th>
         <th>Codice</th>
         <th>Metodo</th>
         <th>Ammontare</th>
         <th>Scadenza</th>
+        <th>Stato</th>
       </tr>
     </thead>
 
@@ -17,22 +17,22 @@
 
       <tr {{on 'click' (transition-to "authen.payment" data.id)}}>
         <td>
-          <div class="ui ribbon label {{get this.stateColors data.state}}">{{data.state}}</div>
-        </td>
-        <td>
           {{format-date data.created_at "DD-MM-YYYY HH:mm:ss" }}
         </td>
         <td>
           {{data.identifier}}
         </td>
         <td>
-          {{data.payment_method}}
+          {{t (concat "payment.methods." data.payment_method)}}
         </td>
         <td class="price">
-          {{numeral-format data.amount format="0.00"}} €
+          {{format-number data.amount 2 "€"}}
         </td>
         <td>
           {{if data.expires_at (format-date data.expires_at "DD-MM-YYYY")}}
+        </td>
+        <td>
+          <span class="tag state {{data.state}}">{{t (concat "payment.states." data.state)}}</span>
         </td>
       </tr>
       {{/each}}

@@ -5,16 +5,16 @@
     <div class="column is-offset-3 is-6">
       <div class="box">
         <h1 class="title has-text-centered">
-          {{t "login.login_to"}} {{this.vos.welcome_msg.server_identifier}}
+          {{t "login.page_title"}}
         </h1>
 
         Questa procedura di login serve ad autenticarsi per conto di altri. È ovviamente riservata solo alle persone autorizzate.
 
-        <form class="{{if this.error_message "error"}}" {{on "submit" this.authenticate}}>
+        <form class="{{if this.ex "error"}}" {{on "submit" this.authenticate}}>
           <div class="field">
-            <label class="label">{{t "login.username"}}</label>
+            <label class="label">{{t "login.username.label"}}</label>
             <div class="control has-icons-left has-icons-right">
-              {{t "login.username_request"}}
+              {{t "login.username.request"}}
               <input id="username"
                      type="text"
                      class="input {{if this.username_warning "is-warning"}}"
@@ -23,12 +23,12 @@
                      autocorrect="off"
                      autocapitalize="none"
                      spellcheck="false"
-                     placeholder="email@address.example.com"
+                     placeholder={{t "login.username.placeholder"}}
                      {{on "change" this.username_changed}}
               />
 
               <span class="icon is-small is-left">
-                <FaIcon @icon="envelope" />
+                <FaIcon @icon="user" />
               </span>
             </div>
 
@@ -38,14 +38,14 @@
           </div>
 
           <div class="field">
-            <label class="label">{{t "login.password"}}</label>
+            <label class="label">{{t "login.password.label"}}</label>
             <div class="control has-icons-left has-icons-right">
               <input id="password"
                      type="password"
                      class="input {{if this.username_warning "is-warning"}}"
                      value={{this.password}}
                      autocomplete="password"
-                     placeholder=""
+                     placeholder={{t "login.password.placeholder"}}
                      {{on "change" this.password_changed}}
               />
 
@@ -60,9 +60,9 @@
           </div>
 
           <div class="field">
-            <label class="label">{{t "login.username2"}}</label>
+            <label class="label">{{t "login.username2.label"}}</label>
             <div class="control has-icons-left has-icons-right">
-              {{t "login.username2_request"}}
+              {{t "login.username2.request"}}
               <input id="username2"
                      type="text"
                      class="input {{if this.username2_warning "is-warning"}}"
@@ -87,7 +87,7 @@
 
           <div class="field">
             <p class="control">
-              <button type="submit" class="button is-success {{if this.logging_in "disabled loading"}}">
+              <button type="submit" class="button is-success {{if this.logging_in "is-loading"}}" disabled={{this.logging_in}}>
                 {{t "login.login"}}
               </button>
             </p>

@@ -2,4 +2,89 @@ application:
   page_title: 'ACAO Servizi'
 initial_connection:
   page_title: 'ACAO Connessione...'
+  connecting: 'Connessione in corso...'
+login:
+  page_title: Login
+  login_to: Login to
+  username:
+    label: Codice pilota
+    request:
+    placeholder: "1234"
+  username2:
+    label: Codice pilota da impersonare
+    request:
+    placeholder: "1234"
+  password:
+    label: Password
+    placeholder:
+  login: Login
+  forgot_password: Ho dimenticato la password
 
+authen:
+  page_title: Home
+
+  roster:
+    days:
+      page_title: Tutti i turni di linea
+    today:
+      page_title: Turni di oggi
+
+invoices:
+  page_title: Ricevute
+
+invoice:
+  page_title: Ricevuta
+  invoice: Ricevuta
+  states:
+    CLOSED: PAGATA
+    PENDING: PENDENTE
+
+payments:
+  page_title: Pagamenti
+
+payment:
+  page_title: Pagamento
+  states:
+    COMPLETED: COMPLETATO
+    PENDING: PENDENTE
+  methods:
+    CASH: Contanti
+    WIRE: Bonifico Bancario
+    CHECK: Assegno
+    SATISPAY: SatisPay
+    CARD: Carta di Credito
+
+
+
+menu:
+  dashboard: Dashboard
+  renew_membership: Rinnovo iscrizione
+  invoices: Ricevute
+  payments: Pagamenti
+  roster: Turni di linea
+  logout: Logout
+
+application_error:
+  page_title: Erroraccio
+application_offline:
+  offline: Offline...
+exception_decoder:
+  unexpected:
+    title: Uoooops
+    detail: Perdincibacco! Si è verificato un errore nell'accesso ai dati, ricarica la pagina con F5, oppure riprova più tardi o segnalaci il problema!
+  remote:
+    "Ygg::Mocked::Exception":
+      title: This is a test exception
+      detail: Nice exception, aren't I?
+    "AM::VOS::Session::FailedAuthentication":
+      title: Authentication failed
+      detail: Check that your credentials are typed correctly and caps lock is not engaged
+    "AM::AuthManager::MsgSessionGetFailure":
+      title: Error getting session
+  local:
+    "SessionLoadTimeout":
+      title: Errore di collegamento
+      detail: Non è possibile al momento collegarsi al server remoto. Riprova tra qualche minuto.
+    "WrongCredentials":
+      title: Credenziali errate
+      detail: Controlla di aver digitato correttamente codice pilota e password

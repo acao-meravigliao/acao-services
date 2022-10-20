@@ -1,16 +1,15 @@
 {{page-title (t "application.page_title")}}
+<Toaster />
 
 <header>
-  <h1 class="title">ACAO Servizi</h1>
+  <h1 class="title">{{t "application.page_title"}}</h1>
 </header>
 
 {{outlet}}
 
-<footer>
-  Orgogliosamente non fatto con quella merda di PHP. Copyright © Assorreta {{moment-format (now) 'YYYY'}}.
-</footer>
-
-<Toaster />
+<!--<footer>
+  Copyright © ACAO {{moment-format (now) 'YYYY'}}
+</footer>-->
 
 {{#if this.offline}}
   <div class="offline-modal modal is-active">

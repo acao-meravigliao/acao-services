@@ -8,5 +8,5 @@ export default class YggAcaoLicenseRatingModel extends Model {
   @attr('date') issued_at;
   @attr('date') valid_to;
 
-  @belongsTo('ygg--acao--license') license;
+  @belongsTo('ygg--acao--license', { async: true }) license;
 }

@@ -66,6 +66,9 @@ Router.map(function() {
     });
   });
 
+  this.route('initial-connection');
+  this.route('offline');
+
   this.route('login');
   this.route('login2');
   this.route('password-recovery');
@@ -92,4 +95,6 @@ Router.map(function() {
     this.route('registration');
     this.route('list');
   });
+
+  this.route('page-not-found', { path: '/*wildcard' });
 });

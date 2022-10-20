@@ -1,44 +1,70 @@
-<div class="ui fixed inverted main menu">
-    <a class="launch icon item sidebar-toggle" {{action "sidebarToggle" "main-sidebar"}}>
-      <i class="sidebar icon"></i>
+<nav class="navbar is-fixed-to" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger {{if this.hamburger.active "is-active"}}" {{on "click" this.hamburger_show}} aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
     </a>
-
-  <div class="ui breadcrumb item">
-    <LinkTo @route="authen.index" class="selection">{{this.my_page_title}}</LinkTo>
   </div>
 
-  <div class="right item">
-    {{#if this.cart.items}}
-      <LinkTo @route="authen.shop.cart" class="ui small button">
-        <i class="cart icon"></i>
-        {{if this.cart.items.length cart.items.length}}
+  <div class="navbar-menu {{if this.hamburger.active "is-active"}}" {{on "click" this.hamburger_hide}}>
+    <div class="navbar-start">
+      <LinkTo @route="authen.index" class="navbar-item">
+        {{t "menu.dashboard"}}
       </LinkTo>
-    {{/if}}
 
-    <button class="ui small button" {{action "logout"}}>Logout</button>
-  </div>
-</div>
-<div id="sidebar-context" class="sidebar-context">
-  {{#ui-sidebar
-      class=(concat "ui inverted menu left inline vertical " this.sidebarVisible)
-      dimPage=false
-      closable=false
-      id="main-sidebar"
-      click=(action "sidebarClick")
-      context="#sidebar-context"}}
-    <MainMenuItems
-      @person={{this.session.person}}
-      @currentYear={{this.currentYear}}
-      @nextYear={{this.nextYear}}
-      @currentRenewIsOpenAndNeeded={{this.currentRenewIsOpenAndNeeded}}
-      @nextRenewIsOpenAndNeeded={{this.nextRenewIsOpenAndNeeded}}
-      @pendingPayments={{this.pendingPayments}}
-      @rosterCurStatus={{this.rosterCurStatus}}
-      @rosterNextStatus={{this.rosterNextStatus}}
-    />
-  {{/ui-sidebar}}
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          {{t "menu.roster"}}
+        </a>
 
-  <div class="pusher main content sidebar-pusher">
-    {{outlet}}
+        <div class="navbar-dropdown">
+          <LinkTo class="navbar-item" @route="authen.roster.days"> Tutti i turni </LinkTo>
+          <LinkTo class="navbar-item" @route="authen.roster.today"> Turni di oggi </LinkTo>
+          <hr class="navbar-divider">
+          <div class="navbar-item">
+            JHiusdhiudhf
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar-end">
+      <a class="navbar-item" {{on "click" this.logout}}>{{t "menu.logout"}}</a>
+    </div>
   </div>
-</div>
+</nav>
+
+{{!--<Authen::Menu
+  @person={{this.session.person}}
+  @currentYear={{this.currentYear}}
+  @nextYear={{this.nextYear}}
+  @currentRenewIsOpenAndNeeded={{this.currentRenewIsOpenAndNeeded}}
+  @nextRenewIsOpenAndNeeded={{this.nextRenewIsOpenAndNeeded}}
+  @pendingPayments={{this.pendingPayments}}
+  @rosterCurStatus={{this.rosterCurStatus}}
+  @rosterNextStatus={{this.rosterNextStatus}}
+  @logout={{this.logout}}>
+</Authen::Menu>
+
+{{#if this.hamburger.active}}
+  <div class="modal is-active">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <Authen::Menu
+        @person={{this.session.person}}
+        @currentYear={{this.currentYear}}
+        @nextYear={{this.nextYear}}
+        @currentRenewIsOpenAndNeeded={{this.currentRenewIsOpenAndNeeded}}
+        @nextRenewIsOpenAndNeeded={{this.nextRenewIsOpenAndNeeded}}
+        @pendingPayments={{this.pendingPayments}}
+        @rosterCurStatus={{this.rosterCurStatus}}
+        @rosterNextStatus={{this.rosterNextStatus}}
+        @logout={{this.logout}}>
+      </Authen::Menu>
+    </div>
+  </div>
+{{/if}}
+--}}
+
+{{outlet}}

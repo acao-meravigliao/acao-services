@@ -1,8 +1,6 @@
 import Controller from '@ember/controller';
 import { computed } from '@ember/object';
 import { service } from '@ember/service';
-import { task } from 'ember-concurrency';
-import { assign } from '@ember/polyfills';
 import { observer } from '@ember/object';
 import { on } from '@ember/object/evented';
 
@@ -21,7 +19,7 @@ export default class AuthenPaymentsController extends Controller {
 
 ////  loadDataTask: task(function * (args) {
 ////    let params = {
-////      filter: { person_id: this.get('session.personId') },
+////      filter: { person_id: this.get('session.person_id') },
 ////      order: { 'created_at': 'DESC' },
 ////    };
 ////

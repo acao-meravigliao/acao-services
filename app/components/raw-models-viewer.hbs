@@ -1,0 +1,19 @@
+<table class="table component raw-models-viewer" ...attributes>
+  <thead>
+    <tr>
+      {{#each-in this.attributes as |attr_name|}}
+        <th>{{attr_name}}</th>
+      {{/each-in}}
+   </tr>
+  </thead>
+
+  <tbody>
+    {{#each @models key="id" as |model|}}
+      <tr>
+      {{#each-in this.attributes as |attr_name|}}
+        <td>{{get model attr_name}}</td>
+      {{/each-in}}
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

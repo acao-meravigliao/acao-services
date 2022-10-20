@@ -22,8 +22,8 @@ module.exports = function (environment) {
       // when it is created
     },
 
-    authenticatedRoute: 'authen.index',
-    loginRoute: 'login',
+    authenticated_route: 'authen.index',
+    login_route: 'login',
   };
 
   if (environment === 'development') {

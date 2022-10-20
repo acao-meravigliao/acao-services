@@ -19,7 +19,6 @@ export default class AuthenRenewMembershipIndexController extends Controller {
   }
 
   get myEmails() {
-console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", this.wizard);
     return this.context.person.contacts.filterBy('type', 'email');
   }
 

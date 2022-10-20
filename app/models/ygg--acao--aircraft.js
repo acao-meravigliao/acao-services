@@ -13,7 +13,7 @@ export default class YggAcaoAircraftModel extends Model {
   @attr('date') arc_valid_to;
   @attr('date') insurance_valid_to;
 
-  @belongsTo('ygg--acao--aircraft-type') aircraft_type;
-  @belongsTo('ygg--acao--club') club;
-  @belongsTo('ygg--core--person') owner;
+  @belongsTo('ygg--acao--aircraft-type', { async: true }) aircraft_type;
+  @belongsTo('ygg--acao--club', { async: true }) club;
+  @belongsTo('ygg--core--person', { async: true }) owner;
 }

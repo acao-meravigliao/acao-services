@@ -10,5 +10,5 @@ export default class YggAcaoMedicalModel extends Model {
   @attr('date') issued_at;
   @attr('date') valid_to;
 
-  @belongsTo('ygg--core--person') pilot;
+  @belongsTo('ygg--core--person', { async: true }) pilot;
 }

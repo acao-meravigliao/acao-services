@@ -1,18 +1,13 @@
+import Component from '@glimmer/component';
 import { compare } from '@ember/utils';
-import { sort } from '@ember/object/computed';
-import { computed } from '@ember/object';
-import Component from '@ember/component';
 
-export default Component.extend({
-  tagName: '',
+export default class RosterDayComponent extends Component {
 
-  sortedEntries: sort('day.roster_entries', function(a, b) {
-    return compare(a.get('person.last_name'), b.get('person.last_name')) ||
-           compare(a.get('person.first_name'), b.get('person.first_name'));
-  }),
+  get sorted_entries() {
+    return this.args.day.roster_entries.sortBy('last_name', 'first_name');
+  }
 
-  missingEntries: computed('day.{roster_entries.length,needed_people}', function() {
-    return Array(Math.max(this.get('day.needed_people') - this.get('day.roster_entries.length'), 0));
-  }),
-
-});
+  get missing_entries() {
+    return Array(Math.max(this.args.day.needed_people - this.args.day.roster_entries.length, 0));
+  }
+}

@@ -6,5 +6,5 @@ import { belongsTo, hasMany } from '@ember-data/model';
 export default class CartEntryModel extends Model {
   @attr('number') count;
 
-  @belongsTo('ygg--acao--service-type') service;
+  @belongsTo('ygg--acao--service-type', { async: true }) service;
 }

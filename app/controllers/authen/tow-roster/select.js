@@ -23,7 +23,7 @@ export default class TowRosterSelectController extends Controller {
 
   get myRosterEntries() {
     return this.allRosterEntries.filter((item) =>
-      (item.belongsTo('person').id() == this.get('session.personId'))
+      (item.belongsTo('person').id() == this.get('session.person_id'))
     );
   }
 
@@ -54,7 +54,7 @@ export default class TowRosterSelectController extends Controller {
 
   @action addDay(dayEntry) {
     this.store.createRecord('ygg--acao--tow-roster-entry', {
-      person: this.store.peekRecord('ygg--core--person', this.get('session.personId')),
+      person: this.store.peekRecord('ygg--core--person', this.get('session.person_id')),
       day: dayEntry,
     });
   }

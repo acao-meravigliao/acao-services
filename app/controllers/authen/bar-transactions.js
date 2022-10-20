@@ -1,6 +1,5 @@
 import Controller from '@ember/controller';
 import { service } from '@ember/service';
-//import { task } from 'ember-concurrency';
 //import { assign } from '@ember/polyfills';
 
 export default class BarTransactionController extends Controller {
@@ -8,7 +7,7 @@ export default class BarTransactionController extends Controller {
 
 ////  loadDataTask: task(function * (args) {
 ////    let params = {
-////      filter: { person_id: this.get('session.personId') },
+////      filter: { person_id: this.get('session.person_id') },
 ////      order: { 'recorded_at': 'DESC' },
 ////    };
 ////

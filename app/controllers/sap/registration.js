@@ -80,7 +80,7 @@ export default class SapRegistrationController extends Controller {
     fetch('/api/enroll', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json;charset=utf-8',
       },
       body: JSON.stringify({
         fai_license: this.fai_license,

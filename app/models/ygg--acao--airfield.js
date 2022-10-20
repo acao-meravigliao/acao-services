@@ -8,5 +8,5 @@ export default class YggAcaoAirfieldModel extends Model {
   @attr('string') icao_code;
   @attr('string') symbol;
 
-  @belongsTo('ygg--core--location') location;
+  @belongsTo('ygg--core--location', { async: true }) location;
 }

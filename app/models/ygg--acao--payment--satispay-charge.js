@@ -4,5 +4,5 @@ import { vosBelongsTo, vosHasMany } from '@sevio/ember-vos';
 import { belongsTo, hasMany } from '@ember-data/model';
 
 export default class YggAcaoPaymentSatispayChargeModel extends Model {
-  @belongsTo('ygg--acao--payment') payment;
+  @belongsTo('ygg--acao--payment', { async: true }) payment;
 }

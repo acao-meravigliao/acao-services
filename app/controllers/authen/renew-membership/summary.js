@@ -2,10 +2,10 @@ import Controller from '@ember/controller';
 import { inject as controller } from '@ember/controller';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
+import fetch from 'fetch';
 
 export default class RenewMembershipSummaryController extends Controller {
   @controller('authen.renew-membership') wizard;
-  @service ajax;
 
   get context() { return this.wizard.context; }
   get state() { return this.wizard.state; }
@@ -42,9 +42,13 @@ export default class RenewMembershipSummaryController extends Controller {
     };
 
     me.set('submitting', true);
-    this.ajax.post('/ygg/acao/memberships/renew', {
-      contentType: 'application/json',
-      data: req,
+
+    fetch('/ygg/acao/memberships/renew', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: JSON.stringify(req),
     }).then((response) => {
       me.set('submitting', false);
       me.transitionToRoute('authen.payment', response.payment_id);

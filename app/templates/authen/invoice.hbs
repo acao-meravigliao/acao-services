@@ -1,8 +1,8 @@
-{{page-title "Ricevuta"}}
+{{page-title (t "invoice.page_title")}}
 <div class="ui container">
   <div class="ui segment">
   <div>
-    <h1>Ricevuta {{model.invoice.identifier}}
+    <h1>{{t "invoice.invoice"}} {{model.invoice.identifier}}
     </h1>
     Data: {{format-date this.model.invoice.created_at "DD-MM-YYYY HH:mm:ss"}}<br />
   </div>
@@ -18,14 +18,14 @@
       {{#each this.model.invoice.details key="@index" as |detail|}}
       <tr>
         <td>{{detail.descr}}{{#if detail.specific_data}} - {{detail.specific_data}}{{/if}}</td>
-        <td class="price">{{numeral-format detail.price format="0.00"}} €</td>
+        <td class="price">{{format-number detail.price 2 "€"}}</td>
       </tr>
       {{/each}}
     </tbody>
     <tfoot>
       <tr>
         <th>Totale</th>
-        <td class="total price">{{numeral-format this.model.invoice.total format="0.00"}} €</td>
+        <td class="total price">{{format-number this.model.invoice.total 2 "€"}}</td>
       </tr>
     </tfoot>
   </table>
@@ -44,7 +44,7 @@
       <tr>
         <td>{{payment.identifier}}</td>
         <td>{{payment.status}}</td>
-        <td class="price">{{numeral-format payment.amount format="0.00"}} €</td>
+        <td class="price">{{format-number payment.amount 2 "€"}}</td>
       </tr>
       {{/each}}
     </tbody>

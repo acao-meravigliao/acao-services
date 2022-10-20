@@ -1,0 +1,7 @@
+<table class="table component raw-model-viewer" ...attributes>
+  <tbody>
+    {{#each-in @model.constructor.attributes as |attr_name|}}
+      <tr><td>{{attr_name}}</td><td>{{get @model attr_name}}</td></tr>
+    {{/each-in}}
+  </tbody>
+</table>

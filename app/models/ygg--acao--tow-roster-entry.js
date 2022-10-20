@@ -7,6 +7,6 @@ export default class YggAcaoTowRosterEntryModel extends Model {
   @attr('string') notes;
   @attr('date') selected_at;
 
-  @belongsTo('ygg--core--person') person;
-  @belongsTo('ygg--acao--tow-roster-day') day;
+  @belongsTo('ygg--core--person', { async: true }) person;
+  @belongsTo('ygg--acao--tow-roster-day', { async: true }) day;
 }

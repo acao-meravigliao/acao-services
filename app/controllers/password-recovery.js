@@ -1,10 +1,9 @@
 import Controller from '@ember/controller';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
+import fetch from 'fetch';
 
 export default class PasswordRecoveryController extends Controller {
-  @service ajax;
-
   @action recover() {
     let me = this;
 
@@ -16,11 +15,12 @@ export default class PasswordRecoveryController extends Controller {
     this.set('exception', null);
     this.set('submitting', true);
 
-    this.ajax.request('/ygg/acao/password_recovery', {
+    fetch('/ygg/acao/password_recovery', {
       method: 'POST',
-      data: JSON.stringify(req),
-//        dataType: 'json',
-      contentType: 'application/json',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(req),
     }).then((response) => {
       me.set('submitting', false);
       me.set('success', true);

@@ -1,0 +1,15 @@
+table.invoices {
+  tbody {
+    tr {
+      cursor: pointer;
+    }
+  }
+
+  span.state.CLOSED {
+    @extend .is-success;
+  }
+
+  span.state.PENDING {
+    @extend .is-warning;
+  }
+}

@@ -7,5 +7,5 @@ export default class YggAcaoClubModel extends Model {
   @attr('string') name;
   @attr('string') airfield_id;
 
-  @belongsTo('ygg--acao--airfield') airfield;
+  @belongsTo('ygg--acao--airfield', { async: true }) airfield;
 }

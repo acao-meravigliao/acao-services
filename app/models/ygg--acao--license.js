@@ -10,5 +10,5 @@ export default class YggAcaoLicenseModel extends Model {
   @attr('date') valid_to;
   @attr('date') valid_to2;
 
-  @belongsTo('ygg--core--person') pilot;
+  @belongsTo('ygg--core--person', { async: true }) pilot;
 }

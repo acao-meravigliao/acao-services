@@ -12,6 +12,6 @@ export default class YggAcaoInvoiceDetailModel extends Model {
 
   @attr('string', { key: 'data' }) specific_data;
 
-  @belongsTo('ygg--acao--invoice') invoice;
-  @belongsTo('ygg--acao--service-type') service_type;
+  @belongsTo('ygg--acao--invoice', { async: true }) invoice;
+  @belongsTo('ygg--acao--service-type', { async: true }) service_type;
 }

@@ -3,135 +3,251 @@ import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import Evented from '@ember/object/evented';
 import { Promise } from 'rsvp';
+import fetch from 'fetch';
+import MyException from 'acao-services/utils/my-exception';
+import RemoteException from 'acao-services/utils/remote-exception';
+
+class SessionLoadTimeout extends MyException { }
+class WrongCredentials extends MyException { }
+class AuthenticationServerFailure extends MyException { }
+class AuthenticationServerError extends RemoteException { }
 
 export default class SessionService extends Service.extend(Evented) {
   @service store;
-//  @service ajax;
-  @service('vihai-object-streaming') vos;
+  //@service('vihai-object-streaming') vos;
 
-  @tracked isAuthenticated = false;
+  @tracked is_authenticated = false;
+  @tracked authenticating = false;
 
-  @tracked personId = null;
+  @tracked person_id = null;
   @tracked person = null;
 
-  @tracked isLoaded = false;
+  @tracked is_loaded = false;
 
-  load() {
-//    return new Promise((resolve, reject) => {
-//      this.ajax.post('/ygg/session/check_or_create', {
-//        timeout: 5000,
-//        contentType: 'application/json',
-//        data: {},
-//      }).then((response) => {
-//        this.isLoaded = true;
-//        this.update(response).then(() => (resolve(response))).catch((error) => (reject(error)));
+  async load() {
+    let res = await fetch('/ygg/session/check_or_create', {
+      method: 'POST',
+      signal: AbortSignal.timeout(5000),
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({}),
+    });
+
+    if (res.ok) {
+      if (!res.headers.get('content-type').startsWith('application/json')) {
+        throw(new AuthenticationServerFailure);
+      }
+
+      let json = await res.json();
+
+      await this.update(json);
+
+      this.is_loaded = true;
+
+      return json;
+
+    } else {
+      if (!res.headers.get('content-type').startsWith('application/problem+json')) {
+        throw(new AuthenticationServerFailure);
+      }
+
+      let json = await res.json();
+
+      throw(new AuthenticationServerError(json));
+    }
+
+
+//
+//
+//      }).then((res) => {
+//        if (res.ok) {
+//          this.is_loaded = true;
+//          this.update(res).
+//            then(() => (resolve(res))).
+//            catch((error) => reject(new RemoteException(error)));
+//        } else {
+//        }
 //      }).catch((error) => {
-//        reject(error);
+//        if (error.name === "AbortError")
+//          reject(new SessionLoadTimeout);
+//        else
+//          reject(error);
 //      });
 //    });
   }
 
-  authenticate(fqda, password) {
-    this.set('authenticating', true);
+  async authenticate(fqda, password) {
+    this.authenticating = true;
 
-//    return new Promise((resolve, reject) => {
-//      this.ajax.post('/ygg/session/authenticate_by_fqda_and_password', {
-//        contentType: 'application/json',
-//        data: {
-//          fqda: fqda,
-//          password: password
+console.log("YTTTTTTTTTYYYYYYYYYYYYYYYYYYY", fqda);
+
+    let res = await fetch('/ygg/session/authenticate_by_fqda_and_password', {
+      method: 'POST',
+      signal: AbortSignal.timeout(5000),
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        fqda: fqda,
+        password: password
+      }),
+    });
+
+    if (res.ok) {
+      if (!res.headers.get('content-type').startsWith('application/json')) {
+        throw(new AuthenticationServerFailure);
+      }
+
+      let json = await res.json();
+
+      await this.update(json);
+
+      if (json.authenticated) {
+        return json;
+      } else {
+        throw new WrongCredentials;
+      }
+
+    } else {
+      console.log("OOOOOOOOOOOOOOOOOO1", res.headers.get('content-type'));
+
+      if (!res.headers.get('content-type').startsWith('application/problem+json')) {
+        throw(new AuthenticationServerFailure);
+      }
+
+      let json = await res.json();
+
+      throw(new AuthenticationServerError(json));
+    }
+
+console.log("PORTOCIOOOD", res);
+
+//
+//
+//      }).then((res) => {
+//        if (res.ok) {
+//          return res.json();
+//        } else {
+//          
 //        }
-//      }).then((response) => {
-//        this.set('authenticating', false);
-//
-//        this.update(response).then(() => {
-//          if (response.authenticated) {
-//            resolve(response);
-//          } else {
-//            reject(response);
-//          }
-//        }).catch((error) => {
-//          reject(error);
-//        });
-//
+//      }).then((res) => {
+//        if (res.ok) {
+//          this.update(res).then(() => {
+//console.log("REEEEEEEEEEEEEEEES=", res);
+//            if (res.authenticated) {
+//              resolve(res);
+//            } else {
+//              reject(new WrongCredentials);
+//            }
+//          }).catch((error) => {
+//            reject(error);
+//          });
+//        } else {
+//          reject(new AuthenticationServerError(res));
+//        }
 //      }).catch((error) => {
-//        this.set('authenticating', false);
-//        reject(error);
+//        if (error.name === "AbortError")
+//          reject(new SessionLoadTimeout);
+//        else
+//          reject(error);
+//      }).finally(() => {
+//        this.authenticating = false;
 //      });
 //    });
   }
 
   proxyAuthenticate(fqda, password, other_fqda) {
-    this.set('authenticating', true);
-
-//    return new Promise((resolve, reject) => {
-//      this.ajax.post('/ygg/session/proxy_authenticate_by_fqda_and_password', {
-//        contentType: 'application/json',
-//        data: {
-//          fqda: fqda,
-//          password: password,
-//          other_fqda: other_fqda,
-//        }
-//      }).then((response) => {
-//        this.set('authenticating', false);
-//
-//        this.update(response).then(() => {
-//          if (response.authenticated) {
-//            resolve(response);
-//          } else {
-//            reject(response);
-//          }
-//        }).catch((error) => {
-//          reject(error);
-//        });
-//
-//      }).catch((error) => {
-//        this.set('authenticating', false);
-//        reject(error);
-//      });
-//    });
-  }
-
-  logout() {
-    console.log('LOGOUT...');
-
-//    return new Promise((resolve, reject) => {
-//      this.ajax.post('/ygg/session/logout', {
-//        data: {},
-//        contentType: 'application/json',
-//      }).then((response) => {
-//        this.update(response).then(() => (resolve(response))).catch((error) => (reject(error)));
-//      })
-//    });
-  }
-
-  update(sessionData) {
-    let oldAuthenticated = this.isAuthenticated;
-
-    this.sessionId = sessionData.id;
-    this.capabilities = sessionData.capabilities;
-    this.authMethod = sessionData.auth_method;
-    this.isAuthenticated = sessionData.authenticated;
+    this.authenticating = true;
 
     return new Promise((resolve, reject) => {
-      if (!oldAuthenticated && sessionData.authenticated) {
-        this.personId = sessionData.auth_person.id;
-
-        this.trigger('sessionBecomesAuthenticated', arguments);
-
-        this.store.findRecord('ygg--core--person', this.personId).then((person) => {
-          this.person = person;
-          resolve();
+      fetch('/ygg/session/proxy_authenticate_by_fqda_and_password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          fqda: fqda,
+          password: password,
+          other_fqda: other_fqda,
+        }),
+      }).then((res) => {
+        this.update(res).then(() => {
+          if (res.ok) {
+            if (res.authenticated) {
+              resolve(res);
+            } else {
+              reject(res);
+            }
+          } else
+            reject(res);
         }).catch((error) => {
           reject(error);
         });
-      } else if (oldAuthenticated && !sessionData.authenticated) {
-        this.set('personId', null);
-        this.trigger('sessionBecomesNotAuthenticated', arguments);
-        resolve();
-      } else {
-        resolve();
-      }
+
+      }).catch((error) => {
+        reject(error);
+      }).finally(() => {
+        this.authenticating = false;
+      });
     });
+  }
+
+  async logout() {
+    console.log('LOGOUT...');
+
+    let res = await fetch('/ygg/session/logout', {
+      method: 'POST',
+      signal: AbortSignal.timeout(5000),
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({}),
+    });
+
+    if (res.ok) {
+      if (!res.headers.get('content-type').startsWith('application/json')) {
+        throw(new AuthenticationServerFailure);
+      }
+
+      let json = await res.json();
+
+      await this.update(json);
+    } else {
+      console.log("OOOOOOOOOOOOOOOOOO1", res.headers.get('content-type'));
+
+      if (!res.headers.get('content-type').startsWith('application/problem+json')) {
+        throw(new AuthenticationServerFailure);
+      }
+
+      let json = await res.json();
+
+      throw(new AuthenticationServerError(json));
+    }
+  }
+
+  async update(session_data) {
+    let old_authenticated = this.is_authenticated;
+
+    this.session_id = session_data.id;
+    this.capabilities = session_data.capabilities;
+    this.auth_method = session_data.auth_method;
+    this.is_authenticated = session_data.authenticated;
+
+    if (!old_authenticated && session_data.authenticated) {
+      this.person_id = session_data.auth_person.id;
+
+      this.person = await this.store.findRecord('ygg--core--person', this.person_id)
+
+      this.trigger('session_becomes_authenticated', arguments);
+
+    } else if (old_authenticated && !session_data.authenticated) {
+      this.person_id = null;
+      this.trigger('session_becomes_not_authenticated', arguments);
+    }
   }
 }

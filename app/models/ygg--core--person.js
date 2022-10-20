@@ -31,7 +31,7 @@ export default class YggCorePersonModel extends Model {
   @attr('boolean') acao_roster_allowed;
   @attr('boolean') acao_roster_chief;
 
-  @hasMany('ygg--core--person--contact') contacts;
+  @hasMany('ygg--core--person--contact', { async: true }) contacts;
 
   get full_name() {
     return this.first_name + ' ' + this.last_name;

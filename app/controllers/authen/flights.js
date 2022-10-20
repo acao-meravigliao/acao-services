@@ -8,7 +8,7 @@ export default class FlightsController extends Controller {
 
 ////  loadDataTask: task(function * (args) {
 ////    let params = {
-////      filter: { pilot1_id: this.get('session.personId') },
+////      filter: { pilot1_id: this.get('session.person_id') },
 ////      order: { 'takeoff_time': 'DESC' },
 ////    };
 ////

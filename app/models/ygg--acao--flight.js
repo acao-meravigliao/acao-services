@@ -20,16 +20,16 @@ export default class YggAcaoFlightModel extends Model {
   @attr('string') pilot1_role;
   @attr('string') pilot2_role;
 
-  @belongsTo('ygg--acao--aircraft') aircraft;
-  @belongsTo('ygg--core--person') pilot1;
-  @belongsTo('ygg--core--person') pilot2;
-  @belongsTo('ygg--acao--airfield') takeoff_airfield;
-  @belongsTo('ygg--acao--airfield') landing_airfield;
-  @belongsTo('ygg--core--location') takeoff_location;
-  @belongsTo('ygg--core--location') landing_location;
+  @belongsTo('ygg--acao--aircraft', { async: true }) aircraft;
+  @belongsTo('ygg--core--person', { async: true }) pilot1;
+  @belongsTo('ygg--core--person', { async: true }) pilot2;
+  @belongsTo('ygg--acao--airfield', { async: true }) takeoff_airfield;
+  @belongsTo('ygg--acao--airfield', { async: true }) landing_airfield;
+  @belongsTo('ygg--core--location', { async: true }) takeoff_location;
+  @belongsTo('ygg--core--location', { async: true }) landing_location;
 
-  @belongsTo('ygg--acao--flight') towed_by;
-  @belongsTo('ygg--acao--flight') towing;
+  @belongsTo('ygg--acao--flight', { async: true }) towed_by;
+  @belongsTo('ygg--acao--flight', { async: true }) towing;
 
   get duration() {
     return this.landing_time - this.takeoff_time;

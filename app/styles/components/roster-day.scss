@@ -1,0 +1,64 @@
+.roster-days {
+
+  .items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3em 0.3em;
+
+    .roster-day {
+      width: 25em;
+      min-height: 6em;
+      border: solid 1px grey;
+      border-radius: 1em;
+      position: relative;
+
+      .date-block {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 6em;
+        height: 6em;
+        z-index: -1;
+        text-transform: uppercase;
+        text-align: center;
+        border-radius: 1em;
+
+        .date {
+          margin: 0;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-weight: bold;
+        }
+
+        &.low-season {
+          background-color: #abf0ff;
+        }
+
+        &.high-season {
+          background-color: #ffd367;
+        }
+      }
+
+      .entries {
+        position: absolute;
+        left: 6em;
+        top: 0;
+        right: 0;
+        margin: 2px;
+
+        .entry {
+          font-size: 100%;
+          line-height: 100%;
+        }
+
+        .empty {
+          width: 90%;
+          background-color: lightgrey;
+          margin: 1px;
+        }
+      }
+    }
+  }
+}

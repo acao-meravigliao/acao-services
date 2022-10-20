@@ -25,7 +25,7 @@ export default class AuthenIndexController extends Controller {
 
   get myNextRosterEntriesUnsorted() {
     return this.allRosterEntries.filter((item) => (
-       item.belongsTo('person').id() == this.get('session.personId') &&
+       item.belongsTo('person').id() == this.get('session.person_id') &&
        item.belongsTo('roster_day').value().get('date') > new Date()
       )
     );

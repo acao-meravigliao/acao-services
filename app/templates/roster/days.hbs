@@ -1,46 +1,39 @@
 {{page-title "Tutti i turni di linea"}}
-<div class="ui container">
-  <div class="ui raised segment">
-    <div class="ui grid">
-      <div class="ui seven wide column">
-        {{#link-to "roster.days" (query-params year=prevYear) tagname="button" class="fluid ui button"}}
-          <i class="ui left arrow icon"></i>{{prevYear}}
-        {{/link-to}}
-      </div>
-      <div class="ui two wide column">
-        <h1 class="ui header">{{currentYear}}</h1>
-      </div>
-      <div class="ui seven wide column">
-        {{#link-to "roster.days" (query-params year=nextYear) tagname="button" class="fluid ui button"}}
-          {{nextYear}}<i class="ui right arrow icon"></i>
-        {{/link-to}}
-      </div>
+<div class="container">
+  <div class="box">
+    <button class="button"  {{on "click" this.go_prev}}>
+      <span class="icon is-large">
+        <FaIcon @icon="arrow-left-long" />
+      </span>
+      <span>
+        {{this.prev_year}}
+      </span>
+    </button>
 
-      <div class="ui sixteen wide column">
-        {{#ui-checkbox class="ui toggle" checked=showSlots onChange=(action (mut showSlots))}}
-          Mostra slot
-        {{/ui-checkbox}}
+    {{this.current_year}}
 
-        {{#ui-checkbox class="ui toggle" checked=filterComplete onChange=(action (mut filterComplete))}}
-          Solo Incompleti
-        {{/ui-checkbox}}
-      </div>
-    </div>
-
+    <button class="button" {{on "click" this.go_next}}>
+      <span class="icon is-large">
+        <FaIcon @icon="arrow-right-long" />
+      </span>
+      <span>
+        {{this.next_year}}
+      </span>
+    </button>
   </div>
-  <div class="ui raised segment">
-    {{#if model}}
-      <div class="ui cards">
-      {{#each sortedFilteredRosterDays as |day|}}
-        {{roster-day day=day showSlots=showSlots}}
+
+  <div class="box">
+    {{#if this.model}}
+      <div class="cards">
+      {{#each this.sortedFilteredRosterDays as |day|}}
+        <RosterDay @day=day @showSlots=showSlots />
       {{/each}}
       </div>
     {{else}}
-      <div class="ui blue message">
-        <h1 class="ui header">
-          Non ci sono giornate di linea nel {{currentYear}}
-        </h1>
+      <div class="notification is-info">
+        Non ci sono giornate di linea nel {{this.current_year}}
       </div>
     {{/if}}
   </div>
+
 </div>

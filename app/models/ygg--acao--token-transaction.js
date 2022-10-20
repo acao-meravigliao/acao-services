@@ -14,5 +14,5 @@ export default class YggAcaoTokenTransactionModel extends Model {
   @attr('string') old_operator;
   @attr('string') old_marche_mezzo;
 
-  @belongsTo('ygg--acao--aircraft') aircraft;
+  @belongsTo('ygg--acao--aircraft', { async: true }) aircraft;
 }

@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 import config from 'acao-services/config/environment';
 
 export default class LoginController extends Controller {
@@ -11,6 +12,7 @@ export default class LoginController extends Controller {
   @tracked username_warning = null;
   @tracked password = null;
   @tracked password_warning = null;
+  @tracked can_login = false;
   @tracked logging_in = false;
   @tracked ex = null;
 
@@ -19,13 +21,16 @@ export default class LoginController extends Controller {
 
     if (this.username.indexOf(' ') != -1)
       this.username_warning = "Username contains white spaces";
+
+    if (this.username === '')
+      this.can_login = false;
   }
 
   @action password_changed(ev) {
     this.password = ev.target.value;
   }
 
-  @action authenticate() {
+  @action authenticate(ev) {
     ev.preventDefault();
 
     this.logging_in = true;
@@ -35,7 +40,7 @@ export default class LoginController extends Controller {
     if (username.indexOf('@') == -1)
       username = username + '@cp.acao.it';
 
-    this.session.authenticate(username, password).then(() => {
+    this.session.authenticate(username, this.password).then(() => {
       if (window.PasswordCredential) {
         var c = new PasswordCredential({
           id: this.username,
@@ -48,7 +53,7 @@ export default class LoginController extends Controller {
         navigator.credentials.store(c);
       }
 
-      this.router.replaceWith(config.authenticatedRoute);
+      this.router.replaceWith(config.authenticated_route);
     }).catch((ex) => {
       this.ex = ex;
     }).finally(() => {

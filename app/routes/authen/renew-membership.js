@@ -22,11 +22,12 @@ class SelectedService extends EmberObject {
 
 export default class AuthenRenewMembershipRoute extends Route {
   @service session;
+  @service store;
 
   model(params) {
     return hash({
       context: $.getJSON('/ygg/acao/memberships/renew').then((context) => (context[params.year])),
-      memberships: this.store.query('ygg--acao--membership', { filter: { person_id: this.session.personId } }),
+      memberships: this.store.query('ygg--acao--membership', { filter: { person_id: this.session.person_id } }),
       person: this.session.person,
       service_types: this.store.findAll('ygg--acao--service-type'),
     }).then((res) => {

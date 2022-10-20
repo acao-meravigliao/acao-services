@@ -22,7 +22,7 @@ export default class RosterSelectController extends Controller {
 
   get myRosterEntries() {
     return this.get('model.allRosterEntries').filter((item) =>
-      (item.belongsTo('person').id() == this.get('session.personId') &&
+      (item.belongsTo('person').id() == this.get('session.person_id') &&
        item.get('roster_day.date').getFullYear() == this.year
       )
     );
@@ -96,7 +96,7 @@ export default class RosterSelectController extends Controller {
 
   @action addDay(dayEntry) {
     this.store.createRecord('ygg--acao--roster-entry', {
-      person: this.store.peekRecord('ygg--core--person', this.get('session.personId')),
+      person: this.store.peekRecord('ygg--core--person', this.get('session.person_id')),
       roster_day: dayEntry,
     });
   }

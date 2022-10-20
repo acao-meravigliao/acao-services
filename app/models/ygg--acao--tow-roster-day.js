@@ -8,5 +8,5 @@ export default class YggAcaoTowRosterDayModel extends Model {
   @attr('number') needed_people;
   @attr('string') descr;
 
-  @belongsTo('ygg--acao--tow-roster-entry') roster_entries;
+  @belongsTo('ygg--acao--tow-roster-entry', { async: true }) roster_entries;
 }

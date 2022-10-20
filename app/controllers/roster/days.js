@@ -3,7 +3,7 @@ import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
 export default class RosterDaysController extends Controller {
-  @service session;
+  @service router;
 
   @tracked filterComplete = false;
   @tracked showSlots = false;
@@ -15,6 +15,14 @@ export default class RosterDaysController extends Controller {
 
   get sortedFilteredRosterDays() { return this.filteredRosterDays.sortBy('rosterDaysSortOrder'); }
 
-  get prevYear() { return this.currentYear - 1; }
-  get nextYear() { return this.currentYear + 1; }
+  get prev_year() { return this.current_year - 1; }
+  get next_year() { return this.current_year + 1; }
+
+  @action go_prev() {
+    this.router.transitionTo({ queryParams: { year: this.prev_year }});
+  }
+
+  @action go_next() {
+    this.router.transitionTo({ queryParams: { year: this.next_year }});
+  }
 }

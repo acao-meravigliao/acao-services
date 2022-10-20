@@ -1,6 +1,5 @@
 import Controller from '@ember/controller';
 import { service } from '@ember/service';
-import { task } from 'ember-concurrency';
 import { assign } from '@ember/polyfills';
 
 export default class MedicalsController extends Controller {
@@ -8,7 +7,7 @@ export default class MedicalsController extends Controller {
 
 ////  loadDataTask: task(function * (args) {
 ////    let params = {
-////      filter: { pilot_id: this.get('session.personId') },
+////      filter: { pilot_id: this.get('session.person_id') },
 ////      order: { 'valid_to': 'DESC' },
 ////    };
 ////

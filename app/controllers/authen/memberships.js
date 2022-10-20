@@ -1,6 +1,5 @@
 import Controller from '@ember/controller';
 import { service } from '@ember/service';
-import { task } from 'ember-concurrency';
 import { assign } from '@ember/polyfills';
 import { tracked } from '@glimmer/tracking';
 
@@ -13,7 +12,7 @@ export default class MembershipsController extends Controller {
 
 //  loadDataTask: task(function * (args) {
 //    let params = {
-//      filter: { person_id: this.get('session.personId') },
+//      filter: { person_id: this.get('session.person_id') },
 //      order: { 'reference_year.year': 'DESC' },
 //    };
 //
