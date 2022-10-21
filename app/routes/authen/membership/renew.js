@@ -5,19 +5,15 @@ import { hash } from 'rsvp';
 import $ from 'jquery';
 import EmberObject from '@ember/object';
 import { A } from '@ember/array';
+import SelectedService from 'acao-services/utils/selected-service';
 
 class WizardState extends EmberObject {
-  @tracked currentStep = 'index';
-  @tracked enableCav = true;
-  @tracked enableEmail = true;
-  @tracked acceptRules = false;
+  @tracked current_step = 'index';
+  @tracked enable_cav = true;
+  @tracked enable_email = true;
+  @tracked accept_rules = false;
   @tracked services = A();
   @tracked roster_days = A();
-}
-
-class SelectedService extends EmberObject {
-  type;
-  extraInfo;
 }
 
 export default class AuthenRenewMembershipRoute extends Route {
@@ -33,7 +29,7 @@ export default class AuthenRenewMembershipRoute extends Route {
     }).then((res) => {
       res.services = res.context.services.map((x) => new SelectedService({
         type: this.store.peekRecord('ygg--acao--service-type', x.service_type_id),
-        extraInfo: x.extra_info,
+        extra_info: x.extra_info,
       }));
 
       return {
@@ -44,8 +40,8 @@ export default class AuthenRenewMembershipRoute extends Route {
   }
 
 //  afterModel(model, transition) {
-//    if (model.state.currentStep != transition.targetName.split('.').pop()) {
-//      this.transitionTo(this.routeName + '.' + model.state.currentStep);
+//    if (model.state.current_step != transition.targetName.split('.').pop()) {
+//      this.transitionTo(this.routeName + '.' + model.state.current_step);
 //    }
 //  }
 }

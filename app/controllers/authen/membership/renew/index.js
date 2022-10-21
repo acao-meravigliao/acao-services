@@ -3,34 +3,35 @@ import { inject as controller } from '@ember/controller';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 
-export default class AuthenRenewMembershipIndexController extends Controller {
+export default class AuthenMembershipRenewIndexController extends Controller {
   @service session;
-  @controller('authen.renew-membership') wizard;
-  @service('my-clock') clock;
+  @service router;
+  @controller('authen.membership.renew') wizard;
+  @service clock;
 
   get context() { return this.wizard.context; }
   get state() { return this.wizard.state; }
 
-  get renewIsOpen() { return this.wizard.renewIsOpen; }
+  get renew_is_open() { return this.wizard.renew_is_open; }
 
-  get paymentIsPending() {
+  get payment_is_pending() {
     return this.context.membership.status == 'WAITING_PAYMENT' &&
            this.context.membership.payment_id;
   }
 
-  get myEmails() {
+  get my_emails() {
     return this.context.person.contacts.filterBy('type', 'email');
   }
 
-  get myFixedPhones() {
+  get my_fixed_phones() {
     return this.context.person.contacts.filterBy('type', 'phone');
   }
 
-  get myMobiles() {
+  get my_mobiles() {
     return this.context.person.contacts.filterBy('type', 'mobile');
   }
 
-  @action commit() {
-    this.transitionToRoute('authen.renew-membership.data');
+  @action submit() {
+    this.router.transitionTo('authen.membership.renew.data');
   }
 }

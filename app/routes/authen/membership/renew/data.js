@@ -11,8 +11,8 @@ export default class AuthenRenewMembershipDataRoute extends Route {
   setupController(controller, model) {
     super.setupController(...arguments);
 
-console.log("EEDDDDDDDDDDDEEEEEEEEEE", this.modelFor('authen.renew-membership'));
+console.log("EEDDDDDDDDDDDEEEEEEEEEE", this.modelFor('authen.membership.renew'));
 
-    controller.services = this.modelFor('authen.renew-membership').state.services;
+    controller.services = this.modelFor('authen.membership.renew').state.services;
   }
 }

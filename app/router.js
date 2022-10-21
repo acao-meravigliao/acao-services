@@ -13,16 +13,17 @@ Router.map(function() {
       this.route('checkout');
     });
 
-    this.route('renew-membership', { path: '/renew-membership/:year' }, function() {
-      this.route('data');
-      this.route('roster');
-      this.route('summary');
-    });
-
     this.route('people');
     this.route('person', { path: '/person/:id' });
 
     this.route('memberships');
+    this.route('membership', function() {
+      this.route('renew', { path: '/renew/:year' }, function() {
+        this.route('data');
+        this.route('roster');
+        this.route('summary');
+      });
+    });
 
     this.route('licenses');
     this.route('medicals');

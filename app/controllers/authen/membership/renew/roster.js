@@ -5,25 +5,26 @@ import { A } from '@ember/array';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
-export default class AuthenRenewMembershipRosterController extends Controller {
+export default class AuthenMembershipRenewRosterController extends Controller {
   @service session;
-  @controller('authen.renew-membership') wizard;
+  @service router;
+  @controller('authen.membership.renew') wizard;
 
   get context() { return this.wizard.context; }
   get state() { return this.wizard.state; }
 
 
-  @action commit() {
+  @action submit() {
     var me = this;
 
 //    this.state.services = this.services.filter((x) => (x.type));
 //
-//console.log("COMMMMMMMMMMMMMMMMMM", this.getProperties( 'enableCav', 'enableEmail', 'acceptRules', 'paymentMethod'));
+//console.log("COMMMMMMMMMMMMMMMMMM", this.getProperties( 'enable_cav', 'enable_email', 'accept_rules', 'payment_method'));
 //
 //    this.state.setProperties(this.getProperties(
-//      'enableCav', 'enableEmail', 'acceptRules', 'paymentMethod',
+//      'enable_cav', 'enable_email', 'accept_rules', 'payment_method',
 //    ));
 
-    this.transitionToRoute('authen.renew-membership.summary');
+    this.router.transitionTo('authen.membership.renew.summary');
   }
 }

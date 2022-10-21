@@ -8,12 +8,12 @@
   <ul class="menu-list">
     {{#if @currentRenewIsOpenAndNeeded}}
       <li>
-        <LinkTo @route="authen.renew-membership" @model={{@currentYear.year}}>{{t "menu.renew_membership"}} {{@currentYear.year}}</LinkTo>
+        <LinkTo @route="authen.membership.renew" @model={{@currentYear.year}}>{{t "menu.renew_membership"}} {{@currentYear.year}}</LinkTo>
       </li>
     {{/if}}
     {{#if @nextRenewIsOpenAndNeeded}}
       <li>
-        <LinkTo @route="authen.renew-membership" @model={{@nextYear.year}}>{{t "menu.renew_membership"}} {{@nextYear.year}}</LinkTo>
+        <LinkTo @route="authen.membership.renew" @model={{@nextYear.year}}>{{t "menu.renew_membership"}} {{@nextYear.year}}</LinkTo>
       </li>
     {{/if}}
     <li>
@@ -28,8 +28,8 @@
     <li>
       <LinkTo @route="authen.payments" class="item teal">
         {{t "menu.payments"}}
-        {{#if @pendingPayments}}
-          <div class="ui red label">{{@pendingPayments.length}}</div>
+        {{#if @pending_payments}}
+          <div class="ui red label">{{@pending_payments.length}}</div>
         {{/if}}
       </LinkTo>
     </li>

@@ -36,6 +36,6 @@ export default class ClockService extends Service {
   }
 
   update() {
-    run(() => { this.time = Date.now() });
+    run(() => { this.time = new Date() });
   }
 }

@@ -10,6 +10,6 @@ export default class AuthenRenewMembershipSummaryRoute extends Route {
 
 //  setupController(controller, model) {
 //    super.setupController(...arguments);
-//    controller.setProperties(this.modelFor('authen.renew-membership').state);
+//    controller.setProperties(this.modelFor('authen.membership.renew').state);
 //  }
 }

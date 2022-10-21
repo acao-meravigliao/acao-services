@@ -1,0 +1,131 @@
+{{page-title "Dati"}}
+<table class="renew-services table is-fullwidth">
+  <thead>
+    <tr>
+      <th class="is-narrow"></th>
+      <th>Elemento</th>
+      <th>Costo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td></td>
+      <td>{{this.this.ass_service.name}}</td>
+      <td class="price">{{format-number this.this.ass_service.price 2 "€"}}</td>
+    </tr>
+    {{#if this.context.cav_type}}
+    <tr>
+      <td class="collapsing">
+        <input type="checkbox" id="enable_cav_cb" class="checkbox" checked={{this.enable_cav}} {{on "change" this.enable_cav_set}} />
+
+      </td>
+      <td>
+        <label for="enable_cav_cb" class="label">
+         {{this.this.cav_service.name}}
+        </label>
+      </td>
+      <td class="price">{{format-number this.this.cav_service.price 2 "€"}}</td>
+    </tr>
+    {{/if}}
+
+    {{#each this.services key="@index" as |service index|}}
+    <tr>
+      <td>
+        <button class="button" {{on "click" (fn this.service_del index)}}>
+          <span class="icon is-small"><FaIcon @icon="trash" /></span>
+        </button>
+      </td>
+      <td style="overflow:visible;">
+        <PowerSelect @options={{this.service_types_opts}} @selected={{service.type}} @onChange={{fn this.service_set service}} as |el|>
+          {{el.name}}
+        </PowerSelect>
+
+        {{#if service.type.extra_info}}
+          <div class="control">
+            <label>
+              {{service.type.extra_info}}
+              <input type="text" class="input" />
+            </label>
+          </div>
+        {{/if}}
+        {{#if service.type.notes}}
+          <div class="notification is-warning is-light">
+            {{service.type.notes}}
+          </div>
+        {{/if}}
+      </td>
+      <td class="price">{{format-number service.type.price 2 "€"}}</td>
+    </tr>
+    {{/each}}
+
+    <tr>
+      <td colspan="3">
+        <button class="button is-info" {{on "click" this.service_add}}>
+          <span class="icon">
+            <FaIcon @icon="plus" />
+          </span>
+          <strong>Posto carrello, ecc</strong>
+        </button>
+      </td>
+    </tr>
+
+  </tbody>
+  <tfoot>
+    <tr>
+      <th colspan="2">Totale</th>
+      <td class="total price">{{format-number this.total 2 "€"}}</td>
+    </tr>
+  </tfoot>
+</table>
+
+<div class="box">
+  <label>
+    <input class="ui fitted" type="checkbox" checked={{this.enable_email}} {{on 'change' this.enable_email_set}} />
+    Autorizzo l'invio per e-mail delle comunicazioni, convocazioni di assemblee e ogni altra disposizione obbligatoria.
+    (DPR 15 marzo 1997&nbsp; n. 59 art 15 secondo comma, D.P.R. 28 dicembre 2000 n.445 art. 14 comma terzo, D.P.R. 13 febbraio 2001 n. 123 art. 8,
+    Direttiva 2000/31/CE 8 giugno 2000 art. 11, comma 1)
+  </label>
+</div>
+
+<div class="box">
+  <label>
+    <input class="ui fitted" type="checkbox" checked={{this.accept_rules}} {{on 'change' this.accept_rules_set}} />
+    Dichiaro  di aver preso visione del <a href="/regolamento.pdf">Regolamento</a> dell'Aeroclub
+    e di accettarlo in modo totale e incondizionato.
+  </label>
+</div>
+
+<div class="box">
+  <p>
+    Metodo di pagamento:
+  </p>
+  <div class="buttons">
+    <button class="button {{if (eq this.payment_method "WIRE") "is-info"}}"
+            {{on 'click' (fn this.payment_method_set "WIRE")}}>
+      <span class="icon"><FaIcon @icon="university" /></span>
+      <span>Bonifico Bancario</span>
+    </button>
+
+    <button class="button {{if (eq this.payment_method "CHECK") "is-info"}}"
+             {{on 'click' (fn this.payment_method_set "CHECK")}}>
+      <span class="icon"><FaIcon @icon="tag" /></span>
+      <span>Assegno</span>
+    </button>
+
+    <button class="button {{if (eq this.payment_method "CARD") "is-info"}}"
+            {{on 'click' (fn this.payment_method_set "CARD")}}>
+      <span class="icon"><FaIcon @icon="credit-card" /></span>
+      <span>Carte (in segreteria)</span>
+    </button>
+  </div>
+</div>
+
+{{#if this.submit_disabled}}
+  <div class="notification is-danger">
+    Acetta il regolamento aeroportuale e scegli il metodo di pagamento.
+  </div>
+{{else}}
+  <button class="button is-primary is-large is-fullwidth" disabled={{this.submit_disabled}} {{on "click" this.submit}}>
+    Avanti...
+  </button>
+{{/if}}

@@ -2,7 +2,6 @@ import Service from '@ember/service';
 import config from '../config/environment';
 import Evented from '@ember/object/evented';
 import { service } from '@ember/service';
-import { assign } from '@ember/polyfills';
 import { cancel, later } from '@ember/runloop';
 import { Promise, defer as rsvpDefer } from 'rsvp';
 import $ from 'jquery';
@@ -617,7 +616,7 @@ console.log("GET_SINGLE", modelName, id, params);
 
     let req = {
       method: 'get',
-      params: assign({
+      params: Object.assign({
         model: modelName,
         id: id,
         bind: bind,
@@ -686,7 +685,7 @@ console.log("CREATE_AND_BIND", modelName, data, params);
 
     let req = {
       method: 'create',
-      params: assign({
+      params: Object.assign({
         model: modelName,
         object: data,
         bind: true,
@@ -719,7 +718,7 @@ console.log("UPDATE", modelName, data, params);
 
     let req = {
       method: 'update',
-      params: assign({
+      params: Object.assign({
         model: modelName,
         object: data,
         content_type: 'application/vnd.api+json',
@@ -750,7 +749,7 @@ console.log("DESTROY", modelName, id);
 
     let req = {
       method: 'destroy',
-      params: assign({
+      params: Object.assign({
         model: modelName,
         id: id,
       }),
@@ -848,7 +847,7 @@ console.log("SUBSCRIBE", arguments);
 
     me.requests[req.id] = req;
 
-    me.transmit(assign({
+    me.transmit(Object.assign({
       type: req.method,
       request_id: req.id,
     }, req.params));

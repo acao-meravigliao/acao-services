@@ -1,14 +1,24 @@
 {{page-title (t "authen.page_title")}}
 
-<div class="container page">
+<div class="container page authen-index">
   <h1 class="subtitle">Ciao {{this.session.person.first_name}}!</h1>
 
-  {{#if this.nextRenewIsGoingToOpen}}
-    <div class="message">
-      <h1 class="ui header">
-        L'iscrizione per l'anno {{this.nextYear.year}} non è ancora aperta,
-        aprirà {{format-date-from-now this.nextYear.renew_opening_time}}
-      </h1>
+Next Year: <RawModelViewer @model={{this.ms.next_year}} /><br />
+REN:  {{this.ms.next_renew_is_going_to_open}}<br />
+REN2:  {{this.ms.next_renew_is_open}}<br />
+Clock: {{this.ms.clock.time}}<br />
+
+  {{#if this.ms.next_renew_is_going_to_open}}
+    <div class="notification is-warning">
+      L'iscrizione per l'anno {{this.ms.next_year.year}} non è ancora aperta,
+      aprirà tra {{format-date-from-now this.ms.next_year.renew_opening_time}}
+    </div>
+  {{/if}}
+
+  {{#if this.ms.next_renew_is_open}}
+    <div class="notification is-success">
+      L'iscrizione per l'anno {{this.ms.next_year.year}} è aperta,
+      <button class="button is-info" {{on "click" this.start_membership_renewal}}>Inizia</button>
     </div>
   {{/if}}
 
@@ -38,7 +48,7 @@
         </div>
 
 
-<!--        {{#if this.model.memberships}}
+{{!--        {{#if this.model.memberships}}
           Socio nel:
           <div class="ui celled horizontal list">
             {{#each model.memberships key="id" as |membership|}}
@@ -46,13 +56,13 @@
             {{/each}}
           </div>
         {{/if}}
--->
+--}}
 
-        {{#if this.myNextRosterEntries}}
+        {{#if this.my_next_roster_entries}}
           <div class="ui segment">
             Prossimi turni di linea:
-            {{#each this.myNextRosterEntries as |re|}}
-              {{roster-entry entry=re}}
+            {{#each this.my_next_roster_entries as |re|}}
+              <RosterEntry @entry={{re}} />
             {{/each}}
           </div>
         {{/if}}
@@ -77,8 +87,6 @@
         {{/if}}
 -->
       </div>
-    </div>
-    <div class="column">
     </div>
   </div>
 

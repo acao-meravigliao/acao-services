@@ -1,0 +1,41 @@
+{{page-title "Inizio"}}
+
+<div class="container">
+  <h1 class="title">Ciao {{this.session.person.first_name}},</h1>
+
+  {{#if this.context.membership}}
+    <h1 class="ui header">
+      Risulti già iscritto per l'anno {{this.context.year}}<i class="huge thumbs outline up icon"></i>
+    </h1>
+
+    {{#if this.payment_is_pending}}
+      <LinkTo @target="authen.payment" @model={{this.context.membership.payment_id}} class="button is-huge">
+        Il pagamento è pendente
+      </LinkTo>
+    {{/if}}
+
+  {{else if this.context.blocked}}
+    <div class="notification is-error">
+      L'iscrizione per l'anno {{this.context.year}} è bloccata. Gentilmente rivolgiti in segreteria.
+    </div>
+  {{else}}
+    <p>
+      Con questa procedura potrai rinnovare la tua iscrizione per l'anno {{this.context.year}}.
+    </p>
+
+    <p>
+      Assicurati che i tuoi dati siano corretti:
+    </p>
+    <p>
+      Nome: <strong>{{this.session.person.first_name}} {{this.session.person.last_name}}</strong><br />
+      Data di nascita: <strong>{{format-date this.session.person.birth_date "DD-MM-YYYY"}}</strong><br />
+      Email: <strong>{{#each this.my_emails as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
+      Telefono fisso: <strong>{{#each this.my_fixed_phones as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
+      Cellulare: <strong>{{#each this.my_mobiles as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
+    </p>
+
+    <button class="button is-primary is-large is-fullwidth" disabled={{this.form_invalid}} {{on "click" this.submit}}>
+      Procedi...
+    </button>
+  {{/if}}
+</div>

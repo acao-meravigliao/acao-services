@@ -10,6 +10,7 @@ export default class AuthenRoute extends VosRoute {
   @service store;
   //@service vos;
   @service router;
+  @service ms;
 
   constructor() {
     super(...arguments);
@@ -43,14 +44,25 @@ export default class AuthenRoute extends VosRoute {
 
     return hash({
       years: this.store.findAll('ygg--acao--year'),
-      storeMemberships: this.store.peekAll('ygg--acao--membership'),
+      store_memberships: this.store.peekAll('ygg--acao--membership'),
       memberships: this.store.query('ygg--acao--membership', { filter: { person_id: this.session.person_id } }),
       payments: this.store.query('ygg--acao--payment', { filter: { person_id: this.session.person_id } }),
-      rosterStatus: $.getJSON('/ygg/acao/roster_entries/status'),
+      roster_status: $.getJSON('/ygg/acao/roster_entries/status'),
     });
   }
 
-  @action refreshModel() {
+  setupController(controller, model) {
+    console.log("AUTHEN CONTROLLER SETUP: ", arguments);
+
+    super.setupController(...arguments);
+
+    this.ms.update({
+      store_membership: model.store_memberships,
+      years: model.years,
+    });
+  }
+
+  @action refresh_model() {
     this.refresh();
   }
 }

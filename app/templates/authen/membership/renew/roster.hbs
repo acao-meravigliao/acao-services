@@ -1,6 +1,6 @@
 {{page-title "Selezione turni di linea"}}
 
-<div class="ui container">
+<div class=" container">
 
 <RosterSelector
   @person={{this.context.person}}
@@ -12,7 +12,7 @@
   @store={{this.store}}
 />
 
-<br />
-<br />
-<button class="huge ui fluid primary button" disabled={{this.commit_disabled}} {{action "commit"}}>Avanti...</button>
+  <button class="button is-primary is-large is-fullwidth" disabled={{this.submit_disabled}} {{on "click" this.submit}}>
+    Avanti...
+  </button>
 </div>

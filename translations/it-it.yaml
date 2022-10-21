@@ -29,6 +29,13 @@ authen:
     today:
       page_title: Turni di oggi
 
+  memberships:
+    page_title: Iscrizioni
+  membership:
+    page_title: Iscrizione
+    renew:
+      page_title: Rinnovo iscrizione
+
 invoices:
   page_title: Ricevute
 
