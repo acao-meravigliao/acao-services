@@ -1,28 +1,8 @@
 import Controller from '@ember/controller';
-import { computed } from '@ember/object';
-import { service } from '@ember/service';
-import { assign } from '@ember/polyfills';
+//import { service } from '@ember/service';
 
 export default class TokenTransactionController extends Controller {
-  @service session;
-
-////  loadDataTask: task(function * (args) {
-////    let params = {
-////      filter: { person_id: this.get('session.person_id') },
-////      order: { 'recorded_at': 'DESC' },
-////    };
-////
-////    if (args.paginationData) {
-////      assign(params, {
-////        offset: args.paginationData.pageStart - 1,
-////        limit: args.paginationData.pageSize,
-////      });
-////    }
-////
-////    let result = yield this.store.query('ygg--acao--token-transaction', params);
-////
-////    this.set('totalRows', result.get('meta.total_count'));
-////
-////    return result;
-////  }),
+  get sorted_models() {
+    return this.model.sortBy('recorded_at').reverse();
+  }
 }

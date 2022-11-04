@@ -8,23 +8,34 @@ import { tracked } from '@glimmer/tracking';
 export default class AuthenMembershipRenewRosterController extends Controller {
   @service session;
   @service router;
-  @controller('authen.membership.renew') wizard;
+  @controller('authen.membership.renew') wizard_controller;
 
-  get context() { return this.wizard.context; }
-  get state() { return this.wizard.state; }
+  @tracked selection;
+  @tracked selection_valid;
 
+  get wizard() { return this.wizard_controller.wizard; }
+
+  @action selection_changed(selection) {
+    this.selection = selection;
+  }
+
+  @action selection_validity_changed(valid) {
+    this.selection_valid = valid;
+  }
+
+  get submit_enabled() {
+    return this.selection_valid;
+  }
 
   @action submit() {
-    var me = this;
+    this.wizard.selected_roster_days = this.selection;
 
-//    this.state.services = this.services.filter((x) => (x.type));
-//
-//console.log("COMMMMMMMMMMMMMMMMMM", this.getProperties( 'enable_cav', 'enable_email', 'accept_rules', 'payment_method'));
-//
-//    this.state.setProperties(this.getProperties(
-//      'enable_cav', 'enable_email', 'accept_rules', 'payment_method',
-//    ));
-
+    this.wizard.current_step = 'summary';
     this.router.transitionTo('authen.membership.renew.summary');
+  }
+
+ @action back() {
+    this.wizard.current_step = 'data';
+    this.router.transitionTo('authen.membership.renew.data');
   }
 }

@@ -3,24 +3,24 @@
 <div class="container">
   <h1 class="title">Ciao {{this.session.person.first_name}},</h1>
 
-  {{#if this.context.membership}}
+  {{#if this.wizard.membership}}
     <h1 class="ui header">
-      Risulti già iscritto per l'anno {{this.context.year}}<i class="huge thumbs outline up icon"></i>
+      Risulti già iscritto per l'anno {{this.wizard.year}}<i class="huge thumbs outline up icon"></i>
     </h1>
 
     {{#if this.payment_is_pending}}
-      <LinkTo @target="authen.payment" @model={{this.context.membership.payment_id}} class="button is-huge">
+      <LinkTo @target="authen.payment" @model={{this.wizard.membership.payment_id}} class="button is-huge">
         Il pagamento è pendente
       </LinkTo>
     {{/if}}
 
-  {{else if this.context.blocked}}
+  {{else if this.wizard.blocked}}
     <div class="notification is-error">
-      L'iscrizione per l'anno {{this.context.year}} è bloccata. Gentilmente rivolgiti in segreteria.
+      L'iscrizione per l'anno {{this.wizard.year}} è bloccata. Gentilmente rivolgiti in segreteria.
     </div>
   {{else}}
     <p>
-      Con questa procedura potrai rinnovare la tua iscrizione per l'anno {{this.context.year}}.
+      Con questa procedura potrai rinnovare la tua iscrizione per l'anno {{this.wizard.year}}.
     </p>
 
     <p>
@@ -34,8 +34,10 @@
       Cellulare: <strong>{{#each this.my_mobiles as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
     </p>
 
-    <button class="button is-primary is-large is-fullwidth" disabled={{this.form_invalid}} {{on "click" this.submit}}>
-      Procedi...
-    </button>
+    <div class="buttons is-centered">
+      <button class="button is-primary is-large" disabled={{this.form_invalid}} {{on "click" this.submit}}>
+        Procedi...
+      </button>
+    </div>
   {{/if}}
 </div>

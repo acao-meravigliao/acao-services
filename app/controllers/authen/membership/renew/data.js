@@ -10,7 +10,7 @@ import $ from 'jquery';
 export default class AuthenMembershipRenewDataController extends Controller {
   @service session;
   @service router;
-  @controller('authen.membership.renew') wizard;
+  @controller('authen.membership.renew') wizard_controller;
 
   @tracked enable_cav = true;
   @tracked enable_email = true;
@@ -19,8 +19,10 @@ export default class AuthenMembershipRenewDataController extends Controller {
 
   @tracked services = A();
 
+  get wizard() { return this.wizard_controller.wizard; }
+
   get service_types_opts() {
-    return this.context.service_types.sortBy('name').
+    return this.wizard.service_types.sortBy('name').
              filter((x) => (x.available_for_membership_renewal)).
              map((x) => ({ service_type: x, name: x.name }));
   }
@@ -29,16 +31,16 @@ export default class AuthenMembershipRenewDataController extends Controller {
     service.type = sel.service_type;
   }
 
-
-  get context() { return this.wizard.context; }
-  get state() { return this.wizard.state; }
+  @action service_set_extra_info(service, el) {
+    service.extra_info = el.target.value;
+  }
 
   get ass_service() {
-    return this.context.service_types.findBy('symbol', this.context.ass_type);
+    return this.wizard.service_types.findBy('symbol', this.wizard.ass_type);
   }
 
   get cav_service() {
-    return this.enable_cav ? this.context.service_types.findBy('symbol', this.context.cav_type) : null;
+    return this.enable_cav ? this.wizard.service_types.findBy('symbol', this.wizard.cav_type) : null;
   }
 
   @action enable_cav_set(ev) {
@@ -89,22 +91,25 @@ export default class AuthenMembershipRenewDataController extends Controller {
   }
 
   @action payment_method_set(value) {
-console.log(value);
     this.payment_method = value;
   }
 
 
   @action submit() {
-    var me = this;
-
-    this.state.services = this.services.filter((x) => (x.type));
+    this.wizard.services = this.services.filter((x) => (x.type));
 
 console.log("PROCEED", this.getProperties( 'enable_cav', 'enable_email', 'accept_rules', 'payment_method'));
 
-    this.state.setProperties(this.getProperties(
+    this.wizard.setProperties(this.getProperties(
       'enable_cav', 'enable_email', 'accept_rules', 'payment_method',
     ));
 
+    this.wizard.current_step = 'roster';
     this.router.transitionTo('authen.membership.renew.roster');
+  }
+
+  @action back() {
+    this.wizard.current_step = 'index';
+    this.router.transitionTo('authen.membership.renew.index');
   }
 }

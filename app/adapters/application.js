@@ -13,11 +13,13 @@ export default DS.Adapter.extend({
 //  },
 
   findRecord(store, type, id, snapshotRecordArray) {
-    return this.vos.getSingle(type.modelName, id, snapshotRecordArray.adapterOptions);
+    return this.vos.getSingle(type.modelName, id, snapshotRecordArray.adapterOptions).
+             catch((e) => { throw(e.exception); });
   },
 
   findMany(store, type, ids, snapshotRecordArray) {
-    return this.vos.getMany(type.modelName, ids, snapshotRecordArray.adapterOptions);
+    return this.vos.getMany(type.modelName, ids, snapshotRecordArray.adapterOptions).
+             catch((e) => { throw(e.exception); });
   },
 
   querySignature(modelName, query) {
@@ -45,7 +47,7 @@ export default DS.Adapter.extend({
     }).then((res) => {
       this.selections[sig] = { id: res.selection_id, complete: true };
       return res.objects;
-    });
+    }).catch((e) => { throw(e.exception); });
   },
 
   query(store, type, query, snapshotRecordArray, options) {
@@ -67,7 +69,7 @@ export default DS.Adapter.extend({
     }).then((res) => {
       this.selections[sig] = { id: res.selection_id, complete: res.objects.data.length == res.objects.meta.total_count };
       return res.objects;
-    });
+    }).catch((e) => { throw(e.exception); });
   },
 
   shouldReloadQuery(modelName, query) {
@@ -95,7 +97,7 @@ console.log("SHOULD RELOAD QUERY", this.selections);
           data: null,
         };
       }
-    });
+    }).catch((e) => { throw(e.exception); });
   },
 
   createRecord(store, type, snapshot) {
@@ -107,7 +109,7 @@ console.log("SHOULD RELOAD QUERY", this.selections);
 
     serializer.serializeIntoHash(data, type, snapshot, { includeId: true });
 
-    return this.vos.create(type.modelName, data, params);
+    return this.vos.create(type.modelName, data, params).catch((e) => { throw(e.exception); });
   },
 
   updateRecord(store, type, snapshot) {
@@ -121,12 +123,12 @@ console.log("SHOULD RELOAD QUERY", this.selections);
 
 console.log("================= UPDATE_RECORD", data);
 
-    return this.vos.update(type.modelName, data, params);
+    return this.vos.update(type.modelName, data, params).catch((e) => { throw(e.exception); });
   },
 
   deleteRecord(store, type, snapshot) {
 console.log("================= DELETE_RECORD", snapshot.id);
-    return this.vos.destroy(type.modelName, snapshot.id);
+    return this.vos.destroy(type.modelName, snapshot.id).catch((e) => { throw(e.exception); });
   },
 
   init() {

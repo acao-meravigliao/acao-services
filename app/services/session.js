@@ -25,15 +25,24 @@ export default class SessionService extends Service.extend(Evented) {
   @tracked is_loaded = false;
 
   async load() {
-    let res = await fetch('/ygg/session/check_or_create', {
-      method: 'POST',
-      signal: AbortSignal.timeout(5000),
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify({}),
-    });
+    let res;
+
+    try {
+      res = await fetch('/ygg/session/check_or_create', {
+        method: 'POST',
+        signal: AbortSignal.timeout(5000),
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({}),
+      });
+    } catch(e) {
+      if (e instanceof Error && e.name == 'AbortError') {
+        throw(new SessionLoadTimeout);
+      } else
+        throw(e);
+    }
 
     if (res.ok) {
       if (!res.headers.get('content-type').startsWith('application/json')) {
@@ -57,31 +66,10 @@ export default class SessionService extends Service.extend(Evented) {
 
       throw(new AuthenticationServerError(json));
     }
-
-
-//
-//
-//      }).then((res) => {
-//        if (res.ok) {
-//          this.is_loaded = true;
-//          this.update(res).
-//            then(() => (resolve(res))).
-//            catch((error) => reject(new RemoteException(error)));
-//        } else {
-//        }
-//      }).catch((error) => {
-//        if (error.name === "AbortError")
-//          reject(new SessionLoadTimeout);
-//        else
-//          reject(error);
-//      });
-//    });
   }
 
   async authenticate(fqda, password) {
     this.authenticating = true;
-
-console.log("YTTTTTTTTTYYYYYYYYYYYYYYYYYYY", fqda);
 
     let res = await fetch('/ygg/session/authenticate_by_fqda_and_password', {
       method: 'POST',
@@ -112,8 +100,6 @@ console.log("YTTTTTTTTTYYYYYYYYYYYYYYYYYYY", fqda);
       }
 
     } else {
-      console.log("OOOOOOOOOOOOOOOOOO1", res.headers.get('content-type'));
-
       if (!res.headers.get('content-type').startsWith('application/problem+json')) {
         throw(new AuthenticationServerFailure);
       }
@@ -122,41 +108,6 @@ console.log("YTTTTTTTTTYYYYYYYYYYYYYYYYYYY", fqda);
 
       throw(new AuthenticationServerError(json));
     }
-
-console.log("PORTOCIOOOD", res);
-
-//
-//
-//      }).then((res) => {
-//        if (res.ok) {
-//          return res.json();
-//        } else {
-//          
-//        }
-//      }).then((res) => {
-//        if (res.ok) {
-//          this.update(res).then(() => {
-//console.log("REEEEEEEEEEEEEEEES=", res);
-//            if (res.authenticated) {
-//              resolve(res);
-//            } else {
-//              reject(new WrongCredentials);
-//            }
-//          }).catch((error) => {
-//            reject(error);
-//          });
-//        } else {
-//          reject(new AuthenticationServerError(res));
-//        }
-//      }).catch((error) => {
-//        if (error.name === "AbortError")
-//          reject(new SessionLoadTimeout);
-//        else
-//          reject(error);
-//      }).finally(() => {
-//        this.authenticating = false;
-//      });
-//    });
   }
 
   proxyAuthenticate(fqda, password, other_fqda) {
@@ -218,8 +169,6 @@ console.log("PORTOCIOOOD", res);
 
       await this.update(json);
     } else {
-      console.log("OOOOOOOOOOOOOOOOOO1", res.headers.get('content-type'));
-
       if (!res.headers.get('content-type').startsWith('application/problem+json')) {
         throw(new AuthenticationServerFailure);
       }

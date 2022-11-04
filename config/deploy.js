@@ -35,22 +35,22 @@ module.exports = function(deployTarget) {
     }
   break;
 
-  case 'production':
+  case 'staging2':
     ENV.build.environment = 'production';
 
     ENV['rsync-assets'] = {
-      destination: 'yggdra@fe.acao.it:/opt/acao-services/',
+      destination: 'yggdra@fe.acao.it:/opt/acao-services-staging/',
       source: 'dist/',
       excludeIndexHTML: false,
       ssh: true,
     }
   break;
 
-  case 'production2':
+  case 'production':
     ENV.build.environment = 'production';
 
     ENV['rsync-assets'] = {
-      destination: 'yggdra@fe.acao.it:/opt/acao-services-staging/',
+      destination: 'yggdra@fe.acao.it:/opt/acao-services/',
       source: 'dist/',
       excludeIndexHTML: false,
       ssh: true,

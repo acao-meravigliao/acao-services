@@ -6,32 +6,32 @@ import { action } from '@ember/object';
 export default class AuthenMembershipRenewIndexController extends Controller {
   @service session;
   @service router;
-  @controller('authen.membership.renew') wizard;
+  @controller('authen.membership.renew') wizard_controller;
   @service clock;
 
-  get context() { return this.wizard.context; }
-  get state() { return this.wizard.state; }
+  get wizard() { return this.wizard_controller.wizard; }
 
   get renew_is_open() { return this.wizard.renew_is_open; }
 
   get payment_is_pending() {
-    return this.context.membership.status == 'WAITING_PAYMENT' &&
-           this.context.membership.payment_id;
+    return this.wizard.membership.status == 'WAITING_PAYMENT' &&
+           this.wizard.membership.payment_id;
   }
 
   get my_emails() {
-    return this.context.person.contacts.filterBy('type', 'email');
+    return this.wizard.person.contacts.filterBy('type', 'email');
   }
 
   get my_fixed_phones() {
-    return this.context.person.contacts.filterBy('type', 'phone');
+    return this.wizard.person.contacts.filterBy('type', 'phone');
   }
 
   get my_mobiles() {
-    return this.context.person.contacts.filterBy('type', 'mobile');
+    return this.wizard.person.contacts.filterBy('type', 'mobile');
   }
 
   @action submit() {
+    this.wizard.current_step = 'data';
     this.router.transitionTo('authen.membership.renew.data');
   }
 }

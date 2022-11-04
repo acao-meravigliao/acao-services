@@ -19,6 +19,22 @@ class WizardState extends EmberObject {
 export default class AuthenRenewMembershipRoute extends Route {
   @service session;
   @service store;
+  @service router;
+
+  constructor() {
+    super(...arguments);
+
+    this.wizard = new WizardState;
+  }
+
+  beforeModel(transition) {
+    super.beforeModel(arguments);
+
+console.log("BEEEFOREEEEEEEEEEEEEEEEEEE", transition,transition.to, this.wizard.current_step);
+
+    if (transition.to.localName != this.wizard.current_step)
+      this.router.transitionTo('authen.membership.renew.' + this.wizard.current_step);
+  }
 
   model(params) {
     return hash({
@@ -27,21 +43,20 @@ export default class AuthenRenewMembershipRoute extends Route {
       person: this.session.person,
       service_types: this.store.findAll('ygg--acao--service-type'),
     }).then((res) => {
-      res.services = res.context.services.map((x) => new SelectedService({
+      Object.assign(this.wizard, res.context);
+
+      this.wizard.memberships = res.memberships;
+      this.wizard.person = res.person;
+      this.wizard.service_types = res.service_types;
+
+      this.wizard.services = res.context.services.map((x) => new SelectedService({
         type: this.store.peekRecord('ygg--acao--service-type', x.service_type_id),
         extra_info: x.extra_info,
       }));
 
-      return {
-        state: new WizardState,
-        context: Object.assign(res, res.context),
-      };
+console.log("AAAAUUUUUUUUUUUUUUUUUUTHEN WIZARD INITIALIZED AS=", this.wizard);
+
+      return this.wizard;
     });
   }
-
-//  afterModel(model, transition) {
-//    if (model.state.current_step != transition.targetName.split('.').pop()) {
-//      this.transitionTo(this.routeName + '.' + model.state.current_step);
-//    }
-//  }
 }

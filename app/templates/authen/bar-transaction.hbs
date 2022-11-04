@@ -1,12 +1,10 @@
 {{page-title "Movimento Bar"}}
-<div class="ui container">
-  <div class="ui segment">
-    <h1>Movimento bar</h1>
-    ID: {{model.uuid}}<br />
-    Registrato il: {{format-date model.recorded_at "DD-MM-YYYY HH:mm:ss"}}<br />
-    Numero: {{model.cnt}}<br />
-    Descrizione: {{model.descr}}<br />
-    Ammontare: {{numeral-format model.amount format="0.00"}} {{model.unit}}<br />
-    Credito: {{numeral-format model.prev_credit format="0.00"}} → {{numeral-format model.credit format="0.00"}} {{model.unit}}
-  </div>
+<div class="container">
+  <h1 class="title">Movimento bar</h1>
+  ID: {{this.model.id}}<br />
+  Registrato il: {{format-date this.model.recorded_at "DD-MM-YYYY HH:mm:ss"}}<br />
+  Numero: {{this.model.cnt}}<br />
+  Descrizione: {{this.model.descr}}<br />
+  Ammontare: {{format-number this.model.amount 2 this.model.unit}}<br />
+  Credito: {{format-number this.model.prev_credit 2 this.model.unit}} → {{format-number this.model.credit 2 this.model.unit}}
 </div>

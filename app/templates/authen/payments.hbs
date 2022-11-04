@@ -13,7 +13,7 @@
     </thead>
 
     <tbody>
-      {{#each this.model key="id" as |data|}}
+      {{#each this.sorted_models key="id" as |data|}}
 
       <tr {{on 'click' (transition-to "authen.payment" data.id)}}>
         <td>

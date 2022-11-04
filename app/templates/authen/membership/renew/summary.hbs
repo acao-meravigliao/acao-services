@@ -1,43 +1,80 @@
 {{page-title "Riassunto"}}
-<table class="renew-services ui celled table">
-  <thead>
-    <tr>
-      <th>Elemento</th>
-      <th>Costo</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>{{this.ass_service.name}}</td>
-      <td class="price">{{format-number this.ass_service.price 2 "€"}}</td>
-    </tr>
-    {{#if this.enable_cav}}
-    <tr>
-      <td>{{this.cav_service.name}}</td>
-      <td class="price">{{format-number this.cav_service.price 2 "€"}}</td>
-    </tr>
-    {{/if}}
+<div class="container">
+  <div class="level">
+    <div class="level-left">
+      <div class="level-item">
+        <table class="renew-services table">
+          <thead>
+            <tr>
+              <th>Elemento</th>
+              <th>Costo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{this.ass_service.name}}</td>
+              <td class="price">{{format-number this.ass_service.price 2 "€"}}</td>
+            </tr>
+            {{#if this.wizard.enable_cav}}
+            <tr>
+              <td>{{this.cav_service.name}}</td>
+              <td class="price">{{format-number this.cav_service.price 2 "€"}}</td>
+            </tr>
+            {{/if}}
 
-    {{#each this.services key="@index" as |service index|}}
-    <tr>
-      <td>
-        {{service.type.name}}{{#if service.extra_info}} - {{service.extra_info}}{{/if}}
-      </td>
-      <td class="price">{{format-number service.type.price 2 "€"}}</td>
-    </tr>
-    {{/each}}
-  </tbody>
-  <tfoot>
-    <tr>
-      <th>Totale</th>
-      <td class="total price">{{format-number this.total 2 "€"}}</td>
-    </tr>
-  </tfoot>
-</table>
+            {{#each this.wizard.services key="@index" as |service index|}}
+            <tr>
+              <td>
+                {{service.type.name}}
+                {{#if service.extra_info}}
+                  <br />
+                  {{service.type.extra_info}}: {{service.extra_info}}
+                {{/if}}
+              </td>
+              <td class="price">{{format-number service.type.price 2 "€"}}</td>
+            </tr>
+            {{/each}}
+          </tbody>
+          <tfoot>
+            <tr>
+              <th>Totale</th>
+              <td class="total price">{{format-number this.total 2 "€"}}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
 
-<button class="huge ui fluid primary button {{if this.submitting "loading disabled"}}" {{action "commit"}}>Conferma iscrizione!</button>
-{{#if this.submitError}}
-<div class="ui red message">
-  {{submitError}}
+      <div class="level-item">
+        <div>
+          <h2 class="subtitle">Turni di linea:</h2><br />
+          {{#each this.wizard.selected_roster_days as |roster_day|}}
+            {{format-date roster_day.date "ddd D/M"}}<br />
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="buttons is-centered">
+    <button class="button is-grey is-large" {{on "click" this.back}}>
+      <span class="icon"><FaIcon @icon="backward" /></span>
+      <span>Indietro</span>
+    </button>
+    <button class="button is-primary is-large" disabled={{this.submit_disabled}} {{on "click" this.submit}}>
+      Conferma iscrizione!
+    </button>
+  </div>
+
+  {{#if this.submit_error}}
+  <div class="notification is-danger">
+    <ExceptionDecode @ex={{this.submit_error}} as |title detail backtrace|>
+      <div class="box notification is-danger">
+        <h1 class="title">{{title}}</h1>
+        <div>
+          {{detail}}
+        </div>
+      </div>
+    </ExceptionDecode>
+  </div>
+  {{/if}}
 </div>
-{{/if}}

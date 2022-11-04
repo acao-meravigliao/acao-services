@@ -53,7 +53,18 @@ export default class LoginController extends Controller {
         navigator.credentials.store(c);
       }
 
+      //// Interesting idea
+      // let previousTransition = this.previousTransition;
+      // if (previousTransition) {
+      //   this.previousTransition = null;
+      //   previousTransition.retry();
+      // } else {
+      //   // Default back to homepage
+      //   this.router.transitionTo('index');
+      // }
+
       this.router.replaceWith(config.authenticated_route);
+
     }).catch((ex) => {
       this.ex = ex;
     }).finally(() => {

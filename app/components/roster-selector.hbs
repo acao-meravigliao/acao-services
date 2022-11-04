@@ -1,3 +1,69 @@
+<div class="navbar">
+  <div class="navbar-brand">
+    <div class="navbar-item">
+      {{this.selection_count}} di {{@needed_total}} turni di linea.
+      {{this.selection_high_season_count}} di {{@needed_high_season}} turni di linea in alta stagione.
+    </div>
+    <div class="navbar-urger">
+      <button class="button" {{on "click" this.toggle_filters}}>
+        <span class="icon"><FaIcon @icon="filter" /></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="navbar-menu {{if this.flt_show "is-active"}}">
+    <div class="navbar-end">
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          <FaIcon @icon="filter" /> Filtri
+        </a>
+
+        <div class="navbar-dropdown is-right">
+          <div class="navbar-item">
+            <label>
+              <input type="checkbox" checked={{this.flt_high_season}} {{on "change" this.toggle_high_season}} />
+              Alta stagione
+            </label>
+          </div>
+          <div class="navbar-item">
+            <label>
+              <input type="checkbox" checked={{this.flt_low_season}} {{on "change" this.toggle_low_season}} />
+              Bassa stagione
+            </label>
+          </div>
+          <div class="navbar-item">
+            <label>
+              <input type="checkbox" checked={{this.flt_available_slots}} {{on "change" this.toggle_available_slots}} />
+              Solo giorni disponibili
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="roster-selector-days">
+  {{#if this.sorted_filtered_roster_days}}
+    <div class="items">
+    {{#each this.sorted_filtered_roster_days_with_selected as |day|}}
+      <RosterSelectorDay
+        @day={{day.day}}
+        @show_slots={{@show_slots}}
+        @selected={{day.selected}}
+        @person={{@person}}
+        @on_add={{this.on_add}}
+        @on_del={{this.on_del}}
+      />
+    {{/each}}
+    </div>
+  {{else}}
+    <div class="notification is-info">
+      Non ci sono giornate di linea nel {{this.year}}
+    </div>
+  {{/if}}
+</div>
+
 {{!--<div class="ui grid">
   <div class="nine wide column">
     <div class="ui segment">

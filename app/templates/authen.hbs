@@ -15,16 +15,42 @@
 
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">
+          Billing
+          {{#if this.pending_payments}}
+            <span class="tag is-danger"><FaIcon @icon="exclamation" /></span>
+          {{/if}}
+        </a>
+
+        <div class="navbar-dropdown">
+          <LinkTo @route="authen.token-transactions" class="navbar-item">
+            Conto Bollini
+          </LinkTo>
+
+          <LinkTo @route="authen.bar-transactions" class="navbar-item">
+            Conto Bar
+          </LinkTo>
+
+          <LinkTo @route="authen.invoices" class="navbar-item">
+            Ricevute
+          </LinkTo>
+
+          <LinkTo @route="authen.payments" class="navbar-item">
+            Pagamenti
+            {{#if this.pending_payments}}
+              <span class="tag is-danger">{{this.pending_payments.length}}</span>
+            {{/if}}
+          </LinkTo>
+        </div>
+      </div>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
           {{t "menu.roster"}}
         </a>
 
         <div class="navbar-dropdown">
           <LinkTo class="navbar-item" @route="authen.roster.days"> Tutti i turni </LinkTo>
           <LinkTo class="navbar-item" @route="authen.roster.today"> Turni di oggi </LinkTo>
-          <hr class="navbar-divider">
-          <div class="navbar-item">
-            JHiusdhiudhf
-          </div>
         </div>
       </div>
     </div>

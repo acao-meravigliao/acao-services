@@ -1,0 +1,55 @@
+<div class="roster-selector-day {{if this.selected "selected"}} {{if this.unavailable "unavailable"}}" {{on "click" this.click}}>
+  <div class="background" />
+  <div class="date-block {{if @day.high_season "high-season" "low-season"}}">
+    <div class="date">
+      {{format-date @day.date "ddd"}}<br />
+      {{format-date @day.date "D/M"}}
+    </div>
+  </div>
+  <div class="entries">
+    {{#each this.sorted_entries as |entry|}}
+      <div class="entry">• {{entry.person.first_name}} {{entry.person.last_name}}</div>
+    {{/each}}
+
+    {{#if this.selected}}
+      <div class="entry">• {{@person.first_name}} {{@person.last_name}}</div>
+    {{/if}}
+
+    {{#if @show_slots}}
+      {{#each this.missing_entries}}
+        <div class="entry empty">• &nbsp;</div>
+      {{/each}}
+    {{/if}}
+  </div>
+</div>
+
+{{!--<div class="roster-day edit {{if this.addDisabledReason "disabled"}} ui {{if this.enableAdd "raised link"}} card" onclick={{unless this.addDisabledReason (action "add" @day)}}>
+  <div class="content">
+    <div class="ui grid">
+      <div class="three wide column date-block {{if @day.high_season "high-season" "low-season"}}">
+        <div class="date">
+          {{format-date @day.date "ddd"}}<br />
+          {{format-date @day.date "D/M"}}
+        </div>
+      </div>
+      <div class="thirteen wide column">
+        <div class="ui move reveal {{unless this.addDisabledReason "disabled"}}">
+          <div class="visible content" style="width: 100%">
+            {{#each this.sortedEntries as |entry|}}
+              • {{entry.person.first_name}} {{entry.person.last_name}}<br />
+            {{/each}}
+
+            {{#each this.missingEntries}}
+              • <span style="display: inline-block; width: 10em; border-bottom: solid 1px grey;">&nbsp;</span><br />
+            {{/each}}
+          </div>
+
+          <div class="hidden content">
+            {{this.addDisabledReason}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+--}}

@@ -1,18 +1,23 @@
 {{page-title "Selezione turni di linea"}}
 
-<div class=" container">
-
 <RosterSelector
-  @person={{this.context.person}}
-  @year={{this.context.year}}
-  @roster_entries={{this.model.roster_entries}}
-  @roster_days={{this.model.roster_days}}
+  @initial_selection={{this.wizard.selected_roster_days}}
+  @days={{this.model.roster_days}}
+  @entries={{this.model.roster_entries}}
   @needed_total={{this.model.roster_status.needed_total}}
   @needed_high_season={{this.model.roster_status.needed_high_season}}
-  @store={{this.store}}
+  @show_slots={{true}}
+  @person={{this.session.person}}
+  @selection_changed={{this.selection_changed}}
+  @selection_validity_changed={{this.selection_validity_changed}}
 />
 
-  <button class="button is-primary is-large is-fullwidth" disabled={{this.submit_disabled}} {{on "click" this.submit}}>
+<div class="buttons is-centered">
+  <button class="button is-grey is-large" {{on "click" this.back}}>
+    <span class="icon"><FaIcon @icon="backward" /></span>
+    <span>Indietro</span>
+  </button>
+  <button class="button is-primary is-large" disabled={{not this.submit_enabled}} {{on "click" this.submit}}>
     Avanti...
   </button>
 </div>

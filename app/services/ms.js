@@ -22,7 +22,8 @@ export default class MembershipStatusService extends Service {
   }
 
   get current_renew_is_open() {
-    return this.current_year.renew_opening_time &&
+    return this.current_year &&
+           this.current_year.renew_opening_time &&
            this.clock.date > new Date(this.current_year.renew_opening_time);
   }
 
@@ -36,7 +37,8 @@ export default class MembershipStatusService extends Service {
   }
 
   get next_renew_is_open() {
-    return this.next_year.renew_opening_time &&
+    return this.next_year &&
+           this.next_year.renew_opening_time &&
            this.clock.date > new Date(this.next_year.renew_opening_time);
   }
 
@@ -46,7 +48,8 @@ export default class MembershipStatusService extends Service {
   }
 
   get next_renew_is_going_to_open() {
-    return this.next_year.renew_announce_time &&
+    return this.next_year &&
+           this.next_year.renew_announce_time &&
            this.next_year.renew_opening_time &&
            this.clock.time > new Date(this.next_year.renew_announce_time) &&
            this.clock.time < new Date(this.next_year.renew_opening_time);

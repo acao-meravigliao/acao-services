@@ -3,11 +3,6 @@
 <div class="container page authen-index">
   <h1 class="subtitle">Ciao {{this.session.person.first_name}}!</h1>
 
-Next Year: <RawModelViewer @model={{this.ms.next_year}} /><br />
-REN:  {{this.ms.next_renew_is_going_to_open}}<br />
-REN2:  {{this.ms.next_renew_is_open}}<br />
-Clock: {{this.ms.clock.time}}<br />
-
   {{#if this.ms.next_renew_is_going_to_open}}
     <div class="notification is-warning">
       L'iscrizione per l'anno {{this.ms.next_year.year}} non è ancora aperta,
@@ -22,30 +17,40 @@ Clock: {{this.ms.clock.time}}<br />
     </div>
   {{/if}}
 
-  <div class="ui stackable mobile reversed equal width grid">
-    <div class="column">
-      <div>
-        <div class="ui statistics">
-          <div class="statistic">
-            <div class="value">
-              {{format-number this.session.person.acao_bar_credit 2 "€"}}
-            </div>
-            <div class="label">
-              Conto bar
-            </div>
-          </div>
-        </div>
+  <div class="level">
+    <div class="level-item has-text-centered">
+      <div {{on "click" (transition-to "authen.bar-transactions")}}>
+        <p class="heading">
+          Conto bar
+        </p>
+        <p class="title">
+          {{format-number this.session.person.acao_bar_credit 2 "€"}}
+        </p>
+      </div>
+    </div>
 
-        <div class="ui statistics">
-          <div class="statistic">
-            <div class="value">
-              {{this.session.person.acao_bollini}}
-            </div>
-            <div class="label">
-              Bollini
-            </div>
+    <div class="level-item has-text-centered">
+      <div {{on "click" (transition-to "authen.token-transactions")}}>
+        <p class="heading">
+          Bollini
+        </p>
+        <p class="title">
+          {{format-number this.session.person.acao_bollini 1}}
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+        {{#if this.my_next_roster_entries}}
+          <div class="ui segment">
+            Prossimi turni di linea:
+            {{#each this.my_next_roster_entries as |re|}}
+              <RosterEntry @entry={{re}} />
+            {{/each}}
           </div>
-        </div>
+        {{/if}}
+
 
 
 {{!--        {{#if this.model.memberships}}
@@ -58,16 +63,7 @@ Clock: {{this.ms.clock.time}}<br />
         {{/if}}
 --}}
 
-        {{#if this.my_next_roster_entries}}
-          <div class="ui segment">
-            Prossimi turni di linea:
-            {{#each this.my_next_roster_entries as |re|}}
-              <RosterEntry @entry={{re}} />
-            {{/each}}
-          </div>
-        {{/if}}
-
-<!--
+{{!--
         {{#if model.medicals}}
           <div class="ui segment">
             Visita medica:
@@ -85,19 +81,5 @@ Clock: {{this.ms.clock.time}}<br />
             {{/each}}
           </div>
         {{/if}}
--->
-      </div>
-    </div>
-  </div>
-
-
-<!--  <div class="ui statistic">
-    <div class="value">
-      <i class="plane icon"></i> 15
-    </div>
-    <div class="label">
-      Voli
-    </div>
-  </div>
--->
+--}}
 </div>

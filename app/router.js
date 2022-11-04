@@ -19,9 +19,11 @@ Router.map(function() {
     this.route('memberships');
     this.route('membership', function() {
       this.route('renew', { path: '/renew/:year' }, function() {
+        this.route('index');
         this.route('data');
         this.route('roster');
         this.route('summary');
+        this.route('confirmation');
       });
     });
 

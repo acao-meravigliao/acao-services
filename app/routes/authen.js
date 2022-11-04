@@ -21,6 +21,15 @@ export default class AuthenRoute extends VosRoute {
   }
 
   beforeModel(transition) {
+
+    ///// Interesting idea
+    // if (!this.controllerFor('auth').userIsLoggedIn) {
+    //   let loginController = this.controllerFor('login');
+    //   loginController.previousTransition = transition;
+    //   this.router.transitionTo('login');
+    // }
+
+
     // Trigger session loading if not loaded already, if not authenticated transition to login route
     if (!this.session.is_loaded) {
       this.router.transitionTo(config.login_route);

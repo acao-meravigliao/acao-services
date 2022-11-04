@@ -4,6 +4,7 @@ import { service } from '@ember/service';
 import { action } from '@ember/object';
 
 export default class AuthenRenewMembershipRosterRoute extends Route {
+  @service store;
   @service session;
 
   model(params) {
@@ -18,26 +19,15 @@ export default class AuthenRenewMembershipRosterRoute extends Route {
     //  },
     // }
 
+    let parent_model = this.modelFor('authen.membership.renew');
 
-//    // FIXME, filter server-side roster day by year
-//    return hash({
-//      year: parseInt(params.year),
-//      roster_days: this.store.findAll('ygg--acao--roster-day'),
-//      roster_entries: this.store.findAll('ygg--acao--roster-entry'),
-//      roster_status: $.getJSON('/ygg/acao/roster_entries/status').then((st) => ((st.next && st.next.year == params.year) ? st.next : st.current)),
-//    });
+    return hash({
+      roster_days: this.store.query('ygg--acao--roster-day', { filter: { year: parent_model.year }}),
+      roster_entries: this.store.query('ygg--acao--roster-entry', { filter: { year: parent_model.year }}),
+      roster_status: $.getJSON('/ygg/acao/roster_entries/status').then((st) => ((st.next && st.next.year == params.year) ? st.next : st.current)),
+    });
   }
 
-//  afterModel(model) {
-//    if (!model.roster_status.can_select_entries)
-//      this.transitionTo('/');
-//  }
-
-//  setupController(controller, model) {
-//    super.setupController(...arguments);
-//    controller.my_roster_entries(this.modelFor('authen.membership.renew').state.my_roster_entries);
-//  }
-//
 //  @action willTransition(transition) {
 //    if (this.get('controller.isDirty')) {
 //      if (confirm('Annulla le modifiche?'))

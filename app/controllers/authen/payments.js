@@ -12,6 +12,10 @@ export default class AuthenPaymentsController extends Controller {
     'COMPLETED': 'green',
   };
 
+  get sorted_models() {
+    return this.model.sortBy('created_at');
+  }
+
 //  allModels: computed(function() { return this.store.peekAll(this.model); }),
 //  creationObserver: observer('allModels.length', function() {
 //    console.log("CREATION  OBSERVER");

@@ -6,6 +6,7 @@ import { cancel, later } from '@ember/runloop';
 import { Promise, defer as rsvpDefer } from 'rsvp';
 import $ from 'jquery';
 import { getOwner } from '@ember/application';
+import RemoteException from 'acao-services/utils/remote-exception';
 
 export default Service.extend(Evented, {
 
@@ -484,7 +485,7 @@ console.log("VOS AUTHENTICATE SUCCESS", msg);
           });
         } else {
           defer.reject({
-            exception: msg.payload,
+            exception: new RemoteException(msg.payload),
             requestId: msg.reply_to,
           });
         }
@@ -510,7 +511,7 @@ console.log("VOS LOGOUT");
       }),
       failure: ((msg) => {
         defer.reject({
-          exception: msg.payload,
+          exception: new RemoteException(msg.payload),
           requestId: msg.reply_to,
         });
       }),
@@ -535,7 +536,7 @@ console.log("VOS LOGOUT");
       failure: function(msg) {
         console.error("PING FAILURE REQ=", req, "RESULT=", msg);
         defer.reject({
-          exception: msg.payload,
+          exception: new RemoteException(msg.payload),
           requestId: msg.reply_to,
         });
       },
@@ -591,7 +592,7 @@ console.log("SELECT", args);
       failure: function(msg) {
         console.error("SELECT FAILURE REQ=", req, "RESULT=", msg);
         defer.reject({
-          exception: msg.payload,
+          exception: new RemoteException(msg.payload),
           requestId: msg.reply_to,
         });
       },
@@ -628,9 +629,9 @@ console.log("GET_SINGLE", modelName, id, params);
         defer.resolve(msg.object);
       },
       failure: function(msg) {
-        console.error("GET_SINGLE FAILURE REQ=", req, "RESULT=", msg);
+        console.error("GET_SINGLE FAILURE REQ=", req, "RESULT=", msg.payload);
         defer.reject({
-          exception: msg.payload,
+          exception: new RemoteException(msg.payload),
           requestId: msg.reply_to,
         });
       },
@@ -665,7 +666,7 @@ console.log("GET_MANY", modelName, ids, params);
       failure: function(msg) {
         console.error("GET_MANY FAILURE REQ=", req, "RESULT=", msg);
         defer.reject({
-          exception: msg.payload,
+          exception: new RemoteException(msg.payload),
           requestId: msg.reply_to,
         });
       },
@@ -698,7 +699,7 @@ console.log("CREATE_AND_BIND", modelName, data, params);
       failure: function(msg) {
         console.error("CREATE_AND_BIND FAILURE REQ=", req, "RESULT=", msg);
         defer.reject({
-          exception: msg.payload,
+          exception: new RemoteException(msg.payload),
           requestId: msg.reply_to,
         });
       },
@@ -729,7 +730,7 @@ console.log("UPDATE", modelName, data, params);
       },
       failure: function(msg) {
         defer.reject({
-          exception: msg.payload,
+          exception: new RemoteException(msg.payload),
           requestId: msg.reply_to,
         });
       },
@@ -758,7 +759,7 @@ console.log("DESTROY", modelName, id);
       },
       failure: function(msg) {
         defer.reject({
-          exception: msg.payload,
+          exception: new RemoteException(msg.payload),
           requestId: msg.reply_to,
         });
       },
@@ -793,7 +794,7 @@ console.log("SUBSCRIBE", arguments);
       },
       failure: function(msg) {
         defer.reject({
-          exception: msg.payload,
+          exception: new RemoteException(msg.payload),
           requestId: msg.reply_to,
         });
       },

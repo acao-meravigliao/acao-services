@@ -23,7 +23,7 @@
   </div>
 
   <div class="roster-days">
-    {{#if this.model}}
+    {{#if this.sorted_filtered_roster_days}}
       <div class="items">
       {{#each this.sorted_filtered_roster_days as |day|}}
         <RosterDay @day={{day}} @show_slots={{this.show_slots}} />

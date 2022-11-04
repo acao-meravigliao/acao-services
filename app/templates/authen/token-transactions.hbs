@@ -1,53 +1,30 @@
-{{page-title "Transazioni Bar"}}
-<div class="ui container">
-<!--
-  <YetiTable class="ui selectable celled table"
-      @filter={{filter}}
-      @pagination={{true}} @pageSize={{20}} @totalRows={{totalRows}}
-      @loadData={{perform loadDataTask}} as |table|>
-    <table.header as |header|>
-      <header.column>
-        Data/Ora
-      </header.column>
-      <header.column>
-        Aeromobile
-      </header.column>
-      <header.column>
-        Descrizione
-      </header.column>
-      <header.column @columnClass="number">
-        Ammontare
-      </header.column>
-    </table.header>
-
-    <table.body as |body model|>
-      <body.row @onClick={{transition-to "authen.token-transaction" model.id}} as |row|>
-        <row.cell>
-          {{if model.recorded_at (format-date model.recorded_at "DD-MM-YYYY HH:mm:ss")}}
-        </row.cell>
-        <row.cell>
-          {{#if model.aircraft }}{{link-to model.aircraft.registration "authen.aircraft" model.aircraft.id}}{{/if}}
-        </row.cell>
-        <row.cell>
-          {{model.descr}}
-        </row.cell>
-        <row.cell>
-          {{numeral-format model.amount format="+0.0"}}
-        </row.cell>
-      </body.row>
-    </table.body>
-
-    <tfoot>
-      {{#if (gt table.paginationData.totalRows table.paginationData.pageSize)}}
+{{page-title "Movimenti Bollini"}}
+<div class="container">
+  <table class="token-transactions table">
+    <thead>
       <tr>
-        <td colspan={{table.totalColumns}}>
-          {{table-pagination table=table}}
+        <th>Data/Ora</th>
+        <th>Descrizione</th>
+        <th>Ammontare</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {{#each this.sorted_models key="id" as |data|}}
+
+      <tr {{on 'click' (transition-to "authen.token-transaction" data.id)}}>
+        <td>
+          {{format-date data.recorded_at "DD-MM-YYYY HH:mm:ss" }}
+        </td>
+        <td>
+          {{data.descr}}
+        </td>
+        <td class="price">
+          {{format-number data.amount 1}}
         </td>
       </tr>
-      {{/if}}
-    </tfoot>
-  </YetiTable>
--->
+      {{/each}}
+    </tbody>
+  </table>
 </div>
-
 
