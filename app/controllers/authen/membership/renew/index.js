@@ -14,7 +14,7 @@ export default class AuthenMembershipRenewIndexController extends Controller {
   get renew_is_open() { return this.wizard.renew_is_open; }
 
   get payment_is_pending() {
-    return this.wizard.membership.status == 'WAITING_PAYMENT' &&
+    return this.wizard.membership.status === 'WAITING_PAYMENT' &&
            this.wizard.membership.payment_id;
   }
 
@@ -31,7 +31,6 @@ export default class AuthenMembershipRenewIndexController extends Controller {
   }
 
   @action submit() {
-    this.wizard.current_step = 'data';
-    this.router.transitionTo('authen.membership.renew.data');
+    this.wizard.next('data');
   }
 }

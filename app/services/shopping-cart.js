@@ -13,7 +13,7 @@ export default Service.extend({
   add(serviceType) {
     let record = this.items.find(function(item) {
       console.log("ITEM", item.belongsTo('service').id(), serviceType.get('id'));
-      return item.belongsTo('service').id() == serviceType.get('id');
+      return item.belongsTo('service').id() === serviceType.get('id');
     });
 
     if (record) {

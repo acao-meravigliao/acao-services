@@ -10,10 +10,14 @@ login:
     label: Codice pilota
     request:
     placeholder: "1234"
+    validation:
+      contains_white_spaces: Contiene spazi
   username2:
     label: Codice pilota da impersonare
     request:
     placeholder: "1234"
+    validation:
+      contains_white_spaces: Contiene spazi
   password:
     label: Password
     placeholder:
@@ -61,7 +65,15 @@ payment:
     SATISPAY: SatisPay
     CARD: Carta di Credito
 
-
+password_recovery:
+  page_title: Recuper password
+  recover: Recupera password
+  username:
+    label: Codice pilota
+    request:
+    placeholder: "1234"
+    validation:
+      contains_white_spaces: Contiene spazi
 
 menu:
   dashboard: Dashboard
@@ -75,7 +87,8 @@ application_error:
   page_title: Erroraccio
 application_offline:
   offline: Offline...
-exception_decoder:
+
+ex:
   unexpected:
     title: Uoooops
     detail: Perdincibacco! Si è verificato un errore nell'accesso ai dati, ricarica la pagina con F5, oppure riprova più tardi o segnalaci il problema!

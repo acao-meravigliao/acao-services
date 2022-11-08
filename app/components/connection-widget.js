@@ -42,7 +42,7 @@ export default class ConnectionWidgetComponent extends Component {
   }
 
   timer_fired() {
-    if (this.state == 'RECONNECT_WAIT') {
+    if (this.state === 'RECONNECT_WAIT') {
       this.time_waited = Date.now() - this.vos.wait_start;
       this.timer_start();
     } else {

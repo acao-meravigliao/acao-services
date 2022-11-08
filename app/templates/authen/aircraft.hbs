@@ -1,16 +1,18 @@
 {{page-title "Aeromobile"}}
-<div class="ui container">
-  <div class="ui segment">
-    <h1>Aeromobile {{model.registration}}</h1>
-<!--
-    Tipo: {{#link-to "authen.aircraft-type" model.aircraft_type.id}}{{model.aircraft_type.manufacturer}} {{model.aircraft_type.name}}{{/link-to}}<br />
-    Sigle di gara: {{model.race_registration}}<br />
-    Numero di serie: {{model.serial_number}}<br />
-    {{#if model.flarm_identifier}}Codice FLARM: {{model.flarm_identifier}}<br />{{/if}}
-    {{#if model.icao_identifier}}Codice ICAO: {{model.icao_identifier}}<br />{{/if}}
-    {{#if model.club}}Club di riferimento: {{link-to model.club.name "authen.club" model.club.id}}<br />{{/if}}
-    Proprietario: {{#if model.owner}}{{link-to model.owner.full_name "authen.person" model.owner.id}}{{else}}N/A{{/if}}<br />
-    Posto hangar: {{if model.hangar "SÌ" "NO"}}<br />
--->
-  </div>
+<div class="container box page authen-aircraft">
+  <h1 class="title">Aeromobile {{this.model.registration}}</h1>
+  Tipo: <LinkTo @route="authen.aircraft-type" this.model.aircraft_type.id>{{this.model.aircraft_type.manufacturer}} {{this.model.aircraft_type.name}}</LinkTo><br />
+  Sigle di gara: {{this.model.race_registration}}<br />
+  Numero di serie: {{this.model.serial_number}}<br />
+  {{#if this.model.flarm_identifier}}
+    Codice FLARM: {{this.model.flarm_identifier}}<br />
+  {{/if}}
+  {{#if this.model.icao_identifier}}
+    Codice ICAO: {{this.model.icao_identifier}}<br />
+  {{/if}}
+  {{#if this.model.club}}
+    Club di riferimento: <LinkTo @route="authen.club" model.club.id>{{this.model.club.name}}</LinkTo><br />
+  {{/if}}
+  Proprietario: {{#if this.model.owner}}<LinkTo @route="authen.person" model.owner.id>{{this.model.owner.full_name}}</LinkTo>{{else}}N/A{{/if}}<br />
+  Posto hangar: {{if this.model.hangar "SÌ" "NO"}}<br />
 </div>

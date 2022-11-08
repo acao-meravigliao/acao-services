@@ -7,5 +7,5 @@ export default class AuthenMembershipRenewConfirmationController extends Control
   @service router;
   @controller('authen.membership.renew') wizard_controller;
 
-  get wizard() { return this.wizard_controller.wizard; }
+  get wizard() { return this.wizard_controller.state; }
 }

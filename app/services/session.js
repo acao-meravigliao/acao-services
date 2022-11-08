@@ -7,9 +7,9 @@ import fetch from 'fetch';
 import MyException from 'acao-services/utils/my-exception';
 import RemoteException from 'acao-services/utils/remote-exception';
 
-class SessionLoadTimeout extends MyException { }
-class WrongCredentials extends MyException { }
-class AuthenticationServerFailure extends MyException { }
+class SessionLoadTimeout extends MyException { type = 'SessionLoadTimeout'; }
+class WrongCredentials extends MyException { type = 'WrongCredentials'; }
+class AuthenticationServerFailure extends MyException { type = 'AuthenticationServerFailure'; }
 class AuthenticationServerError extends RemoteException { }
 
 export default class SessionService extends Service.extend(Evented) {
@@ -38,7 +38,7 @@ export default class SessionService extends Service.extend(Evented) {
         body: JSON.stringify({}),
       });
     } catch(e) {
-      if (e instanceof Error && e.name == 'AbortError') {
+      if (e instanceof Error && e.name === 'AbortError') {
         throw(new SessionLoadTimeout);
       } else
         throw(e);
@@ -96,6 +96,9 @@ export default class SessionService extends Service.extend(Evented) {
       if (json.authenticated) {
         return json;
       } else {
+console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH1");
+        let a = new WrongCredentials;
+console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH2", a, a.type, a.title_sym);
         throw new WrongCredentials;
       }
 

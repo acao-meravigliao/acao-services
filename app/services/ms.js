@@ -14,7 +14,7 @@ export default class MembershipStatusService extends Service {
   }
 
   get my_memberships() {
-    return this.store_memberships.filter((x) => (x.person_id == this.session.person_id));
+    return this.store_memberships.filter((x) => (x.person_id === this.session.person_id));
   }
 
   get current_year() {
@@ -29,7 +29,7 @@ export default class MembershipStatusService extends Service {
 
   get current_renew_is_open_and_needed() {
     return this.current_renew_is_open &&
-           !this.my_memberships.some((item) => (item.reference_year_id == this.current_year.id));
+           !this.my_memberships.some((item) => (item.reference_year_id === this.current_year.id));
   }
 
   get next_year() {
@@ -44,7 +44,7 @@ export default class MembershipStatusService extends Service {
 
   get next_renew_is_open_and_needed() {
     return this.next_renew_is_is_open &&
-           !this.my_memberships.some((item) => (item.reference_year_id == this.next_year.id));
+           !this.my_memberships.some((item) => (item.reference_year_id === this.next_year.id));
   }
 
   get next_renew_is_going_to_open() {

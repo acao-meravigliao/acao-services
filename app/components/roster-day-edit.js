@@ -16,7 +16,7 @@ export default class RosterDayEditComponent extends Component {
 //
 //    let res = store.peekAll('ygg--acao--roster-entry').
 //      filter((x) => {
-//        return x.roster_day.id == this.args.day.id;
+//        return x.roster_day.id === this.args.day.id;
 //      }).
 //      sort((a,b) => {
 //        return compare(a.person.last_name, b.person.last_name) ||
@@ -33,7 +33,7 @@ export default class RosterDayEditComponent extends Component {
   }
 
   get alreadySelectedByMe() {
-    return this.args.entries.any((item) => (item.belongsTo('roster_day').id() == this.args.day.id));
+    return this.args.entries.any((item) => (item.belongsTo('roster_day').id() === this.args.day.id));
   }
 
   get missingAny() {
@@ -41,7 +41,7 @@ export default class RosterDayEditComponent extends Component {
   }
 
   get chiefNeeded() {
-    return (this.args.day.roster_entries.length == this.args.day.needed_people - 1) &&
+    return (this.args.day.roster_entries.length === this.args.day.needed_people - 1) &&
            !this.args.day.roster_entries.any((item) => (item.get('person.acao_roster_chief')));
   }
 

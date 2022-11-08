@@ -30,12 +30,10 @@ export default class AuthenMembershipRenewRosterController extends Controller {
   @action submit() {
     this.wizard.selected_roster_days = this.selection;
 
-    this.wizard.current_step = 'summary';
-    this.router.transitionTo('authen.membership.renew.summary');
+    this.wizard.next('summary');
   }
 
- @action back() {
-    this.wizard.current_step = 'data';
-    this.router.transitionTo('authen.membership.renew.data');
+  @action back() {
+    this.wizard.prev();
   }
 }

@@ -56,13 +56,17 @@ export default class AuthenRoute extends VosRoute {
       store_memberships: this.store.peekAll('ygg--acao--membership'),
       memberships: this.store.query('ygg--acao--membership', { filter: { person_id: this.session.person_id } }),
       payments: this.store.query('ygg--acao--payment', { filter: { person_id: this.session.person_id } }),
-      roster_status: $.getJSON('/ygg/acao/roster_entries/status'),
+      roster_status: fetch('/ygg/acao/roster_entries/status', {
+        method: 'GET',
+        signal: AbortSignal.timeout(5000),
+        headers: {
+          'Accept': 'application/json',
+        },
+      }).then((res) => (res.json())),
     });
   }
 
   setupController(controller, model) {
-    console.log("AUTHEN CONTROLLER SETUP: ", arguments);
-
     super.setupController(...arguments);
 
     this.ms.update({

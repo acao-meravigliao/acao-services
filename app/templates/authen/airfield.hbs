@@ -1,21 +1,21 @@
 {{page-title "Aeroporto"}}
-<div class="ui container">
-  <div class="ui segment">
-    <h1>Aeroporto {{model.icao_code}}</h1>
-    Nome: {{model.name}}<br />
-    Luogo: {{model.location.full_address}},
-      {{#if model.location.latlng}} ({{model.location.lat}},{{model.location.lng}}){{/if}}<br />
+<div class="container page authen-airfield">
+  <div class="box">
+    <h1>Aeroporto {{this.model.icao_code}}</h1>
+    Nome: {{this.model.name}}<br />
+    Luogo: {{this.model.location.full_address}},
+      {{#if this.model.location.latlng}} ({{this.model.location.lat}},{{this.model.location.lng}}){{/if}}<br />
   </div>
 
-  <div class="ui segment" style="height: 600px">
-    {{#if model.location.latlng}}
-      {{#leaflet-map center=model.location.latlng zoom=11 class="flight-map" as |layers|}}
+  <div class="box" style="height: 600px">
+    {{#if this.model.location.latlng}}
+      {{#leaflet-map center=this.model.location.latlng zoom=11 class="flight-map" as |layers|}}
         {{layers.tile url="https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png" maxZoom=13}}
-        {{#layers.marker location=model.location.latlng}}
+        {{#layers.marker location=this.model.location.latlng}}
           {{#popup-layer}}
-            <b>{{model.icao_code}}</b><br />
-            {{model.location.full_address}}
-            {{model.location.lat}},{{model.location.lng}}
+            <b>{{this.model.icao_code}}</b><br />
+            {{this.model.location.full_address}}
+            {{this.model.location.lat}},{{this.model.location.lng}}
           {{/popup-layer}}
         {{/layers.marker}}
       {{/leaflet-map}}

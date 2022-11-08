@@ -13,39 +13,47 @@ export default class Login2Controller extends Controller {
   @tracked username2_warning = null;
   @tracked password = null;
   @tracked password_warning = null;
-  @tracked logging_in = false;
+  @tracked submitting = false;
   @tracked ex = null;
 
   @action username_changed(ev) {
     this.username = ev.target.value;
 
-    if (this.username.indexOf(' ') != -1)
-      this.username_warning = "Username contains white spaces";
+    if (this.username.indexOf(' ') !== -1)
+      this.username_warning = 'password_recovery.username.validation.contains_white_spaces';
+    else
+      this.username_warning = null;
   }
 
   @action username2_changed(ev) {
     this.username2 = ev.target.value;
 
-    if (this.username2.indexOf(' ') != -1)
-      this.username2_warning = "Username contains white spaces";
+    if (this.username2.indexOf(' ') !== -1)
+      this.username2_warning = 'password_recovery.username.validation.contains_white_spaces';
+    else
+      this.username_warning = null;
   }
 
   @action password_changed(ev) {
     this.password = ev.target.value;
   }
 
+  get can_submit() {
+    return !this.submitting && this.username !== '' && this.password !== '' && this.username2 !== '';
+  }
+
   @action authenticate() {
     ev.preventDefault();
 
-    this.logging_in = true;
+    this.submitting = true;
 
     let username = this.username;
     let username2 = this.username2;
 
-    if (username.indexOf('@') == -1)
+    if (username.indexOf('@') === -1)
       username = username + '@cp.acao.it';
 
-    if (username2.indexOf('@') == -1)
+    if (username2.indexOf('@') === -1)
       username2 = username2 + '@cp.acao.it';
 
     this.session.proxyAuthenticate(username, password, username2).then(() => {
@@ -65,7 +73,7 @@ export default class Login2Controller extends Controller {
     }).catch((ex) => {
       this.ex = ex;
     }).finally(() => {
-      this.logging_in = false;
+      this.submitting = false;
     });
   }
 }

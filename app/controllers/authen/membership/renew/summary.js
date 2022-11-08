@@ -3,7 +3,6 @@ import { inject as controller } from '@ember/controller';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 import fetch from 'fetch';
-import MyException from 'acao-services/utils/my-exception';
 import RemoteException from 'acao-services/utils/remote-exception';
 
 export default class RenewSummaryMembershipController extends Controller {
@@ -55,17 +54,13 @@ export default class RenewSummaryMembershipController extends Controller {
         body: JSON.stringify(req),
       });
     } catch(e) {
-
-console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH 1", e);
       this.submit_error = e;
       return;
     } finally {
       this.submitting = false;
     }
 
-console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH 2");
     if (!res.ok) {
-console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH 3");
       if (!res.headers.get('content-type').startsWith('application/json')) {
         this.submit_error = new ServerResponseError;
         return;
@@ -73,30 +68,24 @@ console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH 3");
 
       let json = await res.json();
 
-      this.submit_error = new RemoteError(json)
+      this.submit_error = new RemoteException(json)
 
       return;
     }
 
-console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH 4");
     if (!res.headers.get('content-type').startsWith('application/json')) {
       this.submit_error = new ServerResponseError;
       return;
     }
 
-console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH 5");
     let json = await res.json();
 
-console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPP", json);
-
     this.wizard.payment_id = json.payment_id;
-    this.wizard.current_step = 'confirmation';
-    this.router.transitionTo('authen.membership.renew.confirmation');
+    this.wizard.next('confirmation');
     //this.send('refresh_model');
   }
 
   @action back() {
-    this.wizard.current_step = 'roster';
-    this.router.transitionTo('authen.membership.renew.roster');
+    this.wizard.prev();
   }
 }

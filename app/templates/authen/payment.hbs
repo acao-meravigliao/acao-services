@@ -1,26 +1,27 @@
-{{page-title (concat "Pagamento " model.payment.identifier)}}
-<div class="ui container">
-  <div class="ui segment">
-    <h1>Pagamento numero {{model.payment.identifier}}
-    {{#if isPending}} <div class="ui orange tag label">Pendente</div> {{/if}}
-    {{#if isPaid}} <div class="ui green tag label">Pagato</div> {{/if}}
-    {{#if isCanceled}} <div class="ui blue tag label">Annullato</div> {{/if}}
+{{page-title (concat "Pagamento " this.model.payment.identifier)}}
+<div class="container box page authen-payment">
+  <div class="box">
+    <h1 class="title">Pagamento codice {{this.model.payment.identifier}}
+    {{#if (eq this.model.payment.state "PENDING")}} <span class="tag is-warning">Pendente</span> {{/if}}
+    {{#if (eq this.model.payment.state "COMPLETED")}} <span class="tag is-success">Pagato</span> {{/if}}
+    {{#if (eq this.model.payment.state "CANCELED")}} <span class="tag is-info">Annullato</span> {{/if}}
     </h1>
-    Ricevuta: {{#link-to "authen.invoice" model.payment.invoice.id}}{{model.payment.invoice.identifier}}{{/link-to}}<br />
-    Totale: <span class="price">{{numeral-format model.payment.amount format="0.00"}} €</span><br />
 
-    Data: {{format-date model.payment.created_at "DD-MM-YYYY HH:mm:ss"}}<br />
+    Ricevuta: <LinkTo @route="authen.invoice" @model={{this.model.payment.invoice.id}}>{{this.model.payment.invoice.identifier}}</LinkTo><br />
+    Totale: <span class="price">{{format-number this.model.payment.amount 2 "€"}}</span><br />
 
-    {{#if model.payment.expires_at}}
-      Scadenza: {{format-date model.payment.expires_at "DD-MM-YYYY HH:mm:ss"}}<br />
+    Data: {{format-date this.model.payment.created_at "DD-MM-YYYY HH:mm:ss"}}<br />
+
+    {{#if this.model.payment.expires_at}}
+      Scadenza: {{format-date this.model.payment.expires_at "DD-MM-YYYY HH:mm:ss"}}<br />
     {{/if}}
 
-    {{#if model.payment.completed_at}}
-    Completato: {{format-date model.payment.completed_at "DD-MM-YYYY HH:mm:ss"}}<br />
+    {{#if this.model.payment.completed_at}}
+    Completato: {{format-date this.model.payment.completed_at "DD-MM-YYYY HH:mm:ss"}}<br />
     {{/if}}
   </div>
 
-  {{#if (eq model.payment.state "PENDING")}}
-    {{partial (concat "authen/payment/" paymentMethodPartial)}}
+  {{#if (eq this.model.payment.state "PENDING")}}
+    {{component (concat "payment/" this.payment_method_partial) payment=this.model.payment}}
   {{/if}}
 </div>

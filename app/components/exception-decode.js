@@ -10,16 +10,17 @@ export default class ExceptionDecodeComponent extends Component {
   get title() {
     let ex = this.args.ex;
 
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", ex, ex.name, ex.type, ex instanceof MyException);
+
     if (!ex)
       return '';
 
-    if (ex instanceof RemoteException) {
-      return (this.intl.lookup(`exception_decoder.remote.${ex.type}.title`, null, { resilient: true }) ||
-              this.intl.lookup(ex.title_sym, null, { resilient: true }) ||
-               ex.title) ||
-             this.intl.t('exception_decoder.unexpected.title');
+    if (ex instanceof MyException) {
+console.log("AAAAAAAAA2", ex.type);
+      return ex.title_text(this.intl);
     } else {
-      return this.intl.lookup(`exception_decoder.local.${ex.constructor.name}.title`, null, { resilient: true }) || ex.constructor.name;
+      return this.intl.lookup(`ex.local.${ex.name}.title`, null, { resilient: true }) ||
+             ex.name;
     }
   }
 
@@ -29,13 +30,11 @@ export default class ExceptionDecodeComponent extends Component {
     if (!ex)
       return '';
 
-    if (ex instanceof RemoteException) {
-      return (this.intl.lookup(`exception_decoder.remote.${ex.type}.detail`, null, { resilient: true }) ||
-               this.intl.lookup(ex.detail_sym, null, { resilient: true }) ||
-               ex.detail) ||
-             this.intl.t('exception_decoder.unexpected.detail');
+    if (ex instanceof MyException) {
+      return ex.detail_text(this.intl);
     } else {
-      return this.intl.lookup(`exception_decoder.local.${ex.constructor.name}.detail`, null, { resilient: true }) || ex.constructor.name;
+      return this.intl.lookup(`ex.local.${ex.name}.detail`, null, { resilient: true }) ||
+             ex.name;
     }
   }
 

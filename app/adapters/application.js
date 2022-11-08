@@ -67,7 +67,7 @@ export default DS.Adapter.extend({
       persistent: true,
       view: options.adapterOptions && options.adapterOptions.view,
     }).then((res) => {
-      this.selections[sig] = { id: res.selection_id, complete: res.objects.data.length == res.objects.meta.total_count };
+      this.selections[sig] = { id: res.selection_id, complete: res.objects.data.length === res.objects.meta.total_count };
       return res.objects;
     }).catch((e) => { throw(e.exception); });
   },

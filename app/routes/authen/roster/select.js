@@ -1,5 +1,4 @@
 import Route from '@ember/routing/route';
-import $ from 'jquery';
 import { hash } from 'rsvp';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
@@ -12,10 +11,16 @@ export default class AuthenRosterSelectRoute extends Route {
     // FIXME, filter server-side roster day by year
     return hash({
       year: parseInt(params.year),
-      rosterEntries: this.store.query('ygg--acao--roster-entry', { filter: { person_id: this.get('session.person_id') } }),
-      allRosterEntries: this.store.findAll('ygg--acao--roster-entry'),
-      rosterDays: this.store.findAll('ygg--acao--roster-day'),
-      rosterStatus: $.getJSON('/ygg/acao/roster_entries/status').then((st) => ((st.next && st.next.year == params.year) ? st.next : st.current)),
+      roster_entries: this.store.query('ygg--acao--roster-entry', { filter: { person_id: this.get('session.person_id') } }),
+      all_roster_entries: this.store.findAll('ygg--acao--roster-entry'),
+      roster_days: this.store.findAll('ygg--acao--roster-day'),
+      roster_status: fetch('/ygg/acao/roster_entries/status', {
+        method: 'GET',
+        signal: AbortSignal.timeout(5000),
+        headers: {
+          'Accept': 'application/json',
+        },
+      }).then((res) => (res.json())).then((st) => ((st.next && st.next.year === params.year) ? st.next : st.current)),
     });
   }
 

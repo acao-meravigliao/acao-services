@@ -27,14 +27,11 @@ export default class AuthenController extends Controller {
   }
 
   get my_payments() {
-console.log("YYYYYYYYYYYY1", this.model);
-console.log("YYYYYYYYYYYY2", this.model.payments);
-
-    return this.model.payments.filter(((x) => (x.person_id == this.session.person_id)));
+    return this.model.payments.filter(((x) => (x.person_id === this.session.person_id)));
   }
 
   get pending_payments() {
-    return this.my_payments.filter((x) => (x.state == 'PENDING'));
+    return this.my_payments.filter((x) => (x.state === 'PENDING'));
   }
 
   // ------------------- Roster ---------------------

@@ -22,8 +22,8 @@ export default class RosterSelectController extends Controller {
 
   get myRosterEntries() {
     return this.get('model.allRosterEntries').filter((item) =>
-      (item.belongsTo('person').id() == this.get('session.person_id') &&
-       item.get('roster_day.date').getFullYear() == this.year
+      (item.belongsTo('person').id() === this.get('session.person_id') &&
+       item.get('roster_day.date').getFullYear() === this.year
       )
     );
   }
@@ -39,7 +39,7 @@ export default class RosterSelectController extends Controller {
   }
 
   get allRosterDays() {
-    return this.get('model.rosterDays').filter((x) => (x.date.getFullYear() == this.year));
+    return this.get('model.rosterDays').filter((x) => (x.date.getFullYear() === this.year));
   }
 
   get rosterDaysSorted() { return this.allRosterDays.sortBy('rosterDaysSortOrder'); }
@@ -47,11 +47,11 @@ export default class RosterSelectController extends Controller {
   get filteredRosterDays() {
     return this.rosterDaysSorted.filter((item) =>
       (
-       (this.seasonSelect == 'all' ||
-       (this.seasonSelect == 'high' && item.get('high_season')) ||
-       (this.seasonSelect == 'low' && !item.get('high_season'))) &&
+       (this.seasonSelect === 'all' ||
+       (this.seasonSelect === 'high' && item.get('high_season')) ||
+       (this.seasonSelect === 'low' && !item.get('high_season'))) &&
        (this.includeBusy ? true : (item.get('roster_entries.length') < item.get('needed_people'))) &&
-       (this.monthSelect == 'all' || Number(this.monthSelect) == item.get('date').getMonth())
+       (this.monthSelect === 'all' || Number(this.monthSelect) === item.get('date').getMonth())
       )
     );
   }

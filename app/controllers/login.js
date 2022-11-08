@@ -8,36 +8,38 @@ export default class LoginController extends Controller {
   @service session;
   @service router;
 
-  @tracked username = null;
+  @tracked username = '';
   @tracked username_warning = null;
-  @tracked password = null;
+  @tracked password = '';
   @tracked password_warning = null;
-  @tracked can_login = false;
-  @tracked logging_in = false;
+  @tracked submitting = false;
   @tracked ex = null;
 
   @action username_changed(ev) {
     this.username = ev.target.value;
 
-    if (this.username.indexOf(' ') != -1)
-      this.username_warning = "Username contains white spaces";
-
-    if (this.username === '')
-      this.can_login = false;
+    if (this.username.indexOf(' ') !== -1)
+      this.username_warning = 'password_recovery.username.validation.contains_white_spaces';
+    else
+      this.username_warning = null;
   }
 
   @action password_changed(ev) {
     this.password = ev.target.value;
   }
 
+  get can_submit() {
+    return !this.submitting && this.username !== '' && this.password !== '';
+  }
+
   @action authenticate(ev) {
     ev.preventDefault();
 
-    this.logging_in = true;
+    this.submitting = true;
 
     let username = this.username;
 
-    if (username.indexOf('@') == -1)
+    if (username.indexOf('@') === -1)
       username = username + '@cp.acao.it';
 
     this.session.authenticate(username, this.password).then(() => {
@@ -66,9 +68,10 @@ export default class LoginController extends Controller {
       this.router.replaceWith(config.authenticated_route);
 
     }).catch((ex) => {
+console.log("CONTROLLER CATCH", ex, ex.type);
       this.ex = ex;
     }).finally(() => {
-      this.logging_in = false;
+      this.submitting = false;
     });
   }
 }

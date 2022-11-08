@@ -23,7 +23,7 @@ export default class TowRosterSelectController extends Controller {
 
   get myRosterEntries() {
     return this.allRosterEntries.filter((item) =>
-      (item.belongsTo('person').id() == this.get('session.person_id'))
+      (item.belongsTo('person').id() === this.get('session.person_id'))
     );
   }
 
@@ -44,10 +44,10 @@ export default class TowRosterSelectController extends Controller {
   get filteredRosterDays() {
     return this.rosterDaysSorted.filter((item) =>
       (
-       item.get('date').getFullYear() == this.get('model.rosterStatus.renew_for_year') && (
-       (this.seasonSelect == 'all') &&
+       item.get('date').getFullYear() === this.get('model.rosterStatus.renew_for_year') && (
+       (this.seasonSelect === 'all') &&
        (this.includeBusy ? true : (item.get('roster_entries.length') < item.get('needed_people'))) &&
-       (this.monthSelect == 'all' || Number(this.monthSelect) == item.get('date').getMonth())
+       (this.monthSelect === 'all' || Number(this.monthSelect) === item.get('date').getMonth())
       ))
     );
   }

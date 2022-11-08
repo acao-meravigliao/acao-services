@@ -1,15 +1,13 @@
 {{page-title (concat "Tipo " model.name)}}
-<div class="ui container">
-  <div class="ui segment">
-    <h1>Aeromobile {{model.manufacturer}} {{model.name}}</h1>
-    <a href={{model.link_wp}}>Pagina Web</a><br />
-    Classe: {{model.aircraft_class}}<br />
-    Posti: {{model.seats}}<br />
+<div class="container box page authen-aicraft-type">
+    <h1>Aeromobile {{this.model.manufacturer}} {{this.model.name}}</h1>
+    <a href={{this.model.link_wp}}>Pagina Web</a><br />
+    Classe: {{this.model.aircraft_class}}<br />
+    Posti: {{this.model.seats}}<br />
     Motore:
-      {{if (eq model.motor 0) "NO"}}
-      {{if (eq model.motor 1) "Self Sustaining"}}
-      {{if (eq model.motor 2) "Self Launching"}}
+      {{if (eq this.model.motor 0) "NO"}}
+      {{if (eq this.model.motor 1) "Self Sustaining"}}
+      {{if (eq this.model.motor 2) "Self Launching"}}
       <br />
-    Handicap: {{numeral-format model.handicap format="0.00"}}<br />
-  </div>
+    Handicap: {{format-number this.model.handicap 2}}<br />
 </div>

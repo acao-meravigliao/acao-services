@@ -16,17 +16,14 @@ export default class RosterSelectorComponent extends Component {
     super(...arguments);
 
     this.selection = A(this.args.initial_selection);
-console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP ROSTER SELECTOR A=",this.selection);
   }
 
   @action on_add(day) {
-console.log("ON ADDDDDDDDDDDDDDDDD", day);
     this.selection.pushObject(day);
     this.selection_changed();
   }
 
   @action on_del(day) {
-console.log("ON DEL", day);
     this.selection.removeObject(day);
     this.selection_changed();
   }
@@ -112,8 +109,8 @@ console.log("ON DEL", day);
 //
 //  get myRosterEntries() {
 //    return this.args.roster_entries.filter((item) =>
-//      (item.belongsTo('person').id() == this.args.person.id &&
-//       item.roster_day.get('date').getFullYear() == this.year
+//      (item.belongsTo('person').id() === this.args.person.id &&
+//       item.roster_day.get('date').getFullYear() === this.year
 //      )
 //    );
 //  }
@@ -129,7 +126,7 @@ console.log("ON DEL", day);
 //  }
 //
 //  get allRosterDays() {
-//    return this.args.roster_days.filter((x) => (x.date.getFullYear() == this.year));
+//    return this.args.roster_days.filter((x) => (x.date.getFullYear() === this.year));
 //  }
 //
 //  get rosterDaysSorted() { return this.allRosterDays.sortBy('date'); }
@@ -137,11 +134,11 @@ console.log("ON DEL", day);
 //  get filteredRosterDays() {
 //    return this.rosterDaysSorted.filter((item) =>
 //      (
-//       (this.seasonSelect == 'all' ||
-//       (this.seasonSelect == 'high' && item.get('high_season')) ||
-//       (this.seasonSelect == 'low' && !item.get('high_season'))) &&
+//       (this.seasonSelect === 'all' ||
+//       (this.seasonSelect === 'high' && item.get('high_season')) ||
+//       (this.seasonSelect === 'low' && !item.get('high_season'))) &&
 //       (this.includeBusy ? true : (item.roster_entries.length < item.needed_people)) &&
-//       (this.monthSelect == 'all' || Number(this.monthSelect) == item.get('date').getMonth())
+//       (this.monthSelect === 'all' || Number(this.monthSelect) === item.get('date').getMonth())
 //      )
 //    );
 //  }

@@ -25,7 +25,7 @@ export default class SapRegistrationController extends Controller {
   }
 
   @action email_changed(ev) {
-    if (ev.target.value.indexOf('@') == -1)
+    if (ev.target.value.indexOf('@') === -1)
       this.email_error = "Indirizzo e-mail invalido";
     else {
       this.email_error = null;

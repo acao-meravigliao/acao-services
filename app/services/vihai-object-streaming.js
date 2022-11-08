@@ -4,7 +4,6 @@ import Evented from '@ember/object/evented';
 import { service } from '@ember/service';
 import { cancel, later } from '@ember/runloop';
 import { Promise, defer as rsvpDefer } from 'rsvp';
-import $ from 'jquery';
 import { getOwner } from '@ember/application';
 import RemoteException from 'acao-services/utils/remote-exception';
 
@@ -24,7 +23,7 @@ export default Service.extend(Evented, {
 
     this._super(...arguments);
 
-    me.uri = (window.location.protocol == 'http:' ? 'ws://' : 'wss://') + window.location.host + '/vos';
+    me.uri = (window.location.protocol === 'http:' ? 'ws://' : 'wss://') + window.location.host + '/vos';
     //me.uri = 'ws://linobis.acao.it:3330/vos'
 
     me.state = 'DISCONNECTED';
@@ -49,7 +48,7 @@ export default Service.extend(Evented, {
 console.log("VISIBILITY_CHANGE", document.visibilityState, "IN STATE", me.state);
       switch(me.state) {
       case 'READY':
-        if (document.visibilityState == 'visible') {
+        if (document.visibilityState === 'visible') {
           me.startKeepalive();
           me.transmit({
             type: 'awake',
@@ -224,7 +223,7 @@ console.log("VISIBILITY_CHANGE", document.visibilityState, "IN STATE", me.state)
     case 'welcome': {
 console.log("WELCOME", msg);
 
-      if (me.state != 'OPEN_WAIT_WELCOME') {
+      if (me.state !== 'OPEN_WAIT_WELCOME') {
         console.warn('VOS received \'welcome\' in unexpected state', me.state);
         return;
       }
@@ -234,7 +233,7 @@ console.log("WELCOME", msg);
       if (!me.app_version)
         me.app_version = msg.app_version;
 
-      if (me.app_version != msg.app_version)
+      if (me.app_version !== msg.app_version)
         me.trigger('version_mismatch', me.app_version, msg.app_version);
 
       me.connectionRequests.forEach((req) => (req.resolve(me.session)));
@@ -255,7 +254,7 @@ console.log("WELCOME", msg);
       if (me.selectionsSaved) {
 console.log("RECREATING SELECTIONS", me.selectionsSaved);
 
-        $.each(me.selectionsSaved, function(key, binding) {
+        Object.entries(me.selectionsSaved).forEach(([ key, binding ]) => {
           me.select({
             model: binding.model,
             params: binding.params,
@@ -275,7 +274,7 @@ console.log("RECREATING SELECTIONS", me.selectionsSaved);
 //      let typeNames = owner.lookup('data-adapter:main').getModelTypes().map(type => type.name);
 //
 //      typeNames.forEach(function(modelType) {
-//        if (me.get('store').adapterFor(modelType) == me.get('store').adapterFor('application')) {
+//        if (me.get('store').adapterFor(modelType) === me.get('store').adapterFor('application')) {
 //          let models = me.get('store').peekAll(modelType);
 //
 //          let ids = [];
@@ -431,8 +430,8 @@ console.log("DESTROY OBJ=", msg);
 
     me.reconnectAttempt += 1;
 
-    if (document.visibilityState == 'visible') {
-      if (me.reconnectAttempt == 1) {
+    if (document.visibilityState === 'visible') {
+      if (me.reconnectAttempt === 1) {
         me.changeState('RECONNECTING');
         me.doConnect();
       } else {
@@ -478,7 +477,7 @@ console.log("VOS AUTHENTICATE SUCCESS", msg);
       failure: ((msg) => {
         console.error("AUTH FAILURE REQ=", req, "RESULT=", msg);
 
-        if (msg.type == 'auth_fail') {
+        if (msg.type === 'auth_fail') {
           defer.reject({
             reason: msg.reason,
             requestId: msg.reply_to,

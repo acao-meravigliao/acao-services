@@ -1,53 +1,55 @@
 {{page-title (t "invoice.page_title")}}
-<div class="ui container">
-  <div class="ui segment">
-  <div>
-    <h1>{{t "invoice.invoice"}} {{model.invoice.identifier}}
-    </h1>
-    Data: {{format-date this.model.invoice.created_at "DD-MM-YYYY HH:mm:ss"}}<br />
+<div class="container page authen-invoice">
+  <div class="box">
+    <div>
+      <h1 class="title">{{t "invoice.invoice"}} {{this.model.invoice.identifier}}
+      </h1>
+      Data: {{format-date this.model.invoice.created_at "DD-MM-YYYY HH:mm:ss"}}<br />
+    </div>
+
+    <table class="invoice ui celled table">
+      <thead>
+        <tr>
+          <th>Descrizione</th>
+          <th>Costo</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each this.model.invoice.details key="@index" as |detail|}}
+        <tr>
+          <td>{{detail.descr}}{{#if detail.specific_data}} - {{detail.specific_data}}{{/if}}</td>
+          <td class="price">{{format-number detail.price 2 "€"}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>Totale</th>
+          <td class="total price">{{format-number this.model.invoice.total 2 "€"}}</td>
+        </tr>
+      </tfoot>
+    </table>
   </div>
 
-  <table class="invoice ui celled table">
-    <thead>
-      <tr>
-        <th>Descrizione</th>
-        <th>Costo</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each this.model.invoice.details key="@index" as |detail|}}
-      <tr>
-        <td>{{detail.descr}}{{#if detail.specific_data}} - {{detail.specific_data}}{{/if}}</td>
-        <td class="price">{{format-number detail.price 2 "€"}}</td>
-      </tr>
-      {{/each}}
-    </tbody>
-    <tfoot>
-      <tr>
-        <th>Totale</th>
-        <td class="total price">{{format-number this.model.invoice.total 2 "€"}}</td>
-      </tr>
-    </tfoot>
-  </table>
+  <div class="box">
+    <h1 class="subtitle">Pagamenti</h1>
+    <table class="invoice table">
+      <thead>
+        <tr>
+          <th>Identificatore</th>
+          <th>Stato</th>
+          <th>Totale</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each this.model.invoice.payments key="@index" as |payment|}}
+        <tr {{on "click" (transition-to "authen.payment" payment.id)}}>
+          <td>{{payment.identifier}}</td>
+          <td>{{payment.state}}</td>
+          <td class="price">{{format-number payment.amount 2 "€"}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
   </div>
-
-<!--
-  <table class="invoice ui celled table">
-    <thead>
-      <tr>
-        <th>Identificatore</th>
-        <th>Stato</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each this.model.invoice.payments key="@index" as |payment|}}
-      <tr>
-        <td>{{payment.identifier}}</td>
-        <td>{{payment.status}}</td>
-        <td class="price">{{format-number payment.amount 2 "€"}}</td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
--->
 </div>

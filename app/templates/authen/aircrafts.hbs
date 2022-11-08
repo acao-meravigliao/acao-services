@@ -1,57 +1,38 @@
 {{page-title "Miei Aeromobili"}}
-<div class="ui container">
-  <YetiTable class="ui selectable celled table"
-      @filter={{filter}}
-      @pagination={{true}} @pageSize={{20}} @totalRows={{totalRows}}
-      @loadData={{perform loadDataTask}} as |table|>
-    <table.header as |header|>
-      <header.column>
-        Marche
-      </header.column>
-      <header.column>
-        Sigle di gara
-      </header.column>
-      <header.column>
-        Tipo
-      </header.column>
-      <header.column>
-        ID FLARM
-      </header.column>
-      <header.column>
-        ID ICAO
-      </header.column>
-    </table.header>
 
-    <table.body as |body data|>
-      <body.row @onClick={{transition-to "authen.aircraft" data.id}} as |row|>
-        <row.cell>
-          {{data.registration}}
-        </row.cell>
-        <row.cell>
-          {{data.race_registration}}
-        </row.cell>
-        <row.cell>
-          {{data.aitcraft_type.name}}
-        </row.cell>
-        <row.cell>
-          {{data.flarm_identifier}}
-        </row.cell>
-        <row.cell>
-          {{data.icao_identifier}}
-        </row.cell>
-      </body.row>
-    </table.body>
-
-    <tfoot>
-      {{#if (gt table.paginationData.totalRows table.paginationData.pageSize)}}
+<div class="container box page authen-aircrafts">
+  <table class="table aircrafts">
+    <thead>
       <tr>
-        <td colspan={{table.totalColumns}}>
-          {{table-pagination table=table}}
+        <th>Marche</th>
+        <th>Sigle di gara</th>
+        <th>Tipo</th>
+        <th>ID FLARM</th>
+        <th>ID ICAO</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {{#each this.sorted_models key="id" as |data|}}
+
+      <tr {{on 'click' (transition-to "authen.aircraft" data.id)}}>
+        <td>
+          {{data.registration}}
+        </td>
+        <td>
+          {{data.race_registration}}
+        </td>
+        <td>
+          {{data.aitcraft_type.name}}
+        </td>
+        <td>
+          {{data.flarm_identifier}}
+        </td>
+        <td>
+          {{data.icao_identifier}}
         </td>
       </tr>
-      {{/if}}
-    </tfoot>
-  </YetiTable>
+      {{/each}}
+    </tbody>
+  </table>
 </div>
-
-

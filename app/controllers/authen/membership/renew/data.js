@@ -5,7 +5,6 @@ import { A } from '@ember/array';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import SelectedService from 'acao-services/utils/selected-service';
-import $ from 'jquery';
 
 export default class AuthenMembershipRenewDataController extends Controller {
   @service session;
@@ -62,13 +61,9 @@ export default class AuthenMembershipRenewDataController extends Controller {
 
   get submit_disabled() { return this.form_invalid; }
 
-  get payment_wire() { return this.payment_method == 'WIRE'; }
-  get payment_check() { return this.payment_method == 'CHECK'; }
-  get payment_card() { return this.payment_method == 'CARD'; }
-
-  @action open_rules() {
-    $('.rules-modal').modal('show');
-  }
+  get payment_wire() { return this.payment_method === 'WIRE'; }
+  get payment_check() { return this.payment_method === 'CHECK'; }
+  get payment_card() { return this.payment_method === 'CARD'; }
 
   @action service_add() {
     this.services.addObject(new SelectedService({ type: null }));
@@ -104,12 +99,10 @@ console.log("PROCEED", this.getProperties( 'enable_cav', 'enable_email', 'accept
       'enable_cav', 'enable_email', 'accept_rules', 'payment_method',
     ));
 
-    this.wizard.current_step = 'roster';
-    this.router.transitionTo('authen.membership.renew.roster');
+    this.wizard.next('roster');
   }
 
   @action back() {
-    this.wizard.current_step = 'index';
-    this.router.transitionTo('authen.membership.renew.index');
+    this.wizard.prev();
   }
 }

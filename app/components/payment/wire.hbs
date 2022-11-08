@@ -1,16 +1,16 @@
-<div class="ui segment">
+<div class="box">
   Se non lo hai già fatto procedi al versamento alle seguenti coordinate:
 
-  <div class="ui raised segment">
-    <h4 class="ui header">Aero Club Adele Orsi Associazione Sportiva Dilettantistica</h4>
+  <div class="box content">
+    <h4>Aero Club Adele Orsi Associazione Sportiva Dilettantistica</h4>
     Banca Popolare di Sondrio - Agenzia di Gavirate<br />
     IBAN: <strong><span style="font-family: monospace">IT70R0569650250000020249X74</span></strong><br />
-    Causale: <strong>Pagamento codice {{model.payment.identifier}}{{#if model.payment.reason_for_payment}} per {{model.payment.reason_for_payment}}{{/if}}</strong><br />
-    Importo: <strong>{{numeral-format model.payment.amount format="0.00"}} €</strong>
+    Causale: <strong>Pagamento codice {{@payment.identifier}}{{#if @payment.reason_for_payment}} per {{@payment.reason_for_payment}}{{/if}}</strong><br />
+    Importo: <strong>{{format-number @payment.amount 2 "€"}}</strong>
   </div>
 
-  <div class="small green ui message">
-    <ul class="ui list">
+  <div class="notification is-success">
+    <ul>
       <li>Assicurati di indicare nella causale il <strong>codice pilota</strong> e il <strong>codice di pagamento</strong></li>
       <li>Non è necessario inviare la ricevuta di versamento in segreteria.</li>
       <li>Verrai avvisato via e-mail quando il versamento risulterà confermato.</li>

@@ -1,9 +1,7 @@
-{{page-title model.full_name}}
-<div class="ui container">
-  <div class="ui segment">
-    <h1>{{model.full_name}}</h1>
-    Nome: {{model.first_name}}<br />
-    Cognome: {{model.last_name}}<br />
-    Codice Pilota: {{model.acao_code}}<br />
-  </div>
+{{page-title this.model.full_name}}
+<div class="container box page authen-person">
+  <h1>{{this.model.full_name}}</h1>
+  Nome: {{this.model.first_name}}<br />
+  Cognome: {{this.model.last_name}}<br />
+  Codice Pilota: {{this.model.acao_code}}<br />
 </div>
