@@ -13,12 +13,12 @@
           <tbody>
             <tr>
               <td>{{this.ass_service.name}}</td>
-              <td class="price">{{format-number this.ass_service.price 2 "€"}}</td>
+              <td class="price">{{format-number this.ass_service.price style="currency" currency="EUR"}}</td>
             </tr>
             {{#if this.wizard.enable_cav}}
             <tr>
               <td>{{this.cav_service.name}}</td>
-              <td class="price">{{format-number this.cav_service.price 2 "€"}}</td>
+              <td class="price">{{format-number this.cav_service.price style="currency" currency="EUR"}}</td>
             </tr>
             {{/if}}
 
@@ -31,14 +31,14 @@
                   {{service.type.extra_info}}: {{service.extra_info}}
                 {{/if}}
               </td>
-              <td class="price">{{format-number service.type.price 2 "€"}}</td>
+              <td class="price">{{format-number service.type.price style="currency" currency="EUR"}}</td>
             </tr>
             {{/each}}
           </tbody>
           <tfoot>
             <tr>
               <th>Totale</th>
-              <td class="total price">{{format-number this.total 2 "€"}}</td>
+              <td class="total price">{{format-number this.total style="currency" currency="EUR"}}</td>
             </tr>
           </tfoot>
         </table>

@@ -20,7 +20,7 @@
           {{data.descr}}
         </td>
         <td class="price">
-          {{format-number data.amount 2 "€"}}
+          {{format-number data.amount style="currency" currency="EUR"}}
         </td>
       </tr>
       {{/each}}

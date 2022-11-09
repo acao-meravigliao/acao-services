@@ -27,7 +27,7 @@
           {{t (concat "payment.methods." data.payment_method)}}
         </td>
         <td class="price">
-          {{format-number data.total 2 "€"}}
+          {{format-number data.total style="currency" currency="EUR"}}
         </td>
         <td>
           <span class="tag state {{data.state}}">{{t (concat "invoice.states." data.state)}}</span>

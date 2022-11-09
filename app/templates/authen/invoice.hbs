@@ -18,14 +18,14 @@
         {{#each this.model.invoice.details key="@index" as |detail|}}
         <tr>
           <td>{{detail.descr}}{{#if detail.specific_data}} - {{detail.specific_data}}{{/if}}</td>
-          <td class="price">{{format-number detail.price 2 "€"}}</td>
+          <td class="price">{{format-number detail.price style="currency" currency="EUR"}}</td>
         </tr>
         {{/each}}
       </tbody>
       <tfoot>
         <tr>
           <th>Totale</th>
-          <td class="total price">{{format-number this.model.invoice.total 2 "€"}}</td>
+          <td class="total price">{{format-number this.model.invoice.total style="currency" currency="EUR"}}</td>
         </tr>
       </tfoot>
     </table>
@@ -46,7 +46,7 @@
         <tr {{on "click" (transition-to "authen.payment" payment.id)}}>
           <td>{{payment.identifier}}</td>
           <td>{{payment.state}}</td>
-          <td class="price">{{format-number payment.amount 2 "€"}}</td>
+          <td class="price">{{format-number payment.amount style="currency" currency="EUR"}}</td>
         </tr>
         {{/each}}
       </tbody>

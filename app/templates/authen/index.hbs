@@ -24,7 +24,7 @@
           Conto bar
         </p>
         <p class="title">
-          {{format-number this.session.person.acao_bar_credit 2 "€"}}
+          {{format-number this.session.person.acao_bar_credit style="currency" currency="EUR"}}
         </p>
       </div>
     </div>
@@ -35,7 +35,7 @@
           Bollini
         </p>
         <p class="title">
-          {{format-number this.session.person.acao_bollini 1}}
+          {{format-number this.session.person.acao_bollini minimumFractionDigits=0 maximumFractionDigits=1}}
         </p>
       </div>
     </div>

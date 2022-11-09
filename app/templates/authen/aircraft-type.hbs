@@ -9,5 +9,5 @@
       {{if (eq this.model.motor 1) "Self Sustaining"}}
       {{if (eq this.model.motor 2) "Self Launching"}}
       <br />
-    Handicap: {{format-number this.model.handicap 2}}<br />
+    Handicap: {{format-number this.model.handicap minimumFractionDigits=2 maximumFractionDigits=2}}<br />
 </div>

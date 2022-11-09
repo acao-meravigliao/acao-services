@@ -6,7 +6,7 @@
     Banca Popolare di Sondrio - Agenzia di Gavirate<br />
     IBAN: <strong><span style="font-family: monospace">IT70R0569650250000020249X74</span></strong><br />
     Causale: <strong>Pagamento codice {{@payment.identifier}}{{#if @payment.reason_for_payment}} per {{@payment.reason_for_payment}}{{/if}}</strong><br />
-    Importo: <strong>{{format-number @payment.amount 2 "€"}}</strong>
+    Importo: <strong>{{format-number @payment.amount style="currency" currency="EUR"}}</strong>
   </div>
 
   <div class="notification is-success">
