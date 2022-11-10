@@ -56,13 +56,13 @@ export default class Login2Controller extends Controller {
     if (username2.indexOf('@') === -1)
       username2 = username2 + '@cp.acao.it';
 
-    this.session.proxyAuthenticate(username, password, username2).then(() => {
+    this.session.proxyAuthenticate(username, password, username2).then((res) => {
       if (window.PasswordCredential) {
-        var c = new PasswordCredential({
+        let c = new PasswordCredential({
           id: this.username,
           password: this.password,
-          name: res.session.person ?
-            (res.session.person.name || `${res.session.person.first_name} ${res.session.person.last_name}`) :
+          name: res.auth_person.name ?
+            res.auth_person.name :
             null,
         });
 

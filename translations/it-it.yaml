@@ -32,6 +32,12 @@ authen:
       page_title: Tutti i turni di linea
     today:
       page_title: Turni di oggi
+    reasons:
+      older_than_65: 'età maggiore di 65 anni'
+      instructor: 'istruttore'
+      has_disability: 'persona con disabilità'
+      board_member: 'membro del consiglio'
+      tow_pilot: 'trainatore'
 
   memberships:
     page_title: Iscrizioni
@@ -39,6 +45,8 @@ authen:
     page_title: Iscrizione
     renew:
       page_title: Rinnovo iscrizione
+      data:
+        service_select_placeholder: Seleziona il servizio...
 
 invoices:
   page_title: Ricevute

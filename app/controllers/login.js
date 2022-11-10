@@ -42,13 +42,13 @@ export default class LoginController extends Controller {
     if (username.indexOf('@') === -1)
       username = username + '@cp.acao.it';
 
-    this.session.authenticate(username, this.password).then(() => {
+    this.session.authenticate(username, this.password).then((res) => {
       if (window.PasswordCredential) {
-        var c = new PasswordCredential({
+        let c = new PasswordCredential({
           id: this.username,
           password: this.password,
-          name: res.session.person ?
-            (res.session.person.name || `${res.session.person.first_name} ${res.session.person.last_name}`) :
+          name: res.auth_person.name ?
+            res.auth_person.name :
             null,
         });
 

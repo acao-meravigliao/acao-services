@@ -6,7 +6,5 @@ export default class HamburgerService extends Service {
 
   toggle() {
     this.active = !this.active;
-
-console.log("AAAAAAAAAAAAAAA ACTIVE", this.active);
   }
 }

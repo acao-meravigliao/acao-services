@@ -10,13 +10,12 @@ export default class ExceptionDecodeComponent extends Component {
   get title() {
     let ex = this.args.ex;
 
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", ex, ex.name, ex.type, ex instanceof MyException);
+    console.error("Exception:", ex, ex.name, ex.type);
 
     if (!ex)
       return '';
 
     if (ex instanceof MyException) {
-console.log("AAAAAAAAA2", ex.type);
       return ex.title_text(this.intl);
     } else {
       return this.intl.lookup(`ex.local.${ex.name}.title`, null, { resilient: true }) ||

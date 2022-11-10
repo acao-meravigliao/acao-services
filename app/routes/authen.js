@@ -11,12 +11,20 @@ export default class AuthenRoute extends VosRoute {
   //@service vos;
   @service router;
   @service ms;
+  @service hamburger;
 
   constructor() {
     super(...arguments);
 
     this.session.on('session_becomes_not_authenticated', () => {
       this.router.transitionTo(config.login_route);
+    });
+  }
+
+  // Close the hamburge menu on route change
+  activate() {
+    this.router.on('routeWillChange', (transition) => {
+      this.hamburger.active = false;
     });
   }
 

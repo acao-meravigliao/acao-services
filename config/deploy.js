@@ -35,6 +35,17 @@ module.exports = function(deployTarget) {
     }
   break;
 
+  case 'dev':
+    ENV.build.environment = 'production';
+
+    ENV['rsync-assets'] = {
+      destination: 'yggdra@fe.acao.it:/opt/acao-services-dev/',
+      source: 'dist/',
+      excludeIndexHTML: false,
+      ssh: true,
+    }
+  break;
+
   case 'staging2':
     ENV.build.environment = 'production';
 

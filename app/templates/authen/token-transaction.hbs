@@ -7,6 +7,6 @@
   Aeromobile: {{this.model.aircraft.registration}}<br />
 {{!--  Aeromobile: {{#if this.model.aircraft}}{{link-to this.model.aircraft.registration "authen.aircraft" this.model.aircraft.id}}{{else}}N/A{{/if}}<br />--}}
   Descrizione: {{this.model.descr}}<br />
-  Ammontare: {{format-number this.model.amount style="currency" currency=this.model.unit}}<br />
-  Credito: {{format-number this.model.prev_credit style="currency" currency=this.model.unit}} → {{format-number this.model.credit style="currency" currency=this.model.unit}}<br />
+  Ammontare: {{format-number this.model.amount minimumFractionDigits=1 maximumFractionDigits=1}}<br />
+  Credito: {{format-number this.model.prev_credit minimumFractionDigits=1 maximumFractionDigits=1}} → {{format-number this.model.credit minimumFractionDigits=1 maximumFractionDigits=1}}<br />
 </div>

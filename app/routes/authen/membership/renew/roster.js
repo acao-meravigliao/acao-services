@@ -38,6 +38,8 @@ export default class AuthenRenewMembershipRosterRoute extends Route {
         }),
       }).then((res) => (res.json())),
     }).then((res) => {
+      wizard.roster_status = res.roster_status;
+
       if (res.roster_status.high_season === 0 && res.roster_status.total === 0)
         wizard.skip_to('summary');
       else

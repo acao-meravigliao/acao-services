@@ -93,8 +93,6 @@ export default class AuthenMembershipRenewDataController extends Controller {
   @action submit() {
     this.wizard.services = this.services.filter((x) => (x.type));
 
-console.log("PROCEED", this.getProperties( 'enable_cav', 'enable_email', 'accept_rules', 'payment_method'));
-
     this.wizard.setProperties(this.getProperties(
       'enable_cav', 'enable_email', 'accept_rules', 'payment_method',
     ));

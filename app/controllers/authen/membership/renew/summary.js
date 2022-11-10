@@ -82,7 +82,7 @@ export default class RenewSummaryMembershipController extends Controller {
 
     this.wizard.payment_id = json.payment_id;
     this.wizard.next('confirmation');
-    //this.send('refresh_model');
+    this.send('refresh_model');
   }
 
   @action back() {
