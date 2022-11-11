@@ -3,6 +3,10 @@ application:
 initial_connection:
   page_title: 'ACAO Connessione...'
   connecting: 'Connessione in corso...'
+
+loading_widget:
+  text: Caricamento...
+
 login:
   page_title: Login
   login_to: Login to
@@ -86,9 +90,16 @@ password_recovery:
 menu:
   dashboard: Dashboard
   renew_membership: Rinnovo iscrizione
+  billing: Contabilità
+  token_transactions: Conto bollini
+  bar_transactions: Conto bar
   invoices: Ricevute
   payments: Pagamenti
   roster: Turni di linea
+  all_roster_days: Tutti i turni
+  today_roster_entries: Turni di oggi
+  things: Cose
+  aircrafts: Miei alianti
   logout: Logout
 
 application_error:

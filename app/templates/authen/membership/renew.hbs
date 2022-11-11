@@ -1,18 +1,2 @@
 {{page-title (t "authen.membership.renew.page_title")}}
-
-{{#if this.renew_is_open_and_needed}}
-  {{outlet}}
-{{else if this.renew_is_going_to_open}}
-  <div class="notification is-warning">
-    L'iscrizione per l'anno {{this.year}} non è ancora aperta,
-    aprirà tra {{format-date-from-now this.year_model.renew_opening_time}}
-  </div>
-{{else if this.renew_is_open}}
-  <div class="notification is-success">
-    L'iscrizione per l'anno {{this.year}} non è necessaria.
-  </div>
-{{else}}
-  <div class="notification is-errors">
-    L'iscrizione per l'anno {{this.year}} non è aperta.
-  </div>
-{{/if}}
+{{outlet}}

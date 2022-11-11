@@ -12,21 +12,22 @@
     <tbody>
       <tr>
         <td></td>
-        <td>{{this.this.ass_service.name}}</td>
-        <td class="price">{{format-number this.this.ass_service.price style="currency" currency="EUR"}}</td>
+        <td>{{this.ass_service.name}}</td>
+        <td class="price">{{if this.ass_service.price (format-number this.ass_service.price style="currency" currency="EUR")}}</td>
       </tr>
       {{#if this.wizard.cav_type}}
       <tr>
         <td class="collapsing">
           <input type="checkbox" id="enable_cav_cb" class="checkbox" checked={{this.enable_cav}} {{on "change" this.enable_cav_set}} />
-
         </td>
         <td>
           <label for="enable_cav_cb" class="label">
-           {{this.this.cav_service.name}}
+            {{this.cav_service.name}}
           </label>
         </td>
-        <td class="price">{{format-number this.this.cav_service.price style="currency" currency="EUR"}}</td>
+        <td class="price {{if (not this.enable_cav) "disabled"}}">
+          {{if this.cav_service.price (format-number this.cav_service.price style="currency" currency="EUR")}}
+        </td>
       </tr>
       {{/if}}
 

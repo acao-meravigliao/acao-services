@@ -2,12 +2,15 @@ import Controller from '@ember/controller';
 import { inject as controller } from '@ember/controller';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 import fetch from 'fetch';
 import RemoteException from 'acao-services/utils/remote-exception';
 
 export default class RenewSummaryMembershipController extends Controller {
   @service router;
   @controller('authen.membership.renew') wizard_controller;
+
+  @tracked submitting = false;
 
   get wizard() { return this.wizard_controller.wizard; }
 
@@ -25,6 +28,10 @@ export default class RenewSummaryMembershipController extends Controller {
            this.wizard.services.reduce((previous, service) => (
              previous + service.type.price
            ), 0);
+  }
+
+  get can_submit() {
+    return !this.submitting;
   }
 
   @action async submit() {

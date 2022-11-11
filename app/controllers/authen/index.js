@@ -13,7 +13,11 @@ export default class AuthenIndexController extends Controller {
   roster_entries_sort_order = ['roster_day.date'];
 
   //------------------- Renewal -------------------
-  @action start_membership_renewal() {
+  @action start_current_membership_renewal() {
+    this.router.transitionTo('authen.membership.renew', this.ms.next_year.year);
+  }
+
+  @action start_next_membership_renewal() {
     this.router.transitionTo('authen.membership.renew', this.ms.next_year.year);
   }
 

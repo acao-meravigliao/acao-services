@@ -3,17 +3,24 @@
 <div class="container box page authen-index">
   <h1 class="subtitle">Ciao {{this.session.person.first_name}}!</h1>
 
-  {{#if this.ms.next_renew_is_going_to_open}}
+  {{#if this.ms.current_renew_is_open_and_needed}}
+    <div class="notification is-success">
+      L'iscrizione per l'anno {{this.ms.current_year.year}} è aperta.
+      <button class="button is-info" {{on "click" this.start_current_membership_renewal}}>Inizia</button>
+    </div>
+  {{/if}}
+
+  {{#if this.ms.next_renew_is_going_to_open_and_needed}}
     <div class="notification is-warning">
       L'iscrizione per l'anno {{this.ms.next_year.year}} non è ancora aperta,
       aprirà tra {{format-date-from-now this.ms.next_year.renew_opening_time}}
     </div>
   {{/if}}
 
-  {{#if this.ms.next_renew_is_open}}
+  {{#if this.ms.next_renew_is_open_and_needed}}
     <div class="notification is-success">
-      L'iscrizione per l'anno {{this.ms.next_year.year}} è aperta,
-      <button class="button is-info" {{on "click" this.start_membership_renewal}}>Inizia</button>
+      L'iscrizione per l'anno {{this.ms.next_year.year}} è aperta.
+      <button class="button is-info" {{on "click" this.start_next_membership_renewal}}>Inizia</button>
     </div>
   {{/if}}
 

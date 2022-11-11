@@ -73,6 +73,10 @@ table {
   td.number,td.price {
     text-align: right !important;
     font-family: monospace;
+
+    &.disabled {
+      text-decoration: line-through;
+    }
   }
   td.total {
     font-weight: bold !important;

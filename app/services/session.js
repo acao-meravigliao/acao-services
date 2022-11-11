@@ -96,9 +96,7 @@ export default class SessionService extends Service.extend(Evented) {
       if (json.authenticated) {
         return json;
       } else {
-console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH1");
         let a = new WrongCredentials;
-console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH2", a, a.type, a.title_sym);
         throw new WrongCredentials;
       }
 
@@ -113,41 +111,48 @@ console.log("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH2", a, a.type, a.title_sym);
     }
   }
 
-  proxyAuthenticate(fqda, password, other_fqda) {
+  async proxy_authenticate(fqda, password, other_fqda) {
     this.authenticating = true;
 
-    return new Promise((resolve, reject) => {
-      fetch('/ygg/session/proxy_authenticate_by_fqda_and_password', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify({
-          fqda: fqda,
-          password: password,
-          other_fqda: other_fqda,
-        }),
-      }).then((res) => {
-        this.update(res).then(() => {
-          if (res.ok) {
-            if (res.authenticated) {
-              resolve(res);
-            } else {
-              reject(res);
-            }
-          } else
-            reject(res);
-        }).catch((error) => {
-          reject(error);
-        });
-
-      }).catch((error) => {
-        reject(error);
-      }).finally(() => {
-        this.authenticating = false;
-      });
+    let res = await fetch('/ygg/session/proxy_authenticate_by_fqda_and_password', {
+      method: 'POST',
+      signal: AbortSignal.timeout(5000),
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        fqda: fqda,
+        password: password,
+        other_fqda: other_fqda,
+      }),
     });
+
+    if (res.ok) {
+      if (!res.headers.get('content-type').startsWith('application/json')) {
+        throw(new AuthenticationServerFailure);
+      }
+
+      let json = await res.json();
+
+      await this.update(json);
+
+      if (json.authenticated) {
+        return json;
+      } else {
+        let a = new WrongCredentials;
+        throw new WrongCredentials;
+      }
+
+    } else {
+      if (!res.headers.get('content-type').startsWith('application/problem+json')) {
+        throw(new AuthenticationServerFailure);
+      }
+
+      let json = await res.json();
+
+      throw(new AuthenticationServerError(json));
+    }
   }
 
   async logout() {

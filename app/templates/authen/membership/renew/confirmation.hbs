@@ -1,9 +1,9 @@
 {{page-title "Conferma"}}
-<div class="container">
+<div class="container box">
   <h1 class="title">Iscrizione confermata!</h1>
 
   <div class="buttons is-centered">
-    <button class="button is-primary is-large" {{on "click" (transition-to this.wizard.payment_id)}}>
+    <button class="button is-primary is-large" {{on "click" this.go_to_payment}}>
       Vai al pagamento
     </button>
   </div>

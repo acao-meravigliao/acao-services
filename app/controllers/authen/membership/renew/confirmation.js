@@ -7,5 +7,10 @@ export default class AuthenMembershipRenewConfirmationController extends Control
   @service router;
   @controller('authen.membership.renew') wizard_controller;
 
-  get wizard() { return this.wizard_controller.state; }
+  get wizard() { return this.wizard_controller.wizard; }
+
+  @action go_to_payment() {
+console.log("PAYMENT ID=", this.wizard.payment_id);
+    this.router.transitionTo("authen.payment", this.wizard.payment_id);
+  }
 }

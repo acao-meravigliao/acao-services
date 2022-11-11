@@ -1,5 +1,5 @@
 {{page-title (concat "Pagamento " this.model.payment.identifier)}}
-<div class="container box page authen-payment">
+<div class="container page authen-payment">
   <div class="box">
     <h1 class="title">Pagamento codice {{this.model.payment.identifier}}
     {{#if (eq this.model.payment.state "PENDING")}} <span class="tag is-warning">Pendente</span> {{/if}}

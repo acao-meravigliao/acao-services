@@ -1,17 +1,18 @@
 import Controller from '@ember/controller';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 import config from 'acao-services/config/environment';
 
 export default class Login2Controller extends Controller {
   @service session;
   @service router;
 
-  @tracked username = null;
+  @tracked username = '';
   @tracked username_warning = null;
-  @tracked username2 = null;
+  @tracked username2 = '';
   @tracked username2_warning = null;
-  @tracked password = null;
+  @tracked password = '';
   @tracked password_warning = null;
   @tracked submitting = false;
   @tracked ex = null;
@@ -42,7 +43,7 @@ export default class Login2Controller extends Controller {
     return !this.submitting && this.username !== '' && this.password !== '' && this.username2 !== '';
   }
 
-  @action authenticate() {
+  @action authenticate(ev) {
     ev.preventDefault();
 
     this.submitting = true;
@@ -56,7 +57,7 @@ export default class Login2Controller extends Controller {
     if (username2.indexOf('@') === -1)
       username2 = username2 + '@cp.acao.it';
 
-    this.session.proxyAuthenticate(username, password, username2).then((res) => {
+    this.session.proxy_authenticate(username, this.password, username2).then((res) => {
       if (window.PasswordCredential) {
         let c = new PasswordCredential({
           id: this.username,
@@ -69,7 +70,7 @@ export default class Login2Controller extends Controller {
         navigator.credentials.store(c);
       }
 
-      this.router.replaceWith(config.authenticatedRoute);
+      this.router.replaceWith(config.authenticated_route);
     }).catch((ex) => {
       this.ex = ex;
     }).finally(() => {

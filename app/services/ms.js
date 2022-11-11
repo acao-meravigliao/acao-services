@@ -4,6 +4,7 @@ import { tracked } from '@glimmer/tracking';
 
 export default class MembershipStatusService extends Service {
   @service clock;
+  @service session;
 
   @tracked store_membership;
   @tracked years;
@@ -14,7 +15,7 @@ export default class MembershipStatusService extends Service {
   }
 
   get my_memberships() {
-    return this.store_memberships.filter((x) => (x.person_id === this.session.person_id));
+    return this.store_membership.filter((x) => (x.person_id === this.session.person_id));
   }
 
   get current_year() {
@@ -27,9 +28,13 @@ export default class MembershipStatusService extends Service {
            this.clock.date > new Date(this.current_year.renew_opening_time);
   }
 
+  get current_renew_is_needed() {
+    return !this.my_memberships.some((item) => (item.reference_year_id === this.current_year.id));
+  }
+
   get current_renew_is_open_and_needed() {
     return this.current_renew_is_open &&
-           !this.my_memberships.some((item) => (item.reference_year_id === this.current_year.id));
+           this.current_renew_is_needed;
   }
 
   get next_year() {
@@ -42,9 +47,13 @@ export default class MembershipStatusService extends Service {
            this.clock.date > new Date(this.next_year.renew_opening_time);
   }
 
+  get next_renew_is_needed() {
+    return !this.my_memberships.some((item) => (item.reference_year_id === this.next_year.id));
+  }
+
   get next_renew_is_open_and_needed() {
-    return this.next_renew_is_is_open &&
-           !this.my_memberships.some((item) => (item.reference_year_id === this.next_year.id));
+    return this.next_renew_is_open &&
+           this.next_renew_is_needed;
   }
 
   get next_renew_is_going_to_open() {
@@ -53,5 +62,10 @@ export default class MembershipStatusService extends Service {
            this.next_year.renew_opening_time &&
            this.clock.time > new Date(this.next_year.renew_announce_time) &&
            this.clock.time < new Date(this.next_year.renew_opening_time);
+  }
+
+  get next_renew_is_going_to_open_and_needed() {
+    return this.next_renew_is_going_to_open &&
+           this.next_renew_is_needed;
   }
 }

@@ -1,46 +1,32 @@
 {{page-title (t "authen.memberships.page_title")}}
+
 <div class="container box page authen-memberships">
-  <YetiTable class="ui selectable celled table"
-      @data={{memberships}}
-      @filter={{filter}}
-      @pagination={{true}} @pageSize={{20}} @totalRows={{totalRows}}
-      as |table|>
-    <table.header as |header|>
-      <header.column>
-        Anno
-      </header.column>
-      <header.column>
-        Stato
-      </header.column>
-      <header.column>
-        Ricevuta
-      </header.column>
-    </table.header>
-
-    <table.body as |body data|>
-      <body.row as |row|>
-        <row.cell>
-          {{data.reference_year.year}}
-        </row.cell>
-        <row.cell>
-          {{data.status}}
-        </row.cell>
-        <row.cell>
-          {{#if data.invoice_detail}}
-            {{#link-to "authen.invoice" data.invoice_detail.invoice.id}}Ricevuta {{data.invoice_detail.invoice.identifier}}{{/link-to}}
-          {{/if}}
-        </row.cell>
-      </body.row>
-    </table.body>
-
-    <tfoot>
-      {{#if (gt table.paginationData.totalRows table.paginationData.pageSize)}}
+  <table class="table memberships">
+    <thead>
       <tr>
-        <td colspan={{table.totalColumns}}>
-          {{table-pagination table=table}}
+        <th>Anno</th>
+        <th>Stato</th>
+        <th>Ricevuta</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {{#each this.sorted_models key="id" as |data|}}
+
+      <tr {{on 'click' (transition-to "authen.aircraft" data.id)}}>
+        <td>
+          {{data.reference_year.year}}
+        </td>
+        <td>
+          {{data.status}}
+        </td>
+        <td>
+          {{#if data.invoice_detail}}
+            <LinkTo @route="authen.invoice" @model={{data.invoice_detail.invoice.id}}>Ricevuta {{data.invoice_detail.invoice.identifier}}</LinkTo>
+          {{/if}}
         </td>
       </tr>
-      {{/if}}
-    </tfoot>
-  </YetiTable>
+      {{/each}}
+    </tbody>
+  </table>
 </div>

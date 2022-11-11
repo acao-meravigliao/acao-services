@@ -39,7 +39,7 @@ export default class AuthenMembershipRenewDataController extends Controller {
   }
 
   get cav_service() {
-    return this.enable_cav ? this.wizard.service_types.findBy('symbol', this.wizard.cav_type) : null;
+    return this.wizard.service_types.findBy('symbol', this.wizard.cav_type);
   }
 
   @action enable_cav_set(ev) {

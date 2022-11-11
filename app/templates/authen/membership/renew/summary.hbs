@@ -1,5 +1,5 @@
 {{page-title "Riassunto"}}
-<div class="container">
+<div class="container box">
   <div class="level">
     <div class="level-left">
       <div class="level-item">
@@ -61,7 +61,7 @@
             {{/if}}
           </p>
           {{#each this.wizard.selected_roster_days as |roster_day|}}
-            {{format-date roster_day.date "ddd D/M"}}<br />
+            {{format-date roster_day.date "dddd D/M"}}<br />
           {{/each}}
         </div>
       </div>
@@ -73,7 +73,8 @@
       <span class="icon"><FaIcon @icon="backward" /></span>
       <span>Indietro</span>
     </button>
-    <button class="button is-primary is-large" disabled={{this.submit_disabled}} {{on "click" this.submit}}>
+    <button class="button is-primary is-large {{if this.submitting "is-loading"}}"
+            disabled={{not this.can_submit}} {{on "click" this.submit}}>
       Conferma iscrizione!
     </button>
   </div>

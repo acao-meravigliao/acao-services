@@ -15,7 +15,7 @@
 
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">
-          Billing
+          {{t "menu.billing"}}
           {{#if this.pending_payments}}
             <span class="tag is-danger"><FaIcon @icon="exclamation" /></span>
           {{/if}}
@@ -23,19 +23,19 @@
 
         <div class="navbar-dropdown">
           <LinkTo @route="authen.token-transactions" class="navbar-item">
-            Conto Bollini
+            {{t "menu.token_transactions"}}
           </LinkTo>
 
           <LinkTo @route="authen.bar-transactions" class="navbar-item">
-            Conto Bar
+            {{t "menu.bar_transactions"}}
           </LinkTo>
 
           <LinkTo @route="authen.invoices" class="navbar-item">
-            Ricevute
+            {{t "menu.invoices"}}
           </LinkTo>
 
           <LinkTo @route="authen.payments" class="navbar-item">
-            Pagamenti
+            {{t "menu.payments"}}
             {{#if this.pending_payments}}
               <span class="tag is-danger">{{this.pending_payments.length}}</span>
             {{/if}}
@@ -49,18 +49,18 @@
         </a>
 
         <div class="navbar-dropdown">
-          <LinkTo class="navbar-item" @route="authen.roster.days"> Tutti i turni </LinkTo>
-          <LinkTo class="navbar-item" @route="authen.roster.today"> Turni di oggi </LinkTo>
+          <LinkTo class="navbar-item" @route="authen.roster.days">{{t "menu.all_roster_days"}}</LinkTo>
+          <LinkTo class="navbar-item" @route="authen.roster.today">{{t "menu.today_roster_entries"}}</LinkTo>
         </div>
       </div>
 
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">
-          Cose
+          {{t "menu.things"}}
         </a>
 
         <div class="navbar-dropdown">
-          <LinkTo class="navbar-item" @route="authen.aircrafts"> Aeromobili </LinkTo>
+          <LinkTo class="navbar-item" @route="authen.aircrafts">{{t "menu.aircrafts"}}</LinkTo>
         </div>
       </div>
     </div>
@@ -70,37 +70,5 @@
     </div>
   </div>
 </nav>
-
-{{!--<Authen::Menu
-  @person={{this.session.person}}
-  @currentYear={{this.currentYear}}
-  @nextYear={{this.nextYear}}
-  @currentRenewIsOpenAndNeeded={{this.currentRenewIsOpenAndNeeded}}
-  @nextRenewIsOpenAndNeeded={{this.nextRenewIsOpenAndNeeded}}
-  @pendingPayments={{this.pendingPayments}}
-  @rosterCurStatus={{this.rosterCurStatus}}
-  @rosterNextStatus={{this.rosterNextStatus}}
-  @logout={{this.logout}}>
-</Authen::Menu>
-
-{{#if this.hamburger.active}}
-  <div class="modal is-active">
-    <div class="modal-background"></div>
-    <div class="modal-content">
-      <Authen::Menu
-        @person={{this.session.person}}
-        @currentYear={{this.currentYear}}
-        @nextYear={{this.nextYear}}
-        @currentRenewIsOpenAndNeeded={{this.currentRenewIsOpenAndNeeded}}
-        @nextRenewIsOpenAndNeeded={{this.nextRenewIsOpenAndNeeded}}
-        @pendingPayments={{this.pendingPayments}}
-        @rosterCurStatus={{this.rosterCurStatus}}
-        @rosterNextStatus={{this.rosterNextStatus}}
-        @logout={{this.logout}}>
-      </Authen::Menu>
-    </div>
-  </div>
-{{/if}}
---}}
 
 {{outlet}}
