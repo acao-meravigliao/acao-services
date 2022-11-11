@@ -4,7 +4,7 @@
     <div>
       <h1 class="title">{{t "invoice.invoice"}} {{this.model.invoice.identifier}}
       </h1>
-      Data: {{format-date this.model.invoice.created_at "DD-MM-YYYY HH:mm:ss"}}<br />
+      Data: {{format-time this.model.invoice.created_at format="timestamp"}}<br />
     </div>
 
     <table class="invoice ui celled table">

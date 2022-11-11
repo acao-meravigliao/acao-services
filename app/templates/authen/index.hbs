@@ -75,7 +75,7 @@
           <div class="ui segment">
             Visita medica:
             {{#each this.model.medicals as |med|}}
-              {{med.type}}: {{format-date this.med.valid_to "DD-MM-YYYY"}}<br />
+              {{med.type}}: {{format-date this.med.valid_to}}<br />
             {{/each}}
           </div>
         {{/if}}
@@ -84,7 +84,7 @@
           <div class="ui segment">
             Licenze:
             {{#each model.licenses as |lic|}}
-              {{lic.type}}: {{lic.identifier}}: {{format-date this.lic.valid_to "DD-MM-YYYY"}}
+              {{lic.type}}: {{lic.identifier}}: {{format-date this.lic.valid_to}}
             {{/each}}
           </div>
         {{/if}}

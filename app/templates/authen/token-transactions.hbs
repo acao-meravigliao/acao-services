@@ -14,7 +14,7 @@
 
       <tr {{on 'click' (transition-to "authen.token-transaction" data.id)}}>
         <td>
-          {{format-date data.recorded_at "DD-MM-YYYY HH:mm:ss" }}
+          {{format-time data.recorded_at format="timestamp"}}
         </td>
         <td>
           {{data.descr}}

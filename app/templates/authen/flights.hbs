@@ -22,13 +22,13 @@
           {{#if (not-eq data.aircraft_reg data.aircraft.registration)}}<br /><em>{{data.aircraft.registration}}</em>{{/if}}
         </row.cell>
         <row.cell>
-          {{if data.takeoff_time (format-date data.takeoff_time "DD-MM-YYYY HH:mm:ss")}}
+          {{if data.takeoff_time (format-time data.takeoff_time format="timestamp")}}
         </row.cell>
         <row.cell>
           {{data.takeoff_location_raw}}
         </row.cell>
         <row.cell>
-          {{if data.landing_time (format-date data.landing_time "HH:mm:ss")}}
+          {{if data.landing_time (format-time data.landing_time)}}
         </row.cell>
         <row.cell>
           {{data.landing_location_raw}}
@@ -40,7 +40,7 @@
           {{data.pilot2.first_name}} {{data.pilot2.last_name}}
         </row.cell>
         <row.cell>
-          {{format-date (utc data.duration) "HH:mm:ss"}}
+          {{format-duration data.duration}}
         </row.cell>
       </body.row>
     </table.body>

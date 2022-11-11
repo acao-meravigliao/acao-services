@@ -18,7 +18,7 @@
 
       <tr {{on 'click' (transition-to "authen.invoice" data.id)}}>
         <td>
-          {{format-date data.created_at "DD-MM-YYYY HH:mm:ss" }}
+          {{format-time data.created_at format="timestamp"}}
         </td>
         <td>
           {{data.identifier}}

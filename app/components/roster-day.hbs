@@ -1,8 +1,8 @@
 <div class="roster-day">
   <div class="date-block {{if @day.high_season "high-season" "low-season"}}">
     <div class="date">
-      {{format-date @day.date "ddd"}}<br />
-      {{format-date @day.date "D/M"}}
+      {{format-date @day.date format="ddd"}}<br />
+      {{format-date @day.date format="dm"}}
     </div>
   </div>
   <div class="entries">

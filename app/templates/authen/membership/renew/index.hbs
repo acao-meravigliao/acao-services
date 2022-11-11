@@ -30,7 +30,7 @@
       </p>
       <p>
         Nome: <strong>{{this.session.person.first_name}} {{this.session.person.last_name}}</strong><br />
-        Data di nascita: <strong>{{format-date this.session.person.birth_date "DD-MM-YYYY"}}</strong><br />
+        Data di nascita: <strong>{{format-date this.session.person.birth_date}}</strong><br />
         Email: <strong>{{#each this.my_emails as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
         Telefono fisso: <strong>{{#each this.my_fixed_phones as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
         Cellulare: <strong>{{#each this.my_mobiles as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />

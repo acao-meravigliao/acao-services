@@ -17,7 +17,7 @@
 
       <tr {{on 'click' (transition-to "authen.payment" data.id)}}>
         <td>
-          {{format-date data.created_at "DD-MM-YYYY HH:mm:ss" }}
+          {{format-date data.created_at}}
         </td>
         <td>
           {{data.identifier}}
@@ -29,7 +29,7 @@
           {{format-number data.amount style="currency" currency="EUR"}}
         </td>
         <td>
-          {{if data.expires_at (format-date data.expires_at "DD-MM-YYYY")}}
+          {{if data.expires_at (format-date data.expires_at)}}
         </td>
         <td>
           <span class="tag state {{data.state}}">{{t (concat "payment.states." data.state)}}</span>
