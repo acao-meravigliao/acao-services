@@ -14,6 +14,7 @@
       border: solid 1px grey;
       border-radius: 1em;
       position: relative;
+      cursor: pointer;
 
       .background {
         position: absolute;
@@ -31,8 +32,9 @@
         }
       }
 
-      &.unavailale {
+      &.unavailable {
         opacity: .5;
+        cursor: not-allowed;
       }
 
       .date-block {

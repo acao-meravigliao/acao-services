@@ -1,4 +1,4 @@
-{{page-title "Selezione turni di linea"}}
+{{page-title (t "authen.membership.renew.roster.page_title")}}
 
 <RosterSelector
   @initial_selection={{this.wizard.selected_roster_days}}
@@ -15,9 +15,9 @@
 <div class="buttons is-centered">
   <button class="button is-grey is-large" {{on "click" this.back}}>
     <span class="icon"><FaIcon @icon="backward" /></span>
-    <span>Indietro</span>
+    <span>{{t "authen.membership.renew.roster.back"}}</span>
   </button>
   <button class="button is-primary is-large" disabled={{not this.submit_enabled}} {{on "click" this.submit}}>
-    Avanti...
+    {{t "authen.membership.renew.roster.forward"}}
   </button>
 </div>

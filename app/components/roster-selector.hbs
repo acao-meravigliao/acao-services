@@ -1,8 +1,12 @@
 <div class="navbar">
   <div class="navbar-brand">
     <div class="navbar-item">
-      {{this.selection_count}} di {{@needed_total}} turni di linea.
-      {{this.selection_high_season_count}} di {{@needed_high_season}} turni di linea in alta stagione.
+      <span class="tag {{if this.enough_total "is-success" "is-danger"}}">
+        {{t "comp.roster_selector.total_entries" count=this.selection_count needed=@needed_total}}
+      </span>
+      <span class="tag {{if this.enough_high_season "is-success" "is-danger"}}">
+        {{t "comp.roster_selector.high_season_entries" count=this.selection_high_season_count needed=@needed_high_season}}
+      </span>
     </div>
     <div class="navbar-urger">
       <button class="button" {{on "click" this.toggle_filters}}>
@@ -15,26 +19,26 @@
     <div class="navbar-end">
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">
-          <FaIcon @icon="filter" /> Filtri
+          <FaIcon @icon="filter" /> {{t "comp.roster_selector.filters"}}
         </a>
 
         <div class="navbar-dropdown is-right">
           <div class="navbar-item">
             <label>
               <input type="checkbox" checked={{this.flt_high_season}} {{on "change" this.toggle_high_season}} />
-              Alta stagione
+              {{t "comp.roster_selector.high_season"}}
             </label>
           </div>
           <div class="navbar-item">
             <label>
               <input type="checkbox" checked={{this.flt_low_season}} {{on "change" this.toggle_low_season}} />
-              Bassa stagione
+              {{t "comp.roster_selector.low_season"}}
             </label>
           </div>
           <div class="navbar-item">
             <label>
               <input type="checkbox" checked={{this.flt_available_slots}} {{on "change" this.toggle_available_slots}} />
-              Solo giorni disponibili
+              {{t "comp.roster_selector.only_available_days"}}
             </label>
           </div>
         </div>
@@ -59,105 +63,7 @@
     </div>
   {{else}}
     <div class="notification is-info">
-      Non ci sono giornate di linea nel {{this.year}}
+      {{t "comp.roster_selector.no_days" year=this.year}}
     </div>
   {{/if}}
 </div>
-
-{{!--<div class="ui grid">
-  <div class="nine wide column">
-    <div class="ui segment">
-    {{#ui-dropdown class="selection inline compact" selected=this.seasonSelect onChange=(action (mut this.seasonSelect))}}
-    <div class="default text">Tutte</div>
-    <i class="dropdown icon"></i>
-    <div class="menu">
-      <div class="item" data-value="all">Tutte le stagioni</div>
-      <div class="item" data-value="high">Alta stagione</div>
-      <div class="item" data-value="low">Bassa stagione</div>
-    </div>
-    {{/ui-dropdown}}
-
-    {{#ui-dropdown class="selection inline compact" selected=this.monthSelect onChange=(action (mut this.monthSelect))}}
-    <div class="default text">Tutte</div>
-    <i class="dropdown icon"></i>
-    <div class="menu">
-      <div class="item" data-value="all">Tutto l'anno</div>
-      <div class="item" data-value="0">Gennaio</div>
-      <div class="item" data-value="1">Febbraio</div>
-      <div class="item" data-value="2">Marzo</div>
-      <div class="item" data-value="3">Aprile</div>
-      <div class="item" data-value="4">Maggio</div>
-      <div class="item" data-value="5">Giugno</div>
-      <div class="item" data-value="6">Luglio</div>
-      <div class="item" data-value="7">Agosto</div>
-      <div class="item" data-value="8">Settembre</div>
-      <div class="item" data-value="9">Ottobre</div>
-      <div class="item" data-value="10">Novembre</div>
-      <div class="item" data-value="11">Dicembre</div>
-    </div>
-    {{/ui-dropdown}}
-
-<!--    {{#ui-checkbox class="ui toggle" checked=this.includeBusy onChange=(action (mut this.includeBusy))}}
-      Includi occupati
-    {{/ui-checkbox}}
--->
-    </div>
-
-    <div class="ui cards" style="overflow-y: auto; max-height: 70vh">
-      {{#each this.filteredRosterDays as |day|}}
-        <RosterDayEdit @day={{day}} @entries={{this.myRosterEntries}} @canBeChief={{this.canBeChief}} @onAdd={{action "addDay"}} />
-      {{/each}}
-    </div>
-  </div>
-  <div class="seven wide column">
-    <div class="ui segment">
-      {{#if this.canBeChief}}
-        <div class="ui green message">
-          <i class="thumbs up icon" />Sei abilitato a essere capolinea.
-        </div>
-      {{/if}}
-
-      {{#if this.myRosterEntries}}
-        Hai selezionato {{this.myRosterEntries.length}} turni di linea, dei quali {{this.peakRosterEntries.length}} in alta stagione.
-      {{/if}}
-
-      {{#if this.requisiteEntriesMissing}}
-        <div class="ui orange message">
-          Devi selezionare {{this.model.rosterStatus.needed_total}} turni di linea, dei quali {{this.model.rosterStatus.needed_high_season}} in alta stagione.
-        </div>
-      {{/if}}
-
-      {{#if this.tooManyEntries}}
-        <div class="ui green message">
-          Hai scelto {{this.myRosterEntries.length}} turni mentre ne avresti dovuti scegliere solo {{this.model.rosterStatus.needed_total}}, bravo ☺
-        </div>
-      {{/if}}
-
-      {{#if this.requisiteEntriesOk}}
-        <div class="ui green message">
-          Hai scelto i turni di linea necessari, <LinkTo @route="authen">torna alla pagina principale</LinkTo>.
-        </div>
-      {{/if}}
-
-      <div class="ui segment">
-        <button class="ui primary button {{if this.saveDisabled "disabled"}} {{if this.saving "disabled"}}" {{action "save" this.re}}>Salva!</button>
-        <button class="ui button" {{action "cancel" this.re}}>Annulla!</button>
-
-        {{#if this.saveError}}
-        <div class="ui red message">
-          {{saveError}}
-        </div>
-        {{/if}}
-      </div>
-    </div>
-
-    {{#if this.myRosterEntries}}
-      <div class="ui cards">
-        {{#each this.myRosterEntries as |re|}}
-          <RosterEntryEdit @entry={{re}} @onDelete={{action "delEntry"}} />
-        {{/each}}
-      </div>
-    {{/if}}
-  </div>
-</div>
---}}

@@ -5,7 +5,7 @@
   Registrato il: {{format-time this.model.recorded_at format="timestamp"}}<br />
   Numero: {{this.model.cnt}}<br />
   Descrizione: {{this.model.descr}}<br />
-  Ammontare: {{format-number this.model.amount style="currency" currency=this.model.unit}}<br />
-  Credito: {{format-number this.model.prev_credit style="currency" currency=this.model.unit}} →
-           {{format-number this.model.credit style="currency" currency=this.model.unit}}
+  Ammontare: {{format-number this.model.amount style="currency" currency="EUR"}}<br />
+  Credito: {{format-number this.model.prev_credit style="currency" currency="EUR"}} →
+           {{format-number this.model.credit style="currency" currency="EUR"}}
 </div>

@@ -1,61 +1,56 @@
-{{page-title "Inizio"}}
+{{page-title (t "authen.membership.renew.index.page_title")}}
 
-{{#if this.renew_is_open_and_needed}}
-<div class="container">
-  <div class="box">
-    <h1 class="title">Ciao {{this.session.person.first_name}},</h1>
-
-    {{#if this.wizard.membership}}
-      <h1 class="ui header">
-        Risulti già iscritto per l'anno {{this.wizard.year}}<i class="huge thumbs outline up icon"></i>
-      </h1>
-
-      {{#if this.payment_is_pending}}
-        <LinkTo @target="authen.payment" @model={{this.wizard.membership.payment_id}} class="button is-huge">
-          Il pagamento è pendente
-        </LinkTo>
-      {{/if}}
-
-    {{else if this.wizard.blocked}}
-      <div class="notification is-error">
-        L'iscrizione per l'anno {{this.wizard.year}} è bloccata. Gentilmente rivolgiti in segreteria.
-      </div>
-    {{else}}
-      <p>
-        Con questa procedura potrai rinnovare la tua iscrizione per l'anno {{this.wizard.year}}.
-      </p>
-
-      <p>
-        Assicurati che i tuoi dati siano corretti:
-      </p>
-      <p>
-        Nome: <strong>{{this.session.person.first_name}} {{this.session.person.last_name}}</strong><br />
-        Data di nascita: <strong>{{format-date this.session.person.birth_date}}</strong><br />
-        Email: <strong>{{#each this.my_emails as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
-        Telefono fisso: <strong>{{#each this.my_fixed_phones as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
-        Cellulare: <strong>{{#each this.my_mobiles as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
-      </p>
-
-      <div class="buttons is-centered">
-        <button class="button is-primary is-large" disabled={{this.form_invalid}} {{on "click" this.submit}}>
-          Procedi...
-        </button>
-      </div>
-    {{/if}}
+{{#if this.wizard.blocked}}
+  <div class="notification is-error">
+    {{t "authen.membership.renew.index.blocked" year=this.wizard.year}}
   </div>
-</div>
+{{else if this.renew_is_open_and_needed}}
+  <div class="container">
+    <div class="box">
+      <h1 class="title">{{t "authen.membership.renew.index.hello" name=this.session.person.first_name}}</h1>
+
+      {{#if this.wizard.membership}}
+        <div class="notification is-info">
+          {{t "authen.membership.renew.index.already_member" year=this.wizard.year}}
+        <//div>
+
+        {{#if this.payment_is_pending}}
+          <LinkTo @target="authen.payment" @model={{this.wizard.membership.payment_id}} class="button is-huge">
+            {{t "authen.membership.renew.index.payment_pending"}}
+          </LinkTo>
+        {{/if}}
+
+      {{else}}
+        <p>
+          {{t "authen.membership.renew.index.text" year=this.wizard.year}}
+        </p>
+        <p>
+          {{t "authen.membership.renew.index.check_your_data" year=this.wizard.year}}
+        </p>
+        <p>
+          {{t "authen.membership.renew.index.name"}}: <strong>{{this.session.person.first_name}} {{this.session.person.last_name}}</strong><br />
+          {{t "authen.membership.renew.index.date_of_birth"}}: <strong>{{format-date this.session.person.birth_date}}</strong><br />
+          {{t "authen.membership.renew.index.email"}}: <strong>{{#each this.my_emails as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
+          {{t "authen.membership.renew.index.pots_phone"}}: <strong>{{#each this.my_fixed_phones as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
+          {{t "authen.membership.renew.index.cell_phone"}}: <strong>{{#each this.my_mobiles as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
+        </p>
+
+        <div class="buttons is-centered">
+          <button class="button is-primary is-large" disabled={{this.form_invalid}} {{on "click" this.submit}}>
+            {{t "authen.membership.renew.index.proceed"}}
+          </button>
+        </div>
+      {{/if}}
+    </div>
+  </div>
 
 {{else if this.renew_is_going_to_open}}
   <div class="notification is-warning">
-    L'iscrizione per l'anno {{this.year}} non è ancora aperta,
-    aprirà tra {{format-date-from-now this.year_model.renew_opening_time}}
-  </div>
-{{else if this.renew_is_open}}
-  <div class="notification is-success">
-    L'iscrizione per l'anno {{this.year}} non è necessaria.
+    {{t "authen.membership.renew.index.not_yet_open" year=this.year}}
+    {{t "authen.membership.renew.index.opening_in" year=this.year}} {{format-date-from-now this.year_model.renew_opening_time}}
   </div>
 {{else}}
-  <div class="notification is-errors">
-    L'iscrizione per l'anno {{this.year}} non è aperta.
+  <div class="notification is-error">
+    {{t "authen.membership.renew.index.not_open" year=this.year}}
   </div>
 {{/if}}

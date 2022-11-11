@@ -80,7 +80,6 @@
   </div>
 
   {{#if this.submit_error}}
-  <div class="notification is-danger">
     <ExceptionDecode @ex={{this.submit_error}} as |title detail backtrace|>
       <div class="box notification is-danger">
         <h1 class="title">{{title}}</h1>
@@ -89,6 +88,5 @@
         </div>
       </div>
     </ExceptionDecode>
-  </div>
   {{/if}}
 </div>

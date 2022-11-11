@@ -1,12 +1,12 @@
-{{page-title "Dati"}}
+{{page-title (t "authen.membership.renew.data.page_title")}}
 
 <div class="container">
   <table class="renew-services table is-fullwidth">
     <thead>
       <tr>
         <th class="is-narrow"></th>
-        <th>Elemento</th>
-        <th>Costo</th>
+        <th>{{t "authen.membership.renew.data.element"}}</th>
+        <th>{{t "authen.membership.renew.data.cost"}}</th>
       </tr>
     </thead>
     <tbody>
@@ -70,7 +70,7 @@
             <span class="icon">
               <FaIcon @icon="plus" />
             </span>
-            <strong>Posto carrello, ecc</strong>
+            <strong>{{t "authen.membership.renew.data.trailer_etc"}}</strong>
           </button>
         </td>
       </tr>
@@ -78,7 +78,7 @@
 
     <tfoot>
       <tr>
-        <th colspan="2">Totale</th>
+        <th colspan="2">{{t "authen.membership.renew.data.total"}}</th>
         <td class="total price">{{format-number this.total style="currency" currency="EUR"}}</td>
       </tr>
     </tfoot>
@@ -86,58 +86,55 @@
 
   <div class="box">
     <label>
-      <input class="ui fitted" type="checkbox" checked={{this.enable_email}} {{on 'change' this.enable_email_set}} />
-      Autorizzo l'invio per e-mail delle comunicazioni, convocazioni di assemblee e ogni altra disposizione obbligatoria.
-      (DPR 15 marzo 1997&nbsp; n. 59 art 15 secondo comma, D.P.R. 28 dicembre 2000 n.445 art. 14 comma terzo, D.P.R. 13 febbraio 2001 n. 123 art. 8,
-      Direttiva 2000/31/CE 8 giugno 2000 art. 11, comma 1)
+      <input class="checkbox" type="checkbox" checked={{this.enable_email}} {{on 'change' this.enable_email_set}} />
+      {{t "authen.membership.renew.data.email_auth"}}
     </label>
   </div>
 
   <div class="box">
     <label>
-      <input class="ui fitted" type="checkbox" checked={{this.accept_rules}} {{on 'change' this.accept_rules_set}} />
-      Dichiaro  di aver preso visione del <a href="/regolamento.pdf">Regolamento</a> dell'Aeroclub
-      e di accettarlo in modo totale e incondizionato.
+      <input class="checkbox" type="checkbox" checked={{this.accept_rules}} {{on 'change' this.accept_rules_set}} />
+      {{t "authen.membership.renew.data.rules" htmlSafe=true}}
     </label>
   </div>
 
   <div class="box">
     <p>
-      Metodo di pagamento:
+      {{t "authen.membership.renew.data.payment_method"}}
     </p>
     <div class="buttons">
       <button class="button {{if (eq this.payment_method "WIRE") "is-info"}}"
               {{on 'click' (fn this.payment_method_set "WIRE")}}>
         <span class="icon"><FaIcon @icon="university" /></span>
-        <span>Bonifico Bancario</span>
+        <span>{{t "authen.membership.renew.data.wire"}}</span>
       </button>
 
       <button class="button {{if (eq this.payment_method "CHECK") "is-info"}}"
                {{on 'click' (fn this.payment_method_set "CHECK")}}>
         <span class="icon"><FaIcon @icon="tag" /></span>
-        <span>Assegno</span>
+        <span>{{t "authen.membership.renew.data.check"}}</span>
       </button>
 
       <button class="button {{if (eq this.payment_method "CARD") "is-info"}}"
               {{on 'click' (fn this.payment_method_set "CARD")}}>
         <span class="icon"><FaIcon @icon="credit-card" /></span>
-        <span>Carte (in segreteria)</span>
+        <span>{{t "authen.membership.renew.data.credit_card"}}</span>
       </button>
     </div>
   </div>
 
   {{#if this.submit_disabled}}
     <div class="notification is-danger">
-      Acetta il regolamento aeroportuale e scegli il metodo di pagamento.
+      {{t "authen.membership.renew.data.accept_rules"}}
     </div>
   {{else}}
     <div class="buttons is-centered">
       <button class="button is-grey is-large" {{on "click" this.back}}>
         <span class="icon"><FaIcon @icon="backward" /></span>
-        <span>Indietro</span>
+        <span>{{t "authen.membership.renew.data.back"}}</span>
       </button>
       <button class="button is-primary is-large" disabled={{this.submit_disabled}} {{on "click" this.submit}}>
-        Avanti...
+        {{t "authen.membership.renew.data.forward"}}
       </button>
     </div>
   {{/if}}

@@ -21,7 +21,15 @@ export default class RosterSelectorDayComponent extends Component {
     return Array(Math.max(this.args.day.needed_people - (this.args.day.roster_entries.length + (this.selected ? 1 : 0)), 0));
   }
 
+  get unavailable() {
+    return this.args.day.roster_entries.length >= this.args.day.needed_people ||
+           this.args.day.roster_entries.any((x) => (x.person.get('id') === this.args.person.id));
+  }
+
   @action click() {
+    if (this.unavailable)
+      return;
+
     if (this.selected) {
       this.selected = false;
 

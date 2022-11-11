@@ -71,4 +71,58 @@
   </div>
 </nav>
 
+{{!--
+<aside class="menu">
+  <p class="menu-label">
+    General
+  </p>
+  <ul class="menu-list">
+    <li>
+      <LinkTo @route="authen.index" class="navbar-item">
+        {{t "menu.dashboard"}}
+      </LinkTo>
+    </li>
+  </ul>
+  <p class="menu-label">
+    Administration
+  </p>
+  <ul class="menu-list">
+    <li>
+      {{t "menu.billing"}}
+      {{#if this.pending_payments}}
+        <span class="tag is-danger"><FaIcon @icon="exclamation" /></span>
+      {{/if}}
+      <ul>
+        <li>
+          <LinkTo @route="authen.token-transactions" class="navbar-item">
+            {{t "menu.token_transactions"}}
+          </LinkTo>
+        </li>
+
+        <li>
+          <LinkTo @route="authen.bar-transactions" class="navbar-item">
+            {{t "menu.bar_transactions"}}
+          </LinkTo>
+        </li>
+
+        <li>
+          <LinkTo @route="authen.invoices" class="navbar-item">
+            {{t "menu.invoices"}}
+          </LinkTo>
+        </li>
+
+        <li>
+          <LinkTo @route="authen.payments" class="navbar-item">
+            {{t "menu.payments"}}
+            {{#if this.pending_payments}}
+              <span class="tag is-danger">{{this.pending_payments.length}}</span>
+            {{/if}}
+          </LinkTo>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</aside>
+--}}
+
 {{outlet}}
