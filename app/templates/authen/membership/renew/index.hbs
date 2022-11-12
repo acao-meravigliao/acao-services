@@ -46,7 +46,7 @@
 
 {{else if this.renew_is_going_to_open}}
   <div class="notification is-warning">
-    {{t "authen.membership.renew.index.not_yet_open" year=this.year}}
+    {{t "authen.membership.renew.index.not_yet_open" year=this.year htmlSafe=true}}
     {{t "authen.membership.renew.index.opening_in" year=this.year}} {{format-date-from-now this.year_model.renew_opening_time}}
   </div>
 {{else}}
