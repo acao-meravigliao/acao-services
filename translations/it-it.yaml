@@ -49,6 +49,7 @@ authen:
       has_disability: 'persona con disabilità'
       board_member: 'membro del consiglio'
       tow_pilot: 'trainatore'
+      cav_not_paid: 'senza CAV'
 
   memberships:
     page_title: Iscrizioni

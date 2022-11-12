@@ -3,6 +3,6 @@ import { service } from '@ember/service';
 
 export default class AuthenPaymentsController extends Controller {
   get sorted_models() {
-    return this.model.sortBy('created_at');
+    return this.model.sortBy('created_at').reverse();
   }
 }
