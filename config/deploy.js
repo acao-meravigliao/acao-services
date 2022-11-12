@@ -68,7 +68,7 @@ module.exports = function(deployTarget) {
     }
   break;
 
-  case 'production3':
+  case 'production2':
     ENV.build.environment = 'production';
 
     ENV['rsync-assets'] = {
