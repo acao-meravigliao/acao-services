@@ -23,6 +23,7 @@ export default class AuthenIndexController extends Controller {
 
   //------------------- Roster -------------------
   get my_next_roster_entries() {
+console.log("BBBBBBBBBBBBBBBBBBBBBB", this.my_next_roster_entries_unsorted);
     return this.my_next_roster_entries_unsorted.sortBy('roster_entries_sort_order');
   }
 

@@ -48,15 +48,16 @@
     </div>
   </div>
 
-
-        {{#if this.my_next_roster_entries}}
-          <div class="ui segment">
-            Prossimi turni di linea:
-            {{#each this.my_next_roster_entries as |re|}}
-              <RosterEntry @entry={{re}} />
-            {{/each}}
-          </div>
-        {{/if}}
+  {{#if this.my_next_roster_entries}}
+    Prossimi turni di linea:
+    <div class="level">
+      {{#each this.my_next_roster_entries as |re|}}
+        <div class="level-entry">
+          <RosterEntry @entry={{re}} />
+        </div>
+      {{/each}}
+    </div>
+  {{/if}}
 
 
 

@@ -6,6 +6,6 @@ export default class InvoicesController extends Controller {
   @service session;
 
   get sorted_models() {
-    return this.model.sortBy('created_at');
+    return this.model.sortBy('created_at').reverse();
   }
 }

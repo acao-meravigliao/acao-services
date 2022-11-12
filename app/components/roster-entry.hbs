@@ -1,0 +1,17 @@
+<div class="roster-entry card">
+  <div class="card-content">
+    <div class="header">
+      {{format-date @entry.roster_day.date format="dm_long"}}
+    </div>
+
+    {{#each @entry.roster_day.roster_entries as |entry|}}
+      • {{entry.person.first_name}} {{entry.person.last_name}}<br />
+    {{/each}}
+
+    {{#if @entry.notes}}
+      <div class="notification is-info">
+        {{@entry.notes}}
+      </div>
+    {{/if}}
+  </div>
+</div>
