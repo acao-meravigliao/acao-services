@@ -45,16 +45,19 @@
             <label class="label">{{t "login.password.label"}}</label>
             <div class="control has-icons-left has-icons-right">
               <input id="password"
-                     type="password"
+                     type={{if this.password_show "text" "password"}}
                      class="input {{if this.password_warning "is-warning"}} {{if this.password_error "is-danger"}}"
                      value={{this.password}}
                      autocomplete="password"
                      placeholder={{t "login.password.placeholder"}}
                      {{on "input" this.password_changed}}
               />
-
               <span class="icon is-small is-left">
                 <FaIcon @icon="key" />
+              </span>
+
+              <span class="icon is-small is-right" style="pointer-events: all; cursor: pointer">
+                <FaIcon @icon={{if this.password_show "eye-slash" "eye"}} {{on "click" this.password_show_toggle}} />
               </span>
             </div>
 
