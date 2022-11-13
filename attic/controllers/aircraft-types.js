@@ -5,7 +5,6 @@ import { service } from '@ember/service';
 import { A } from '@ember/array';
 
 import moment from 'moment';
-import numeral from 'numeral';
 
 export default class AuthenAircraftTypesController extends Controller {
   @service session;
@@ -37,13 +36,13 @@ export default class AuthenAircraftTypesController extends Controller {
       label: 'Handicap',
       valuePath: 'handicap',
       width: '150px',
-      format: function(value) { return value ? numeral(value).format('0.00') : ''; },
+      //format: function(value) { return value ? numeral(value).format('0.00') : ''; },
      },
      {
       label: 'Handicap Club',
       valuePath: 'handicap_club',
       width: '150px',
-      format: function(value) { return value ? numeral(value).format('0.00') : ''; },
+      //format: function(value) { return value ? numeral(value).format('0.00') : ''; },
      },
     ];
   }
