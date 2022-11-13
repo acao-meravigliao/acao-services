@@ -50,7 +50,8 @@ export default class RenewSummaryMembershipController extends Controller {
           extra_info: service.extra_info,
         };
       }),
-      selected_roster_days: this.wizard.selected_roster_days.map((day) => (day.id)),
+      selected_roster_days: this.wizard.selected_roster_days ?
+                              this.wizard.selected_roster_days.map((day) => (day.id)) : [],
     };
 
     this.submitting = true;
