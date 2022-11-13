@@ -1,68 +1,72 @@
-import Service, { service } from '@ember/service';
-import { computed, observer } from '@ember/object';
-import { run } from '@ember/runloop';
+import Service from '@ember/service';
+import { service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
+import { later } from '@ember/runloop';
+import fetch from 'fetch';
 import ENV from '../config/environment';
 
-export default Service.extend({
-  interval: 60000,
-  ajax: service(),
 
-  reload: 'ask',
+export default class VersionCheckerService extends Service {
+  interval = 60000;
+  reload = 'ask';
 
-  version: null,
-  availableVersion: null,
+  @tracked version = null;
+  @tracked available_version = null;
 
-  init() {
-    this._super(...arguments);
+  constructor() {
+    super(...arguments);
 
     this.version = ENV.APP.version;
-    this.intervalId = window.setInterval(() => this.timer(), this.interval);
-  },
+console.log("VERSION=", this.version);
+
+    this.timer_start();
+  }
 
   stop() {
-    window.clearInterval(this.intervalId);
-  },
+    this.timer.cancel();
+  }
 
   willDestroy() {
-    this._super(...arguments);
+    super.willDestroy(...arguments);
     this.stop();
-  },
+  }
 
-  onIntervalChange: observer('interval', function() {
-    this.stop();
-    this.start();
-  }),
+  timer_start() {
+    this.timer = later(this, this.timer_fired, this.interval);
+  }
 
-  timer() {
-    this.ajax.request('/index.json', {
-      method: 'GET',
-      cache: false,
-    }).then((res) => {
-      if (res.meta) {
-        let meta = res.meta.findBy('name', ENV.APP.name + '/config/environment');
-        if (meta) {
-          this.set('availableVersion', JSON.parse(decodeURIComponent(meta.content)).APP.version);
+  timer_fired() {
+    fetch('/index.json', { cache: false }).then((res) => {
+      if (res.ok) {
+        let data = res.json();
 
-          if (this.availableVersion &&
-              this.availableVersion != this.version)
-            this.versionMismatch();
+        if (data.meta) {
+          let meta = data.meta.findBy('name', ENV.APP.name + '/config/environment');
+          if (meta) {
+            this.available_version = JSON.parse(decodeURIComponent(meta.content)).APP.version;
+
+            if (this.available_version &&
+                this.available_version != this.version)
+              this.version_mismatch();
+          }
         }
       }
 
+      this.timer_start();
     }).catch((res) => {
+      this.timer_start();
     });
-  },
+  }
 
-  versionMismatch() {
+  version_mismatch() {
     switch(this.reload) {
     case 'yes': window.location.reload(); break;
     case 'ask':
-      if (confirm('Version changed, do you want to reload?'))
+      if (confirm(this.intl.t('version_checker.version_changed_reload'))
         window.location.reload();
       else
-        this.set('reload', 'no');
+        this.reload = 'no';
     break;
     }
-  },
-});
-
+  }
+}
