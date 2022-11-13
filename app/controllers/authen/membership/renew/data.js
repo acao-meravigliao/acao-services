@@ -48,7 +48,7 @@ export default class AuthenMembershipRenewDataController extends Controller {
 
   get total() {
     return this.ass_service.price +
-           (this.enable_cav ? this.cav_service.price : 0) +
+           ((this.enable_cav && this.cav_service) ? this.cav_service.price : 0) +
            this.services.reduce((previous, service) => (
              previous + (service.type ? service.type.price : 0)
            ), 0);

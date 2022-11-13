@@ -18,7 +18,7 @@
             {{#if this.wizard.enable_cav}}
             <tr>
               <td>{{this.cav_service.name}}</td>
-              <td class="price">{{format-number this.cav_service.price style="currency" currency="EUR"}}</td>
+              <td class="price">{{#if this.cav_service}}{{format-number this.cav_service.price style="currency" currency="EUR"}}{{/if}}</td>
             </tr>
             {{/if}}
 

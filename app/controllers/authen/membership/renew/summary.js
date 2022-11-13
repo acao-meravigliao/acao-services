@@ -28,7 +28,7 @@ export default class RenewSummaryMembershipController extends Controller {
 
   get total() {
     return this.ass_service.price +
-           (this.wizard.enable_cav ? this.cav_service.price : 0) +
+           ((this.wizard.enable_cav && this.cav_service) ? this.cav_service.price : 0) +
            this.wizard.services.reduce((previous, service) => (
              previous + service.type.price
            ), 0);
@@ -73,7 +73,6 @@ export default class RenewSummaryMembershipController extends Controller {
       this.submitting = false;
     }
 
-console.log("OIOOOOOOOOOOOOOOOOOOOOOOOO 1");
     if (!res.ok) {
       if (!res.headers.get('content-type').startsWith('application/json')) {
         this.submit_error = new ServerResponseFormatError;
