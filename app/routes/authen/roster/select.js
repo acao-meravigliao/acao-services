@@ -2,12 +2,16 @@ import Route from '@ember/routing/route';
 import { hash } from 'rsvp';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
+import fetch, { AbortController } from 'fetch';
 
 export default class AuthenRosterSelectRoute extends Route {
   @service session;
   @service store;
 
   model(params) {
+    let abc = new AbortController();
+    setTimeout(() => abc.abort(), 5000);
+
     // FIXME, filter server-side roster day by year
     return hash({
       year: parseInt(params.year),
@@ -16,7 +20,7 @@ export default class AuthenRosterSelectRoute extends Route {
       roster_days: this.store.findAll('ygg--acao--roster-day'),
       roster_status: fetch('/ygg/acao/roster_entries/status', {
         method: 'GET',
-        signal: AbortSignal.timeout(5000),
+        signal: abc.signal,
         headers: {
           'Accept': 'application/json',
         },

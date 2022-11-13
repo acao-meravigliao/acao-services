@@ -2,6 +2,7 @@ import Route from '@ember/routing/route';
 import { hash } from 'rsvp';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
+import fetch, { AbortController } from 'fetch';
 
 export default class AuthenRenewMembershipRosterRoute extends Route {
   @service store;
@@ -22,12 +23,15 @@ export default class AuthenRenewMembershipRosterRoute extends Route {
 
     let wizard = this.modelFor('authen.membership.renew');
 
+    let abc = new AbortController();
+    setTimeout(() => abc.abort(), 5000);
+
     return hash({
       roster_days: this.store.query('ygg--acao--roster-day', { filter: { year: wizard.year }}),
       roster_entries: this.store.query('ygg--acao--roster-entry', { filter: { year: wizard.year }}),
       roster_status: fetch('/ygg/acao/roster_entries/get_policy', {
         method: 'POST',
-        signal: AbortSignal.timeout(5000),
+        signal: abc.signal,
         headers: {
           'Content-Type': 'application/json;charset=utf-8',
           'Accept': 'application/json',
