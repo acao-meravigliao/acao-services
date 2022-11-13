@@ -13,6 +13,7 @@ export default class Login2Controller extends Controller {
   @tracked username2 = '';
   @tracked username2_warning = null;
   @tracked password = '';
+  @tracked password_show = false;
   @tracked password_warning = null;
   @tracked submitting = false;
   @tracked ex = null;
@@ -39,12 +40,21 @@ export default class Login2Controller extends Controller {
     this.password = ev.target.value;
   }
 
+  @action password_show_toggle(ev) {
+    this.password_show = !this.password_show;
+
+    if (this.password_show)
+      later(this, () => { this.password_show = false; }, 8000);
+  }
+
   get can_submit() {
     return !this.submitting && this.username !== '' && this.password !== '' && this.username2 !== '';
   }
 
   @action authenticate(ev) {
     ev.preventDefault();
+
+    this.password_show = false;
 
     this.submitting = true;
 

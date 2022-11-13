@@ -167,6 +167,9 @@ comp:
     no_days: "Non ci sono giornate di linea nel {year}"
     filters: Filtri
 
+version_checker:
+  version_changed_reload: 'Il sito è stato aggiornato, vuoi ricaricare?'
+
 ex:
   unexpected:
     title: Uoooops

@@ -3,7 +3,7 @@ import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import Evented from '@ember/object/evented';
 import { Promise } from 'rsvp';
-import fetch from 'fetch';
+import fetch, { AbortController } from 'fetch';
 import MyException from 'acao-services/utils/my-exception';
 import RemoteException from 'acao-services/utils/remote-exception';
 
@@ -27,10 +27,13 @@ export default class SessionService extends Service.extend(Evented) {
   async load() {
     let res;
 
+    let abc = new AbortController();
+    setTimeout(() => abc.abort(), 5000);
+
     try {
       res = await fetch('/ygg/session/check_or_create', {
         method: 'POST',
-        signal: AbortSignal.timeout(5000),
+        signal: abc.signal,
         headers: {
           'Content-Type': 'application/json;charset=utf-8',
           'Accept': 'application/json',
@@ -71,9 +74,12 @@ export default class SessionService extends Service.extend(Evented) {
   async authenticate(fqda, password) {
     this.authenticating = true;
 
+    let abc = new AbortController();
+    setTimeout(() => abc.abort(), 10000);
+
     let res = await fetch('/ygg/session/authenticate_by_fqda_and_password', {
       method: 'POST',
-      signal: AbortSignal.timeout(5000),
+      signal: abc.signal,
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
         'Accept': 'application/json',
@@ -114,9 +120,12 @@ export default class SessionService extends Service.extend(Evented) {
   async proxy_authenticate(fqda, password, other_fqda) {
     this.authenticating = true;
 
+    let abc = new AbortController();
+    setTimeout(() => abc.abort(), 10000);
+
     let res = await fetch('/ygg/session/proxy_authenticate_by_fqda_and_password', {
       method: 'POST',
-      signal: AbortSignal.timeout(5000),
+      signal: abc.signal,
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
         'Accept': 'application/json',
@@ -158,9 +167,12 @@ export default class SessionService extends Service.extend(Evented) {
   async logout() {
     console.log('LOGOUT...');
 
+    let abc = new AbortController();
+    setTimeout(() => abc.abort(), 5000);
+
     let res = await fetch('/ygg/session/logout', {
       method: 'POST',
-      signal: AbortSignal.timeout(5000),
+      signal: abc.signal,
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
         'Accept': 'application/json',

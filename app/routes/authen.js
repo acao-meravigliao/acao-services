@@ -2,6 +2,7 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { hash, all } from 'rsvp';
+import fetch, { AbortController } from 'fetch';
 import VosRoute from '@sevio/ember-vos/routes/vos-route';
 import config from 'acao-services/config/environment';
 
@@ -37,7 +38,6 @@ export default class AuthenRoute extends VosRoute {
     //   this.router.transitionTo('login');
     // }
 
-
     // Trigger session loading if not loaded already, if not authenticated transition to login route
     if (!this.session.is_loaded) {
       this.router.transitionTo(config.login_route);
@@ -59,6 +59,9 @@ export default class AuthenRoute extends VosRoute {
     //  };
     //});
 
+    let abc = new AbortController();
+    setTimeout(() => abc.abort(), 10000);
+
     return hash({
       years: this.store.findAll('ygg--acao--year'),
       store_memberships: this.store.peekAll('ygg--acao--membership'),
@@ -66,7 +69,7 @@ export default class AuthenRoute extends VosRoute {
       payments: this.store.query('ygg--acao--payment', { filter: { person_id: this.session.person_id } }),
       roster_status: fetch('/ygg/acao/roster_entries/status', {
         method: 'GET',
-        signal: AbortSignal.timeout(5000),
+        signal: abc.signal,
         headers: {
           'Accept': 'application/json',
         },

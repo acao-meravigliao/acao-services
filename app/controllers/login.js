@@ -2,6 +2,8 @@ import Controller from '@ember/controller';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import { later } from '@ember/runloop';
+
 import config from 'acao-services/config/environment';
 
 export default class LoginController extends Controller {
@@ -11,6 +13,7 @@ export default class LoginController extends Controller {
   @tracked username = '';
   @tracked username_warning = null;
   @tracked password = '';
+  @tracked password_show = false;
   @tracked password_warning = null;
   @tracked submitting = false;
   @tracked ex = null;
@@ -28,12 +31,21 @@ export default class LoginController extends Controller {
     this.password = ev.target.value;
   }
 
+  @action password_show_toggle(ev) {
+    this.password_show = !this.password_show;
+
+    if (this.password_show)
+      later(this, () => { this.password_show = false; }, 8000);
+  }
+
   get can_submit() {
     return !this.submitting && this.username !== '' && this.password !== '';
   }
 
   @action authenticate(ev) {
     ev.preventDefault();
+
+    this.password_show = false;
 
     this.submitting = true;
 

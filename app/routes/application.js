@@ -6,7 +6,7 @@ import * as moment from 'moment';
 export default class ApplicationRoute extends Route {
   @service session;
   @service intl;
-  //@service versionChecker;
+  @service version_checker;
 
   constructor() {
     super(...arguments);
@@ -17,6 +17,8 @@ export default class ApplicationRoute extends Route {
   }
 
   beforeModel(transition) {
+    this.version_checker;
+
     if (!this.session.is_loaded)
       return this.session.load();
     else

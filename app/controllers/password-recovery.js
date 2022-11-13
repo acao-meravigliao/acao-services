@@ -2,7 +2,7 @@ import Controller from '@ember/controller';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import fetch from 'fetch';
+import fetch, { AbortController } from 'fetch';
 import MyException from 'acao-services/utils/my-exception';
 import RemoteException from 'acao-services/utils/remote-exception';
 
@@ -39,11 +39,14 @@ export default class PasswordRecoveryController extends Controller {
     this.success = false;
     this.submitting = true;
 
+    let abc = new AbortController();
+    setTimeout(() => abc.abort(), 10000);
+
     let res;
     try {
       res = await fetch('/ygg/acao/password_recovery', {
         method: 'POST',
-        signal: AbortSignal.timeout(5000),
+        signal: abc.signal,
         headers: {
           'Content-Type': 'application/json;charset=utf-8',
           'Accept': 'application/json',
