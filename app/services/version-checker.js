@@ -62,7 +62,7 @@ console.log("VERSION=", this.version);
     switch(this.reload) {
     case 'yes': window.location.reload(); break;
     case 'ask':
-      if (confirm(this.intl.t('version_checker.version_changed_reload'))
+      if (confirm(this.intl.t('version_checker.version_changed_reload')))
         window.location.reload();
       else
         this.reload = 'no';
