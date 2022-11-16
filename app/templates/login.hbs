@@ -10,7 +10,7 @@
 
         <form class="{{if this.ex "error"}}" {{on "submit" this.authenticate}}>
           <div class="field">
-            <label class="label">{{t "login.username.label"}}</label>
+            <label class="label" for="username">{{t "login.username.label"}}</label>
             <div class="control has-icons-left has-icons-right">
               {{t "login.username.request"}}
               <input id="username"
@@ -40,7 +40,7 @@
           </div>
 
           <div class="field">
-            <label class="label">{{t "login.password.label"}}</label>
+            <label class="label" for="password">{{t "login.password.label"}}</label>
             <div class="control has-icons-left has-icons-right">
               <input id="password"
                      type={{if this.password_show "text" "password"}}
@@ -69,6 +69,17 @@
             {{/if}}
 
             <LinkTo @route="password-recovery">{{t "login.forgot_password"}}</LinkTo>
+          </div>
+
+          <div class="field">
+            <div class="control">
+              <label>{{t "login.keep_connected.label"}}
+                <input type="checkbox"
+                       value={{this.keep_connected}}
+                       {{on "click" this.keep_connected_changed}}
+                />
+              </label>
+            </div>
           </div>
 
           <div class="field">

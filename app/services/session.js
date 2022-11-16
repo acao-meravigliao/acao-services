@@ -4,6 +4,8 @@ import { tracked } from '@glimmer/tracking';
 import Evented from '@ember/object/evented';
 import { Promise } from 'rsvp';
 import fetch, { AbortController } from 'fetch';
+import { later, cancel } from '@ember/runloop';
+
 import MyException from 'acao-services/utils/my-exception';
 import RemoteException from 'acao-services/utils/remote-exception';
 
@@ -71,7 +73,9 @@ export default class SessionService extends Service.extend(Evented) {
     }
   }
 
-  async authenticate(fqda, password) {
+  async authenticate(fqda, password, opts) {
+    opts = opts || {};
+
     this.authenticating = true;
 
     let abc = new AbortController();
@@ -86,7 +90,8 @@ export default class SessionService extends Service.extend(Evented) {
       },
       body: JSON.stringify({
         fqda: fqda,
-        password: password
+        password: password,
+        keep_connected: opts.keep_connected,
       }),
     });
 
@@ -134,6 +139,54 @@ export default class SessionService extends Service.extend(Evented) {
         fqda: fqda,
         password: password,
         other_fqda: other_fqda,
+      }),
+    });
+
+    if (res.ok) {
+      if (!res.headers.get('content-type').startsWith('application/json')) {
+        throw(new AuthenticationServerFailure);
+      }
+
+      let json = await res.json();
+
+      await this.update(json);
+
+      if (json.authenticated) {
+        return json;
+      } else {
+        let a = new WrongCredentials;
+        throw new WrongCredentials;
+      }
+
+    } else {
+      if (!res.headers.get('content-type').startsWith('application/problem+json')) {
+        throw(new AuthenticationServerFailure);
+      }
+
+      let json = await res.json();
+
+      throw(new AuthenticationServerError(json));
+    }
+  }
+
+  async authenticate_by_keyfob(keyfob_id, opts) {
+    opts = opts || {};
+
+    this.authenticating = true;
+
+    let abc = new AbortController();
+    setTimeout(() => abc.abort(), 10000);
+
+    let res = await fetch('/ygg/session/authenticate_by_keyfob', {
+      method: 'POST',
+      signal: abc.signal,
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        keyfob_id: keyfob_id,
+        keep_connected: opts.keep_connected,
       }),
     });
 
@@ -217,6 +270,23 @@ export default class SessionService extends Service.extend(Evented) {
     } else if (old_authenticated && !session_data.authenticated) {
       this.person_id = null;
       this.trigger('session_becomes_not_authenticated', arguments);
+    }
+
+    if (session_data.expires) {
+      this.refresh_timer = later(this, () => {
+        try {
+          fetch('/ygg/session/refresh', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json;charset=utf-8',
+              'Accept': 'application/json',
+            },
+            body: JSON.stringify({}),
+          });
+        } catch(e) {
+          console.error("Session refresh error:", e);
+        }
+      }, 60000); // FIXME, calculate proper refresh time
     }
   }
 }

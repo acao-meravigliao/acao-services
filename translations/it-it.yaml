@@ -25,6 +25,8 @@ login:
   password:
     label: Password
     placeholder:
+  keep_connected:
+    label: Rimani connesso
   login: Login
   forgot_password: Ho dimenticato la password
 
