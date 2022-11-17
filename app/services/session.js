@@ -11,8 +11,8 @@ import RemoteException from 'acao-services/utils/remote-exception';
 
 class SessionLoadTimeout extends MyException { type = 'SessionLoadTimeout'; }
 class WrongCredentials extends MyException { type = 'WrongCredentials'; }
-class AuthenticationServerFailure extends MyException { type = 'AuthenticationServerFailure'; }
-class AuthenticationServerError extends RemoteException { }
+class ServerFailure extends MyException { type = 'ServerFailure'; }
+class ServerError extends RemoteException { }
 
 export default class SessionService extends Service.extend(Evented) {
   @service store;
@@ -51,7 +51,7 @@ export default class SessionService extends Service.extend(Evented) {
 
     if (res.ok) {
       if (!res.headers.get('content-type').startsWith('application/json')) {
-        throw(new AuthenticationServerFailure);
+        throw(new ServerFailure);
       }
 
       let json = await res.json();
@@ -64,12 +64,12 @@ export default class SessionService extends Service.extend(Evented) {
 
     } else {
       if (!res.headers.get('content-type').startsWith('application/problem+json')) {
-        throw(new AuthenticationServerFailure);
+        throw(new ServerFailure);
       }
 
       let json = await res.json();
 
-      throw(new AuthenticationServerError(json));
+      throw(new ServerError(json));
     }
   }
 
@@ -97,7 +97,7 @@ export default class SessionService extends Service.extend(Evented) {
 
     if (res.ok) {
       if (!res.headers.get('content-type').startsWith('application/json')) {
-        throw(new AuthenticationServerFailure);
+        throw(new ServerFailure);
       }
 
       let json = await res.json();
@@ -113,12 +113,12 @@ export default class SessionService extends Service.extend(Evented) {
 
     } else {
       if (!res.headers.get('content-type').startsWith('application/problem+json')) {
-        throw(new AuthenticationServerFailure);
+        throw(new ServerFailure);
       }
 
       let json = await res.json();
 
-      throw(new AuthenticationServerError(json));
+      throw(new ServerError(json));
     }
   }
 
@@ -144,7 +144,7 @@ export default class SessionService extends Service.extend(Evented) {
 
     if (res.ok) {
       if (!res.headers.get('content-type').startsWith('application/json')) {
-        throw(new AuthenticationServerFailure);
+        throw(new ServerFailure);
       }
 
       let json = await res.json();
@@ -160,12 +160,12 @@ export default class SessionService extends Service.extend(Evented) {
 
     } else {
       if (!res.headers.get('content-type').startsWith('application/problem+json')) {
-        throw(new AuthenticationServerFailure);
+        throw(new ServerFailure);
       }
 
       let json = await res.json();
 
-      throw(new AuthenticationServerError(json));
+      throw(new ServerError(json));
     }
   }
 
@@ -192,7 +192,7 @@ export default class SessionService extends Service.extend(Evented) {
 
     if (res.ok) {
       if (!res.headers.get('content-type').startsWith('application/json')) {
-        throw(new AuthenticationServerFailure);
+        throw(new ServerFailure);
       }
 
       let json = await res.json();
@@ -208,12 +208,12 @@ export default class SessionService extends Service.extend(Evented) {
 
     } else {
       if (!res.headers.get('content-type').startsWith('application/problem+json')) {
-        throw(new AuthenticationServerFailure);
+        throw(new ServerFailure);
       }
 
       let json = await res.json();
 
-      throw(new AuthenticationServerError(json));
+      throw(new ServerError(json));
     }
   }
 
@@ -235,7 +235,7 @@ export default class SessionService extends Service.extend(Evented) {
 
     if (res.ok) {
       if (!res.headers.get('content-type').startsWith('application/json')) {
-        throw(new AuthenticationServerFailure);
+        throw(new ServerFailure);
       }
 
       let json = await res.json();
@@ -243,12 +243,65 @@ export default class SessionService extends Service.extend(Evented) {
       await this.update(json);
     } else {
       if (!res.headers.get('content-type').startsWith('application/problem+json')) {
-        throw(new AuthenticationServerFailure);
+        throw(new ServerFailure);
       }
 
       let json = await res.json();
 
-      throw(new AuthenticationServerError(json));
+      throw(new ServerError(json));
+    }
+  }
+
+  async recover(username) {
+    let req = {
+      acao_code: username,
+    };
+
+    this.success = false;
+    this.submitting = true;
+
+    let abc = new AbortController();
+    setTimeout(() => abc.abort(), 10000);
+
+    let res;
+    try {
+      res = await fetch('/ygg/acao/password_recovery', {
+        method: 'POST',
+        signal: abc.signal,
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(req),
+      });
+    } catch(e) {
+      if (e instanceof Error && e.name === 'AbortError') {
+        throw(new RequestTimeout);
+      } else
+        throw(e);
+    } finally {
+      this.submitting = false;
+    }
+
+    if (res.ok) {
+      if (!res.headers.get('content-type').startsWith('application/json')) {
+        throw(new ServerFailure);
+      }
+
+      let json = await res.json();
+
+      this.success = true;
+
+      return json;
+
+    } else {
+      if (!res.headers.get('content-type').startsWith('application/problem+json')) {
+        throw(new ServerFailure);
+      }
+
+      let json = await res.json();
+
+      throw(new ServerError(json));
     }
   }
 

@@ -185,6 +185,9 @@ ex:
       detail: Check that your credentials are typed correctly and caps lock is not engaged
     "AM::AuthManager::MsgSessionGetFailure":
       title: Error getting session
+    "Ygg::Acao::PasswordRecoveryController::AccountNotFound":
+      title: Utente non trovato
+      detail: Verifica di aver inserito il codice pilota correttamente
   local:
     "SessionLoadTimeout":
       title: Errore di collegamento
