@@ -292,9 +292,6 @@ export default class SessionService extends Service.extend(Evented) {
       acao_code: username,
     };
 
-    this.success = false;
-    this.submitting = true;
-
     let abc = new AbortController();
     setTimeout(() => abc.abort(), 10000);
 
@@ -315,7 +312,6 @@ export default class SessionService extends Service.extend(Evented) {
       } else
         throw(e);
     } finally {
-      this.submitting = false;
     }
 
     if (res.ok) {
@@ -324,8 +320,6 @@ export default class SessionService extends Service.extend(Evented) {
       }
 
       let json = await res.json();
-
-      this.success = true;
 
       return json;
 
