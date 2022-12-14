@@ -1,26 +1,31 @@
-import DS from 'ember-data';
+import JSONAPIAdapter from '@ember-data/adapter/json-api';
 import { service } from '@ember/service';
 import { assign } from '@ember/polyfills';
 
-export default DS.Adapter.extend({
-  vos: service('vihai-object-streaming'),
+export default class ApplicationAdapter extends JSONAPIAdapter {
+  @service('vihai-object-streaming') vos;
 
-  defaultSerializer: '-json-api',
+//  defaultSerializer: '-json-api',
 
 //  pathForType(modelName) {
 //    let dasherized = Ember.String.dasherize(modelName);
 //    return Ember.String.pluralize(dasherized);
 //  },
 
+  constructor() {
+   super(...arguments);
+    this.selections = {};
+  }
+
   findRecord(store, type, id, snapshotRecordArray) {
     return this.vos.getSingle(type.modelName, id, snapshotRecordArray.adapterOptions).
              catch((e) => { throw(e.exception); });
-  },
+  }
 
   findMany(store, type, ids, snapshotRecordArray) {
     return this.vos.getMany(type.modelName, ids, snapshotRecordArray.adapterOptions).
              catch((e) => { throw(e.exception); });
-  },
+  }
 
   querySignature(modelName, query) {
     let sig = JSON.stringify({
@@ -29,7 +34,7 @@ export default DS.Adapter.extend({
     });
 
     return sig;
-  },
+  }
 
   findAll(store, type, sinceToken, snapshotRecordArray) {
     let sig = this.querySignature(type.modelName, {});
@@ -48,7 +53,7 @@ export default DS.Adapter.extend({
       this.selections[sig] = { id: res.selection_id, complete: true };
       return res.objects;
     }).catch((e) => { throw(e.exception); });
-  },
+  }
 
   query(store, type, query, snapshotRecordArray, options) {
     let sig = this.querySignature(type.modelName, { filter: query.filter });
@@ -70,14 +75,14 @@ export default DS.Adapter.extend({
       this.selections[sig] = { id: res.selection_id, complete: res.objects.data.length === res.objects.meta.total_count };
       return res.objects;
     }).catch((e) => { throw(e.exception); });
-  },
+  }
 
   shouldReloadQuery(modelName, query) {
     let sig = this.querySignature(modelName, query);
 console.log("SHOULD RELOAD QUERY", this.selections);
 
     return !this.selections[sig] || !this.selections[sig].complete;
-  },
+  }
 
   queryRecord(store, type, query, snapshotRecordArray) {
     return this.vos.select({
@@ -98,7 +103,7 @@ console.log("SHOULD RELOAD QUERY", this.selections);
         };
       }
     }).catch((e) => { throw(e.exception); });
-  },
+  }
 
   createRecord(store, type, snapshot) {
     let params =  assign({
@@ -110,7 +115,7 @@ console.log("SHOULD RELOAD QUERY", this.selections);
     serializer.serializeIntoHash(data, type, snapshot, { includeId: true });
 
     return this.vos.create(type.modelName, data, params).catch((e) => { throw(e.exception); });
-  },
+  }
 
   updateRecord(store, type, snapshot) {
     let params =  assign({
@@ -124,15 +129,10 @@ console.log("SHOULD RELOAD QUERY", this.selections);
 console.log("================= UPDATE_RECORD", data);
 
     return this.vos.update(type.modelName, data, params).catch((e) => { throw(e.exception); });
-  },
+  }
 
   deleteRecord(store, type, snapshot) {
 console.log("================= DELETE_RECORD", snapshot.id);
     return this.vos.destroy(type.modelName, snapshot.id).catch((e) => { throw(e.exception); });
-  },
-
-  init() {
-    this._super(...arguments);
-    this.selections = {};
-  },
-});
+  }
+}
