@@ -9,7 +9,7 @@ export default class AuthenController extends Controller {
   @service store;
   @service session;
   @service router;
-  @service('shopping-cart') cart;
+//  @service('shopping-cart') cart;
   @service clock;
   @service hamburger;
   @service ms;
