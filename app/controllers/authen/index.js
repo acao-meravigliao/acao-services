@@ -14,7 +14,7 @@ export default class AuthenIndexController extends Controller {
 
   //------------------- Renewal -------------------
   @action start_current_membership_renewal() {
-    this.router.transitionTo('authen.membership.renew', this.ms.next_year.year);
+    this.router.transitionTo('authen.membership.renew', this.ms.current_year.year);
   }
 
   @action start_next_membership_renewal() {
