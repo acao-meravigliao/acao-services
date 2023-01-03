@@ -12,13 +12,13 @@ login:
   login_to: Login to
   username:
     label: Codice pilota
-    request:
+    request: ''
     placeholder: "1234"
     validation:
       contains_white_spaces: Contiene spazi
   username2:
     label: Codice pilota da impersonare
-    request:
+    request: ''
     placeholder: "1234"
     validation:
       contains_white_spaces: Contiene spazi
