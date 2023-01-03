@@ -1,4 +1,5 @@
 {
+  "isTypeScriptProject": false,
   "disableAnalytics": true,
   "proxy": "http://localhost:3330"
 }
