@@ -92,7 +92,7 @@ console.log("SHOULD RELOAD QUERY", this.selections);
       fetchAll: true,  // FIXME: find a way to disable fetchAll and return objects from the store
       view: snapshotRecordArray.adapterOptions && snapshotRecordArray.adapterOptions.view,
     }).then((res) => {
-      if (res.objects.length > 0) {
+      if (res.objects.data.length > 0) {
         return {
           data: res.objects.data[0],
           included: res.objects.included,
