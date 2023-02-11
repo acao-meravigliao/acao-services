@@ -18,19 +18,9 @@ export default class RenewSummaryMembershipController extends Controller {
 
   get wizard() { return this.wizard_controller.wizard; }
 
-  get ass_service() {
-    return this.wizard.service_types.findBy('symbol', this.wizard.ass_type);
-  }
-
-  get cav_service() {
-    return this.wizard.enable_cav ? this.wizard.service_types.findBy('symbol', this.wizard.cav_type) : null;
-  }
-
   get total() {
-    return this.ass_service.price +
-           ((this.wizard.enable_cav && this.cav_service) ? this.cav_service.price : 0) +
-           this.wizard.services.reduce((previous, service) => (
-             previous + service.type.price
+    return this.wizard.services.reduce((previous, service) => (
+             previous + ((service.type && service.enabled) ? service.type.price : 0)
            ), 0);
   }
 
@@ -39,14 +29,13 @@ export default class RenewSummaryMembershipController extends Controller {
   }
 
   @action async submit() {
-
     let req = {
-      with_cav: this.wizard.enable_cav,
       enable_email: this.wizard.enable_email,
       payment_method: this.wizard.payment_method,
       services: this.wizard.services.map((service) => {
         return {
-          type_id: service.type.id,
+          service_type_id: service.type.id,
+          enabled: service.enabled,
           extra_info: service.extra_info,
         };
       }),

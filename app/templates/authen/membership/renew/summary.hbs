@@ -11,17 +11,6 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>{{this.ass_service.name}}</td>
-              <td class="price">{{format-number this.ass_service.price style="currency" currency="EUR"}}</td>
-            </tr>
-            {{#if this.wizard.enable_cav}}
-            <tr>
-              <td>{{this.cav_service.name}}</td>
-              <td class="price">{{#if this.cav_service}}{{format-number this.cav_service.price style="currency" currency="EUR"}}{{/if}}</td>
-            </tr>
-            {{/if}}
-
             {{#each this.wizard.services key="@index" as |service index|}}
             <tr>
               <td>
@@ -31,7 +20,7 @@
                   {{service.type.extra_info}}: {{service.extra_info}}
                 {{/if}}
               </td>
-              <td class="price">{{format-number service.type.price style="currency" currency="EUR"}}</td>
+              <td class="price {{if service.enabled "" "disabled"}}">{{format-number service.type.price style="currency" currency="EUR"}}</td>
             </tr>
             {{/each}}
           </tbody>
