@@ -1,0 +1,8 @@
+<div class="component bar-gauge" {{on "click" (transition-to "authen.bar-transactions")}}>
+  <p class="heading">
+    Conto bar
+  </p>
+  <p class="title">
+    {{format-number @credit style="currency" currency="EUR"}}
+  </p>
+</div>

@@ -26,25 +26,11 @@
 
   <div class="level">
     <div class="level-item has-text-centered">
-      <div {{on "click" (transition-to "authen.bar-transactions")}}>
-        <p class="heading">
-          Conto bar
-        </p>
-        <p class="title">
-          {{format-number this.session.person.acao_bar_credit style="currency" currency="EUR"}}
-        </p>
-      </div>
+      <BarGauge @credit={{this.session.person.acao_bar_credit}} />
     </div>
 
     <div class="level-item has-text-centered">
-      <div {{on "click" (transition-to "authen.token-transactions")}}>
-        <p class="heading">
-          Bollini
-        </p>
-        <p class="title">
-          {{format-number this.session.person.acao_bollini minimumFractionDigits=0 maximumFractionDigits=1}}
-        </p>
-      </div>
+      <TokensGauge @credit={{this.session.person.acao_bollini}} />
     </div>
   </div>
 
