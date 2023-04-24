@@ -174,7 +174,7 @@ console.log("VISIBILITY_CHANGE", document.visibilityState, "IN STATE", me.state)
 
     me.lastAttempt = Date.now();
 
-    me.socket = new WebSocket(me.uri, 'vos.sevio.it');
+    me.socket = new WebSocket(me.uri, 'vos.acao.it');
 
     me.socket.onopen = function(/*ev*/) {
       me.changeState('OPEN_WAIT_WELCOME');
