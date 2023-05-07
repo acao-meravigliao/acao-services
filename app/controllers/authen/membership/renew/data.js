@@ -11,14 +11,13 @@ export default class AuthenMembershipRenewDataController extends Controller {
   @service router;
   @controller('authen.membership.renew') wizard_controller;
 
-  @tracked enable_cav = true;
   @tracked enable_email = true;
   @tracked accept_rules = false;
   @tracked payment_method;
 
-  @tracked services = A();
-
   get wizard() { return this.wizard_controller.wizard; }
+
+  get services() { return this.model.services }
 
   get service_types_opts() {
     return this.wizard.service_types.sortBy('name').
@@ -34,23 +33,9 @@ export default class AuthenMembershipRenewDataController extends Controller {
     service.extra_info = el.target.value;
   }
 
-  get ass_service() {
-    return this.wizard.service_types.findBy('symbol', this.wizard.ass_type);
-  }
-
-  get cav_service() {
-    return this.wizard.service_types.findBy('symbol', this.wizard.cav_type);
-  }
-
-  @action enable_cav_set(ev) {
-    this.enable_cav = ev.target.checked;
-  }
-
   get total() {
-    return this.ass_service.price +
-           ((this.enable_cav && this.cav_service) ? this.cav_service.price : 0) +
-           this.services.reduce((previous, service) => (
-             previous + (service.type ? service.type.price : 0)
+    return this.services.reduce((previous, service) => (
+             previous + ((service.type && service.enabled) ? service.type.price : 0)
            ), 0);
   }
 
@@ -66,7 +51,13 @@ export default class AuthenMembershipRenewDataController extends Controller {
   get payment_card() { return this.payment_method === 'CARD'; }
 
   @action service_add() {
-    this.services.addObject(new SelectedService({ type: null }));
+    this.services.addObject(new SelectedService({
+      type: null,
+      type_changeable: true,
+      enabled: true,
+      removable: true,
+      toggable: false,
+    }));
   }
 
   @action service_del(index) {
@@ -75,6 +66,10 @@ export default class AuthenMembershipRenewDataController extends Controller {
 
   @action set_service_type(index, service_type_id) {
     this.services[index].type = this.store.peekRecord('ygg--acao--service-type', service_type_id);
+  }
+
+  @action service_toggle(index) {
+    this.services[index].enabled = !this.services[index].enabled;
   }
 
   @action enable_email_set(ev) {
@@ -91,10 +86,10 @@ export default class AuthenMembershipRenewDataController extends Controller {
 
 
   @action submit() {
-    this.wizard.services = this.services.filter((x) => (x.type));
+    this.wizard.services = this.services;
 
     this.wizard.setProperties(this.getProperties(
-      'enable_cav', 'enable_email', 'accept_rules', 'payment_method',
+      'enable_email', 'accept_rules', 'payment_method',
     ));
 
     this.wizard.next('roster');

@@ -9,7 +9,6 @@ import fetch, { AbortController } from 'fetch';
 
 class WizardState extends EmberObject {
   @tracked steps = [ 'index' ];
-  @tracked enable_cav = true;
   @tracked enable_email = true;
   @tracked accept_rules = false;
   @tracked services = A();
@@ -84,6 +83,10 @@ export default class AuthenRenewMembershipRoute extends Route {
 
       this.wizard.services = res.context.services.map((x) => new SelectedService({
         type: this.store.peekRecord('ygg--acao--service-type', x.service_type_id),
+        type_changeable: false,
+        removable: x.removable,
+        toggable: x.toggable,
+        enabled: x.enabled,
         extra_info: x.extra_info,
       }));
 

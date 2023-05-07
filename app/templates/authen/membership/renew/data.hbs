@@ -10,41 +10,29 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td></td>
-        <td>{{this.ass_service.name}}</td>
-        <td class="price">{{if this.ass_service.price (format-number this.ass_service.price style="currency" currency="EUR")}}</td>
-      </tr>
-      {{#if this.wizard.cav_type}}
-      <tr>
-        <td class="collapsing">
-          <input type="checkbox" id="enable_cav_cb" class="checkbox" checked={{this.enable_cav}} {{on "change" this.enable_cav_set}} />
-        </td>
-        <td>
-          <label for="enable_cav_cb" class="label">
-            {{this.cav_service.name}}
-          </label>
-        </td>
-        <td class="price {{if (not this.enable_cav) "disabled"}}">
-          {{if this.cav_service.price (format-number this.cav_service.price style="currency" currency="EUR")}}
-        </td>
-      </tr>
-      {{/if}}
-
       {{#each this.services key="@index" as |service index|}}
       <tr>
-        <td>
-          <button class="button" {{on "click" (fn this.service_del index)}}>
-            <span class="icon is-small"><FaIcon @icon="trash" /></span>
-          </button>
+        <td class="collapsing">
+          {{#if service.removable}}
+            <button class="button" {{on "click" (fn this.service_del index)}}>
+              <span class="icon is-small"><FaIcon @icon="trash" /></span>
+            </button>
+          {{/if}}
+          {{#if service.toggable}}
+            <input type="checkbox" class="checkbox" checked={{service.enabled}} {{on "change" (fn this.service_toggle index)}} />
+          {{/if}}
         </td>
         <td style="overflow:visible;">
-          <PowerSelect @options={{this.service_types_opts}}
-                       @selected={{service.type}}
-                       @onChange={{fn this.service_set service}}
-                       @placeholder={{t "authen.membership.renew.data.service_select_placeholder"}} as |el|>
-            {{el.name}}
-          </PowerSelect>
+          {{#if service.type_changeable}}
+            <PowerSelect @options={{this.service_types_opts}}
+                         @selected={{service.type}}
+                         @onChange={{fn this.service_set service}}
+                         @placeholder={{t "authen.membership.renew.data.service_select_placeholder"}} as |el|>
+              {{el.name}}
+            </PowerSelect>
+          {{else}}
+            {{service.type.name}}
+          {{/if}}
 
           {{#if service.type.extra_info}}
             <div class="control">
@@ -60,7 +48,9 @@
             </div>
           {{/if}}
         </td>
-        <td class="price">{{#if service.type}}{{format-number service.type.price style="currency" currency="EUR"}}{{/if}}</td>
+        <td class="price {{if service.enabled "" "disabled"}}">
+          {{#if service.type}}{{format-number service.type.price style="currency" currency="EUR"}}{{/if}}
+        </td>
       </tr>
       {{/each}}
 

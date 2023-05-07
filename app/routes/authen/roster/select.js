@@ -25,7 +25,6 @@ export default class AuthenRenewMembershipRosterRoute extends Route {
         },
         body: JSON.stringify({
           year: wizard.year,
-          with_cav: true, // FIXME: get it from current membership
         }),
       }).then((res) => (res.json())),
     }).then((res) => {
