@@ -40,6 +40,10 @@ authen:
     membership_not_open: "L'iscrizione per l'anno <strong>{year}</strong> non è ancora aperta."
     membership_opening_in: "Aprirà in"
 
+  bar:
+    recharge:
+      page_title: Ricarica Bar
+
   roster:
     days:
       page_title: Tutti i turni di linea

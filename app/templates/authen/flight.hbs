@@ -38,6 +38,7 @@
 
   <div class="ui segment" style="height: 600px">
     {{#if model.takeoff_location.latlng}}
+{{!--
       {{#leaflet-map center=model.takeoff_location.latlng zoom=11 class="flight-map" as |layers|}}
         {{layers.tile url="https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png" maxZoom=13}}
         {{#layers.marker location=model.takeoff_location.latlng title="Decollo"}}
@@ -55,6 +56,7 @@
           {{/popup-layer}}
         {{/layers.marker}}
       {{/leaflet-map}}
+--}}
     {{/if}}
   </div>
 </div>

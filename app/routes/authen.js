@@ -3,7 +3,7 @@ import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { hash, all } from 'rsvp';
 import fetch, { AbortController } from 'fetch';
-import VosRoute from '@sevio/ember-vos/routes/vos-route';
+import VosRoute from '@vihai/ember-vos/routes/vos-route';
 import config from 'acao-services/config/environment';
 
 export default class AuthenRoute extends VosRoute {
@@ -44,7 +44,7 @@ export default class AuthenRoute extends VosRoute {
     } else if (this.session.is_authenticated) {
       return this._super(...arguments);
     } else {
-      this.transitionTo(config.login_route);
+      this.router.transitionTo(config.login_route);
     }
   }
 

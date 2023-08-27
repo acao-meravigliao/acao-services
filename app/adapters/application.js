@@ -1,6 +1,5 @@
 import JSONAPIAdapter from '@ember-data/adapter/json-api';
 import { service } from '@ember/service';
-import { assign } from '@ember/polyfills';
 
 export default class ApplicationAdapter extends JSONAPIAdapter {
   @service('vihai-object-streaming') vos;
@@ -106,7 +105,7 @@ console.log("SHOULD RELOAD QUERY", this.selections);
   }
 
   createRecord(store, type, snapshot) {
-    let params =  assign({
+    let params =  Object.assign({
     });
 
     let data = {};
@@ -118,7 +117,7 @@ console.log("SHOULD RELOAD QUERY", this.selections);
   }
 
   updateRecord(store, type, snapshot) {
-    let params =  assign({
+    let params =  Object.assign({
     });
 
     let data = {};

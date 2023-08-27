@@ -1,5 +1,5 @@
 import Model, { attr } from '@ember-data/model';
-import { vosBelongsTo, vosHasMany } from '@sevio/ember-vos';
+import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 
 export default class YggCorePersonContactModel extends Model {
   @attr('string') type;
