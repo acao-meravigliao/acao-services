@@ -2,7 +2,7 @@
 <div class="container box page authen-flight">
   <div class="ui segment">
     <h1>Volo {{model.id}}</h1>
-<!--
+{{!--
     Aeromobile: {{link-to model.aircraft_reg "authen.aircraft" model.aircraft_id}}
                {{#if (not-eq data.aircraft_reg data.aircraft.registration)}} ora {{data.aircraft.registration}}{{/if}}<br />
     Pilota: {{link-to model.pilot1.full_name "authen.person" model.pilot1.id}}<br />
@@ -33,7 +33,7 @@
     {{#if model.towing}}
       Trainando {{link-to model.towing.aircraft_reg "authen.flight" model.towing.id}}<br />
     {{/if}}
--->
+--}}
   </div>
 
   <div class="ui segment" style="height: 600px">

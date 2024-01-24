@@ -6,7 +6,7 @@
 
   {{#if saveError}}
   <div class="ui red message">
-    {{saveError}}
+    {{this.saveError}}
   </div>
   {{/if}}
 </div>
@@ -26,6 +26,7 @@
   </div>
   <div class="nine wide column">
     <div class="ui segment">
+{{!--
     {{#ui-dropdown class="selection inline compact" selected=seasonSelect onChange=(action (mut seasonSelect))}}
     <div class="default text">Tutte</div>
     <i class="dropdown icon"></i>
@@ -55,6 +56,7 @@
       <div class="item" data-value="11">Dicembre</div>
     </div>
     {{/ui-dropdown}}
+--}}
 
     {{ui-checkbox class="ui toggle" checked=includeBusy onChange=(action (mut includeBusy)) label="Includi occupati"}}
     </div>
