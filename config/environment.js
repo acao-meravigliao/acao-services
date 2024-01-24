@@ -23,7 +23,7 @@ module.exports = function (environment) {
       // when it is created
     },
 
-    authenticated_route: 'authen.index',
+    main_route: 'authen.index',
     login_route: 'login',
   };
 
