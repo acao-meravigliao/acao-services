@@ -1,6 +1,5 @@
 import Controller from '@ember/controller';
 import { service } from '@ember/service';
-import { assign } from '@ember/polyfills';
 
 export default class LicensesController extends Controller {
   @service session;

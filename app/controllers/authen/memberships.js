@@ -1,6 +1,5 @@
 import Controller from '@ember/controller';
 import { service } from '@ember/service';
-import { assign } from '@ember/polyfills';
 import { tracked } from '@glimmer/tracking';
 
 export default class MembershipsController extends Controller {
