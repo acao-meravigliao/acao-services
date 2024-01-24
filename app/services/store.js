@@ -1,9 +1,3 @@
-import VosStore from '@vihai/ember-vos';
-import Store from '@ember-data/store';
+import { VosStore } from '@vihai/ember-vos';
 
-export default class OurStore extends VosStore {
-////  constructor() {
-////    super(...arguments);
-////
-////  }
-}
+export default class OurStore extends VosStore {}
