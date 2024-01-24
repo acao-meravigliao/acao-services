@@ -1,9 +1,9 @@
-import VosStore from '@vihai/ember-vos/vos-store';
+import VosStore from '@vihai/ember-vos';
+import Store from '@ember-data/store';
 
 export default class OurStore extends VosStore {
-//  constructor() {
-//    super(...arguments);
-//
-//    console.log("PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP", this.requestManager);
-//  }
+////  constructor() {
+////    super(...arguments);
+////
+////  }
 }

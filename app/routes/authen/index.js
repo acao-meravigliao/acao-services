@@ -1,18 +1,22 @@
-import Route from '@ember/routing/route';
+import BaseRoute from '../base-route';
 import { service } from '@ember/service';
 import { hash, all } from 'rsvp';
 
-export default class AuthenIndexRoute extends Route {
+export default class AuthenIndexRoute extends BaseRoute {
   @service session;
   @service store;
+  @service vos;
 
   model() {
-    return hash({
-      rosterEntries: this.store.query('ygg--acao--roster-entry',
-                       { filter: { person_id: this.get('session.person_id') } },
-                       { adapterOptions: { view: 'with_days' } }).then((items) => {
-        return all(items.map((l) => l.get('roster_day'))).then(() => items);
-      }),
-    });
+    return this.select_as_model([
+     {
+      type: 'ygg--acao--roster-entry',
+      filter: { person_id: this.session.person_id },
+      dig: {
+        from: 'entry',
+        to: 'day',
+      },
+     },
+    ]);
   }
 }
