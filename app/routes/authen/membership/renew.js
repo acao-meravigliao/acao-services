@@ -68,7 +68,7 @@ export default class AuthenRenewMembershipRoute extends Route {
       person: this.session.person,
       service_types: this.store.findAll('ygg--acao--service-type'),
       context: fetch('/ygg/acao/memberships/renew', {
-        method: 'GET',
+        method: 'POST',
         signal: abc.signal,
         headers: {
           'Accept': 'application/json',
