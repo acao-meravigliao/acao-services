@@ -2,22 +2,6 @@
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
-////------------ Embroider workaround https://github.com/emberjs/data/issues/8396
-//const fs = require('fs');
-//fs.writeFileSync(
-//  `node_modules/@ember-data/private-build-infra/addon/available-packages.ts`,
-//  `export default {
-//  HAS_EMBER_DATA_PACKAGE: 'ember-data',
-//  HAS_STORE_PACKAGE: '@ember-data/store',
-//  HAS_MODEL_PACKAGE: '@ember-data/model',
-//  HAS_RECORD_DATA_PACKAGE: '@ember-data/record-data/-private',
-//  HAS_ADAPTER_PACKAGE: '@ember-data/adapter',
-//  HAS_SERIALIZER_PACKAGE: '@ember-data/serializer',
-//  HAS_DEBUG_PACKAGE: '@ember-data/debug',
-//};`
-//);
-////------------------------
-
 module.exports = function (defaults) {
   let app = new EmberApp(defaults, {
     sassOptions: {
@@ -38,7 +22,6 @@ module.exports = function (defaults) {
     'ember-cli-favicon': {
       faviconsConfig: {
         icons: {
-          appleStartup: false,
         },
       },
     },
@@ -61,5 +44,16 @@ module.exports = function (defaults) {
 
   const { Webpack } = require('@embroider/webpack');
   return require('@embroider/compat').compatBuild(app, Webpack, {
+    staticAddonTestSupportTrees: true,
+//    staticAddonTrees: true,   // workaround for ember-fetch
+    staticHelpers: true,
+    staticModifiers: true,
+    staticComponents: true,
+    staticEmberSource: true,
+    skipBabel: [
+      {
+        package: 'qunit',
+      },
+    ],
   });
 };
