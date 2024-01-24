@@ -22,6 +22,6 @@
   </div>
 
   {{#if (eq this.model.payment.state "PENDING")}}
-    {{component (concat "payment/" this.payment_method_partial) payment=this.model.payment}}
+    {{component (ensure-safe-component (concat "payment/" this.payment_method_partial)) payment=this.model.payment}}
   {{/if}}
 </div>
