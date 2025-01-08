@@ -95,7 +95,7 @@ authen:
         wire: Bonifico Bancario
         check: Assegno
         credit_card: Carte (in segreteria)
-        accept_rules: Acetta il regolamento aeroportuale e scegli il metodo di pagamento.
+        accept_rules: Accetta il regolamento aeroportuale e scegli il metodo di pagamento.
         back: Indietro
         forward: Avanti...
 
