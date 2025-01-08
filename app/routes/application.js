@@ -26,20 +26,24 @@ export default class ApplicationRoute extends Route {
   }
 
   beforeModel(transition) {
-    this.versionChecker;
+    this.version_checker;
 
     if (this.vos.state != 'READY') {
       this.vos.connect().catch(() => {});
 
       return new Promise((resolve, reject) => {
         this.vos.one('ready', () => {
-          this.initial_connection = false;
-          resolve();
+          this.initialConnection = false;
+
+          if (this.session.is_loaded) {
+            resolve();
+          } else {
+            this.session.load().then(() => { resolve(); });
+          }
         });
       });
-    } else {
+    } else
       return super.beforeModel(...arguments);
-    }
   }
 
   @action loading(transition) {

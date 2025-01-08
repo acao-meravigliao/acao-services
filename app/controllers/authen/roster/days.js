@@ -19,7 +19,9 @@ export default class RosterDaysController extends Controller {
   }
 
   get sorted_filtered_roster_days() {
-    return this.filtered_roster_days.sortBy('roster_days_sort_order');
+    return this.filtered_roster_days.sort((a,b) => {
+      return a[this.roster_days_sort_order] - b[this.roster_days_sort_order];
+    });
   }
 
   get prev_year() { return this.current_year - 1; }

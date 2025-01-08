@@ -1,8 +1,8 @@
 {{page-title "Turni di traino"}}
 <div class="ui container">
 <div class="ui segment">
-  <button class="ui primary button {{if saveDisabled "disabled"}} {{if saving "disabled"}}" {{action "save" re}}>Salva!</button>
-  <button class="ui button" {{action "cancel" re}}>Annulla!</button>
+  <button class="ui primary button {{if saveDisabled "disabled"}} {{if saving "disabled"}}" type="button" {{action "save" re}}>Salva!</button>
+  <button class="ui button" type="button" {{action "cancel" re}}>Annulla!</button>
 
   {{#if saveError}}
   <div class="ui red message">

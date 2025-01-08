@@ -25,7 +25,7 @@ module.exports = function (environment) {
 
     main_route: 'authen.index',
     login_route: 'login',
-    vos_url: '/vos',
+    vos_url: '/vos2',
   };
 
   if (environment === 'development') {

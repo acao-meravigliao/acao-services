@@ -20,7 +20,7 @@ export default class AuthenMembershipRenewDataController extends Controller {
   get services() { return this.model.services }
 
   get service_types_opts() {
-    return this.wizard.service_types.sortBy('name').
+    return this.wizard.service_types.sort((a,b) => (a.name.localeCompare(b.name))).
              filter((x) => (x.available_for_membership_renewal)).
              map((x) => ({ service_type: x, name: x.name }));
   }

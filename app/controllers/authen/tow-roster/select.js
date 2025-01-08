@@ -38,7 +38,7 @@ export default class TowRosterSelectController extends Controller {
   }
 
   get rosterDaysSorted() {
-    return this.model.rosterDays.sortBy('rosterDaysSortOrder');
+    return this.model.rosterDays.sort((a,b) => (a[this.rosterDaysSortOrder] - b[this.rosterDaysSortOrder]));
   }
 
   get filteredRosterDays() {

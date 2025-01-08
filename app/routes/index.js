@@ -7,6 +7,6 @@ export default class IndexRoute extends Route {
   @service router;
 
   beforeModel() {
-    this.router.transitionTo(config.authenticated_route);
+    this.router.transitionTo(config.main_route);
   }
 }

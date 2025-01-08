@@ -102,5 +102,6 @@ Router.map(function() {
     this.route('list');
   });
 
+  this.route('index.json');
   this.route('page-not-found', { path: '/*wildcard' });
 });

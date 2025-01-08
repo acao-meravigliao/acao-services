@@ -63,17 +63,17 @@ export default class AuthenRoute extends VosRoute {
     setTimeout(() => abc.abort(), 10000);
 
     return hash({
-      years: this.store.findAll('ygg--acao--year'),
-      store_memberships: this.store.peekAll('ygg--acao--membership'),
-      memberships: this.store.query('ygg--acao--membership', { filter: { person_id: this.session.person_id } }),
-      payments: this.store.query('ygg--acao--payment', { filter: { person_id: this.session.person_id } }),
-      roster_status: fetch('/ygg/acao/roster_entries/status', {
-        method: 'GET',
-        signal: abc.signal,
-        headers: {
-          'Accept': 'application/json',
-        },
-      }).then((res) => (res.json())),
+//      years: this.store.findAll('ygg--acao--year'),
+//      store_memberships: this.store.peekAll('ygg--acao--membership'),
+//      memberships: this.store.query('ygg--acao--membership', { filter: { person_id: this.session.person_id } }),
+//      payments: this.store.query('ygg--acao--payment', { filter: { person_id: this.session.person_id } }),
+//      roster_status: fetch('/ygg/acao/roster_entries/status', {
+//        method: 'GET',
+//        signal: abc.signal,
+//        headers: {
+//          'Accept': 'application/json',
+//        },
+//      }).then((res) => (res.json())),
     });
   }
 

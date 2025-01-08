@@ -43,7 +43,7 @@
       </thead>
       <tbody>
         {{#each this.model.invoice.payments key="@index" as |payment|}}
-        <tr {{on "click" (transition-to "authen.payment" payment.id)}}>
+        <tr {{!--{{on "click" (transition-to "authen.payment" payment.id)}}--}}>
           <td>{{payment.identifier}}</td>
           <td>{{payment.state}}</td>
           <td class="price">{{format-number payment.amount style="currency" currency="EUR"}}</td>

@@ -1,8 +1,8 @@
-<div class="component bar-gauge" {{on "click" (transition-to "authen.token-transactions")}}>
+<LinkTo class="component bar-gauge" @route="authen.token-transactions">
   <p class="heading">
     Bollini
   </p>
   <p class="title">
     {{format-number @credit minimumFractionDigits=0 maximumFractionDigits=1}}
   </p>
-</div>
+</LinkTo>

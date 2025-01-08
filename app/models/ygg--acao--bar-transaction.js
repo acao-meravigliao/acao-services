@@ -9,4 +9,6 @@ export default class YggAcaoBarTransactionModel extends Model {
   @attr('string') unit;
   @attr('number') prev_credit;
   @attr('number') credit;
+
+  @vosBelongsTo('bar_transaction', 'member') member;
 }

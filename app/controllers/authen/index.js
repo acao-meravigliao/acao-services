@@ -23,11 +23,11 @@ export default class AuthenIndexController extends Controller {
 
   //------------------- Roster -------------------
   get my_next_roster_entries() {
-    return this.my_next_roster_entries_unsorted.sortBy('roster_entries_sort_order');
+    return [];//this.my_next_roster_entries_unsorted.sortBy('roster_entries_sort_order');
   }
 
   get all_roster_entries() {
-    return this.store.peekAll('ygg--acao--roster-entry');
+    return [];//this.store.peekAll('ygg--acao--roster-entry');
   }
 
   get my_next_roster_entries_unsorted() {

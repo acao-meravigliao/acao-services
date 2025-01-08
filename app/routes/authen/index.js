@@ -5,18 +5,33 @@ import { hash, all } from 'rsvp';
 export default class AuthenIndexRoute extends BaseRoute {
   @service session;
   @service store;
-  @service vos;
 
   model() {
     return this.select_as_model([
      {
-      type: 'ygg--acao--roster-entry',
-      filter: { person_id: this.session.person_id },
-      dig: {
-        from: 'entry',
-        to: 'day',
-      },
+      type: 'ygg--core--person',
+      id: this.session.person_id,
+      dig: [
+       {
+        from: 'person',
+        to: 'acao_member',
+        dig: [
+         {
+          from: 'member',
+          to: 'roster_entry',
+          dig: {
+            from: 'entry',
+            to: 'day',
+          },
+         },
+        ],
+       },
+      ]
      },
-    ]);
+    ]).then((res) => {
+      return {
+        person: this.store.peekRecord('ygg--core--person', this.session.person_id),
+      };
+    });
   }
 }

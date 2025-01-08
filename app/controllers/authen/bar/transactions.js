@@ -5,6 +5,6 @@ export default class BarTransactionController extends Controller {
   @service session;
 
   get sorted_models() {
-    return this.model.sortBy('recorded_at').reverse();
+    return this.model.sort((a,b) => (b.recorded_at - a.recorded_at));
   }
 }

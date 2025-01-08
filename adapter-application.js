@@ -2,7 +2,7 @@ import JSONAPIAdapter from '@ember-data/adapter/json-api';
 import { service } from '@ember/service';
 
 export default class ApplicationAdapter extends JSONAPIAdapter {
-  @service('vihai-object-streaming') vos;
+  @service vos;
 
 //  defaultSerializer: '-json-api',
 

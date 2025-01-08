@@ -13,11 +13,11 @@
 />
 
 <div class="buttons is-centered">
-  <button class="button is-grey is-large" {{on "click" this.back}}>
+  <button class="button is-grey is-large" type="button" {{on "click" this.back}}>
     <span class="icon"><FaIcon @icon="backward" /></span>
     <span>{{t "authen.membership.renew.roster.back"}}</span>
   </button>
-  <button class="button is-primary is-large" disabled={{not this.submit_enabled}} {{on "click" this.submit}}>
+  <button class="button is-primary is-large" disabled={{not this.submit_enabled}} type="button" {{on "click" this.submit}}>
     {{t "authen.membership.renew.roster.forward"}}
   </button>
 </div>

@@ -1,26 +1,32 @@
-import Route from '@ember/routing/route';
+import BaseRoute from '../../base-route';
 import { service } from '@ember/service';
 
-export default class AuthenRosterDaysRoute extends Route {
+export default class AuthenRosterDaysRoute extends BaseRoute {
   @service store;
-
-  queryParams = {
-    year: {
-      refreshModel: true,
-      replace: true,
-    }
-  };
+  @service session;
 
   model(params) {
     params.year = parseInt(params.year) || (new Date().getFullYear());
     this.current_year = params.year;
 
-    return this.store.query('ygg--acao--roster-day', { filter: params });
-  }
+    return this.select_as_model([
+     {
+      type: 'ygg--acao--roster-day',
+      filter: { date: { between: [ new Date(params.year, 0, 1), new Date(params.year + 1, 0, 1) ] } },
+      dig: [
+       {
+        from: 'day',
+        to: 'entry',
+       },
+      ]
+     },
+    ]).then((res) => {
+      // TODO: Implement a "belongs to selection 'x' filter"
 
-  setupController(controller, model) {
-    super.setupController(...arguments);
+      console.log(this.store.peekAll('ygg--acao--roster-day')[0].date);
 
-    controller.current_year = this.current_year;
+      return this.store.peekAll('ygg--acao--roster-day').
+               filter((x) => (x.date.getFullYear() === params.year));
+    });
   }
 }
