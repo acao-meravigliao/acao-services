@@ -9,6 +9,8 @@ export default class ApplicationRoute extends Route {
   @service intl;
   @service version_checker;
 
+  initialConnection = true;
+
   constructor() {
     super(...arguments);
 
@@ -17,7 +19,7 @@ export default class ApplicationRoute extends Route {
     moment.locale('it');
 
     this.vos.on('session_reset', () => {
-      this.router.replaceWith(config.main_route);
+      this.router.replaceWith(config.authenticated_route);
     });
 
     this.vos.on('instance_mismatch', () => {
@@ -28,22 +30,16 @@ export default class ApplicationRoute extends Route {
   beforeModel(transition) {
     this.version_checker;
 
-    if (this.vos.state != 'READY') {
-      this.vos.connect().catch(() => {});
-
-      return new Promise((resolve, reject) => {
-        this.vos.one('ready', () => {
-          this.initialConnection = false;
-
-          if (this.session.is_loaded) {
+    return new Promise((resolve, reject) => {
+      this.session.load().then(() => {
+        if (this.vos.state != 'READY') {
+          this.vos.connect().then(() => {
+            this.initialConnection = false;
             resolve();
-          } else {
-            this.session.load().then(() => { resolve(); });
-          }
-        });
+          }).catch(() => { reject(); });
+        }
       });
-    } else
-      return super.beforeModel(...arguments);
+    });
   }
 
   @action loading(transition) {

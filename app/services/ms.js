@@ -6,20 +6,16 @@ export default class MembershipStatusService extends Service {
   @service clock;
   @service session;
 
-  @tracked store_membership;
+  @tracked memberships;
   @tracked years;
 
   update(data) {
-    this.store_membership = data.store_membership;
+    this.memberships = data.memberships;
     this.years = data.years;
   }
 
-  get my_memberships() {
-    return this.store_membership.filter((x) => (x.person_id === this.session.person_id));
-  }
-
   get current_year() {
-    return this.years.findBy('year', this.clock.date.getFullYear());
+    return this.years.find((x) => (x.year === this.clock.date.getFullYear()));
   }
 
   get current_renew_is_open() {
@@ -29,7 +25,7 @@ export default class MembershipStatusService extends Service {
   }
 
   get current_renew_is_needed() {
-    return !this.my_memberships.some((item) => (item.reference_year_id === this.current_year.id));
+    return !this.memberships.some((item) => (item.reference_year_id === this.current_year.id));
   }
 
   get current_renew_is_open_and_needed() {
@@ -38,7 +34,7 @@ export default class MembershipStatusService extends Service {
   }
 
   get next_year() {
-    return this.years.findBy('year', this.clock.date.getFullYear() + 1);
+    return this.years.find((x) => (x.year === this.clock.date.getFullYear() + 1));
   }
 
   get next_renew_is_open() {
@@ -48,7 +44,7 @@ export default class MembershipStatusService extends Service {
   }
 
   get next_renew_is_needed() {
-    return !this.my_memberships.some((item) => (item.reference_year_id === this.next_year.id));
+    return !this.memberships.some((item) => (item.reference_year_id === this.next_year.id));
   }
 
   get next_renew_is_open_and_needed() {

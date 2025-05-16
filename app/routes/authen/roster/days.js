@@ -21,12 +21,7 @@ export default class AuthenRosterDaysRoute extends BaseRoute {
       ]
      },
     ]).then((res) => {
-      // TODO: Implement a "belongs to selection 'x' filter"
-
-      console.log(this.store.peekAll('ygg--acao--roster-day')[0].date);
-
-      return this.store.peekAll('ygg--acao--roster-day').
-               filter((x) => (x.date.getFullYear() === params.year));
+      return this.store.peekSelected('ygg--acao--roster-day', res.sel);
     });
   }
 }

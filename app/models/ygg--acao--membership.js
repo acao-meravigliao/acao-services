@@ -17,7 +17,6 @@ export default class YggAcaoMembershipModel extends Model {
   @attr('string') invoice_detail_id;
   @attr('string') status;
 
-  @belongsTo('ygg--acao--year', { async: true }) reference_year;
-  @belongsTo('ygg--acao--invoice--detail', { async: true }) invoice_detail;
-  @belongsTo('ygg--core--person', { async: true }) person;
+  @vosBelongsTo('membership', 'year') year;
+  @vosBelongsTo('membership', 'member') member;
 }
