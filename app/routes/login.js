@@ -10,7 +10,7 @@ export default class LoginRoute extends Route {
   beforeModel(transition) {
     if (this.session.is_authenticated) {
       // No need to be here, go to the index for authenticated people
-      this.router.transitionTo(config.main_route);
+      this.router.transitionTo(config.authenticated_route);
     } else {
       return this._super(...arguments);
     }

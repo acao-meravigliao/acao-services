@@ -23,7 +23,7 @@ module.exports = function (environment) {
       // when it is created
     },
 
-    main_route: 'authen.index',
+    authenticated_route: 'authen.index',
     login_route: 'login',
     vos_url: '/vos2',
   };
