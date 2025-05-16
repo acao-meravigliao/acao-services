@@ -2,7 +2,6 @@ import Route from '@ember/routing/route';
 import { hash } from 'rsvp';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
-import fetch, { AbortController } from 'fetch';
 
 export default class AuthenRenewMembershipRosterRoute extends Route {
   @service store;
@@ -47,7 +46,6 @@ export default class AuthenRenewMembershipRosterRoute extends Route {
 //import { hash } from 'rsvp';
 //import { service } from '@ember/service';
 //import { action } from '@ember/object';
-//import fetch, { AbortController } from 'fetch';
 //
 //export default class AuthenRosterSelectRoute extends Route {
 //  @service session;
