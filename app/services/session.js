@@ -3,7 +3,6 @@ import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import Evented from '@ember/object/evented';
 import { Promise } from 'rsvp';
-import fetch, { AbortController } from 'fetch';
 import { later, cancel } from '@ember/runloop';
 import { VihaiException, RemoteException } from '@vihai/vihai-exceptions';
 
@@ -53,6 +52,9 @@ export default class SessionService extends Service.extend(Evented) {
 
   async load() {
     let res;
+
+    if (this.is_loaded)
+      return;
 
     let abc = new AbortController();
     setTimeout(() => abc.abort(), 5000);
