@@ -5,7 +5,6 @@ import { hash } from 'rsvp';
 import EmberObject from '@ember/object';
 import { A } from '@ember/array';
 import SelectedService from 'acao-services/utils/selected-service';
-import fetch, { AbortController } from 'fetch';
 
 class WizardState extends EmberObject {
   @tracked steps = [ 'index' ];
