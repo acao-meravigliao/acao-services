@@ -1,8 +1,6 @@
 import Model, { attr } from '@ember-data/model';
 import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 
-import { belongsTo, hasMany } from '@ember-data/model';
-
 export default class YggAcaoServiceTypeModel extends Model {
   wsModelName = 'Ygg::Acao::ServiceType'
 

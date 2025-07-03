@@ -1,8 +1,6 @@
 import Model, { attr } from '@ember-data/model';
 import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 
-import { belongsTo, hasMany } from '@ember-data/model';
-
 export default class YggAcaoMembershipModel extends Model {
   @attr('string') person_id;
   @attr('boolean') email_allowed;

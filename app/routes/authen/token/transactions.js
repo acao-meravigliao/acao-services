@@ -1,7 +1,7 @@
 import BaseRoute from '../../base-route';
 import { service } from '@ember/service';
 
-export default class AuthenBarTransactionsRoute extends BaseRoute {
+export default class AuthenTokenTransactionsRoute extends BaseRoute {
   @service store;
   @service session;
 
@@ -15,8 +15,8 @@ export default class AuthenBarTransactionsRoute extends BaseRoute {
         to: 'acao_member',
         dig: {
           from: 'member',
-          to: 'bar_transaction',
-          select: [ 'recorded_at', 'cnt', 'descr', 'amount', 'unit', 'prev_credit', 'credit' ],
+          to: 'token_transaction',
+          //select: [ 'recorded_at', 'cnt', 'descr', 'amount', 'unit', 'prev_credit', 'credit' ],
           order: { 'recorded_at': 'desc' },
           start: params.start || 0,
           limit: 50,
@@ -24,7 +24,7 @@ export default class AuthenBarTransactionsRoute extends BaseRoute {
       }
      },
     ).then((res) => {
-      return this.store.peekSelected('ygg--acao--bar-transaction', res.sel);
+      return this.store.peekSelected('ygg--acao--token-transaction', res.sel);
     });
   }
 }

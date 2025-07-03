@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
-import * as moment from 'moment';
+import moment from 'moment';
 
 export default class ApplicationRoute extends Route {
   @service vos;

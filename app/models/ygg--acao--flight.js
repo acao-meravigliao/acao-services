@@ -1,8 +1,6 @@
 import Model, { attr } from '@ember-data/model';
 import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 
-import { belongsTo, hasMany } from '@ember-data/model';
-
 export default class YggAcaoFlightModel extends Model {
   @attr('string') aircraft_reg;
   @attr('string') aircraft_id;
@@ -20,16 +18,15 @@ export default class YggAcaoFlightModel extends Model {
   @attr('string') pilot1_role;
   @attr('string') pilot2_role;
 
-  @belongsTo('ygg--acao--aircraft', { async: true }) aircraft;
-  @belongsTo('ygg--core--person', { async: true }) pilot1;
-  @belongsTo('ygg--core--person', { async: true }) pilot2;
-  @belongsTo('ygg--acao--airfield', { async: true }) takeoff_airfield;
-  @belongsTo('ygg--acao--airfield', { async: true }) landing_airfield;
-  @belongsTo('ygg--core--location', { async: true }) takeoff_location;
-  @belongsTo('ygg--core--location', { async: true }) landing_location;
-
-  @belongsTo('ygg--acao--flight', { async: true }) towed_by;
-  @belongsTo('ygg--acao--flight', { async: true }) towing;
+  @vosBelongsTo('flight', 'aircraft') aircraft;
+  @vosBelongsTo('flight', 'pilot1') pilot1;
+  @vosBelongsTo('flight', 'pilot2') pilot2;
+  @vosBelongsTo('flight', 'takeoff_airfield') takeoff_airfield;
+  @vosBelongsTo('flight', 'landing_airfield') landing_airfield;
+  @vosBelongsTo('flight', 'takeoff_location') takeoff_location;
+  @vosBelongsTo('flight', 'landing_location') landing_location;
+  @vosBelongsTo('flight', 'towed_by') towed_by;
+  @vosBelongsTo('flight', 'towing') towing;
 
   get duration() {
     return this.landing_time - this.takeoff_time;

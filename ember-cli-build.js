@@ -17,15 +17,6 @@ module.exports = async function(defaults) {
       ],
       onlyIncluded: true,
     },
-    fingerprint: {
-      exclude: [
-        'images/layers-2x.png',
-        'images/layers.png',
-        'images/marker-icon-2x.png',
-        'images/marker-icon.png',
-        'images/marker-shadow.png'
-      ]
-    },
     'ember-cli-favicon': {
       faviconsConfig: {
         icons: {
@@ -33,12 +24,17 @@ module.exports = async function(defaults) {
       },
     },
   });
+
+  const { setConfig } = await import("@warp-drive/build-config");
+  setConfig(app, __dirname, {
+    deprecations: {
+      DEPRECATE_TRACKING_PACKAGE: false,
+    },
+  });
+
   return compatBuild(app, buildOnce, {
-    staticAddonTestSupportTrees: true,
-    staticAddonTrees: true,
     staticHelpers: true,
     staticModifiers: true,
     staticComponents: true,
-    staticEmberSource: true
   });
 };

@@ -4,7 +4,7 @@
   width: 200px;
 
   a.active {
-    @extend .is-active;
+//    @extend a.is-active;
   }
 
   p.menu-label.bordered {

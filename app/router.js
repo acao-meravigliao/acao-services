@@ -42,8 +42,10 @@ Router.map(function() {
       this.route('recharge');
     });
 
-    this.route('token-transactions');
-    this.route('token-transaction', { path: '/token-transaction/:id' });
+    this.route('token', function() {
+      this.route('transactions');
+      this.route('transaction', { path: '/transaction/:id' });
+    });
 
     this.route('flights');
     this.route('flight', { path: '/flight/:id' });
