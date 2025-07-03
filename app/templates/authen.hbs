@@ -9,7 +9,7 @@
 
   <div class="navbar-menu {{if this.hamburger.active "is-active"}}" {{on "click" this.hamburger_hide}}>
     <div class="navbar-start">
-      <LinkTo @route="authen.index" class="navbar-item">
+      <LinkTo @route="authen.index" class="navbar-item" @activeClass="is-active">
         {{t "menu.dashboard"}}
       </LinkTo>
 
@@ -22,19 +22,19 @@
         </a>
 
         <div class="navbar-dropdown">
-          <LinkTo @route="authen.token.transactions" class="navbar-item">
+          <LinkTo @route="authen.token.transactions" class="navbar-item" @activeClass="is-active">
             {{t "menu.token_transactions"}}
           </LinkTo>
 
-          <LinkTo @route="authen.bar.transactions" class="navbar-item">
+          <LinkTo @route="authen.bar.transactions" class="navbar-item" @activeClass="is-active">
             {{t "menu.bar_transactions"}}
           </LinkTo>
 
-          <LinkTo @route="authen.invoices" class="navbar-item">
+          <LinkTo @route="authen.invoices" class="navbar-item" @activeClass="is-active">
             {{t "menu.invoices"}}
           </LinkTo>
 
-          <LinkTo @route="authen.payments" class="navbar-item">
+          <LinkTo @route="authen.payments" class="navbar-item" @activeClass="is-active">
             {{t "menu.payments"}}
             {{#if this.pending_payments}}
               <span class="tag is-danger">{{this.pending_payments.length}}</span>
@@ -49,8 +49,8 @@
         </a>
 
         <div class="navbar-dropdown">
-          <LinkTo class="navbar-item" @route="authen.roster.days">{{t "menu.all_roster_days"}}</LinkTo>
-          <LinkTo class="navbar-item" @route="authen.roster.today">{{t "menu.today_roster_entries"}}</LinkTo>
+          <LinkTo class="navbar-item" @route="authen.roster.days" @activeClass="is-active">{{t "menu.all_roster_days"}}</LinkTo>
+          <LinkTo class="navbar-item" @route="authen.roster.today" @activeClass="is-active">{{t "menu.today_roster_entries"}}</LinkTo>
         </div>
       </div>
 
@@ -60,7 +60,7 @@
         </a>
 
         <div class="navbar-dropdown">
-          <LinkTo class="navbar-item" @route="authen.aircrafts">{{t "menu.aircrafts"}}</LinkTo>
+          <LinkTo class="navbar-item" @route="authen.aircrafts" @activeClass="is-active">{{t "menu.aircrafts"}}</LinkTo>
         </div>
       </div>
     </div>
@@ -78,7 +78,7 @@
   </p>
   <ul class="menu-list">
     <li>
-      <LinkTo @route="authen.index" class="navbar-item">
+      <LinkTo @route="authen.index" class="navbar-item" @activeClass="is-active">
         {{t "menu.dashboard"}}
       </LinkTo>
     </li>
@@ -94,25 +94,25 @@
       {{/if}}
       <ul>
         <li>
-          <LinkTo @route="authen.token.transactions" class="navbar-item">
+          <LinkTo @route="authen.token.transactions" class="navbar-item" @activeClass="is-active">
             {{t "menu.token_transactions"}}
           </LinkTo>
         </li>
 
         <li>
-          <LinkTo @route="authen.bar.transactions" class="navbar-item">
+          <LinkTo @route="authen.bar.transactions" class="navbar-item" @activeClass="is-active">
             {{t "menu.bar_transactions"}}
           </LinkTo>
         </li>
 
         <li>
-          <LinkTo @route="authen.invoices" class="navbar-item">
+          <LinkTo @route="authen.invoices" class="navbar-item" @activeClass="is-active">
             {{t "menu.invoices"}}
           </LinkTo>
         </li>
 
         <li>
-          <LinkTo @route="authen.payments" class="navbar-item">
+          <LinkTo @route="authen.payments" class="navbar-item" @activeClass="is-active">
             {{t "menu.payments"}}
             {{#if this.pending_payments}}
               <span class="tag is-danger">{{this.pending_payments.length}}</span>

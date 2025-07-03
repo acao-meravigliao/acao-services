@@ -22,7 +22,9 @@
         </td>
         <td>
           {{#if data.invoice_detail}}
-            <LinkTo @route="authen.invoice" @model={{data.invoice_detail.invoice.id}}>Ricevuta {{data.invoice_detail.invoice.identifier}}</LinkTo>
+            <LinkTo @route="authen.invoice" @model={{data.invoice_detail.invoice.id}} @activeClass="is-active">
+              Ricevuta {{data.invoice_detail.invoice.identifier}}
+            </LinkTo>
           {{/if}}
         </td>
       </tr>
