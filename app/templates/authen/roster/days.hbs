@@ -25,6 +25,12 @@
 
   <div class="level-item">
     <label>
+      <input type="checkbox" checked={{this.flt_incoming}} {{on "change" this.toggle_incoming}} />
+      Prossimi
+    </label>
+  </div>
+  <div class="level-item">
+    <label>
       <input type="checkbox" checked={{this.flt_high_season}} {{on "change" this.toggle_high_season}} />
       Alta stagione
     </label>
@@ -53,7 +59,7 @@
       </div>
     {{else}}
       <div class="notification is-info">
-        Non ci sono giornate di linea nel {{this.current_year}}
+        Nessuna giornata di linea selezonata
       </div>
     {{/if}}
   </div>

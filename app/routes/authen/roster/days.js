@@ -2,8 +2,12 @@ import BaseRoute from '../../base-route';
 import { service } from '@ember/service';
 
 export default class AuthenRosterDaysRoute extends BaseRoute {
-  @service store;
-  @service session;
+  queryParams = {
+    year: {
+      refreshModel: true,
+      replace: true,
+    }
+  };
 
   model(params) {
     params.year = parseInt(params.year) || (new Date().getFullYear());
@@ -13,15 +17,28 @@ export default class AuthenRosterDaysRoute extends BaseRoute {
      {
       type: 'ygg--acao--roster-day',
       filter: { date: { between: [ new Date(params.year, 0, 1), new Date(params.year + 1, 0, 1) ] } },
-      dig: [
+      dig:
        {
         from: 'day',
         to: 'entry',
+        dig: {
+          from: 'roster_entry',
+          to: 'member',
+          dig: {
+            from: 'acao_member',
+            to: 'person',
+          },
+        }
        },
-      ]
      },
     ]).then((res) => {
       return this.store.peekSelected('ygg--acao--roster-day', res.sel);
     });
+  }
+
+  setupController(controller, model) {
+    super.setupController(...arguments);
+
+    controller.current_year = this.current_year;
   }
 }
