@@ -1,7 +1,7 @@
-import Route from '@ember/routing/route';
+import BaseRoute from '../../base-route';
 import { service } from '@ember/service';
 
-export default class AuthenRosterTodayRoute extends Route {
+export default class AuthenRosterDaysRoute extends BaseRoute {
   @service store;
 
   model(params) {
