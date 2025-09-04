@@ -50,7 +50,7 @@ module.exports = function(deployTarget) {
     ENV.build.environment = 'production';
 
     ENV['rsync-assets'] = {
-      destination: 'acaofe.acao.it:/opt/acao-services/',
+      destination: 'acao@fe.acao.it:/opt/acao-services/',
       source: 'dist/',
       excludeIndexHTML: false,
       ssh: true,
