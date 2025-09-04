@@ -5,7 +5,17 @@ export default class AuthenTokenTransactionsRoute extends BaseRoute {
   @service store;
   @service session;
 
+  queryParams = {
+    span: {
+      refreshModel: true,
+      replace: true,
+    }
+  };
+
   model(params) {
+    params.span = parseInt(params.span) || 30;
+    this.span = params.span;
+
     return this.select_as_model(
      {
       type: 'ygg--core--person',
@@ -18,13 +28,17 @@ export default class AuthenTokenTransactionsRoute extends BaseRoute {
           to: 'token_transaction',
           //select: [ 'recorded_at', 'cnt', 'descr', 'amount', 'unit', 'prev_credit', 'credit' ],
           order: { 'recorded_at': 'desc' },
-          start: params.start || 0,
-          limit: 50,
+          filter: { recorded_at: { gt: new Date(new Date() - this.span * 86400 * 1000) } }
         }
       }
      },
     ).then((res) => {
       return this.store.peekSelected('ygg--acao--token-transaction', res.sel);
     });
+  }
+
+  setupController(controller, model) {
+    super.setupController(...arguments);
+    controller.span = this.span;
   }
 }
