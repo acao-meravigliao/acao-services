@@ -1,11 +1,12 @@
 {{page-title (t "authen.roster.today.page_title")}}
 <div class="container">
-  {{#if this.model}}
-    <h1 class="title">{{format-date this.model.date}}</h1>
+  {{#if this.model.today}}
 
-    {{#each this.model.roster_entries as |entry|}}
+    <h1 class="title">{{format-date this.model.today.date}}</h1>
+
+    {{#each this.model.today.roster_entries as |entry|}}
       <i class="ui {{if entry.chief "spy" "user"}} icon"></i>
-      {{entry.person.first_name}} {{entry.person.last_name}}<br />
+      {{entry.member.person.first_name}} {{entry.member.person.last_name}}<br />
       {{#if entry.notes}}
         <div class="notification">
           {{entry.notes}}
