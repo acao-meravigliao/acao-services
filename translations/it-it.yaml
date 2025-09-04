@@ -144,7 +144,7 @@ password_recovery:
     login_page: pagina di Login
 
 menu:
-  dashboard: Dashboard
+  home: Home
   renew_membership: Rinnovo iscrizione
   billing: Contabilità
   token_transactions: Conto bollini

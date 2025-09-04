@@ -10,7 +10,7 @@
   <div class="navbar-menu {{if this.hamburger.active "is-active"}}" {{on "click" this.hamburger_hide}}>
     <div class="navbar-start">
       <LinkTo @route="authen.index" class="navbar-item" @activeClass="is-active">
-        {{t "menu.dashboard"}}
+        {{t "menu.home"}}
       </LinkTo>
 
       <div class="navbar-item has-dropdown is-hoverable">
@@ -54,6 +54,7 @@
         </div>
       </div>
 
+{{!--
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">
           {{t "menu.things"}}
@@ -63,6 +64,7 @@
           <LinkTo class="navbar-item" @route="authen.aircrafts" @activeClass="is-active">{{t "menu.aircrafts"}}</LinkTo>
         </div>
       </div>
+--}}
     </div>
 
     <div class="navbar-end">
@@ -79,7 +81,7 @@
   <ul class="menu-list">
     <li>
       <LinkTo @route="authen.index" class="navbar-item" @activeClass="is-active">
-        {{t "menu.dashboard"}}
+        {{t "menu.home"}}
       </LinkTo>
     </li>
   </ul>
