@@ -15,7 +15,7 @@
         <//div>
 
         {{#if this.payment_is_pending}}
-          <LinkTo @target="authen.payment" @model={{this.wizard.membership.payment_id}} class="button is-huge">
+          <LinkTo target="authen.payment" @model={{this.wizard.membership.payment_id}} class="button is-huge">
             {{t "authen.membership.renew.index.payment_pending"}}
           </LinkTo>
         {{/if}}
@@ -36,7 +36,7 @@
         </p>
 
         <div class="buttons is-centered">
-          <button class="button is-primary is-large" disabled={{this.form_invalid}} {{on "click" this.submit}}>
+          <button class="button is-primary is-large" disabled={{this.form_invalid}} type="button" {{on "click" this.submit}}>
             {{t "authen.membership.renew.index.proceed"}}
           </button>
         </div>

@@ -2,14 +2,13 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { hash, all } from 'rsvp';
-import fetch, { AbortController } from 'fetch';
-import VosRoute from '@sevio/ember-vos/routes/vos-route';
+import VosRoute from '@vihai/ember-vos/routes/vos-route';
 import config from 'acao-services/config/environment';
 
 export default class AuthenRoute extends VosRoute {
   @service session;
   @service store;
-  //@service vos;
+  @service vos;
   @service router;
   @service ms;
   @service hamburger;
@@ -44,36 +43,49 @@ export default class AuthenRoute extends VosRoute {
     } else if (this.session.is_authenticated) {
       return this._super(...arguments);
     } else {
-      this.transitionTo(config.login_route);
+      this.router.transitionTo(config.login_route);
     }
   }
 
   model() {
-    //return this.select_as_model([
-    // {
-    //  type: 'ygg--acao--year',
-    // },
-    //]).then((res) => {
-    //  return {
-    //    years: this.store.peekAll('ygg--acao--year'),
-    //  };
-    //});
-
-    let abc = new AbortController();
-    setTimeout(() => abc.abort(), 10000);
-
-    return hash({
-      years: this.store.findAll('ygg--acao--year'),
-      store_memberships: this.store.peekAll('ygg--acao--membership'),
-      memberships: this.store.query('ygg--acao--membership', { filter: { person_id: this.session.person_id } }),
-      payments: this.store.query('ygg--acao--payment', { filter: { person_id: this.session.person_id } }),
-      roster_status: fetch('/ygg/acao/roster_entries/status', {
-        method: 'GET',
-        signal: abc.signal,
-        headers: {
-          'Accept': 'application/json',
+    return this.select_as_model([
+     {
+      type: 'ygg--core--person',
+      id: this.session.person_id,
+      dig: [
+       {
+        from: 'person',
+        to: 'acao_member',
+        dig: {
+          from: 'member',
+          to: 'membership',
+          dig: {
+            from: 'membership',
+            to: 'year',
+          }
         },
-      }).then((res) => (res.json())),
+       },
+       {
+        from: 'member',
+        to: 'invoice',
+//        filter: { status: 'NOT_PAID' },
+       },
+      ]
+     },
+     {
+      type: 'ygg--acao--year',
+      filter: { year: { gte: 2024 } },
+     },
+    ]).then((res) => {
+      return this.vos.class_call('ygg--acao--roster-entry', 'compute_status').then((roster_status) => {
+        return {
+          person: this.store.peekRecord('ygg--core--person', this.session.person_id),
+          years: this.store.peekSelected('ygg--acao--year', res.sel),
+          memberships: this.store.peekSelected('ygg--acao--membership', res.sel),
+          invoices: this.store.peekSelected('ygg--acao--invoice', res.sel),
+          roster_status: roster_status,
+        };
+      });
     });
   }
 
@@ -81,7 +93,7 @@ export default class AuthenRoute extends VosRoute {
     super.setupController(...arguments);
 
     this.ms.update({
-      store_membership: model.store_memberships,
+      memberships: model.memberships,
       years: model.years,
     });
   }

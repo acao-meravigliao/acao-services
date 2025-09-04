@@ -1,14 +1,10 @@
-//$menu-width: 200px;
-//$menu-item-color: white;
-//$menu-item-active-background-color: #7fffff;
-//$menu-item-hover-background-color: #4fffff;
-//$menu-item-hover-color: #9fffff;
-//$menu-item-radius: 0;
+@use "bulma/css/bulma.css";
+@use "bulma/sass/utilities/mixins";
 
-@import "bulma";
+@use "components.scss";
+@use "pages.scss";
 
-@import "components.scss";
-@import "pages.scss";
+@use "ember-power-select";
 
 html {
   overflow-y: auto;
@@ -24,9 +20,9 @@ html {
         left: 4px;
         top: 4px;
 
-        @include tablet {
-          display: none;
-        }
+//        @include tablet {
+//          display: none;
+//        }
       }
     }
 
@@ -53,7 +49,7 @@ html {
 
 .navbar-menu {
   a.active {
-    @extend .is-active;
+//    @extend .is-active;
   }
 }
 
@@ -97,5 +93,3 @@ table {
   width: 100%;
   height: 100%;
 }
-
-@import "ember-power-select";

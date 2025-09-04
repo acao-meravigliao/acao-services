@@ -1,0 +1,31 @@
+{{page-title (t "authen.bar.recharge.page_title")}}
+
+<div class="container">
+
+  <div>
+    <label class="label">
+      Importo:
+      <input type="number" class="input number" value="50" size="10" {{on "change" this.value_changed}} /> €
+    </label>
+  </div>
+
+  <div class="buttons">
+    <button class="button {{if (eq this.payment_method "SATISPAY") "is-info"}}" type="button" {{on 'click' (fn this.payment_method_set "SATISPAY")}}>
+      <span class="icon">SP</span>
+      <span>{{t "payment.methods.SATISPAY"}}</span>
+    </button>
+
+    <button class="button {{if (eq this.payment_method "CARD") "is-info"}}" type="button" {{on 'click' (fn this.payment_method_set "CARD")}}>
+      <span class="icon"><FaIcon @icon="credit-card" /></span>
+      <span>{{t "payment.methods.CARD"}}</span>
+    </button>
+  </div>
+
+{{!--
+<QrCode @text="S6Y-PAY--55D7A591-C41C-421A-97EF-A3C547F86684" @colorLight="#F7F7F7" @width="155" @height="155" @correctLevel="L" />
+--}}
+
+  <button class="button is-primary is-large" disabled={{this.submit_disabled}} type="button" {{on "click" this.submit}}>
+    Avanti
+  </button>
+</div>

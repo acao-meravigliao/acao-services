@@ -1,12 +1,12 @@
 {{page-title (t "authen.index.page_title")}}
 
 <div class="container box page authen-index">
-  <h1 class="subtitle">{{t "authen.index.hello"}} {{this.session.person.first_name}}!</h1>
+  <h1 class="subtitle">{{t "authen.index.hello"}} {{this.model.person.first_name}}!</h1>
 
   {{#if this.ms.current_renew_is_open_and_needed}}
     <div class="notification is-success">
       {{t "authen.index.membership_for_year" year=this.ms.current_year.year htmlSafe=true}}
-      <button class="button is-info" {{on "click" this.start_current_membership_renewal}}>Inizia</button>
+      <button class="button is-info" type="button" {{on "click" this.start_current_membership_renewal}}>Inizia</button>
     </div>
   {{/if}}
 
@@ -20,31 +20,17 @@
   {{#if this.ms.next_renew_is_open_and_needed}}
     <div class="notification is-success">
       {{t "authen.index.membership_for_year" year=this.ms.next_year.year htmlSafe=true}}
-      <button class="button is-info" {{on "click" this.start_next_membership_renewal}}>Inizia</button>
+      <button class="button is-info" type="button" {{on "click" this.start_next_membership_renewal}}>Inizia</button>
     </div>
   {{/if}}
 
   <div class="level">
     <div class="level-item has-text-centered">
-      <div {{on "click" (transition-to "authen.bar-transactions")}}>
-        <p class="heading">
-          Conto bar
-        </p>
-        <p class="title">
-          {{format-number this.session.person.acao_bar_credit style="currency" currency="EUR"}}
-        </p>
-      </div>
+      <BarGauge @credit={{this.model.person.member.bar_credit}} />
     </div>
 
     <div class="level-item has-text-centered">
-      <div {{on "click" (transition-to "authen.token-transactions")}}>
-        <p class="heading">
-          Bollini
-        </p>
-        <p class="title">
-          {{format-number this.session.person.acao_bollini minimumFractionDigits=0 maximumFractionDigits=1}}
-        </p>
-      </div>
+      <TokensGauge @credit={{this.model.person.member.bollini}} />
     </div>
   </div>
 

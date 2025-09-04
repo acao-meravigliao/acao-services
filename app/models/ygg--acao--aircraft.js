@@ -1,7 +1,5 @@
 import Model, { attr } from '@ember-data/model';
-import { vosBelongsTo, vosHasMany } from '@sevio/ember-vos';
-
-import { belongsTo, hasMany } from '@ember-data/model';
+import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 
 export default class YggAcaoAircraftModel extends Model {
   @attr('string') registration;
@@ -13,7 +11,7 @@ export default class YggAcaoAircraftModel extends Model {
   @attr('date') arc_valid_to;
   @attr('date') insurance_valid_to;
 
-  @belongsTo('ygg--acao--aircraft-type', { async: true }) aircraft_type;
-  @belongsTo('ygg--acao--club', { async: true }) club;
-  @belongsTo('ygg--core--person', { async: true }) owner;
+  @vosBelongsTo('aircraft', 'owner') owner;
+  @vosBelongsTo('aircraft', 'club') club;
+  @vosHasMany('aircraft', 'type') aircraft_type;
 }

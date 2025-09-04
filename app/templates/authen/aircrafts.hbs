@@ -15,7 +15,7 @@
     <tbody>
       {{#each this.sorted_models key="id" as |data|}}
 
-      <tr {{on 'click' (transition-to "authen.aircraft" data.id)}}>
+      <tr {{!--{{on 'click' (transition-to "authen.aircraft" data.id)}}--}}>
         <td>
           {{data.registration}}
         </td>

@@ -3,21 +3,18 @@ import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import Evented from '@ember/object/evented';
 import { Promise } from 'rsvp';
-import fetch, { AbortController } from 'fetch';
 import { later, cancel } from '@ember/runloop';
+import { VihaiException, RemoteException } from '@vihai/vihai-exceptions';
 
-import MyException from 'acao-services/utils/my-exception';
-import RemoteException from 'acao-services/utils/remote-exception';
-
-class SessionLoadTimeout extends MyException { type = 'SessionLoadTimeout'; }
-class WrongCredentials extends MyException { type = 'WrongCredentials'; }
-class ServerFailure extends MyException { type = 'ServerFailure'; }
+class SessionLoadTimeout extends VihaiException { type = 'SessionLoadTimeout'; }
+class WrongCredentials extends VihaiException { type = 'WrongCredentials'; }
+class ServerFailure extends VihaiException { type = 'ServerFailure'; }
 class ServerError extends RemoteException { }
 
 export default class SessionService extends Service.extend(Evented) {
   @service store;
+  @service vos;
   @service visibility;
-  //@service('vihai-object-streaming') vos;
 
   @tracked is_authenticated = false;
   @tracked authenticating = false;
@@ -55,6 +52,9 @@ export default class SessionService extends Service.extend(Evented) {
 
   async load() {
     let res;
+
+    if (this.is_loaded)
+      return;
 
     let abc = new AbortController();
     setTimeout(() => abc.abort(), 5000);
@@ -360,7 +360,9 @@ export default class SessionService extends Service.extend(Evented) {
     if (!old_authenticated && session_data.authenticated) {
       this.person_id = session_data.auth_person.id;
 
-      this.person = await this.store.findRecord('ygg--core--person', this.person_id)
+//      let res = await this.vos.select({ type: 'ygg--core--person', id: this.person_id });
+//      this.person = this.store.peekRecord('ygg--core--person', this.person_id);
+this.person = { a: 1 }
 
       this.trigger('session_becomes_authenticated', arguments);
 

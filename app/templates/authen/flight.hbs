@@ -1,8 +1,8 @@
 {{page-title "Volo"}}
 <div class="container box page authen-flight">
   <div class="ui segment">
-    <h1>Volo {{model.id}}</h1>
-<!--
+    <h1>Volo {{this.model.id}}</h1>
+{{!--
     Aeromobile: {{link-to model.aircraft_reg "authen.aircraft" model.aircraft_id}}
                {{#if (not-eq data.aircraft_reg data.aircraft.registration)}} ora {{data.aircraft.registration}}{{/if}}<br />
     Pilota: {{link-to model.pilot1.full_name "authen.person" model.pilot1.id}}<br />
@@ -33,11 +33,12 @@
     {{#if model.towing}}
       Trainando {{link-to model.towing.aircraft_reg "authen.flight" model.towing.id}}<br />
     {{/if}}
--->
+--}}
   </div>
 
   <div class="ui segment" style="height: 600px">
-    {{#if model.takeoff_location.latlng}}
+    {{#if this.model.takeoff_location.latlng}}
+{{!--
       {{#leaflet-map center=model.takeoff_location.latlng zoom=11 class="flight-map" as |layers|}}
         {{layers.tile url="https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png" maxZoom=13}}
         {{#layers.marker location=model.takeoff_location.latlng title="Decollo"}}
@@ -55,6 +56,7 @@
           {{/popup-layer}}
         {{/layers.marker}}
       {{/leaflet-map}}
+--}}
     {{/if}}
   </div>
 </div>

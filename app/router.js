@@ -36,11 +36,16 @@ Router.map(function() {
     this.route('invoices');
     this.route('invoice', { path: '/invoice/:id' });
 
-    this.route('bar-transactions');
-    this.route('bar-transaction', { path: '/bar-transaction/:id' });
+    this.route('bar', function() {
+      this.route('transactions');
+      this.route('transaction', { path: '/transaction/:id' });
+      this.route('recharge');
+    });
 
-    this.route('token-transactions');
-    this.route('token-transaction', { path: '/token-transaction/:id' });
+    this.route('token', function() {
+      this.route('transactions');
+      this.route('transaction', { path: '/transaction/:id' });
+    });
 
     this.route('flights');
     this.route('flight', { path: '/flight/:id' });
@@ -99,5 +104,6 @@ Router.map(function() {
     this.route('list');
   });
 
+  this.route('index.json');
   this.route('page-not-found', { path: '/*wildcard' });
 });

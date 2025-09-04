@@ -1,9 +1,7 @@
-import Route from '@ember/routing/route';
+import BaseRoute from '../../base-route';
 import { service } from '@ember/service';
 
-export default class AuthenRosterDaysRoute extends Route {
-  @service store;
-
+export default class AuthenRosterDaysRoute extends BaseRoute {
   queryParams = {
     year: {
       refreshModel: true,
@@ -15,7 +13,27 @@ export default class AuthenRosterDaysRoute extends Route {
     params.year = parseInt(params.year) || (new Date().getFullYear());
     this.current_year = params.year;
 
-    return this.store.query('ygg--acao--roster-day', { filter: params });
+    return this.select_as_model([
+     {
+      type: 'ygg--acao--roster-day',
+      filter: { date: { between: [ new Date(params.year, 0, 1), new Date(params.year + 1, 0, 1) ] } },
+      dig:
+       {
+        from: 'day',
+        to: 'entry',
+        dig: {
+          from: 'roster_entry',
+          to: 'member',
+          dig: {
+            from: 'acao_member',
+            to: 'person',
+          },
+        }
+       },
+     },
+    ]).then((res) => {
+      return this.store.peekSelected('ygg--acao--roster-day', res.sel);
+    });
   }
 
   setupController(controller, model) {

@@ -25,32 +25,21 @@ module.exports = function(deployTarget) {
     ENV.build.environment = 'development';
   break;
 
+  case 'dev':
+    ENV.build.environment = 'development';
+
+    ENV['rsync-assets'] = {
+      destination: '/opt/acao-services-dev/',
+      source: 'dist/',
+      excludeIndexHTML: false,
+    }
+  break;
+
   case 'staging':
     ENV.build.environment = 'production';
 
     ENV['rsync-assets'] = {
-      destination: '/opt/acao-services/',
-      source: 'dist/',
-      excludeIndexHTML: false,
-    }
-  break;
-
-  case 'dev':
-    ENV.build.environment = 'production';
-
-    ENV['rsync-assets'] = {
-      destination: 'yggdra@fe.acao.it:/opt/acao-services-dev/',
-      source: 'dist/',
-      excludeIndexHTML: false,
-      ssh: true,
-    }
-  break;
-
-  case 'staging2':
-    ENV.build.environment = 'production';
-
-    ENV['rsync-assets'] = {
-      destination: 'yggdra@fe.acao.it:/opt/acao-services-staging/',
+      destination: 'yggdra@lino.acao.it:/opt/acao-services-staging/',
       source: 'dist/',
       excludeIndexHTML: false,
       ssh: true,
@@ -61,7 +50,7 @@ module.exports = function(deployTarget) {
     ENV.build.environment = 'production';
 
     ENV['rsync-assets'] = {
-      destination: 'yggdra@fe.acao.it:/opt/acao-services/',
+      destination: 'acao@fe.acao.it:/opt/acao-services/',
       source: 'dist/',
       excludeIndexHTML: false,
       ssh: true,

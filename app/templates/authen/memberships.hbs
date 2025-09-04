@@ -13,7 +13,7 @@
     <tbody>
       {{#each this.sorted_models key="id" as |data|}}
 
-      <tr {{on 'click' (transition-to "authen.aircraft" data.id)}}>
+      <tr {{!--{{on 'click' (transition-to "authen.aircraft" data.id)}}--}}>
         <td>
           {{data.reference_year.year}}
         </td>
@@ -22,7 +22,9 @@
         </td>
         <td>
           {{#if data.invoice_detail}}
-            <LinkTo @route="authen.invoice" @model={{data.invoice_detail.invoice.id}}>Ricevuta {{data.invoice_detail.invoice.identifier}}</LinkTo>
+            <LinkTo @route="authen.invoice" @model={{data.invoice_detail.invoice.id}} @activeClass="is-active">
+              Ricevuta {{data.invoice_detail.invoice.identifier}}
+            </LinkTo>
           {{/if}}
         </td>
       </tr>

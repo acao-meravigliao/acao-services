@@ -1,7 +1,5 @@
 import Model, { attr } from '@ember-data/model';
-import { vosBelongsTo, vosHasMany } from '@sevio/ember-vos';
-
-import { belongsTo, hasMany } from '@ember-data/model';
+import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 
 export default class YggAcaoRosterDayModel extends Model {
   @attr('date') date;
@@ -9,5 +7,5 @@ export default class YggAcaoRosterDayModel extends Model {
   @attr('number') needed_people;
   @attr('string') descr;
 
-  @hasMany('ygg--acao--roster-entry', { async: true }) roster_entries;
+  @vosHasMany('day', 'entry') roster_entries;
 }

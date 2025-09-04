@@ -1,0 +1,9 @@
+<div class="component bar-gauge" {{on "click" this.open_list}}>
+  <p class="heading">
+    Conto bar
+  </p>
+  <p class="title">
+    {{format-number @credit style="currency" currency="EUR"}}
+  </p>
+  {{!-- <FaIcon @icon="gas-pump" {{on "click" this.recharge}} /> --}}
+</div>

@@ -92,12 +92,12 @@
         </form>
 
         {{#if this.ex}}
-          <ExceptionDecode @ex={{this.ex}} as |title detail|>
+          <ExceptionDecoder @ex={{this.ex}} as |title detail|>
             <div class="notification is-danger">
               <h1 class="title">{{title}}</h1><br />
               {{detail}}
             </div>
-          </ExceptionDecode>
+          </ExceptionDecoder>
         {{/if}}
       </div>
     </div>

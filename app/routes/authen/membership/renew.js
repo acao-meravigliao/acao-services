@@ -5,7 +5,6 @@ import { hash } from 'rsvp';
 import EmberObject from '@ember/object';
 import { A } from '@ember/array';
 import SelectedService from 'acao-services/utils/selected-service';
-import fetch, { AbortController } from 'fetch';
 
 class WizardState extends EmberObject {
   @tracked steps = [ 'index' ];
@@ -68,7 +67,7 @@ export default class AuthenRenewMembershipRoute extends Route {
       person: this.session.person,
       service_types: this.store.findAll('ygg--acao--service-type'),
       context: fetch('/ygg/acao/memberships/renew', {
-        method: 'GET',
+        method: 'POST',
         signal: abc.signal,
         headers: {
           'Accept': 'application/json',

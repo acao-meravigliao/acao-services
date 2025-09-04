@@ -1,6 +1,6 @@
 <aside class="component menu is-hidden-touch">
   <p class="menu-label">
-    <LinkTo @route="authen.index">
+    <LinkTo @route="authen.index" @activeClass="is-active">
       {{t "menu.home"}}
     </LinkTo>
   </p>
@@ -8,16 +8,22 @@
   <ul class="menu-list">
     {{#if @currentRenewIsOpenAndNeeded}}
       <li>
-        <LinkTo @route="authen.membership.renew" @model={{@currentYear.year}}>{{t "menu.renew_membership"}} {{@currentYear.year}}</LinkTo>
+        <LinkTo @route="authen.membership.renew" @model={{@currentYear.year}} @activeClass="is-active">
+          {{t "menu.renew_membership"}} {{@currentYear.year}}
+        </LinkTo>
       </li>
     {{/if}}
     {{#if @nextRenewIsOpenAndNeeded}}
       <li>
-        <LinkTo @route="authen.membership.renew" @model={{@nextYear.year}}>{{t "menu.renew_membership"}} {{@nextYear.year}}</LinkTo>
+        <LinkTo @route="authen.membership.renew" @model={{@nextYear.year}} @activeClass="is-active">
+          {{t "menu.renew_membership"}} {{@nextYear.year}}
+        </LinkTo>
       </li>
     {{/if}}
+
+    {{!--
     <li>
-      <LinkTo @route="authen.invoices" class="item teal">
+      <LinkTo @route="authen.invoices" class="item teal" @activeClass="is-active">
         {{t "menu.invoices"}}
         {{#if @pendingInvoices}}
           <div class="ui red label">{{@pendingInvoices.length}}</div>
@@ -26,13 +32,14 @@
     </li>
 
     <li>
-      <LinkTo @route="authen.payments" class="item teal">
+      <LinkTo @route="authen.payments" class="item teal" @activeClass="is-active">
         {{t "menu.payments"}}
         {{#if @pending_payments}}
           <div class="ui red label">{{@pending_payments.length}}</div>
         {{/if}}
       </LinkTo>
     </li>
+    --}}
 
     <p class="menu-label">
       {{t "menu.roster"}}
@@ -40,7 +47,7 @@
 
     {{#if @rosterCurStatus.can_select_entries}}
       <li>
-        <LinkTo @route="authen.roster.select" @model={{@rosterCurStatus.year}}>
+        <LinkTo @route="authen.roster.select" @model={{@rosterCurStatus.year}} @activeClass="is-active">
           Selezione {{@rosterCurStatus.year}}
           {{#unless @rosterCurStatus.needed_entries_present}}
             <div class="ui medium red circular label">&nbsp;&nbsp;<i class="exclamation icon" /></div>
@@ -50,7 +57,7 @@
     {{/if}}
     {{#if @rosterNextStatus.can_select_entries}}
       <li>
-        <LinkTo @route="authen.roster.select" @model={{@rosterNextStatus.year}}>
+        <LinkTo @route="authen.roster.select" @model={{@rosterNextStatus.year}} @activeClass="is-active">
           Selezione {{@rosterNextStatus.year}}
           {{#unless @rosterNextStatus.needed_entries_present}}
             <div class="ui medium red circular label">&nbsp;&nbsp;<i class="exclamation icon" /></div>
@@ -58,8 +65,8 @@
         </LinkTo>
       </li>
     {{/if}}
-    <li><LinkTo @route="authen.roster.days"> Tutti i turni </LinkTo></li>
-    <li><LinkTo @route="authen.roster.today"> Turni di oggi </LinkTo></li>
+    <li><LinkTo @route="authen.roster.days" @activeClass="is-active"> Tutti i turni </LinkTo></li>
+    <li><LinkTo @route="authen.roster.today" @activeClass="is-active"> Turni di oggi </LinkTo></li>
   </ul>
 
 
@@ -68,22 +75,22 @@
 -->
 
 
-<!--<LinkTo @route="authen.memberships" class="item"> Iscrizioni </LinkTo>-->
-<!--<LinkTo @route="authen.licenses" class="item"> Licenze </LinkTo>-->
-<!--<LinkTo @route="authen.medicals" class="item"> Visite mediche </LinkTo>-->
-<!--<LinkTo @route="authen.bar-transactions" class="item"> Conto Bar </LinkTo>-->
-<!--<LinkTo @route="authen.token-transactions" class="item"> Conto Bollini </LinkTo>-->
-<!--<LinkTo @route="authen.flights" class="item"> Stralcio Voli </LinkTo>-->
-<!--<LinkTo @route="authen.aircrafts" class="item"> Miei Alianti </LinkTo>-->
+<!--<LinkTo @route="authen.memberships" class="item" @activeClass="is-active"> Iscrizioni </LinkTo>-->
+<!--<LinkTo @route="authen.licenses" class="item" @activeClass="is-active"> Licenze </LinkTo>-->
+<!--<LinkTo @route="authen.medicals" class="item" @activeClass="is-active"> Visite mediche </LinkTo>-->
+<!--<LinkTo @route="authen.bar.transactions" class="item" @activeClass="is-active"> Conto Bar </LinkTo>-->
+<!--<LinkTo @route="authen.token.transactions" class="item" @activeClass="is-active"> Conto Bollini </LinkTo>-->
+<!--<LinkTo @route="authen.flights" class="item" @activeClass="is-active"> Stralcio Voli </LinkTo>-->
+<!--<LinkTo @route="authen.aircrafts" class="item" @activeClass="is-active"> Miei Alianti </LinkTo>-->
 
 
 <!--
 {{#if person.acao_is_tug_pilot}}
 <div class="item">
   <div class="header">Turni di traino</div>
-  <LinkTo @route="authen.tow-roster.select" class="item"> Selezione </LinkTo>
-  <LinkTo @route="authen.tow-roster.days" class="item"> I tuoi turni </LinkTo>
-  <LinkTo @route="authen.tow-roster.today" class="item"> Turni di oggi </LinkTo>
+  <LinkTo @route="authen.tow-roster.select" class="item" @activeClass="is-active"> Selezione </LinkTo>
+  <LinkTo @route="authen.tow-roster.days" class="item" @activeClass="is-active"> I tuoi turni </LinkTo>
+  <LinkTo @route="authen.tow-roster.today" class="item" @activeClass="is-active"> Turni di oggi </LinkTo>
 </div>
 {{/if}}
 -->

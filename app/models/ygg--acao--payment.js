@@ -1,7 +1,5 @@
 import Model, { attr } from '@ember-data/model';
-import { vosBelongsTo, vosHasMany } from '@sevio/ember-vos';
-
-import { belongsTo, hasMany } from '@ember-data/model';
+import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 
 export default class YggAcaoPaymentModel extends Model {
   @attr('string') identifier;
@@ -14,6 +12,6 @@ export default class YggAcaoPaymentModel extends Model {
   @attr('string') payment_method;
   @attr('string') reason_for_payment;
 
-  @belongsTo('ygg--core--person', { async: true }) person;
-  @belongsTo('ygg--acao--invoice', { async: true }) invoice;
+  @vosBelongsTo('payment', 'person') person;
+  @vosHasMany('payment', 'invoice') invoice;
 }

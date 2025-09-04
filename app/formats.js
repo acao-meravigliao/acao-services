@@ -13,6 +13,13 @@ export default {
       minute: 'numeric',
       second: 'numeric',
     },
+    timestamp_nosecs: {
+      year: 'numeric',
+      day: '2-digit',
+      month: '2-digit',
+      hour: 'numeric',
+      minute: 'numeric',
+    },
   },
   date: {
     ddd: {

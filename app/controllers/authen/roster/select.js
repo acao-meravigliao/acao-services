@@ -42,7 +42,9 @@ export default class RosterSelectController extends Controller {
     return this.get('model.rosterDays').filter((x) => (x.date.getFullYear() === this.year));
   }
 
-  get rosterDaysSorted() { return this.allRosterDays.sortBy('rosterDaysSortOrder'); }
+  get rosterDaysSorted() {
+    return this.allRosterDays.sort((a,b) => (a[this.rosterDaysSortOrder] - b[this.rosterDaysSortOrder]));
+  }
 
   get filteredRosterDays() {
     return this.rosterDaysSorted.filter((item) =>

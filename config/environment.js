@@ -1,12 +1,13 @@
 'use strict';
 
 module.exports = function (environment) {
-  let ENV = {
+  const ENV = {
     modulePrefix: 'acao-services',
     environment,
     rootURL: '/',
     locationType: 'history',
     EmberENV: {
+      EXTEND_PROTOTYPES: false,
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
         // e.g. EMBER_NATIVE_DECORATOR_SUPPORT: true
@@ -24,6 +25,7 @@ module.exports = function (environment) {
 
     authenticated_route: 'authen.index',
     login_route: 'login',
+    vos_url: '/vos2',
   };
 
   if (environment === 'development') {

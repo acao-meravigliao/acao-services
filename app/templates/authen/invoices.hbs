@@ -16,7 +16,7 @@
     <tbody>
       {{#each this.sorted_models key="id" as |data|}}
 
-      <tr {{on 'click' (transition-to "authen.invoice" data.id)}}>
+      <tr {{!--{{on 'click' (transition-to "authen.invoice" data.id)}}--}}>
         <td>
           {{format-time data.created_at format="timestamp"}}
         </td>

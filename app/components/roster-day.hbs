@@ -7,7 +7,7 @@
   </div>
   <div class="entries">
     {{#each this.sorted_entries as |entry|}}
-      <div class="entry">• {{entry.person.first_name}} {{entry.person.last_name}}</div>
+      <div class="entry">• {{entry.member.person.first_name}} {{entry.member.person.last_name}}</div>
     {{/each}}
 
     {{#if @show_slots}}

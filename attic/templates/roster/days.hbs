@@ -1,7 +1,7 @@
 {{page-title "Tutti i turni di linea"}}
 <div class="container">
   <div class="box">
-    <button class="button"  {{on "click" this.go_prev}}>
+    <button class="button" type="button" {{on "click" this.go_prev}}>
       <span class="icon is-large">
         <FaIcon @icon="arrow-left-long" />
       </span>
@@ -12,7 +12,7 @@
 
     {{this.current_year}}
 
-    <button class="button" {{on "click" this.go_next}}>
+    <button class="button" type="button" {{on "click" this.go_next}}>
       <span class="icon is-large">
         <FaIcon @icon="arrow-right-long" />
       </span>
@@ -26,7 +26,7 @@
     {{#if this.model}}
       <div class="cards">
       {{#each this.sortedFilteredRosterDays as |day|}}
-        <RosterDay @day=day @showSlots=showSlots />
+        <RosterDay @day="day" @showSlots="showSlots" />
       {{/each}}
       </div>
     {{else}}

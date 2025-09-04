@@ -14,7 +14,8 @@ export default class RosterSelectorDayComponent extends Component {
   }
 
   get sorted_entries() {
-    return this.args.day.roster_entries.sortBy('last_name', 'first_name');
+    return this.args.day.roster_entries.sort((a,b) =>
+             (a.last_name.localeCompare(b.last_name) || a.first_name.localeCompare(b.first_name)));
   }
 
   get missing_entries() {

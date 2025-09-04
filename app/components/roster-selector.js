@@ -68,7 +68,7 @@ export default class RosterSelectorComponent extends Component {
   }
 
   get sorted_filtered_roster_days() {
-    return this.filtered_roster_days.sortBy('roster_days_sort_order');
+    return this.filtered_roster_days.sort((a,b) => (a[this.roster_days_sort_order] - b[this.roster_days_sort_order]));
   }
 
   is_selected(day) {

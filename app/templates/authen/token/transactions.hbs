@@ -1,0 +1,43 @@
+{{page-title "Movimenti Bollini"}}
+<div class="container page authen-token-transactions">
+
+  <div class="box">
+    <a {{on "click" (fn this.set_span 30)}}>
+      <span class="tag {{if (eq this.span 30) "is-success" "is-dark"}}">ultimo mese</span>
+    </a>
+    <a {{on "click" (fn this.set_span 90)}}>
+      <span class="tag {{if (eq this.span 90) "is-success" "is-dark"}}">ultimi 3 mesi</span>
+    </a>
+    <a {{on "click" (fn this.set_span 365)}}>
+      <span class="tag {{if (eq this.span 365) "is-success" "is-dark"}}">ultimi 12 mesi</span>
+    </a>
+  </div>
+
+  <table class="token-transactions table">
+    <thead>
+      <tr>
+        <th>Data/Ora</th>
+        <th>Descrizione</th>
+        <th>Ammontare</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {{#each this.sorted_models key="id" as |data|}}
+
+      <tr {{!--{{on 'click' (transition-to "authen.token.transaction" data.id)}}--}}>
+        <td>
+          {{format-time data.recorded_at format="timestamp"}}
+        </td>
+        <td>
+          {{data.descr}}
+        </td>
+        <td class="price">
+          {{format-number data.amount minimumFractionDigits=1 maximumFractionDigits=1}}
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+

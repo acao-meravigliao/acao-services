@@ -14,7 +14,7 @@
       <tr>
         <td class="collapsing">
           {{#if service.removable}}
-            <button class="button" {{on "click" (fn this.service_del index)}}>
+            <button class="button" type="button" {{on "click" (fn this.service_del index)}}>
               <span class="icon is-small"><FaIcon @icon="trash" /></span>
             </button>
           {{/if}}
@@ -56,7 +56,7 @@
 
       <tr>
         <td colspan="3">
-          <button class="button is-info" {{on "click" this.service_add}}>
+          <button class="button is-info" type="button" {{on "click" this.service_add}}>
             <span class="icon">
               <FaIcon @icon="plus" />
             </span>
@@ -93,20 +93,17 @@
       {{t "authen.membership.renew.data.payment_method"}}
     </p>
     <div class="buttons">
-      <button class="button {{if (eq this.payment_method "WIRE") "is-info"}}"
-              {{on 'click' (fn this.payment_method_set "WIRE")}}>
+      <button class="button {{if (eq this.payment_method "WIRE") "is-info"}}" type="button" {{on 'click' (fn this.payment_method_set "WIRE")}}>
         <span class="icon"><FaIcon @icon="university" /></span>
         <span>{{t "authen.membership.renew.data.wire"}}</span>
       </button>
 
-      <button class="button {{if (eq this.payment_method "CHECK") "is-info"}}"
-               {{on 'click' (fn this.payment_method_set "CHECK")}}>
+      <button class="button {{if (eq this.payment_method "CHECK") "is-info"}}" type="button" {{on 'click' (fn this.payment_method_set "CHECK")}}>
         <span class="icon"><FaIcon @icon="tag" /></span>
         <span>{{t "authen.membership.renew.data.check"}}</span>
       </button>
 
-      <button class="button {{if (eq this.payment_method "CARD") "is-info"}}"
-              {{on 'click' (fn this.payment_method_set "CARD")}}>
+      <button class="button {{if (eq this.payment_method "CARD") "is-info"}}" type="button" {{on 'click' (fn this.payment_method_set "CARD")}}>
         <span class="icon"><FaIcon @icon="credit-card" /></span>
         <span>{{t "authen.membership.renew.data.credit_card"}}</span>
       </button>
@@ -119,11 +116,11 @@
     </div>
   {{else}}
     <div class="buttons is-centered">
-      <button class="button is-grey is-large" {{on "click" this.back}}>
+      <button class="button is-grey is-large" type="button" {{on "click" this.back}}>
         <span class="icon"><FaIcon @icon="backward" /></span>
         <span>{{t "authen.membership.renew.data.back"}}</span>
       </button>
-      <button class="button is-primary is-large" disabled={{this.submit_disabled}} {{on "click" this.submit}}>
+      <button class="button is-primary is-large" disabled={{this.submit_disabled}} type="button" {{on "click" this.submit}}>
         {{t "authen.membership.renew.data.forward"}}
       </button>
     </div>

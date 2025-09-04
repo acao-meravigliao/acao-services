@@ -1,5 +1,5 @@
 import Model, { attr } from '@ember-data/model';
-import { vosBelongsTo, vosHasMany } from '@sevio/ember-vos';
+import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 
 export default class YggAcaoBarTransactionModel extends Model {
   @attr('date') recorded_at;
@@ -9,4 +9,6 @@ export default class YggAcaoBarTransactionModel extends Model {
   @attr('string') unit;
   @attr('number') prev_credit;
   @attr('number') credit;
+
+  @vosBelongsTo('bar_transaction', 'member') member;
 }

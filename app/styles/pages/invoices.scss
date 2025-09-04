@@ -6,10 +6,10 @@ table.invoices {
   }
 
   span.state.CLOSED {
-    @extend .is-success;
+//    @extend .is-success;
   }
 
   span.state.PENDING {
-    @extend .is-warning;
+//    @extend .is-warning;
   }
 }

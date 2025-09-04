@@ -58,24 +58,24 @@
   </div>
 
   <div class="buttons is-centered">
-    <button class="button is-grey is-large" {{on "click" this.back}}>
+    <button class="button is-grey is-large" type="button" {{on "click" this.back}}>
       <span class="icon"><FaIcon @icon="backward" /></span>
       <span>Indietro</span>
     </button>
     <button class="button is-primary is-large {{if this.submitting "is-loading"}}"
-            disabled={{not this.can_submit}} {{on "click" this.submit}}>
+            disabled={{not this.can_submit}} type="button" {{on "click" this.submit}}>
       Conferma iscrizione!
     </button>
   </div>
 
   {{#if this.submit_error}}
-    <ExceptionDecode @ex={{this.submit_error}} as |title detail backtrace|>
+    <ExceptionDecoder @ex={{this.submit_error}} as |title detail backtrace|>
       <div class="box notification is-danger">
         <h1 class="title">{{title}}</h1>
         <div>
           {{detail}}
         </div>
       </div>
-    </ExceptionDecode>
+    </ExceptionDecoder>
   {{/if}}
 </div>

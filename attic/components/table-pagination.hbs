@@ -3,11 +3,11 @@
     {{table.paginationData.pageStart}} - {{table.paginationData.pageEnd}} of {{table.paginationData.totalRows}}
   </div>
 
-  <button class="ui button previous" disabled={{or table.paginationData.isFirstPage table.isLoading}} onclick={{action table.actions.previousPage}}>
+  <button class="ui button previous" disabled={{or table.paginationData.isFirstPage table.isLoading}} onclick={{action table.actions.previousPage}} type="button">
     <i class="angle-left icon"></i>
   </button>
 
-  <button class="ui button next" disabled={{or table.paginationData.isLastPage table.isLoading}} onclick={{action table.actions.nextPage}}>
+  <button class="ui button next" disabled={{or table.paginationData.isLastPage table.isLoading}} onclick={{action table.actions.nextPage}} type="button">
     <i class="angle right icon"></i>
   </button>
 </div>

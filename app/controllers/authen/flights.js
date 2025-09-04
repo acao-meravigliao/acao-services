@@ -1,7 +1,6 @@
 import Controller from '@ember/controller';
 import { service } from '@ember/service';
 //import { task } from 'ember-concurrency';
-//import { assign } from '@ember/polyfills';
 
 export default class FlightsController extends Controller {
   @service session;

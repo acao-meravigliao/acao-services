@@ -20,7 +20,7 @@
             <input type="text" class="input" autofocus value={{this.fai_license}}
               {{on "change" this.fai_license_changed}}
               {{on "focusout" this.fai_license_changed}}
-              inputmode="numeric" size=4 minlength=1 maxlength=4 />
+              inputmode="numeric" size="4" minlength="1" maxlength="4" />
             <span class="icon is-small is-left">
               D
             </span>
@@ -65,10 +65,10 @@
 
       <div class="field is-grouped">
         <div class="control">
-          <button class="button is-link {{if this.submit_in_progress "is-loading"}}" disabled={{this.submit_disabled}} {{on "click" this.submit}}>Invia</button>
+          <button class="button is-link {{if this.submit_in_progress "is-loading"}}" disabled={{this.submit_disabled}} type="button" {{on "click" this.submit}}>Invia</button>
         </div>
         <div class="control">
-          <button class="button is-link is-light" {{on "click" this.cancel}}>Annulla</button>
+          <button class="button is-link is-light" type="button" {{on "click" this.cancel}}>Annulla</button>
         </div>
       </div>
 

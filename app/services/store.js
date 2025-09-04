@@ -1,4 +1,3 @@
-import VosStore from '@sevio/ember-vos/vos-store';
+import { VosStore } from '@vihai/ember-vos';
 
-export default class OurStore extends VosStore {
-}
+export default class OurStore extends VosStore {}

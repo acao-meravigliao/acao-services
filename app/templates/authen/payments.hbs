@@ -15,7 +15,7 @@
     <tbody>
       {{#each this.sorted_models key="id" as |data|}}
 
-      <tr {{on 'click' (transition-to "authen.payment" data.id)}}>
+      <tr {{!--{{on 'click' (transition-to "authen.payment" data.id)}}--}}>
         <td>
           {{format-date data.created_at}}
         </td>

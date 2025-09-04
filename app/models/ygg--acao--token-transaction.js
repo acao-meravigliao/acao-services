@@ -1,10 +1,8 @@
 import Model, { attr } from '@ember-data/model';
-import { vosBelongsTo, vosHasMany } from '@sevio/ember-vos';
-
-import { belongsTo, hasMany } from '@ember-data/model';
+import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 
 export default class YggAcaoTokenTransactionModel extends Model {
-  @attr('string') person_id;
+  @attr('string') member_id;
   @attr('string') aircraft_id;
   @attr('date') recorded_at;
   @attr('string') descr;
@@ -14,5 +12,7 @@ export default class YggAcaoTokenTransactionModel extends Model {
   @attr('string') old_operator;
   @attr('string') old_marche_mezzo;
 
-  @belongsTo('ygg--acao--aircraft', { async: true }) aircraft;
+//  @vosBelongsTo('token_transaction', 'aircraft') aircraft;
+
+  @vosBelongsTo('token_transaction', 'member') member;
 }

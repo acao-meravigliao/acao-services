@@ -2,7 +2,6 @@ import Controller from '@ember/controller';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import fetch, { AbortController } from 'fetch';
 import MyException from 'acao-services/utils/my-exception';
 import RemoteException from 'acao-services/utils/remote-exception';
 

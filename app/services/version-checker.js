@@ -2,7 +2,6 @@ import Service from '@ember/service';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { later } from '@ember/runloop';
-import fetch from 'fetch';
 import ENV from '../config/environment';
 
 

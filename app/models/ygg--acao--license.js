@@ -1,7 +1,5 @@
 import Model, { attr } from '@ember-data/model';
-import { vosBelongsTo, vosHasMany } from '@sevio/ember-vos';
-
-import { belongsTo, hasMany } from '@ember-data/model';
+import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 
 export default class YggAcaoLicenseModel extends Model {
   @attr('string') type;
@@ -10,5 +8,5 @@ export default class YggAcaoLicenseModel extends Model {
   @attr('date') valid_to;
   @attr('date') valid_to2;
 
-  @belongsTo('ygg--core--person', { async: true }) pilot;
+  @vosBelongsTo('license', 'pilot') pilot;
 }

@@ -3,8 +3,9 @@ import { service } from '@ember/service';
 import config from 'acao-services/config/environment';
 
 export default class LoginRoute extends Route {
-  @service session;
+  @service vos;
   @service router;
+  @service session;
 
   beforeModel(transition) {
     if (this.session.is_authenticated) {
