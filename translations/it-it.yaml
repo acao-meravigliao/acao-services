@@ -105,11 +105,11 @@ authen:
         forward: Avanti...
 
 invoices:
-  page_title: Ricevute
+  page_title: Fatture
 
 invoice:
-  page_title: Ricevuta
-  invoice: Ricevuta
+  page_title: Fattura
+  invoice: Fattura
   states:
     CLOSED: PAGATA
     PENDING: PENDENTE
@@ -123,11 +123,17 @@ payment:
     COMPLETED: COMPLETATO
     PENDING: PENDENTE
   methods:
-    CASH: Contanti
-    WIRE: Bonifico Bancario
-    CHECK: Assegno
-    SATISPAY: SatisPay
-    CARD: Carta di Credito
+    AD: Addebito in conto corrente
+    AS: Assegno
+    BA: Bancomat
+    BB: Bonifico Bancario
+    CC: Carta di Credito
+    CM: Compensazione
+    CO: Contanti
+    CS: Contrassegno
+    RB: Ricevuta Bancaria
+    RD: Rimessa Diretta
+    SP: SatisPay
 
 password_recovery:
   page_title: Recupero password
@@ -149,7 +155,7 @@ menu:
   billing: Contabilità
   token_transactions: Conto bollini
   bar_transactions: Conto bar
-  invoices: Ricevute
+  invoices: Fatture
   payments: Pagamenti
   roster: Turni di linea
   all_roster_days: Tutti i turni

@@ -1,13 +1,32 @@
-import Route from '@ember/routing/route';
+import BaseRoute from '../base-route';
 import { service } from '@ember/service';
-import { hash } from 'rsvp';
 
-export default class AuthenInvoiceRoute extends Route {
+export default class AuthenInvoiceRoute extends BaseRoute {
   @service store;
 
   model(params) {
-    return hash({
-      invoice: this.store.findRecord('ygg--acao--invoice', params.id, { adapterOptions: { view: 'full' } }),
+    return this.select_as_model(
+     {
+      type: 'ygg--acao--invoice',
+      id: params.id,
+      dig: [
+       {
+        from: 'invoice',
+        to: 'member',
+        dig: {
+          from: 'acao_member',
+          to: 'person',
+        }
+       },
+       {
+        from: 'invoice',
+        to: 'detail',
+        order: { row_number: 'asc' },
+       },
+      ],
+     },
+    ).then((res) => {
+      return this.store.peekSelected('ygg--acao--invoice', res.sel)[0];
     });
   }
 }

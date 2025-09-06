@@ -37,6 +37,13 @@ export default {
       month: 'long',
       year: 'numeric',
     },
+
+    dmy: {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    },
+
   },
   number: {
     compact: { notation: 'compact' },

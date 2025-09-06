@@ -2,54 +2,47 @@
 <div class="container page authen-invoice">
   <div class="box">
     <div>
-      <h1 class="title">{{t "invoice.invoice"}} {{this.model.invoice.identifier}}
+      <h1 class="title">{{t "invoice.invoice"}} {{this.model.full_identifier}}
       </h1>
-      Data: {{format-time this.model.invoice.created_at format="timestamp"}}<br />
+      Data: {{format-date this.model.document_date format="dmy"}}<br />
+      Destinatario: {{this.model.recipient}}<br />
+      Indirizzo: {{this.model.address}}<br />
+      Codice Fiscale: {{this.model.codice_fiscale}}<br />
+      Partita IVA: {{this.model.partita_iva}}<br />
+      Email: {{this.model.email}}<br />
+      Pagamento: {{t (concat "payment.methods." this.model.payment_method)}}<br />
     </div>
 
-    <table class="invoice ui celled table">
+    <table class="invoice table">
       <thead>
         <tr>
+          <th>Numero</th>
           <th>Descrizione</th>
-          <th>Costo</th>
+          <th>Prezzo unitario</th>
+          <th>Prezzo netto</th>
+          <th>IVA</th>
+          <th>Totale</th>
         </tr>
       </thead>
       <tbody>
-        {{#each this.model.invoice.details key="@index" as |detail|}}
+        {{#each this.model.sorted_details key="@index" as |detail|}}
         <tr>
+          <td>{{detail.count}}</td>
           <td>{{detail.descr}}{{#if detail.specific_data}} - {{detail.specific_data}}{{/if}}</td>
-          <td class="price">{{format-number detail.price style="currency" currency="EUR"}}</td>
+          <td class="price">{{format-number detail.single_amount style="currency" currency="EUR"}}</td>
+          <td class="price">{{format-number detail.untaxed_amount style="currency" currency="EUR"}}</td>
+          <td class="price">{{format-number detail.vat_amount style="currency" currency="EUR"}}</td>
+          <td class="price">{{format-number detail.total_amount style="currency" currency="EUR"}}</td>
         </tr>
         {{/each}}
       </tbody>
       <tfoot>
         <tr>
-          <th>Totale</th>
-          <td class="total price">{{format-number this.model.invoice.total style="currency" currency="EUR"}}</td>
+          <th colspan=5>Totale</th>
+          <td class="total price">{{format-number this.model.amount style="currency" currency="EUR"}}</td>
         </tr>
       </tfoot>
     </table>
   </div>
 
-  <div class="box">
-    <h1 class="subtitle">Pagamenti</h1>
-    <table class="invoice table">
-      <thead>
-        <tr>
-          <th>Identificatore</th>
-          <th>Stato</th>
-          <th>Totale</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each this.model.invoice.payments key="@index" as |payment|}}
-        <tr {{!--{{on "click" (transition-to "authen.payment" payment.id)}}--}}>
-          <td>{{payment.identifier}}</td>
-          <td>{{payment.state}}</td>
-          <td class="price">{{format-number payment.amount style="currency" currency="EUR"}}</td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </div>
 </div>

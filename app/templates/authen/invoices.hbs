@@ -1,37 +1,50 @@
 {{page-title (t "invoices.page_title")}}
-<div class="container box page authen-invoices">
-  <h1 class="title">Ricevute</h1>
+
+<div class="container page authen-invoices">
+
+  <div class="box">
+    <a {{on "click" (fn this.set_span 30)}}>
+      <span class="tag {{if (eq this.span 30) "is-success" "is-dark"}}">ultimo mese</span>
+    </a>
+    <a {{on "click" (fn this.set_span 90)}}>
+      <span class="tag {{if (eq this.span 90) "is-success" "is-dark"}}">ultimi 3 mesi</span>
+    </a>
+    <a {{on "click" (fn this.set_span 365)}}>
+      <span class="tag {{if (eq this.span 365) "is-success" "is-dark"}}">ultimi 12 mesi</span>
+    </a>
+  </div>
 
   <table class="invoices table">
     <thead>
       <tr>
         <th>Data</th>
-        <th>Codice</th>
-        <th>Metodo</th>
+        <th>Numero fattura</th>
+        <th>Pagamento</th>
         <th>Ammontare</th>
-        <th>Stato</th>
       </tr>
     </thead>
 
     <tbody>
-      {{#each this.sorted_models key="id" as |data|}}
+      {{#each this.sorted_models key="id" as |invoice|}}
 
-      <tr {{!--{{on 'click' (transition-to "authen.invoice" data.id)}}--}}>
+      <tr {{on 'click' (fn this.open_invoice invoice.id)}}>
         <td>
-          {{format-time data.created_at format="timestamp"}}
+          {{format-date invoice.document_date format="dmy"}}
         </td>
         <td>
-          {{data.identifier}}
+          {{invoice.identifier_full}}
         </td>
         <td>
-          {{t (concat "payment.methods." data.payment_method)}}
+          {{t (concat "payment.methods." invoice.payment_method)}}
         </td>
         <td class="price">
-          {{format-number data.total style="currency" currency="EUR"}}
+          {{format-number invoice.amount style="currency" currency="EUR"}}
         </td>
+{{!--
         <td>
-          <span class="tag state {{data.state}}">{{t (concat "invoice.states." data.state)}}</span>
+          <span class="tag state {{invoice.state}}">{{t (concat "invoice.states." invoice.state)}}</span>
         </td>
+--}}
       </tr>
       {{/each}}
     </tbody>
