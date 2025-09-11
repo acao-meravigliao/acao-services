@@ -1,59 +1,94 @@
 {{page-title "Voli"}}
-<div class="container box page authen-flights">
-{{!--  <YetiTable class="ui selectable celled table"
-      @filter={{filter}}
-      @pagination={{true}} @pageSize={{20}} @totalRows={{totalRows}}
-      @loadData={{perform loadDataTask}} as |table|>
-    <table.header as |header|>
-      <header.column>Aeromobile</header.column>
-      <header.column>Decollo</header.column>
-      <header.column>Luogo Decollo</header.column>
-      <header.column>Atterraggio</header.column>
-      <header.column>Luogo Att.</header.column>
-      <header.column>Pilota</header.column>
-      <header.column>Passeggero</header.column>
-      <header.column>Durata</header.column>
-    </table.header>
+<div class="container page authen-flights">
 
-    <table.body as |body data|>
-      <body.row @onClick={{transition-to "authen.flight" data.id}} as |row|>
-        <row.cell>
-          {{data.aircraft_reg}}
-          {{#if (not-eq data.aircraft_reg data.aircraft.registration)}}<br /><em>{{data.aircraft.registration}}</em>{{/if}}
-        </row.cell>
-        <row.cell>
-          {{if data.takeoff_time (format-time data.takeoff_time format="timestamp")}}
-        </row.cell>
-        <row.cell>
-          {{data.takeoff_location_raw}}
-        </row.cell>
-        <row.cell>
-          {{if data.landing_time (format-time data.landing_time)}}
-        </row.cell>
-        <row.cell>
-          {{data.landing_location_raw}}
-        </row.cell>
-        <row.cell>
-          {{data.pilot1.first_name}} {{data.pilot1.last_name}}
-        </row.cell>
-        <row.cell>
-          {{data.pilot2.first_name}} {{data.pilot2.last_name}}
-        </row.cell>
-        <row.cell>
-          {{format-duration data.duration}}
-        </row.cell>
-      </body.row>
-    </table.body>
+{{!--
+<PowerCalendarRange class="pippo"
+    @selected={{this.sd_selected}}
+    @center={{this.sd_center}}
+    @onSelect={{this.on_sd_select}}
+    @onCenterChange={{this.on_sd_center_change}}
+    as |calendar|>
+  <calendar.Nav/>
+  <calendar.Days />
+</PowerCalendarRange>
+--}}
 
-    <tfoot>
-      {{#if (gt table.paginationData.totalRows table.paginationData.pageSize)}}
+  <div class="box level">
+    <div class="level-item">
+      <label>
+        Da
+        <input type="date" value={{this.sd_value}} {{on "change" this.flt_sd_on_change}} />
+      </label>
+    </div>
+
+    <div class="level-item">
+      <label>
+        A
+        <input type="date" value={{this.ed_value}} {{on "change" this.flt_ed_on_change}} />
+      </label>
+    </div>
+
+    <div class="level-item">
+      <label>
+        <input type="checkbox" checked={{this.flt_pic}} {{on "change" this.flt_pic_toggle}} />
+        PIC
+      </label>
+    </div>
+
+    <div class="level-item">
+      <label>
+        <input type="checkbox" checked={{this.flt_pax}} {{on "change" this.flt_pax_toggle}} />
+        PAX
+      </label>
+    </div>
+
+  </div>
+
+  <table class="bar-transactions table">
+    <thead>
       <tr>
-        <td colspan={{table.totalColumns}}>
-          {{table-pagination table=table}}
+        <th colspan=2></th>
+        <th colspan=2>Decollo</th>
+        <th colspan=2>Atterraggio</th>
+      </tr>
+      <tr>
+        <th>Data</th>
+        <th>Marche</th>
+        <th>Ora</th>
+        <th>Luogo</th>
+        <th>Ora</th>
+        <th>Luogo</th>
+        <th>Durata</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {{#each this.sorted_models key="id" as |data|}}
+
+      <tr {{on 'click' (fn this.goto_flight data.id)}}>
+        <td>
+          {{format-date data.takeoff_time format="dmy"}}
+        </td>
+        <td>
+          {{data.aircraft_reg}}
+        </td>
+        <td>
+          {{format-time data.takeoff_time format="hhmm"}}
+        </td>
+        <td>
+          {{data.takeoff_location_raw}}
+        </td>
+        <td>
+          {{format-time data.landing_time format="hhmm"}}
+        </td>
+        <td>
+          {{data.landing_location_raw}}
+        </td>
+        <td>
+          {{format-duration data.duration}}
         </td>
       </tr>
-      {{/if}}
-    </tfoot>
-  </YetiTable>
---}}
+      {{/each}}
+    </tbody>
+  </table>
 </div>

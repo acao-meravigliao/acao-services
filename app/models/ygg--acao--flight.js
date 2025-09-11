@@ -2,6 +2,8 @@ import Model, { attr } from '@ember-data/model';
 import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 
 export default class YggAcaoFlightModel extends Model {
+  @attr('number') source_id;
+
   @attr('string') aircraft_reg;
   @attr('string') aircraft_id;
   @attr('string') aircraft_class;
@@ -25,10 +27,19 @@ export default class YggAcaoFlightModel extends Model {
   @vosBelongsTo('flight', 'landing_airfield') landing_airfield;
   @vosBelongsTo('flight', 'takeoff_location') takeoff_location;
   @vosBelongsTo('flight', 'landing_location') landing_location;
-  @vosBelongsTo('flight', 'towed_by') towed_by;
-  @vosBelongsTo('flight', 'towing') towing;
+  @vosBelongsTo('towing', 'towed_by') towed_by;
+  @vosBelongsTo('towed_by', 'towing') towing;
 
   get duration() {
     return this.landing_time - this.takeoff_time;
+  }
+
+  role(as) {
+    if (as == this.pilot1)
+      return this.pilot1_role;
+    else if (as == this.pilot2)
+      return this.pilot2_role;
+    else
+      return null;
   }
 }
