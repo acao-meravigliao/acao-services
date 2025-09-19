@@ -8,6 +8,7 @@ import { inject as controller } from '@ember/controller';
 
 export default class FlightsController extends Controller {
   @service router;
+  @service session;
   @controller('authen') authen_controller;
 
   queryParams = [ 'sd', 'ed', ];

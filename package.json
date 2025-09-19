@@ -90,6 +90,7 @@
     "lodash": "^4.17.21",
     "merge": "^2.1.1",
     "moment": "^2.30.1",
+    "papaparse": "^5.5.3",
     "prettier": "^3.6.2",
     "qunit": "^2.24.1",
     "qunit-dom": "^3.5.0",

@@ -48,7 +48,9 @@ Router.map(function() {
     });
 
     this.route('flights');
+    this.route('flights-by-ac', { path: '/flights-by-ac/:id' });
     this.route('flight', { path: '/flight/:id' });
+    this.route('flight-new', { path: '/flight/new' });
 
     this.route('aircrafts');
     this.route('aircraft', { path: '/aircraft/:id' });

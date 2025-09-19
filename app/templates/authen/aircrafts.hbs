@@ -1,6 +1,6 @@
 {{page-title "Miei Aeromobili"}}
 
-<div class="container box page authen-aircrafts">
+<div class="container page authen-aircrafts">
   <table class="table aircrafts">
     <thead>
       <tr>
@@ -15,7 +15,7 @@
     <tbody>
       {{#each this.sorted_models key="id" as |data|}}
 
-      <tr {{!--{{on 'click' (transition-to "authen.aircraft" data.id)}}--}}>
+      <tr {{on 'click' (fn this.goto_aircraft data.id)}}>
         <td>
           {{data.registration}}
         </td>

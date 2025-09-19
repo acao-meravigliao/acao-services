@@ -3,10 +3,10 @@
   <h1>Volo {{this.model.source_id}}</h1>
 
   Aeromobile: {{this.model.aircraft_reg}}<br />
-  Pilota: {{this.model.pilot1.person.full_name}} ({{this.model.pilot1_role}})<br />
+  Pilota: {{this.model.pilot1_name}} ({{this.model.pilot1_role}})<br />
 
   {{#if this.model.pilot2_role}}
-    Passeggero: {{this.model.pilot2.person.full_name}} ({{this.model.pilot2_role}})<br />
+    Passeggero: {{this.model.pilot2_name}} ({{this.model.pilot2_role}})<br />
   {{/if}}
 
   Decollo:
@@ -56,20 +56,44 @@
     <br />
   {{/if}}
 
+  {{#if this.model.token_transactions}}
+    Movimenti bollini:
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Data/Ora</th>
+          <th>Descrizione</th>
+          <th>Ammontare</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {{#each this.sorted_token_transactions key="id" as |data|}}
+
+        <tr {{!--{{on 'click' (fn this.goto_token_transaction data.id)}}--}}>
+          <td>
+            {{format-time data.recorded_at format="timestamp"}}
+          </td>
+          <td>
+            {{data.descr}}
+          </td>
+          <td class="price">
+            {{format-number data.amount minimumFractionDigits=1 maximumFractionDigits=1}}
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+
 {{!--
-    Passeggero:
-      {{#if (eq model.pilot2_role "PAX")}}
-        Passeggero
-      {{else}}
-        {{#if model.pilot2}}
-          {{link-to model.pilot2.full_name "authen.person" model.pilot2.id}}
-        {{else}}
-          N/A
-        {{/if}}
-      {{/if}}
+    <LinkTo @route="authen.flight" @model={{this.model.towing}}>
+      {{this.model.towing.aircraft_reg}}
+    </LinkTo>
+--}}
     <br />
+  {{/if}}
 
-
+{{!--
   <div class="ui segment" style="height: 600px">
     {{#if this.model.takeoff_location.latlng}}
       {{#leaflet-map center=model.takeoff_location.latlng zoom=11 class="flight-map" as |layers|}}

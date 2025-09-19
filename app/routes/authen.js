@@ -78,8 +78,11 @@ export default class AuthenRoute extends VosRoute {
      },
     ]).then((res) => {
       return this.vos.class_call('ygg--acao--roster-entry', 'compute_status').then((roster_status) => {
+        let person = this.store.peekRecord('ygg--core--person', this.session.person_id);
+
         return {
-          person: this.store.peekRecord('ygg--core--person', this.session.person_id),
+          person: person,
+          member: person.member,
           years: this.store.peekSelected('ygg--acao--year', res.sel),
           memberships: this.store.peekSelected('ygg--acao--membership', res.sel),
           invoices: this.store.peekSelected('ygg--acao--invoice', res.sel),

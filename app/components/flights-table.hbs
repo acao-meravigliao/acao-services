@@ -1,0 +1,152 @@
+<div class="box level">
+  <div class="level-item">
+    <label>
+      Da
+      <input type="date" value={{this.sd_value}} {{on "change" this.flt_sd_on_change}} />
+    </label>
+  </div>
+
+  <div class="level-item">
+    <label>
+      A
+      <input type="date" value={{this.ed_value}} {{on "change" this.flt_ed_on_change}} />
+    </label>
+  </div>
+
+  <div class="level-item">
+    <label>
+      Marche
+      <input type="text" value={{this.flt_reg}} {{on "change" this.flt_reg_change}} />
+    </label>
+  </div>
+
+
+
+  <div class="level-item">
+    <label>
+      <input type="checkbox" checked={{this.flt_pic}} {{on "change" this.flt_pic_toggle}} />
+      PIC
+    </label>
+  </div>
+
+  <div class="level-item">
+    <label>
+      <input type="checkbox" checked={{this.flt_dual}} {{on "change" this.flt_dual_toggle}} />
+      DUAL
+    </label>
+  </div>
+
+  <div class="level-item">
+    <label>
+      <input type="checkbox" checked={{this.flt_pax}} {{on "change" this.flt_pax_toggle}} />
+      PAX
+    </label>
+  </div>
+
+  <div class="level-item">
+    <label>
+      <input type="checkbox" checked={{this.flt_gl}} {{on "change" this.flt_gl_toggle}} />
+      Aliante
+    </label>
+  </div>
+
+  <div class="level-item">
+    <label>
+      <input type="checkbox" checked={{this.flt_ga}} {{on "change" this.flt_ga_toggle}} />
+      Aereo
+    </label>
+  </div>
+
+</div>
+
+<button class="button is-link" {{on "click" this.download_as_csv}}>
+  <span class="icon is-small">
+    <FaIcon @icon="download" />
+  </span>
+  <span>CSV</span>
+</button>
+<button class="button is-success" {{on "click" this.goto_flight_new}}>
+  <span class="icon is-small">
+    <FaIcon @icon="plus" />
+  </span>
+  <span>Volo...</span>
+</button>
+
+<table class="bar-transactions table">
+  <thead>
+    <tr>
+      <th colspan=2></th>
+      <th colspan=2>Decollo</th>
+      <th colspan=2>Atterraggio</th>
+    </tr>
+    <tr>
+      <th>
+        <input type="checkbox" checked={{this.all_selected}} {{on "change" this.all_selected_toggle}} />
+      </th>
+      <th>Data</th>
+      <th>Marche</th>
+      <th>Ora</th>
+      <th>Luogo</th>
+      <th>Ora</th>
+      <th>Luogo</th>
+      <th>Durata</th>
+      <th>Quota</th>
+      <th>Bollini</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {{#each this.sorted_models key="id" as |data|}}
+
+    <tr {{on 'click' (fn this.goto_flight data.id)}}>
+      <td>
+        <input type="checkbox"
+               checked={{data.selected}}
+               {{on "click" this.prevent_bubble}}
+               {{on "change" (fn this.flight_selected_toggle data)}}
+        />
+      </td>
+      <td>
+        {{format-date data.takeoff_time format="dmy"}}
+      </td>
+      <td>
+        {{data.aircraft_reg}}
+      </td>
+      <td>
+        {{format-time data.takeoff_time format="hhmm"}}
+      </td>
+      <td>
+        {{data.takeoff_location_raw}}
+      </td>
+      <td>
+        {{format-time data.landing_time format="hhmm"}}
+      </td>
+      <td>
+        {{data.landing_location_raw}}
+      </td>
+      <td>
+        {{format-duration data.duration}}
+      </td>
+      <td>
+        {{data.acao_quota}}
+      </td>
+      <td>
+        {{data.acao_bollini_volo}}
+      </td>
+      <td>
+        {{this.get_role data}}
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+  <tfoot>
+    <tr>
+      <td>{{this.total_count}}</td>
+      <td colspan=5></td>
+      <td>{{format-duration this.total_duration}}</td>
+      <td colspan=1></td>
+      <td>{{this.total_bollini}}</td>
+      <td colspan=1></td>
+    </tr>
+  </tfoot>
+</table>

@@ -1,5 +1,6 @@
 import Model, { attr } from '@ember-data/model';
 import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
+import { tracked } from '@glimmer/tracking';
 
 export default class YggAcaoFlightModel extends Model {
   @attr('number') source_id;
@@ -15,10 +16,13 @@ export default class YggAcaoFlightModel extends Model {
 
   @attr('boolean') instruction_flight;
   @attr('string') launch_type;
-  @attr('string') acao_quota;
+  @attr('number') acao_quota;
+  @attr('number') acao_bollini_volo;
 
   @attr('string') pilot1_role;
+  @attr('string') pilot1_name;
   @attr('string') pilot2_role;
+  @attr('string') pilot2_name;
 
   @vosBelongsTo('flight', 'aircraft') aircraft;
   @vosBelongsTo('flight', 'pilot1') pilot1;
@@ -29,6 +33,9 @@ export default class YggAcaoFlightModel extends Model {
   @vosBelongsTo('flight', 'landing_location') landing_location;
   @vosBelongsTo('towing', 'towed_by') towed_by;
   @vosBelongsTo('towed_by', 'towing') towing;
+  @vosHasMany('flight', 'token_transaction') token_transactions;
+
+  @tracked selected = true;
 
   get duration() {
     return this.landing_time - this.takeoff_time;

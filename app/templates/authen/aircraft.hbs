@@ -1,7 +1,8 @@
 {{page-title "Aeromobile"}}
 <div class="container box page authen-aircraft">
   <h1 class="title">Aeromobile {{this.model.registration}}</h1>
-  Tipo: <LinkTo @route="authen.aircraft-type" this.model.aircraft_type.id>{{this.model.aircraft_type.manufacturer}} {{this.model.aircraft_type.name}}</LinkTo><br />
+  {{!--Tipo: <LinkTo @route="authen.aircraft-type" this.model.aircraft_type.id>{{this.model.aircraft_type.manufacturer}} {{this.model.aircraft_type.name}}</LinkTo><br />--}}
+  Tipo: {{this.model.aircraft_type.manufacturer}} {{this.model.aircraft_type.name}}<br />
   Sigle di gara: {{this.model.race_registration}}<br />
   Numero di serie: {{this.model.serial_number}}<br />
   {{#if this.model.flarm_identifier}}
@@ -13,6 +14,6 @@
   {{#if this.model.club}}
     Club di riferimento: <LinkTo @route="authen.club" model.club.id>{{this.model.club.name}}</LinkTo><br />
   {{/if}}
-  Proprietario: {{#if this.model.owner}}<LinkTo @route="authen.person" model.owner.id>{{this.model.owner.full_name}}</LinkTo>{{else}}N/A{{/if}}<br />
   Posto hangar: {{if this.model.hangar "SÌ" "NO"}}<br />
+  <LinkTo @route="authen.flights-by-ac" @model={{this.model.id}}>Voli</LinkTo>
 </div>

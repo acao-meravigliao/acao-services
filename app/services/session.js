@@ -360,10 +360,6 @@ export default class SessionService extends Service.extend(Evented) {
     if (!old_authenticated && session_data.authenticated) {
       this.person_id = session_data.auth_person.id;
 
-//      let res = await this.vos.select({ type: 'ygg--core--person', id: this.person_id });
-//      this.person = this.store.peekRecord('ygg--core--person', this.person_id);
-this.person = { a: 1 }
-
       this.trigger('session_becomes_authenticated', arguments);
 
     } else if (old_authenticated && !session_data.authenticated) {

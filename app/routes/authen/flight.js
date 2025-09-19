@@ -54,6 +54,10 @@ export default class AuthenFlightRoute extends BaseRoute {
         from: 'towed_by',
         to: 'towing',
        },
+       {
+        from: 'flight',
+        to: 'token_transaction',
+       },
       ],
      },
     ).then((res) => {
