@@ -1,118 +1,158 @@
 {{page-title "Volo"}}
 <div class="container page authen-flight">
-  <h1>Volo {{this.model.source_id}}</h1>
+  <div class="card">
+    <div class="card-content">
+      <div class="media">
+        <div class="media-left">
+          <figure class="image is-48x48">
+            <FaIcon @icon="plane-departure" @size="3x" />
+          </figure>
+        </div>
+        <div class="media-content">
+          <p class="title is-4">
+            <h1>Volo <strong>{{this.model.source_id}}</strong></h1>
+          </p>
+          <p class="subtitle is-6">
+            Decollo:
+            {{format-time this.model.takeoff_time format="timestamp_nosecs"}}
+            {{#if this.model.takeoff_airfield}}
+              {{this.model.takeoff_airfield.icao_code}} - {{this.model.takeoff_airfield.name}}
 
-  Aeromobile: {{this.model.aircraft_reg}}<br />
-  Pilota: {{this.model.pilot1_name}} ({{this.model.pilot1_role}})<br />
+              {{!--
+              <LinkTo @route="authen.airfield" @model={{this.model.takeoff_airfield}}>
+                {{this.model.takeoff_airfield.name}}
+              </LinkTo>
+              --}}
+            {{else}}
+              {{this.model.takeoff_location_raw}}
+            {{/if}}
 
-  {{#if this.model.pilot2_role}}
-    Passeggero: {{this.model.pilot2_name}} ({{this.model.pilot2_role}})<br />
-  {{/if}}
+            <br />
+            Atterraggio:
+            {{format-time this.model.landing_time format="timestamp_nosecs"}}
+            {{#if this.model.landing_airfield}}
+              {{this.model.landing_airfield.icao_code}} - {{this.model.landing_airfield.name}}
 
-  Decollo:
-    {{format-time this.model.takeoff_time format="timestamp_nosecs"}}
-    {{#if this.model.takeoff_airfield}}
+              {{!--
+              <LinkTo @route="authen.airfield" @model={{this.model.landing_airfield}}>
+                {{this.model.landing_airfield.name}}
+              </LinkTo>
+              --}}
+            {{else}}
+              {{this.model.landing_location_raw}}
+            {{/if}}
+          </p>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="grid">
+          <div class="cell">
+            Aeromobile: {{this.model.aircraft_reg}}<br />
+            Pilota: {{this.model.pilot1_name}} ({{this.model.pilot1_role}})<br />
+
+            {{#if this.model.pilot2_role}}
+              Passeggero: {{this.model.pilot2_name}} ({{this.model.pilot2_role}})<br />
+            {{/if}}
+
+            Durata: {{format-duration this.model.duration}}<br />
+
+            {{#if this.model.towed_by}}
+              Trainato da:
+              <LinkTo @route="authen.flight" @model={{this.model.towed_by}}>
+                {{this.model.towed_by.aircraft_reg}}
+              </LinkTo>
+              <br />
+            {{/if}}
+            {{#if this.model.towing}}
+              Trainando:
+              <LinkTo @route="authen.flight" @model={{this.model.towing}}>
+                {{this.model.towing.aircraft_reg}}
+              </LinkTo>
+              <br />
+            {{/if}}
+
+            Lancio: {{this.launch_type}}<br />
+
+            Volo Istruzione: {{if this.model.instruction_flight "sì" "no"}}<br />
+            Skill Test: {{if this.model.skill_test "sì" "no"}}<br />
+            Proficiency check: {{if this.model.proficiency_check "sì" "no"}}<br />
+            Maintenance check: {{if this.model.maintenance_check "sì" "no"}}<br />
+
+            {{#if this.model.purpose}}
+              Scopo: {{this.model.purpose}}<br />
+            {{/if}}
+
+            {{#if this.model.acao_quota}}
+              Quota: {{this.model.acao_quota}}<br />
+            {{/if}}
+
+            Bollini: {{this.model.acao_bollini_volo}}<br />
+            Tipo Volo: {{this.model.acao_tipo_volo_club}}<br />
+          </div>
+
+          {{#if this.model.token_transactions}}
+            <div class="cell">
+              Movimenti bollini:
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Data/Ora</th>
+                    <th>Descrizione</th>
+                    <th>Ammontare</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {{#each this.sorted_token_transactions key="id" as |data|}}
+
+                  <tr {{!--{{on 'click' (fn this.goto_token_transaction data.id)}}--}}>
+                    <td>
+                      {{format-time data.recorded_at format="timestamp"}}
+                    </td>
+                    <td>
+                      {{data.descr}}
+                    </td>
+                    <td class="price">
+                      {{format-number data.amount minimumFractionDigits=1 maximumFractionDigits=1}}
+                    </td>
+                  </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+
+        {{!--
+            <LinkTo @route="authen.flight" @model={{this.model.towing}}>
+              {{this.model.towing.aircraft_reg}}
+            </LinkTo>
+        --}}
+          </div>
+        {{/if}}
+
+      </div>
       {{!--
-      <LinkTo @route="authen.airfield" @model={{this.model.takeoff_airfield}}>
-        {{this.model.takeoff_airfield.name}}
-      </LinkTo>
+        <div class="ui segment" style="height: 600px">
+          {{#if this.model.takeoff_location.latlng}}
+            {{#leaflet-map center=model.takeoff_location.latlng zoom=11 class="flight-map" as |layers|}}
+              {{layers.tile url="https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png" maxZoom=13}}
+              {{#layers.marker location=model.takeoff_location.latlng title="Decollo"}}
+                {{#popup-layer}}
+                  <b>Decollo</b><br />
+                  {{model.takeoff_location.full_address}}
+                  {{model.takeoff_location.lat}},{{model.takeoff_location.lng}}
+                {{/popup-layer}}
+              {{/layers.marker}}
+              {{#layers.marker location=model.landing_location.latlng title="Atterraggio"}}
+                {{#popup-layer}}
+                  <b>Atterraggio</b><br />
+                  {{model.takeoff_location.full_address}}
+                  {{model.takeoff_location.lat}},{{model.takeoff_location.lng}}
+                {{/popup-layer}}
+              {{/layers.marker}}
+            {{/leaflet-map}}
+          {{/if}}
       --}}
-
-      {{this.model.takeoff_location_raw}}
-    {{else}}
-      {{this.model.takeoff_location_raw}}
-    {{/if}}
-  <br />
-
-  Atterraggio:
-    {{format-time this.model.landing_time format="timestamp_nosecs"}}
-    {{#if this.model.landing_airfield}}
-      {{!--
-      <LinkTo @route="authen.airfield" @model={{this.model.landing_airfield}}>
-        {{this.model.landing_airfield.name}}
-      </LinkTo>
-      --}}
-
-      {{this.model.landing_location_raw}}
-    {{else}}
-      {{this.model.landing_location_raw}}
-    {{/if}}
-  <br />
-
-  Durata: {{format-duration this.model.duration}}<br />
-
-  {{#if this.model.towed_by}}
-    Trainato da:
-    <LinkTo @route="authen.flight" @model={{this.model.towed_by}}>
-      {{this.model.towed_by.aircraft_reg}}
-    </LinkTo>
-    <br />
-  {{/if}}
-  {{#if this.model.towing}}
-    Trainando:
-    <LinkTo @route="authen.flight" @model={{this.model.towing}}>
-      {{this.model.towing.aircraft_reg}}
-    </LinkTo>
-    <br />
-  {{/if}}
-
-  {{#if this.model.token_transactions}}
-    Movimenti bollini:
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Data/Ora</th>
-          <th>Descrizione</th>
-          <th>Ammontare</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        {{#each this.sorted_token_transactions key="id" as |data|}}
-
-        <tr {{!--{{on 'click' (fn this.goto_token_transaction data.id)}}--}}>
-          <td>
-            {{format-time data.recorded_at format="timestamp"}}
-          </td>
-          <td>
-            {{data.descr}}
-          </td>
-          <td class="price">
-            {{format-number data.amount minimumFractionDigits=1 maximumFractionDigits=1}}
-          </td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
-
-{{!--
-    <LinkTo @route="authen.flight" @model={{this.model.towing}}>
-      {{this.model.towing.aircraft_reg}}
-    </LinkTo>
---}}
-    <br />
-  {{/if}}
-
-{{!--
-  <div class="ui segment" style="height: 600px">
-    {{#if this.model.takeoff_location.latlng}}
-      {{#leaflet-map center=model.takeoff_location.latlng zoom=11 class="flight-map" as |layers|}}
-        {{layers.tile url="https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png" maxZoom=13}}
-        {{#layers.marker location=model.takeoff_location.latlng title="Decollo"}}
-          {{#popup-layer}}
-            <b>Decollo</b><br />
-            {{model.takeoff_location.full_address}}
-            {{model.takeoff_location.lat}},{{model.takeoff_location.lng}}
-          {{/popup-layer}}
-        {{/layers.marker}}
-        {{#layers.marker location=model.landing_location.latlng title="Atterraggio"}}
-          {{#popup-layer}}
-            <b>Atterraggio</b><br />
-            {{model.takeoff_location.full_address}}
-            {{model.takeoff_location.lat}},{{model.takeoff_location.lng}}
-          {{/popup-layer}}
-        {{/layers.marker}}
-      {{/leaflet-map}}
-    {{/if}}
---}}
+      </div>
+    </div>
+  </div>
 </div>

@@ -24,7 +24,7 @@ login:
       contains_white_spaces: Contiene spazi
   password:
     label: Password
-    placeholder:
+    placeholder: Password
   keep_connected:
     label: Rimani connesso
   login: Login
@@ -140,7 +140,6 @@ password_recovery:
   recover: Recupera password
   username:
     label: Codice pilota
-    request:
     placeholder: "1234"
     validation:
       contains_white_spaces: Contiene spazi
@@ -205,3 +204,20 @@ ex:
     "WrongCredentials":
       title: Credenziali errate
       detail: Controlla di aver digitato correttamente codice pilota e password
+
+flights_table:
+  aircraft_class_label: Classe
+  aircraft_class_placeholder: Classe
+  aircraft_class:
+    "": "-"
+    GLD: Aliante
+    SEP: Aereo
+    TMG: TMG
+
+  launch_label: Lancio
+  launch_placeholder: Lancio
+  launch:
+    "": "-"
+    SL: Self-launch
+    TOW: Traino
+    WINCH: Verricello

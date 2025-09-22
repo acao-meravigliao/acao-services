@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 83.54">
+  <defs>
+    <linearGradient id="a">
+      <stop offset="0" stop-color="#ccc"/>
+      <stop offset="1" stop-color="#ccc" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient xlink:href="#a" id="b" x1="66.38" y1="215.52" x2="73.99" y2="221.03" gradientUnits="userSpaceOnUse" spreadMethod="reflect" gradientTransform="matrix(0 1.1283 -1.1283 0 380.56 143.77)"/>
+  </defs>
+  <g stroke="#000">
+    <path d="M98.51 28c.3.07.43.23.45.45.03.23-.18.43-.45.61z" fill-rule="evenodd" stroke-width="1.8123500000000001"/>
+    <path d="M56.64 17.22l8.74 4.94h14.23l18.18 3.44.7.97v9.39l-18.7 5.95H53.15l1.39-25.16zM79.6 22.16l.18 19.75M79.74 37.42l18.7-4.9M97.23 32.85v-7.31" fill="#fff" fill-rule="evenodd" stroke-width="1.8123500000000001"/>
+    <path d="M79.43 39.38l-23.18-.22" fill="#fff" fill-rule="evenodd" stroke-width="1.8123500000000001" stroke-linecap="round"/>
+    <path d="M65.42 39.24l-.04-17.08" fill="#fff" fill-rule="evenodd" stroke-width="1.8123500000000001"/>
+    <path d="M1.36 28c-.3.07-.43.23-.45.45-.03.23.18.43.45.61z" fill-rule="evenodd" stroke-width="1.8123500000000001"/>
+    <path d="M43.24 17.22l-8.75 4.94H20.26L2.08 25.6l-.7.97v9.39L20.1 41.9h26.63l-1.4-25.16zM20.26 22.16l-.17 19.75M20.13 37.42l-18.7-4.9M2.64 32.85v-7.31" fill="#fff" fill-rule="evenodd" stroke-width="1.8123500000000001"/>
+    <path d="M20.12 39.38l24.27-.22" fill="#fff" fill-rule="evenodd" stroke-width="1.8123500000000001" stroke-linecap="round"/>
+    <path d="M34.45 39.24l.04-17.08M48.7 5.12c.09-1.38.27-2.74 1.17-3.92.3-.4.58-.39.9 0C51.8 2.4 51.82 3.78 52 5.14z" fill="#fff" fill-rule="evenodd" stroke-width="1.8123500000000001"/>
+    <g fill="#fff" stroke-width="2.22" fill-rule="evenodd">
+      <path d="M48.83 68.54h-14.3c-.95 0-1.32.14-1.43.54-.92 3.38-.3 6.2.35 8.38.1.37.34.74 1.04.74h15.65z" stroke-width="1.815849"/>
+      <path d="M38.19 78.17l.1 1.75 9.2.16 1.1-1.87" stroke-width="1.815849"/>
+    </g>
+    <g fill="#fff" stroke-width="2.22" fill-rule="evenodd">
+      <path d="M51.84 68.54h14.3c.95 0 1.32.14 1.43.54.91 3.38.3 6.2-.35 8.38-.1.37-.35.74-1.04.74H50.52z" stroke-width="1.815849"/>
+      <path d="M62.48 78.17l-.1 1.75-9.2.16-1.1-1.87" stroke-width="1.815849"/>
+    </g>
+    <path d="M54.37 4.77c3.15 4.41 2.28 11.12 1.9 15.62-.43 8.37-.13 14.68-.1 21.42l-5.3 36.5h-1.2l-5.3-36.5c.03-6.74.32-13.05-.11-21.42-.38-4.5-1.24-11.21 1.9-15.62z" fill="#fff" fill-rule="evenodd" stroke-width="1.8123500000000001"/>
+    <path d="M50.06 60.19l-.4 18.13.33 3.4c.16 1.74.52.6.58 0l.3-3.4.16-18.2" fill="#fff" fill-rule="evenodd" stroke-width="1.8123500000000001"/>
+    <path d="M49.94 66.33a.94.94 0 0 1 1.02 0M49.85 70.76c.42-1.24.77-1.05 1.09 0M43.9 15.25h12.7M44.07 18.04h12.37" fill="none" stroke-width="1.8123500000000001"/>
+    <path d="M44.4 39.48l.63.22c.25.09.39.24.4.46l.47 5.46M55.65 40c-.32 0-.39.13-.4.29l-.77 5.94c-.04.27.05.55.37.55l.59-.01" fill="none" stroke-width="1.8123500000000001" stroke-linecap="round"/>
+    <path d="M111.46 235.26v-.78c0-.86.41-.87.74-.84 11.75.8 18.93-2.51 18.93-6.56s-7.18-7.37-18.93-6.56c-.33.02-.74.02-.74-.85v-.77m0 0c8.64.12 17.29.24 25.93-.23a12.04 12.04 0 0 1 2.85 8.33c.1 3.25-.94 6.07-2.85 8.33-8.64-.59-17.29-.3-25.93-.07" fill="url(#b)" fill-rule="evenodd" stroke-width="2.5" transform="rotate(-90 2.83 117.13) scale(.72494)"/>
+    <path d="M44.42 31.56l1.31.4M56.11 31.56l-1.31.4M50.45 18.28v6.59" fill="none" stroke-width="1.8123500000000001"/>
+    <path d="M50.49 58.79l-.23-2.24c-.1-.86 0-1.97.2-2.11.44.07.33 1.35.25 2.1z" fill="none" stroke-width="1.8123500000000001" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

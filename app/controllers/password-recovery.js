@@ -36,10 +36,10 @@ export default class PasswordRecoveryController extends Controller {
     this.submitting = true;
     this.success = false;
 
-    this.session.recover(this.username).catch((ex) => {
-      this.ex = ex;
-    }).then(() => {
+    this.session.recover(this.username).then(() => {
       this.success = true;
+    }).catch((ex) => {
+      this.ex = ex;
     }).finally(() => {
       this.submitting = false;
     });

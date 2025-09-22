@@ -1,16 +1,4 @@
 {{page-title "Voli"}}
-<div class="container page authen-flights">
-
-{{!--
-<PowerCalendarRange class="pippo"
-    @selected={{this.sd_selected}}
-    @center={{this.sd_center}}
-    @onSelect={{this.on_sd_select}}
-    @onCenterChange={{this.on_sd_center_change}}
-    as |calendar|>
-  <calendar.Nav/>
-  <calendar.Days />
-</PowerCalendarRange>
---}}
+<div class="container page authen-flights is-fluid">
   <FlightsTable @flights={{this.model}} @member={{this.member}} @sd={{this.sd}} @ed={{this.ed}} />
 </div>

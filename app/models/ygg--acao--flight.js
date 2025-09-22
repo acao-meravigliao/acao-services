@@ -14,15 +14,21 @@ export default class YggAcaoFlightModel extends Model {
   @attr('date') landing_time;
   @attr('string') landing_location_raw;
 
-  @attr('boolean') instruction_flight;
-  @attr('string') launch_type;
-  @attr('number') acao_quota;
-  @attr('number') acao_bollini_volo;
-
   @attr('string') pilot1_role;
   @attr('string') pilot1_name;
   @attr('string') pilot2_role;
   @attr('string') pilot2_name;
+
+  @attr('boolean') instruction_flight;
+  @attr('boolean') skill_test;
+  @attr('boolean') proficiency_check;
+  @attr('boolean') maintenance_check;
+  @attr('string') launch_type;
+  @attr('string') purpose;
+  @attr('number') acao_quota;
+  @attr('number') acao_bollini_volo;
+  @attr('number') acao_tipo_volo_club;
+
 
   @vosBelongsTo('flight', 'aircraft') aircraft;
   @vosBelongsTo('flight', 'pilot1') pilot1;
