@@ -289,7 +289,7 @@ export default class SessionService extends Service.extend(Evented) {
 
   async recover(username) {
     let req = {
-      acao_code: username,
+      code: username,
     };
 
     let abc = new AbortController();
