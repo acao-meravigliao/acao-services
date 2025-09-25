@@ -48,14 +48,14 @@
       <div class="content">
         <div class="grid">
           <div class="cell">
-            Aeromobile: {{this.model.aircraft_reg}}<br />
-            Pilota: {{this.model.pilot1_name}} ({{this.model.pilot1_role}})<br />
+            Aeromobile: <strong>{{this.model.aircraft_reg}}</strong><br />
+            Pilota: <strong>{{this.model.pilot1_name}} ({{this.model.pilot1_role}})</strong><br />
 
             {{#if this.model.pilot2_role}}
-              Passeggero: {{this.model.pilot2_name}} ({{this.model.pilot2_role}})<br />
+              Passeggero: <strong>{{this.model.pilot2_name}} ({{this.model.pilot2_role}})</strong><br />
             {{/if}}
 
-            Durata: {{format-duration this.model.duration}}<br />
+            Durata: <strong>{{format-duration this.model.duration}}</strong><br />
 
             {{#if this.model.towed_by}}
               Trainato da:
@@ -72,23 +72,23 @@
               <br />
             {{/if}}
 
-            Lancio: {{this.launch_type}}<br />
+            Lancio: <strong>{{this.launch_type}}</strong><br />
 
-            Volo Istruzione: {{if this.model.instruction_flight "sì" "no"}}<br />
-            Skill Test: {{if this.model.skill_test "sì" "no"}}<br />
-            Proficiency check: {{if this.model.proficiency_check "sì" "no"}}<br />
-            Maintenance check: {{if this.model.maintenance_check "sì" "no"}}<br />
+            Volo Istruzione: <strong>{{if this.model.instruction_flight "sì" "no"}}</strong><br />
+            Skill Test: <strong>{{if this.model.skill_test "sì" "no"}}</strong><br />
+            Proficiency check: <strong>{{if this.model.proficiency_check "sì" "no"}}</strong><br />
+            Maintenance check: <strong>{{if this.model.maintenance_check "sì" "no"}}</strong><br />
 
             {{#if this.model.purpose}}
-              Scopo: {{this.model.purpose}}<br />
+              Scopo: <strong>{{this.model.purpose}}</strong><br />
             {{/if}}
 
             {{#if this.model.acao_quota}}
-              Quota: {{this.model.acao_quota}}<br />
+              Quota: <strong>{{this.model.acao_quota}}</strong><br />
             {{/if}}
 
-            Bollini: {{this.model.acao_bollini_volo}}<br />
-            Tipo Volo: {{this.model.acao_tipo_volo_club}}<br />
+            Bollini: <strong>{{this.model.acao_bollini_volo}}</strong><br />
+            Tipo Volo: <strong>{{this.model.acao_tipo_volo_club}}</strong><br />
           </div>
 
           {{#if this.model.token_transactions}}
