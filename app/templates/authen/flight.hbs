@@ -49,10 +49,15 @@
         <div class="grid">
           <div class="cell">
             Aeromobile: <strong>{{this.model.aircraft_reg}}</strong><br />
-            Pilota: <strong>{{this.model.pilot1_name}} ({{this.model.pilot1_role}})</strong><br />
+            Pilota: <strong>{{this.model.pilot1_name}}
+              {{#if this.model.pilot1_role}}({{this.model.pilot1_role}}){{/if}}
+              </strong><br />
 
             {{#if this.model.pilot2_role}}
-              Passeggero: <strong>{{this.model.pilot2_name}} ({{this.model.pilot2_role}})</strong><br />
+              Passeggero:
+                <strong>{{this.model.pilot2_name}}
+                {{#if this.model.pilot2_role}}({{this.model.pilot2_role}}){{/if}}
+                </strong><br />
             {{/if}}
 
             Durata: <strong>{{format-duration this.model.duration}}</strong><br />
@@ -72,7 +77,9 @@
               <br />
             {{/if}}
 
-            Lancio: <strong>{{this.launch_type}}</strong><br />
+            {{#if this.launch_type}}
+              Lancio: <strong>{{this.launch_type}}</strong><br />
+            {{/if}}
 
             Volo Istruzione: <strong>{{if this.model.instruction_flight "sì" "no"}}</strong><br />
             Skill Test: <strong>{{if this.model.skill_test "sì" "no"}}</strong><br />
