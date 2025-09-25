@@ -22,24 +22,94 @@
       </div>
 
       <div class="content">
-        Numero di serie: {{this.model.serial_number}}<br />
-        {{#if this.model.flarm_identifier}}
-          Codice FLARM: {{this.model.flarm_identifier}}<br />
-        {{/if}}
-        {{#if this.model.icao_identifier}}
-          Codice ICAO: {{this.model.icao_identifier}}<br />
-        {{/if}}
-        {{#if this.model.club}}
-          Club di riferimento: <LinkTo @route="authen.club" model.club.id>{{this.model.club.name}}</LinkTo><br />
-        {{/if}}
-        Posto hangar: {{if this.model.hangar "SÌ" "NO"}}<br />
+        <div class="grid">
+          <div class="cell">
+            <p>
+              <strong>ACAO</strong>
+            </p>
+            <p>
+              {{#if this.model.flarm_identifier}}
+                Codice FLARM: <strong>{{this.model.flarm_identifier}}</strong><br />
+              {{/if}}
+              {{#if this.model.icao_identifier}}
+                Codice ICAO: <strong>{{this.model.icao_identifier}}</strong><br />
+              {{/if}}
+              {{#if this.model.club}}
+                Club di riferimento: <strong>{{this.model.club.name}}</strong><br />
+                {{!--Club di riferimento: <strong><LinkTo @route="authen.club" model.club.id>{{this.model.club.name}}</LinkTo></strong><br />--}}
+              {{/if}}
 
-        <button class="button is-link" {{on "click" this.goto_flights}}>
-          <span>
-            Voli
-          </span>
-          <span class="icon"><FaIcon @icon="plane-departure" /></span>
-        </button>
+              {{#if this.model.serial_number}}
+                Numero di serie: <strong>{{this.model.serial_number}}</strong><br />
+              {{/if}}
+
+              {{!--Posto hangar: <strong>{{if this.model.hangar "SÌ" "NO"}}</strong><br />--}}
+            </p>
+
+            <button class="button is-link" {{on "click" this.goto_flights}}>
+              <span>
+                Voli
+              </span>
+              <span class="icon"><FaIcon @icon="plane-departure" /></span>
+            </button>
+          </div>
+          <div class="cell">
+            <p>
+              <a href="https://www.flarmnet.org/"><strong>Flarmnet</strong></a>
+              (aggiornato {{format-date-from-now this.flarmnet_last_update}})
+            </p>
+            {{#each this.model.flarmnet_entries as |entry|}}
+            <p>
+              Tipo: <strong>{{entry.device_type}}</strong><br />
+              Identificatore: <strong>{{entry.device_id}}</strong>
+                {{#if (this.fn_mismatch_device_id entry)}}
+                  <span class="tag is-warning"><FaIcon @icon="triangle-exclamation" /></span>
+                {{/if}}
+              <br />
+              Marche: <strong>{{entry.registration}}</strong>
+                {{#if (this.fn_mismatch_reg entry)}}
+                  <span class="tag is-warning"><FaIcon @icon="triangle-exclamation" /></span>
+                {{/if}}
+              <br />
+              Sigle di gara: <strong>{{entry.cn}}</strong>
+                {{#if (this.fn_mismatch_cn entry)}}
+                  <span class="tag is-warning"><FaIcon @icon="triangle-exclamation" /></span>
+                {{/if}}
+              <br />
+              Tracking <FaIcon @icon={{if entry.tracked "circle-check" "circle-xmark"}} /><br />
+              Identificato <FaIcon @icon={{if entry.identified "circle-check" "circle-xmark"}} /><br />
+            </p>
+            {{/each}}
+          </div>
+          <div class="cell">
+            <p>
+              <a href="https://ddb.glidernet.org/"><strong>OGN</strong></a>
+              (aggiornato {{format-date-from-now this.ddb_last_update}})
+            </p>
+            {{#each this.model.ogn_ddb_entries as |entry|}}
+            <p>
+              Tipo: <strong>{{entry.device_type}}</strong><br />
+              Identificatore: <strong>{{entry.device_id}}</strong>
+                {{#if (this.ddb_mismatch_device_id entry)}}
+                  <span class="tag is-warning"><FaIcon @icon="triangle-exclamation" /></span>
+                {{/if}}
+              <br />
+              Marche: <strong>{{entry.aircraft_registration}}</strong>
+                {{#if (this.ddb_mismatch_reg entry)}}
+                  <span class="tag is-warning"><FaIcon @icon="triangle-exclamation" /></span>
+                {{/if}}
+              <br />
+              Sigle di gara: <strong>{{entry.aircraft_competition_id}}</strong>
+                {{#if (this.ddb_mismatch_cn entry)}}
+                  <span class="tag is-warning"><FaIcon @icon="triangle-exclamation" /></span>
+                {{/if}}
+              <br />
+              Tracking <FaIcon @icon={{if entry.tracked "circle-check" "circle-xmark"}} /><br />
+              Identificato <FaIcon @icon={{if entry.identified "circle-check" "circle-xmark"}} /><br />
+            </p>
+            {{/each}}
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -5,7 +5,7 @@ export default class AuthenAircraftRoute extends BaseRoute {
   @service store;
 
   model(params) {
-    return this.select_as_model(
+    return this.select_as_model([
      {
       type: 'ygg--acao--aircraft',
       id: params.id,
@@ -33,12 +33,30 @@ export default class AuthenAircraftRoute extends BaseRoute {
        {
         from: 'aircraft',
         to: 'aircraft_type',
-       }
+       },
+       {
+        from: 'aircraft',
+        to: 'flarmnet_entry',
+       },
+       {
+        from: 'aircraft',
+        to: 'ogn_ddb_entry',
+       },
       ],
      },
-    ).then((res) => {
+     {
+      type: 'ygg--acao--aircraft-sync-status',
+     },
+    ]).then((res) => {
+      this.sync_statuses = this.store.peekSelected('ygg--acao--aircraft-sync-status', res.sel);
+
       return this.store.peekRecord('ygg--acao--aircraft', params.id);
     });
   }
 
+  setupController(controller, model) {
+    super.setupController(...arguments);
+
+    controller.sync_statuses = this.sync_statuses;
+  }
 }

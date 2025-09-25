@@ -2,90 +2,56 @@
 
 <div class="container page authen-aircrafts">
 
-<div class="grid is-col-min-12">
-  {{#each this.private_ac_sorted key="id" as |data index|}}
-    <div class="card cell {{if (eq index 0) "is-col-start-1"}}">
-      <div class="card-content">
-        <div class="media">
-          <div class="media-left">
-            <figure class="image is-48x48">
-              <img
-                src={{this.ac_image data}}
-                alt="Aircraft image"
-              />
-            </figure>
-          </div>
-          <div class="media-content">
-            <p class="title is-4">
-              <LinkTo @route="authen.aircraft" @model={{data.id}}>
-                {{data.registration}} {{data.race_registration}}
-              </LinkTo>
-            </p>
-            <p class="subtitle is-6">{{data.aircraft_type.manufacturer}} {{data.aircraft_type.name}}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  {{/each}}
-
-  {{#each this.shared_ac_sorted key="id" as |data index|}}
-    <div class="card cell {{if (eq index 0) "is-col-start-1"}}">
-      <div class="card-content">
-        <div class="media">
-          <div class="media-left">
-            <figure class="image is-48x48">
-              <img
-                src={{this.ac_image data}}
-                alt="Aircraft image"
-              />
-            </figure>
-          </div>
-          <div class="media-content">
-            <p class="title is-4">
-              <LinkTo @route="authen.aircraft" @model={{data.id}}>
-                {{data.registration}} {{data.race_registration}}
-              </LinkTo>
-            </p>
-            <p class="subtitle is-6">{{data.aircraft_type.manufacturer}} {{data.aircraft_type.name}}</p>
+  <div class="grid is-col-min-12">
+    {{#each this.private_ac_sorted key="id" as |data index|}}
+      <div class="card cell {{if (eq index 0) "is-col-start-1"}}">
+        <div class="card-content">
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-48x48">
+                <img
+                  src={{this.ac_image data}}
+                  alt="Aircraft image"
+                />
+              </figure>
+            </div>
+            <div class="media-content">
+              <p class="title is-4">
+                <LinkTo @route="authen.aircraft" @model={{data.id}}>
+                  {{data.registration}} {{data.race_registration}}
+                </LinkTo>
+              </p>
+              <p class="subtitle is-6">{{data.aircraft_type.manufacturer}} {{data.aircraft_type.name}}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  {{/each}}
-</div>
+    {{/each}}
 
-  <table class="table aircrafts">
-    <thead>
-      <tr>
-        <th>Marche</th>
-        <th>Sigle di gara</th>
-        <th>Tipo</th>
-        <th>ID FLARM</th>
-        <th>ID ICAO</th>
-      </tr>
-    </thead>
+    {{#each this.shared_ac_sorted key="id" as |data index|}}
+      <div class="card cell {{if (eq index 0) "is-col-start-1"}}">
+        <div class="card-content">
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-48x48">
+                <img
+                  src={{this.ac_image data}}
+                  alt="Aircraft image"
+                />
+              </figure>
+            </div>
+            <div class="media-content">
+              <p class="title is-4">
+                <LinkTo @route="authen.aircraft" @model={{data.id}}>
+                  {{data.registration}} {{data.race_registration}}
+                </LinkTo>
+              </p>
+              <p class="subtitle is-6">{{data.aircraft_type.manufacturer}} {{data.aircraft_type.name}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
 
-    <tbody>
-      {{#each this.sorted_models key="id" as |data|}}
-
-      <tr >
-        <td>
-          {{data.registration}}
-        </td>
-        <td>
-          {{data.race_registration}}
-        </td>
-        <td>
-          {{data.aitcraft_type.name}}
-        </td>
-        <td>
-          {{data.flarm_identifier}}
-        </td>
-        <td>
-          {{data.icao_identifier}}
-        </td>
-      </tr>
-      {{/each}}
-    </tbody>
-  </table>
 </div>

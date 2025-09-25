@@ -15,4 +15,6 @@ export default class YggAcaoAircraftModel extends Model {
   @vosBelongsTo('aircraft', 'owner') owner;
   @vosBelongsTo('aircraft', 'club_owner') club_owner;
   @vosBelongsTo('aircraft', 'aircraft_type') aircraft_type;
+  @vosHasMany('aircraft', 'flarmnet_entry') flarmnet_entries;
+  @vosHasMany('aircraft', 'ogn_ddb_entry') ogn_ddb_entries;
 }

@@ -215,10 +215,16 @@
   <tfoot>
     <tr>
       <td>{{this.total_count}}</td>
-      <td colspan=5></td>
+      <td colspan=8></td>
+      {{#if this.details}}
+      <td></td>
+      {{/if}}
       <td>{{format-duration this.total_duration}}</td>
       <td colspan=1></td>
+
+      {{#if this.details}}
       <td>{{this.total_bollini}}</td>
+      {{/if}}
       <td colspan=8></td>
     </tr>
   </tfoot>
