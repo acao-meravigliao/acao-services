@@ -18,11 +18,13 @@ export default class FlightsController extends Controller {
     super(...arguments);
 
     let date = new Date();
+    date.setHours(0);
+    date.setMinutes(0);
+    date.setSeconds(0);
+    date.setMilliseconds(0);
     date.setDate(date.getDate() - 30);
 
     this.sd = date.getTime();
-
-//    this.range_selected = { start: this.sd, end: this.ed };
   }
 
   get member() {

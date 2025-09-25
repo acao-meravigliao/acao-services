@@ -1,25 +1,39 @@
 <div class="box">
-  <div class="level">
-
-    <div class="level-item">
-      Voli dal {{format-date this.sd_value}}
+  <div class="grid">
+    <div class="cell">
+      <a {{on "click" (fn this.set_preset "d30")}}>
+        <span class="tag {{if (eq this.preset "d30") "is-success" "is-dark"}}">ultimo mese</span>
+      </a>
+      <a {{on "click" (fn this.set_preset "d90")}}>
+        <span class="tag {{if (eq this.preset "d90") "is-success" "is-dark"}}">ultimi 3 mesi</span>
+      </a>
+      <a {{on "click" (fn this.set_preset "d365")}}>
+        <span class="tag {{if (eq this.preset "d365") "is-success" "is-dark"}}">ultimi 12 mesi</span>
+      </a>
+      <a {{on "click" (fn this.set_preset "dy")}}>
+        <span class="tag {{if (eq this.preset "dy") "is-success" "is-dark"}}">Anno solare</span>
+      </a>
     </div>
 
-    <div class="level-item">
-      <label>
-        <input type="checkbox" checked={{this.details}} {{on "change" this.details_change}} />
-        Dettagli
-      </label>
+    <div class="cell">
+      <button class="button {{if this.details "is-light" "is-dark"}}" {{on "click" this.details_toggle}}>
+        <span class="icon is-small">
+          <FaIcon @icon="circle-info" />
+        </span>
+        <span>Dettagli</span>
+      </button>
     </div>
 
-    <div class="level-item">
-      <label>
-        <input type="checkbox" checked={{this.flt_show}} {{on "change" this.flt_show_change}} />
-        Filtri
-      </label>
+    <div class="cell">
+      <button class="button {{if this.flt_show "is-light" "is-dark"}}" {{on "click" this.flt_show_toggle}}>
+        <span class="icon is-small">
+          <FaIcon @icon="filter" />
+        </span>
+        <span>Filtri</span>
+      </button>
     </div>
 
-    <div class="level-item">
+    <div class="cell">
       <button class="button is-link" {{on "click" this.download_as_csv}}>
         <span class="icon is-small">
           <FaIcon @icon="download" />
@@ -33,79 +47,69 @@
         <span>Volo...</span>
       </button>
     </div>
-  </div>
 
-  {{#if this.flt_show}}
-    <div class="level">
-      <div class="level-item">
+    {{#if this.flt_show}}
+      <div class="cell is-col-start-1">
         <label>
-          Da
-          <input type="date" value={{this.sd_value}} {{on "change" this.flt_sd_on_change}} />
+          Da<br />
+          <input type="date" class="input" value={{this.sd_value}} {{on "change" this.flt_sd_on_change}} />
         </label>
       </div>
 
-      <div class="level-item">
+      <div class="cell">
         <label>
-          A
-          <input type="date" value={{this.ed_value}} {{on "change" this.flt_ed_on_change}} />
+          A<br />
+          <input type="date" class="input" value={{this.ed_value}} {{on "change" this.flt_ed_on_change}} />
         </label>
       </div>
 
-      <div class="level-item">
+      <div class="cell">
         <label>
           Marche
-          <input type="text" value={{this.flt_reg}} {{on "change" this.flt_reg_change}} />
+          <input type="text" class="input" value={{this.flt_reg}} {{on "change" this.flt_reg_change}} />
         </label>
       </div>
 
-      <div class="level-item">
+      <div class="cell">
+        {{t "flights_table.launch_label"}}
+        <PowerSelect @options={{this.flt_launch_opts}}
+                     @selected={{this.flt_launch_sel}}
+                     @onChange={{this.flt_launch_change}}
+                     @placeholder={{t "flights_table.launch_placeholder"}} as |el|>
+          {{t (concat "flights_table.launch." el.symbol)}}
+        </PowerSelect>
+      </div>
+
+      <div class="cell is-col-start-1">
         <label>
-          {{t "flights_table.launch_label"}}
-          <PowerSelect @options={{this.flt_launch_opts}}
-                       @selected={{this.flt_launch_sel}}
-                       @onChange={{this.flt_launch_change}}
-                       @placeholder={{t "flights_table.launch_placeholder"}} as |el|>
-            {{t (concat "flights_table.launch." el.symbol)}}
-          </PowerSelect>
-        </label>
-      </div>
-    </div>
+          <input type="checkbox" checked={{this.flt_all_roles}} {{on "change" this.flt_all_roles_change}} />
+          Tutti i ruoli
+        </label><br />
 
-    <div class="level">
-      <div class="level-item">
-        <div>
+        {{#each this.roles as |role|}}
           <label>
-            <input type="checkbox" checked={{this.flt_all_roles}} {{on "change" this.flt_all_roles_change}} />
-            Tutti i ruoli
+            <input type="checkbox" checked={{role.enabled}} {{on "change" (fn this.flt_role_change role)}} />
+            {{role.name}}
           </label><br />
-
-          {{#each this.roles as |role|}}
-            <label>
-              <input type="checkbox" checked={{role.enabled}} {{on "change" (fn this.flt_role_change role)}} />
-              {{role.name}}
-            </label><br />
-          {{/each}}
-        </div>
+        {{/each}}
       </div>
 
-      <div class="level-item">
-        <div>
+      <div class="cell">
+        <label>
+          <input type="checkbox" checked={{this.flt_all_classes}} {{on "change" this.flt_all_classes_change}} />
+          Tutte le classi
+        </label><br />
+
+
+        {{#each this.classes as |cls|}}
           <label>
-            <input type="checkbox" checked={{this.flt_all_classes}} {{on "change" this.flt_all_classes_change}} />
-            Tutte le classi
+            <input type="checkbox" checked={{cls.enabled}} {{on "change" (fn this.flt_class_change cls)}} />
+            {{cls.name}}
           </label><br />
-
-
-          {{#each this.classes as |cls|}}
-            <label>
-              <input type="checkbox" checked={{cls.enabled}} {{on "change" (fn this.flt_class_change cls)}} />
-              {{cls.name}}
-            </label><br />
-          {{/each}}
-        </div>
+        {{/each}}
       </div>
-    </div>
-  {{/if}}
+    {{/if}}
+  </div>
 </div>
 
 <table class="bar-transactions table">

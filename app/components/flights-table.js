@@ -36,6 +36,29 @@ export default class FlightsTableComponent extends Component {
 
   my_role = (flight) => (flight.role(this.member));
 
+  constructor() {
+    super(...arguments);
+
+    let date = new Date();
+    date.setHours(0);
+    date.setMinutes(0);
+    date.setSeconds(0);
+    date.setMilliseconds(0);
+
+    this.d30 = new Date(date);
+    this.d30.setDate(date.getDate() - 30);
+
+    this.d90 = new Date(date);
+    this.d90.setDate(date.getDate() - 90);
+
+    this.d365 = new Date(date);
+    this.d365.setDate(date.getDate() - 365);
+
+    this.dy = new Date(date);
+    this.dy.setDate(1);
+    this.dy.setMonth(0);
+  }
+
   get member() {
     return this.args.member;
   }
@@ -46,6 +69,28 @@ export default class FlightsTableComponent extends Component {
 
   get sd_value() {
     return this.args.sd ? this.sd_date.toISOString().split('T')[0] : '';
+  }
+
+  get preset() {
+    if (this.args.sd === this.d30.getTime())
+      return 'd30';
+    else if (this.args.sd === this.d90.getTime())
+      return 'd90';
+    else if (this.args.sd === this.d365.getTime())
+      return 'd365';
+    else if (this.args.sd === this.dy.getTime())
+      return 'dy';
+    else
+      return null;
+  }
+
+  @action set_preset(val) {
+    switch(val) {
+    case 'd30': this.set_sd(this.d30.getTime()); break;
+    case 'd90': this.set_sd(this.d90.getTime()); break;
+    case 'd365': this.set_sd(this.d365.getTime()); break;
+    case 'dy': this.set_sd(this.dy.getTime()); break;
+    }
   }
 
   get ed_date() {
@@ -105,8 +150,8 @@ export default class FlightsTableComponent extends Component {
     ev.stopPropagation();
   }
 
-  @action details_change(ev) { this.details = ev.target.checked; }
-  @action flt_show_change(ev) { this.flt_show = ev.target.checked; }
+  @action details_toggle(ev) { this.details = !this.details; }
+  @action flt_show_toggle(ev) { this.flt_show = !this.flt_show; }
 
   // ------------------
 
