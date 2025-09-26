@@ -36,8 +36,8 @@ authen:
   index:
     page_title: Dashboard
     hello: Ciao
-    membership_for_year: "L'iscrizione per l'anno <strong>{year}</strong> è aperta."
-    membership_not_open: "L'iscrizione per l'anno <strong>{year}</strong> non è ancora aperta."
+    membership_for_year: "L'iscrizione è aperta!"
+    membership_not_open: "L'iscrizione non è ancora aperta."
     membership_opening_in: "Aprirà in"
 
   bar:

@@ -1,7 +1,20 @@
 {{page-title (t "authen.index.page_title")}}
 
 <div class="container box page authen-index">
-  <h1 class="subtitle">{{t "authen.index.hello"}} {{this.model.person.first_name}}!</h1>
+  <h1 class="title">
+    {{t "authen.index.hello"}}
+    {{if this.model.person.nickname this.model.person.nickname this.model.person.first_name}}!
+  </h1>
+
+  <div class="level">
+    <div class="level-item has-text-centered">
+      <BarGauge @credit={{this.model.person.member.bar_credit}} />
+    </div>
+
+    <div class="level-item has-text-centered">
+      <TokensGauge @credit={{this.model.person.member.bollini}} />
+    </div>
+  </div>
 
   {{#if this.ms.current_renew_is_open_and_needed}}
     <div class="notification is-success">
@@ -18,21 +31,11 @@
   {{/if}}
 
   {{#if this.ms.next_renew_is_open_and_needed}}
-    <div class="notification is-success">
-      {{t "authen.index.membership_for_year" year=this.ms.next_year.year htmlSafe=true}}
-      <button class="button is-info" type="button" {{on "click" this.start_next_membership_renewal}}>Inizia</button>
-    </div>
+    <button class="button is-huge is-multiline is-success" {{on "click" this.start_next_membership_renewal}}>
+      <span class="is-size-2 has-text-weight-bold">{{this.ms.current_year.year}}</span>
+      <span>{{t "authen.index.membership_for_year"}}</span>
+    </button>
   {{/if}}
-
-  <div class="level">
-    <div class="level-item has-text-centered">
-      <BarGauge @credit={{this.model.person.member.bar_credit}} />
-    </div>
-
-    <div class="level-item has-text-centered">
-      <TokensGauge @credit={{this.model.person.member.bollini}} />
-    </div>
-  </div>
 
   {{#if this.my_next_roster_entries}}
     Prossimi turni di linea:

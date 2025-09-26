@@ -97,3 +97,14 @@ table {
   width: 100%;
   height: 100%;
 }
+
+.button.is-multiline {
+  min-height: 2.25em;
+  white-space: unset;
+  height: auto;
+  flex-direction: column;
+}
+
+.button.is-multiline .icon {
+  margin: 0! important;
+}
