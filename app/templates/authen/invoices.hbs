@@ -25,26 +25,26 @@
     </thead>
 
     <tbody>
-      {{#each this.sorted_models key="id" as |invoice|}}
+      {{#each this.sorted_models key="id" as |model|}}
 
-      <tr {{on 'click' (fn this.open_invoice invoice.id)}}>
+      <tr>
         <td>
-          {{format-date invoice.document_date format="dmy"}}
+          {{format-date model.document_date format="dmy"}}
         </td>
         <td>
-          {{invoice.identifier_full}}
+          {{model.identifier_full}}
         </td>
         <td>
-          {{t (concat "payment.methods." invoice.payment_method)}}
+          {{t (concat "payment.methods." model.payment_method)}}
         </td>
         <td class="price">
-          {{format-number invoice.amount style="currency" currency="EUR"}}
+          {{format-number model.amount style="currency" currency="EUR"}}
         </td>
-{{!--
         <td>
-          <span class="tag state {{invoice.state}}">{{t (concat "invoice.states." invoice.state)}}</span>
+          <LinkTo @route="authen.invoice" @model={{model.id}}>
+            <FaIcon @icon="arrow-up-right-from-square" />
+          </LinkTo>
         </td>
---}}
       </tr>
       {{/each}}
     </tbody>
