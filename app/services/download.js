@@ -1,12 +1,14 @@
 import Service from '@ember/service';
 
 export default Service.extend({
-  asCSV(filename, contents) {
+  as_type(filename, type, contents) {
     let { document, URL } = window;
+
     let anchor = document.createElement('a');
+
     anchor.download = filename;
     anchor.href = URL.createObjectURL(new Blob([contents], {
-      type: 'text/csv'
+      type: type,
     }));
 
     document.body.appendChild(anchor);

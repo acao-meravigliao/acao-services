@@ -2,8 +2,6 @@ import Controller from '@ember/controller';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import Papa from 'papaparse';
-import moment from 'moment';
 import { inject as controller } from '@ember/controller';
 
 export default class FlightsController extends Controller {

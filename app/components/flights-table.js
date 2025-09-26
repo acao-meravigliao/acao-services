@@ -3,9 +3,8 @@ import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { TrackedObject } from 'tracked-built-ins';
-
-import Papa from 'papaparse';
 import moment from 'moment';
+import * as XLSX from 'xlsx';
 
 export default class FlightsTableComponent extends Component {
   @service router;
@@ -258,50 +257,89 @@ export default class FlightsTableComponent extends Component {
     return `${hh}:${mm}` + (secs ? `:${ss}` : '');
   }
 
+  //data_for_export() {
+  //  let data = this.sorted_models.map((x) => ([
+  //    x.aircraft_reg,
+  //    x.aircraft_class,
+  //    x.launch_type,
+  //    moment(x.takeoff_time).format('YYYY-MM-DD'),
+  //    moment(x.takeoff_time).format('YYYY-MM-DD, hh:mm:ss'),
+  //    moment(x.takeoff_time).format('hh:mm:ss'),
+  //    x.takeoff_location_raw,
+  //    moment(x.landing_time).format('YYYY-MM-DD, hh:mm:ss'),
+  //    moment(x.landing_time).format('hh:mm:ss'),
+  //    x.landing_location_raw,
+  //    x.pilot1_name,
+  //    x.pilot1_role,
+  //    x.pilot2_name,
+  //    x.pilot2_role,
+  //    this.format_duration(x.duration),
+  //    x.acao_quota,
+  //    x.acao_bollini_volo,
+  //  ]));
+
+  //  return data;
+  //}
+
+  data_for_export() {
+    let data = this.sorted_models.map((x) => ({
+      'aircraft_reg':        x.aircraft_reg,
+      'aircraft_class':      x.aircraft_class,
+      'launch':              x.launch_type,
+      'date':                moment(x.takeoff_time).format('YYYY-MM-DD'),
+      'takeoff_time':        x.takeoff_time,
+      'takeoff_time_of_day': moment(x.takeoff_time).format('hh:mm:ss'),
+      'takeoff_location':    x.takeoff_location_raw,
+      'landing_time':        x.landing_time,
+      'landing_time_of_day': moment(x.landing_time).format('hh:mm:ss'),
+      'landing_location':    x.landing_location_raw,
+      'pilot1':              x.pilot1_name,
+      'pilot1_role':         x.pilot1_role,
+      'pilot2':              x.pilot2_name,
+      'pilot2_role':         x.pilot2_role,
+      'duration':            this.format_duration(x.duration),
+      'quota':               x.acao_quota,
+      'bollini':             x.acao_bollini_volo,
+    }));
+
+    return data;
+  }
+
+  build_worksheet() {
+    const ws = XLSX.utils.json_to_sheet(this.data_for_export(), { cellDates: true, dateNF: 'yyyy-mm-dd HH:MM:ss' });
+
+    return ws;
+  }
+
+  build_workbook() {
+    const worksheet = this.build_worksheet();
+    const workbook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Stralcio");
+
+    return workbook;
+  }
+
   @action download_as_csv() {
-    let data = this.sorted_models.map((x) => ([
-      x.aircraft_reg,
-      x.aircraft_class,
-      x.launch_type,
-      moment(x.takeoff_time).format('YYYY-MM-DD'),
-      moment(x.takeoff_time).format('YYYY-MM-DD, hh:mm:ss'),
-      moment(x.takeoff_time).format('hh:mm:ss'),
-      x.takeoff_location_raw,
-      moment(x.landing_time).format('YYYY-MM-DD, hh:mm:ss'),
-      moment(x.landing_time).format('hh:mm:ss'),
-      x.landing_location_raw,
-      x.pilot1_name,
-      x.pilot1_role,
-      x.pilot2_name,
-      x.pilot2_role,
-      this.format_duration(x.duration),
-      x.acao_quota,
-      x.acao_bollini_volo,
-    ]));
+    //let output = XLSX.write(this.build_workbook(), { bookType: 'csv', type: 'array' });
+    //this.download.as_type('flight_log.csv', 'text/csv', output);
 
-    let csv = Papa.unparse({
-      fields: [
-        'aircraft_reg',
-        'aircraft_class',
-        'launch',
-        'date',
-        'takeoff_time',
-        'takeoff_time_of_day',
-        'takeoff_location',
-        'landing_time',
-        'landing_time_of_day',
-        'landing_location',
-        'pilot1',
-        'pilot1_role',
-        'pilot2',
-        'pilot2_role',
-        'duration',
-        'quota',
-        'bollini',
-      ],
-      data: data,
-    });
+    const output = XLSX.utils.sheet_to_csv(this.build_worksheet())
+    this.download.as_type('flight_log.csv', 'text/csv', output);
+  }
 
-    this.download.asCSV('flight_log.csv', csv);
+  @action download_as_json() {
+    const output = JSON.stringify(XLSX.utils.sheet_to_json(this.build_worksheet()));
+    this.download.as_type('flight_log.json', 'application/json', output);
+  }
+
+  @action download_as_xlsx() {
+    const output = XLSX.write(this.build_workbook(), { bookType: 'xlsx', type: 'array' });
+    this.download.as_type('flight_log.xlsx', 'application/vnd.ms-excel', output);
+  }
+
+  @action download_as_ods() {
+    const output = XLSX.write(this.build_workbook(), { bookType: 'ods', type: 'array' });
+    this.download.as_type('flight_log.ods', 'application/vnd.oasis.opendocument.spreadsheet', aaa);
   }
 }

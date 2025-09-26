@@ -34,18 +34,37 @@
     </div>
 
     <div class="cell">
-      <button class="button is-link" {{on "click" this.download_as_csv}}>
+      <button class="button is-link is-small" {{on "click" this.download_as_ods}}>
+        <span class="icon is-small">
+          <FaIcon @icon="download" />
+        </span>
+        <span>ODS</span>
+      </button>
+      <button class="button is-link is-small" {{on "click" this.download_as_xlsx}}>
+        <span class="icon is-small">
+          <FaIcon @icon="download" />
+        </span>
+        <span>XLSX</span>
+      </button>
+      <button class="button is-link is-small" {{on "click" this.download_as_csv}}>
         <span class="icon is-small">
           <FaIcon @icon="download" />
         </span>
         <span>CSV</span>
       </button>
-      <button class="button is-success" {{on "click" this.goto_flight_new}}>
+      <button class="button is-link is-small" {{on "click" this.download_as_json}}>
+        <span class="icon is-small">
+          <FaIcon @icon="download" />
+        </span>
+        <span>JSON</span>
+      </button>
+{{!--      <button class="button is-success" {{on "click" this.goto_flight_new}}>
         <span class="icon is-small">
           <FaIcon @icon="plus" />
         </span>
         <span>Volo...</span>
       </button>
+--}}
     </div>
 
     {{#if this.flt_show}}
