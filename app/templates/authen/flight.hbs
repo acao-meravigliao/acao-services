@@ -111,17 +111,22 @@
                 </thead>
 
                 <tbody>
-                  {{#each this.sorted_token_transactions key="id" as |data|}}
+                  {{#each this.sorted_token_transactions key="id" as |item|}}
 
-                  <tr {{!--{{on 'click' (fn this.goto_token_transaction data.id)}}--}}>
+                  <tr>
                     <td>
-                      {{format-time data.recorded_at format="timestamp"}}
+                      {{format-time item.recorded_at format="timestamp"}}
                     </td>
                     <td>
-                      {{data.descr}}
+                      {{item.descr}}
                     </td>
                     <td class="price">
-                      {{format-number data.amount minimumFractionDigits=1 maximumFractionDigits=1}}
+                      {{format-number item.amount minimumFractionDigits=1 maximumFractionDigits=1}}
+                    </td>
+                    <td>
+                      <LinkTo @route="authen.token.transaction" @model={{item.id}}>
+                        <FaIcon @icon="arrow-up-right-from-square" />
+                      </LinkTo>
                     </td>
                   </tr>
                   {{/each}}
