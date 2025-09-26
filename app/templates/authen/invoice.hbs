@@ -1,48 +1,67 @@
 {{page-title (t "invoice.page_title")}}
 <div class="container page authen-invoice">
-  <div class="box">
-    <div>
-      <h1 class="title">{{t "invoice.invoice"}} {{this.model.full_identifier}}
-      </h1>
-      Data: {{format-date this.model.document_date format="dmy"}}<br />
-      Destinatario: {{this.model.recipient}}<br />
-      Indirizzo: {{this.model.address}}<br />
-      Codice Fiscale: {{this.model.codice_fiscale}}<br />
-      Partita IVA: {{this.model.partita_iva}}<br />
-      Email: {{this.model.email}}<br />
-      Pagamento: {{t (concat "payment.methods." this.model.payment_method)}}<br />
+  <div class="card">
+    <div class="card-content">
+      <div class="media">
+        <div class="media-left">
+          <figure class="image is-48x48">
+            <FaIcon @icon="file-invoice-dollar" @size="3x" />
+          </figure>
+        </div>
+        <div class="media-content">
+          <p class="title is-4">
+            <h1>{{t "invoice.invoice"}} <strong>{{this.model.identifier_full}}</strong></h1>
+          </p>
+          <p class="subtitle is-6">
+          </p>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="grid">
+          <div class="cell">
+            Data: <strong>{{format-date this.model.document_date format="dmy"}}</strong><br />
+            Destinatario: <strong>{{this.model.recipient}}</strong><br />
+            Indirizzo: <strong>{{this.model.address}}</strong><br />
+            Codice Fiscale: <strong>{{this.model.codice_fiscale}}</strong><br />
+            Partita IVA: <strong>{{this.model.partita_iva}}</strong><br />
+            Email: <strong>{{this.model.email}}</strong><br />
+            Pagamento: <strong>{{t (concat "payment.methods." this.model.payment_method)}}</strong><br />
+          </div>
+          <div class="cell">
+            <table class="invoice table">
+              <thead>
+                <tr>
+                  <th>Numero</th>
+                  <th>Descrizione</th>
+                  <th>Prezzo unitario</th>
+                  <th>Prezzo netto</th>
+                  <th>IVA</th>
+                  <th>Totale</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each this.model.sorted_details key="@index" as |detail|}}
+                <tr>
+                  <td>{{detail.count}}</td>
+                  <td>{{detail.descr}}{{#if detail.specific_data}} - {{detail.specific_data}}{{/if}}</td>
+                  <td class="price">{{format-number detail.single_amount style="currency" currency="EUR"}}</td>
+                  <td class="price">{{format-number detail.untaxed_amount style="currency" currency="EUR"}}</td>
+                  <td class="price">{{format-number detail.vat_amount style="currency" currency="EUR"}}</td>
+                  <td class="price">{{format-number detail.total_amount style="currency" currency="EUR"}}</td>
+                </tr>
+                {{/each}}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th colspan=5>Totale</th>
+                  <td class="total price">{{format-number this.model.amount style="currency" currency="EUR"}}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <table class="invoice table">
-      <thead>
-        <tr>
-          <th>Numero</th>
-          <th>Descrizione</th>
-          <th>Prezzo unitario</th>
-          <th>Prezzo netto</th>
-          <th>IVA</th>
-          <th>Totale</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each this.model.sorted_details key="@index" as |detail|}}
-        <tr>
-          <td>{{detail.count}}</td>
-          <td>{{detail.descr}}{{#if detail.specific_data}} - {{detail.specific_data}}{{/if}}</td>
-          <td class="price">{{format-number detail.single_amount style="currency" currency="EUR"}}</td>
-          <td class="price">{{format-number detail.untaxed_amount style="currency" currency="EUR"}}</td>
-          <td class="price">{{format-number detail.vat_amount style="currency" currency="EUR"}}</td>
-          <td class="price">{{format-number detail.total_amount style="currency" currency="EUR"}}</td>
-        </tr>
-        {{/each}}
-      </tbody>
-      <tfoot>
-        <tr>
-          <th colspan=5>Totale</th>
-          <td class="total price">{{format-number this.model.amount style="currency" currency="EUR"}}</td>
-        </tr>
-      </tfoot>
-    </table>
   </div>
-
 </div>

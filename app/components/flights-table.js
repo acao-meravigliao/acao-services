@@ -243,10 +243,6 @@ export default class FlightsTableComponent extends Component {
     this.sd_center = val.date;
   }
 
-  @action goto_flight(id) {
-    this.router.transitionTo('authen.flight', id);
-  }
-
   @action goto_flight_new() {
     this.router.transitionTo('authen.flight.new');
   }
@@ -267,9 +263,12 @@ export default class FlightsTableComponent extends Component {
       x.aircraft_reg,
       x.aircraft_class,
       x.launch_type,
+      moment(x.takeoff_time).format('YYYY-MM-DD'),
       moment(x.takeoff_time).format('YYYY-MM-DD, hh:mm:ss'),
+      moment(x.takeoff_time).format('hh:mm:ss'),
       x.takeoff_location_raw,
       moment(x.landing_time).format('YYYY-MM-DD, hh:mm:ss'),
+      moment(x.landing_time).format('hh:mm:ss'),
       x.landing_location_raw,
       x.pilot1_name,
       x.pilot1_role,
@@ -285,9 +284,12 @@ export default class FlightsTableComponent extends Component {
         'aircraft_reg',
         'aircraft_class',
         'launch',
+        'date',
         'takeoff_time',
+        'takeoff_time_of_day',
         'takeoff_location',
         'landing_time',
+        'landing_time_of_day',
         'landing_location',
         'pilot1',
         'pilot1_role',

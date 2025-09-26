@@ -77,7 +77,12 @@ table {
     }
   }
   td.total {
+    font-family: monospace;
     font-weight: bold !important;
+    text-align: right !important;
+  }
+  td.time {
+    font-family: monospace;
   }
 }
 

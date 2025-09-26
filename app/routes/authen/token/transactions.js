@@ -28,7 +28,21 @@ export default class AuthenTokenTransactionsRoute extends BaseRoute {
           to: 'token_transaction',
           //select: [ 'recorded_at', 'cnt', 'descr', 'amount', 'unit', 'prev_credit', 'credit' ],
           order: { 'recorded_at': 'desc' },
-          filter: { recorded_at: { gt: new Date(new Date() - this.span * 86400 * 1000) } }
+          filter: { recorded_at: { gt: new Date(new Date() - this.span * 86400 * 1000) } },
+          dig: [
+           {
+            from: 'token_transaction',
+            to: 'aircraft',
+           },
+           {
+            from: 'token_transaction',
+            to: 'flight',
+           },
+           {
+            from: 'token_transaction',
+            to: 'invoice',
+           },
+          ]
         }
       }
      },

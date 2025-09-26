@@ -147,72 +147,77 @@
   </thead>
 
   <tbody>
-    {{#each this.sorted_models key="id" as |data|}}
+    {{#each this.sorted_models key="id" as |model|}}
 
-    <tr {{on 'click' (fn this.goto_flight data.id)}}>
+    <tr>
       <td>
         <input type="checkbox"
-               checked={{data.selected}}
+               checked={{model.selected}}
                {{on "click" this.prevent_bubble}}
-               {{on "change" (fn this.flight_selected_change data)}}
+               {{on "change" (fn this.flight_selected_change model)}}
         />
       </td>
       <td>
-        {{format-date data.takeoff_time format="dmy"}}
+        {{format-date model.takeoff_time format="dmy"}}
+      </td>
+      <td class="aircraft_reg">
+        {{model.aircraft_reg}}
       </td>
       <td>
-        {{data.aircraft_reg}}
+        {{model.aircraft_class}}
+      </td>
+      <td class="time">
+        {{format-time model.takeoff_time format="hhmm"}}
       </td>
       <td>
-        {{data.aircraft_class}}
+        {{model.takeoff_location_raw}}
+      </td>
+      <td class="time">
+        {{format-time model.landing_time format="hhmm"}}
       </td>
       <td>
-        {{format-time data.takeoff_time format="hhmm"}}
-      </td>
-      <td>
-        {{data.takeoff_location_raw}}
-      </td>
-      <td>
-        {{format-time data.landing_time format="hhmm"}}
-      </td>
-      <td>
-        {{data.landing_location_raw}}
+        {{model.landing_location_raw}}
       </td>
 
       {{#if this.details}}
       <td>
-        {{#if data.pilot1_name}}
-          {{data.pilot1_name}}
-          ({{data.pilot1_role}})
+        {{#if model.pilot1_name}}
+          {{model.pilot1_name}}
+          ({{model.pilot1_role}})
         {{/if}}
       </td>
       <td>
-        {{#if data.pilot2_name}}
-          {{data.pilot2_name}}
-          ({{data.pilot2_role}})
+        {{#if model.pilot2_name}}
+          {{model.pilot2_name}}
+          ({{model.pilot2_role}})
         {{/if}}
       </td>
       {{else}}
       <td>
-        {{this.my_role data}}
+        {{this.my_role model}}
       </td>
       {{/if}}
 
       <td>
-        {{format-duration data.duration}}
+        {{format-duration model.duration}}
       </td>
       <td>
-        {{data.acao_quota}}
+        {{model.acao_quota}}
       </td>
 
       {{#if this.details}}
       <td>
-        {{data.acao_bollini_volo}}
+        {{model.acao_bollini_volo}}
       </td>
       <td>
-        {{data.launch_type}}
+        {{model.launch_type}}
       </td>
       {{/if}}
+      <td>
+        <LinkTo @route="authen.flight" @model={{model.id}}>
+          <FaIcon @icon="arrow-up-right-from-square" />
+        </LinkTo>
+      </td>
     </tr>
     {{/each}}
   </tbody>

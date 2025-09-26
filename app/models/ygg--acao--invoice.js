@@ -22,6 +22,7 @@ export default class YggAcaoInvoiceModel extends Model {
   @vosHasMany('invoice', 'detail') details;
   @vosBelongsTo('invoice', 'person') person;
   @vosHasMany('invoice', 'payment') payments;
+  @vosBelongsTo('invoice', 'token_transaction') token_transaction;
 
   get sorted_details() {
     return this.details.sort((a,b) => (a.row_number - b.row_number));

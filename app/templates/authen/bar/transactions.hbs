@@ -16,25 +16,35 @@
   <table class="bar-transactions table">
     <thead>
       <tr>
-        <th>Data/Ora</th>
+        <th>Data</th>
+        <th>Ora</th>
         <th>Descrizione</th>
         <th>Ammontare</th>
       </tr>
     </thead>
 
     <tbody>
-      {{#each this.sorted_models key="id" as |data|}}
+      {{#each this.sorted_models key="id" as |model|}}
 
-      <tr {{!--{{on 'click' (transition-to "authen.bar.transaction" data.id)}}--}}>
+      <tr>
         <td>
-          {{format-time data.recorded_at format="timestamp_nosecs"}}
+          {{format-date model.recorded_at format="dmy"}}
         </td>
         <td>
-          {{data.descr}}
+          {{format-time model.recorded_at format="hhmm"}}
+        </td>
+        <td>
+          {{model.descr}}
         </td>
         <td class="price">
-          {{format-number data.amount style="currency" currency="EUR"}}
+          {{format-number model.amount style="currency" currency="EUR"}}
         </td>
+{{!--        <td>
+          <LinkTo @route="authen.bar.transaction" @model={{model.id}}>
+            <FaIcon @icon="arrow-up-right-from-square" />
+          </LinkTo>
+        </td>
+--}}
       </tr>
       {{/each}}
     </tbody>

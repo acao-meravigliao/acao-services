@@ -1,12 +1,51 @@
 {{page-title "Movimento Bollini"}}
 <div class="container box page authen-token-transaction">
   <h1 class="title">Movimento Bollini</h1>
-  ID: {{this.model.id}}<br />
-  Registrato il: {{format-time this.model.recorded_at format="timestamp"}}<br />
-  Operatore: {{this.model.old_operator}}<br />
-  Aeromobile: {{this.model.aircraft.registration}}<br />
-{{!--  Aeromobile: {{#if this.model.aircraft}}{{link-to this.model.aircraft.registration "authen.aircraft" this.model.aircraft.id}}{{else}}N/A{{/if}}<br />--}}
-  Descrizione: {{this.model.descr}}<br />
-  Ammontare: {{format-number this.model.amount minimumFractionDigits=1 maximumFractionDigits=1}}<br />
-  Credito: {{format-number this.model.prev_credit minimumFractionDigits=1 maximumFractionDigits=1}} → {{format-number this.model.credit minimumFractionDigits=1 maximumFractionDigits=1}}<br />
+  ID: <strong>{{this.model.id}}</strong><br />
+
+  Registrato il: <strong>{{format-time this.model.recorded_at format="timestamp"}}</strong><br />
+
+  Operatore: <strong>{{this.model.old_operator}}</strong><br />
+
+  {{#if this.model.aircraft}}
+    Aeromobile:
+      <strong>
+        <LinkTo @route="authen.aircraft" @model={{this.model.aircraft.id}}>
+          {{this.model.aircraft.registration}}
+        </LinkTo>
+      </strong>
+      <br />
+  {{/if}}
+
+  {{#if this.model.flight}}
+    Volo:
+      <strong>
+        <LinkTo @route="authen.flight" @model={{this.model.flight.id}}>
+          {{this.model.flight.source_id}}
+        </LinkTo>
+      </strong>
+      <br />
+  {{/if}}
+
+  {{#if this.model.invoice}}
+    Fattura:
+      <strong>
+        <LinkTo @route="authen.invoice" @model={{this.model.invoice.id}}>
+          {{this.model.invoice.identifier_full}}
+        </LinkTo>
+      </strong>
+      <br />
+  {{/if}}
+
+  Descrizione: <strong>{{this.model.descr}}</strong><br />
+
+  Ammontare: <strong>{{format-number this.model.amount minimumFractionDigits=1 maximumFractionDigits=1}}</strong><br />
+
+  Credito:
+    <strong>
+      {{format-number this.model.prev_credit minimumFractionDigits=1 maximumFractionDigits=1}}
+      →
+      {{format-number this.model.credit minimumFractionDigits=1 maximumFractionDigits=1}}
+    </strong>
+    <br />
 </div>

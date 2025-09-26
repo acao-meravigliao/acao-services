@@ -16,24 +16,57 @@
   <table class="token-transactions table">
     <thead>
       <tr>
-        <th>Data/Ora</th>
+        <th>Data</th>
+        <th>Ora</th>
         <th>Descrizione</th>
+        <th>Fattura</th>
+        <th>Aeromobile</th>
+        <th>Volo</th>
         <th>Ammontare</th>
       </tr>
     </thead>
 
     <tbody>
-      {{#each this.sorted_models key="id" as |data|}}
+      {{#each this.sorted_models key="id" as |model|}}
 
-      <tr {{!--{{on 'click' (transition-to "authen.token.transaction" data.id)}}--}}>
+      <tr>
         <td>
-          {{format-time data.recorded_at format="timestamp"}}
+          {{format-date model.recorded_at format="dmy"}}
         </td>
         <td>
-          {{data.descr}}
+          {{format-time model.recorded_at format="hhmm"}}
+        </td>
+        <td>
+          {{model.descr}}
+        </td>
+        <td>
+          {{#if model.invoice}}
+            <LinkTo @route="authen.invoice" @model={{model.invoice.id}}>
+              {{model.invoice.identifier_full}}
+            </LinkTo>
+          {{/if}}
+        </td>
+        <td>
+          {{#if model.aircraft}}
+            <LinkTo @route="authen.aircraft" @model={{model.aircraft.id}}>
+              {{model.aircraft.registration}}
+            </LinkTo>
+          {{/if}}
+        </td>
+        <td>
+          {{#if model.flight}}
+            <LinkTo @route="authen.flight" @model={{model.flight.id}}>
+              {{model.flight.source_id}}
+            </LinkTo>
+          {{/if}}
         </td>
         <td class="price">
-          {{format-number data.amount minimumFractionDigits=1 maximumFractionDigits=1}}
+          {{format-number model.amount minimumFractionDigits=1 maximumFractionDigits=1}}
+        </td>
+        <td>
+          <LinkTo @route="authen.token.transaction" @model={{model.id}}>
+            <FaIcon @icon="arrow-up-right-from-square" />
+          </LinkTo>
         </td>
       </tr>
       {{/each}}

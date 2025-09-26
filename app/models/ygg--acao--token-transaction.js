@@ -12,7 +12,8 @@ export default class YggAcaoTokenTransactionModel extends Model {
   @attr('string') old_operator;
   @attr('string') old_marche_mezzo;
 
-//  @vosBelongsTo('token_transaction', 'aircraft') aircraft;
-
   @vosBelongsTo('token_transaction', 'member') member;
+  @vosBelongsTo('token_transaction', 'aircraft') aircraft;
+  @vosBelongsTo('token_transaction', 'flight') flight;
+  @vosBelongsTo('token_transaction', 'invoice') invoice;
 }

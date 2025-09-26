@@ -47,11 +47,26 @@
             </p>
 
             <button class="button is-link" {{on "click" this.goto_flights}}>
-              <span>
-                Voli
-              </span>
               <span class="icon"><FaIcon @icon="plane-departure" /></span>
+              <span>
+                Stralcio Voli
+              </span>
             </button>
+
+
+            {{#let (file-queue name="photos" onFileAdded=this.upload_photo) as |queue|}}
+              <label class="button">
+                <span class="icon"><FaIcon @icon="upload" /></span>
+                <span>
+                  Carica foto...
+                </span>
+                <input type="file" accept="image/*" capture="environment" hidden {{queue.selectFile}} />
+              </label>
+            {{/let}}
+
+            Progress: {{this.file.progress}}<br />
+
+
           </div>
           <div class="cell">
             <p>
