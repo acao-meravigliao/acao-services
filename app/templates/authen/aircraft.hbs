@@ -53,7 +53,7 @@
               </span>
             </button>
 
-
+{{!--
             {{#let (file-queue name="photos" onFileAdded=this.upload_photo) as |queue|}}
               <label class="button">
                 <span class="icon"><FaIcon @icon="upload" /></span>
@@ -65,7 +65,7 @@
             {{/let}}
 
             Progress: {{this.file.progress}}<br />
-
+--}}
 
           </div>
           <div class="cell">
@@ -124,6 +124,16 @@
             </p>
             {{/each}}
           </div>
+{{!--
+          <div class="cell">
+            <figure class="image">
+              <img
+                src="/pics/{{this.model.id}}_ac_photo"
+                alt="Placeholder image"
+              />
+            </figure>
+          </div>
+--}}
         </div>
       </div>
     </div>

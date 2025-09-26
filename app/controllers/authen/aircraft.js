@@ -1,5 +1,6 @@
 import Controller from '@ember/controller';
 import { service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { inject as controller } from '@ember/controller';
 
@@ -42,5 +43,17 @@ export default class AuthenAircraftController extends Controller {
   get ddb_last_update() {
     let sync = this.sync_statuses.find((x) => (x.symbol === 'OGNDDB'));
     return sync ? sync.last_update : null;
+  }
+
+  @tracked file;
+
+  @action upload_photo(file) {
+    this.file = file;
+
+    var res = file.uploadBinary(`/ygg/acao/aircrafts/${this.model.id}/upload_photo`, {
+      accepts: 'application/json',
+    }).finally(() => {
+      this.file = null;
+    });
   }
 }
