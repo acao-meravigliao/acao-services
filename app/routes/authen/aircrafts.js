@@ -23,9 +23,9 @@ export default class AuthenAircraftsRoute extends BaseRoute {
         }
       }
      },
-//     {
-//      type: 'ygg--acao--club',
-//      filter: { symbol: 'ACAO' },
+     {
+      type: 'ygg--acao--club',
+      filter: { symbol: 'ACAO' },
 //      dig: {
 //        from: 'club_owner',
 //        to: 'aircraft',
@@ -35,7 +35,7 @@ export default class AuthenAircraftsRoute extends BaseRoute {
 //          to: 'aircraft_type',
 //        },
 //      },
-//     },
+     },
     ]).then((res) => {
       this.club = this.store.peekSelected('ygg--acao--club', res.sel)[0];
 
