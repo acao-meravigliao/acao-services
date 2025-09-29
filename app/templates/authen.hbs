@@ -87,7 +87,7 @@
           <FaIcon @icon="user" /> {{if this.model.person.nickname this.model.person.nickname this.model.person.first_name}}
         </a>
         <div class="navbar-dropdown">
-          <a class="navbar-item"{{on 'click' @logout}}>
+          <a class="navbar-item"{{on 'click' this.logout}}>
             Logout
           </a>
         </div>
