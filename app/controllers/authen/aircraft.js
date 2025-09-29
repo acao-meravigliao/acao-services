@@ -15,7 +15,8 @@ export default class AuthenAircraftController extends Controller {
     'SEP': '/assets/tug_wh.svg',
   };
 
-  ac_image = (ac) => (this.ac_images[ac.aircraft_type.aircraft_class]);
+  // FIXME: ac.aircraft_type will be made mandatory
+  ac_image = (ac) => (this.ac_images[ac.aircraft_type && ac.aircraft_type.aircraft_class || 'GLD']);
 
   fn_mismatch_device_id = (fe) => (fe.device_type === 'F' ?
                                   fe.device_id != this.model.flarm_identifier :

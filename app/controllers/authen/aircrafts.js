@@ -14,7 +14,8 @@ export default class AuthenAircraftsController extends Controller {
     'SEP': '/assets/tug_wh.svg',
   };
 
-  ac_image = (ac) => (this.ac_images[ac.aircraft_type.aircraft_class]);
+  // FIXME ac.aircraft_type will be made mandatory
+  ac_image = (ac) => (this.ac_images[ac.aircraft_type && ac.aircraft_type.aircraft_class || 'GLD']);
 
   get private_ac() {
     return this.model.filter((x) => (x.owner === this.authen_controller.model.member));
@@ -29,7 +30,9 @@ export default class AuthenAircraftsController extends Controller {
   }
 
   ac_compare(a,b) {
-    if (a.aircraft_type.aircraft_class === b.aircraft_type.aircraft_class)
+    // FIXME: make aircraft_type mandatory
+
+    if (!a.aircraft_type || !b.aircraft_type || a.aircraft_type.aircraft_class === b.aircraft_type.aircraft_class)
       return 0;
     else {
       if (a.aircraft_type.aircraft_class === 'GLD')
