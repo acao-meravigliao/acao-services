@@ -23,19 +23,19 @@ export default class AuthenAircraftsRoute extends BaseRoute {
         }
       }
      },
-     {
-      type: 'ygg--acao--club',
-      filter: { symbol: 'ACAO' },
-      dig: {
-        from: 'club_owner',
-        to: 'aircraft',
-        filter: { available: true },
-        dig: {
-          from: 'aircraft',
-          to: 'aircraft_type',
-        },
-      },
-     },
+//     {
+//      type: 'ygg--acao--club',
+//      filter: { symbol: 'ACAO' },
+//      dig: {
+//        from: 'club_owner',
+//        to: 'aircraft',
+//        filter: { available: true },
+//        dig: {
+//          from: 'aircraft',
+//          to: 'aircraft_type',
+//        },
+//      },
+//     },
     ]).then((res) => {
       this.club = this.store.peekSelected('ygg--acao--club', res.sel)[0];
 
