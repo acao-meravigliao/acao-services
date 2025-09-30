@@ -56,6 +56,11 @@ export default class FlightsTableComponent extends Component {
     this.dy = new Date(date);
     this.dy.setDate(1);
     this.dy.setMonth(0);
+
+    // if (matchMedia('handheld').matches)
+
+    if (screen.width >= 1320)
+      this.details = true;
   }
 
   get member() {
@@ -256,30 +261,6 @@ export default class FlightsTableComponent extends Component {
 
     return `${hh}:${mm}` + (secs ? `:${ss}` : '');
   }
-
-  //data_for_export() {
-  //  let data = this.sorted_models.map((x) => ([
-  //    x.aircraft_reg,
-  //    x.aircraft_class,
-  //    x.launch_type,
-  //    moment(x.takeoff_time).format('YYYY-MM-DD'),
-  //    moment(x.takeoff_time).format('YYYY-MM-DD, hh:mm:ss'),
-  //    moment(x.takeoff_time).format('hh:mm:ss'),
-  //    x.takeoff_location_raw,
-  //    moment(x.landing_time).format('YYYY-MM-DD, hh:mm:ss'),
-  //    moment(x.landing_time).format('hh:mm:ss'),
-  //    x.landing_location_raw,
-  //    x.pilot1_name,
-  //    x.pilot1_role,
-  //    x.pilot2_name,
-  //    x.pilot2_role,
-  //    this.format_duration(x.duration),
-  //    x.acao_quota,
-  //    x.acao_bollini_volo,
-  //  ]));
-
-  //  return data;
-  //}
 
   data_for_export() {
     let data = this.sorted_models.map((x) => ({
