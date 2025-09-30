@@ -12,11 +12,15 @@ export default class AuthenAircraftRoute extends BaseRoute {
       dig: [
        {
         from: 'aircraft',
-        to: 'owner',
+        to: 'aircraft_owner',
         dig: {
-          from: 'acao_member',
-          to: 'person',
-        }
+          from: 'aircraft_owner',
+          to: 'member',
+          dig: {
+            from: 'acao_member',
+            to: 'person',
+          },
+        },
        },
        {
         from: 'aircraft',
@@ -25,10 +29,6 @@ export default class AuthenAircraftRoute extends BaseRoute {
        {
         from: 'aircraft',
         to: 'club',
-       },
-       {
-        from: 'aircraft',
-        to: 'owner',
        },
        {
         from: 'aircraft',

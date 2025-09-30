@@ -18,7 +18,7 @@ export default class AuthenAircraftsController extends Controller {
   ac_image = (ac) => (this.ac_images[ac.aircraft_type && ac.aircraft_type.aircraft_class || 'GLD']);
 
   get private_ac() {
-    return this.model.filter((x) => (x.owner === this.authen_controller.model.member));
+    return this.model.filter((x) => (x.owners.some((y) => (y.member === this.authen_controller.model.member))));
   }
 
   get private_ac_sorted() {

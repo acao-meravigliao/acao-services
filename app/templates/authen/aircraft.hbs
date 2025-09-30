@@ -28,6 +28,10 @@
               <strong>ACAO</strong>
             </p>
             <p>
+              {{#each this.model.owners as |owner|}}
+              Proprietario: <strong>{{owner.member.person.full_name}}{{if owner.is_referent " (referente)"}}</strong><br />
+              {{/each}}
+
               {{#if this.model.flarm_identifier}}
                 Codice FLARM: <strong>{{this.model.flarm_identifier}}</strong><br />
               {{/if}}

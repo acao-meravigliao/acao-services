@@ -11,6 +11,7 @@ export default class YggAcaoAircraftModel extends Model {
   @attr('date') arc_valid_to;
   @attr('date') insurance_valid_to;
 
+  @vosHasMany('aircraft', 'aircraft_owner') owners;
   @vosBelongsTo('aircraft', 'club') club;
   @vosBelongsTo('aircraft', 'owner') owner;
   @vosBelongsTo('aircraft', 'club_owner') club_owner;

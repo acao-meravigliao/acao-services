@@ -14,14 +14,18 @@ export default class AuthenAircraftsRoute extends BaseRoute {
         from: 'person',
         to: 'acao_member',
         dig: {
-          from: 'owner',
-          to: 'aircraft',
+          from: 'member',
+          to: 'aircraft_owner',
           dig: {
-            from: 'aircraft',
-            to: 'aircraft_type',
+            from: 'aircraft_owner',
+            to: 'aircraft',
+            dig: {
+              from: 'aircraft',
+              to: 'aircraft_type',
+            },
           },
-        }
-      }
+        },
+      },
      },
      {
       type: 'ygg--acao--club',
