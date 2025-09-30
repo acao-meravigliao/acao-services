@@ -145,7 +145,11 @@
       </th>
       <th>Data</th>
       <th>Marche</th>
+
+      {{#if this.details}}
       <th>Tipo</th>
+      {{/if}}
+
       <th>Ora</th>
       <th>Luogo</th>
       <th>Ora</th>
@@ -182,9 +186,13 @@
       <td class="aircraft_reg">
         {{model.aircraft_reg}}
       </td>
+
+      {{#if this.details}}
       <td>
         {{model.aircraft_class}}
       </td>
+      {{/if}}
+
       <td class="time">
         {{format-time model.takeoff_time format="hhmm"}}
       </td>
