@@ -14,6 +14,10 @@ export default class AuthenController extends Controller {
   @service hamburger;
   @service ms;
 
+  get member() {
+    return this.model.member;
+  }
+
   @action hamburger_show() {
     this.hamburger.toggle();
   }

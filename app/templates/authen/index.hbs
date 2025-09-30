@@ -1,10 +1,22 @@
 {{page-title (t "authen.index.page_title")}}
 
 <div class="container box page authen-index">
-  <h1 class="title">
-    {{t "authen.index.hello"}}
-    {{if this.model.person.nickname this.model.person.nickname this.model.person.first_name}}!
-  </h1>
+  <div class="grid">
+    <div class="cell">
+      <h1 class="title">
+        {{t "authen.index.hello"}}
+        {{if this.model.person.nickname this.model.person.nickname this.model.person.first_name}}!
+      </h1>
+    </div>
+    <div class="cell">
+      {{#each this.roles as |role|}}
+        <span class="tag">{{t (concat "member.roles." role.symbol)}}</span>
+      {{/each}}
+      {{#each this.relevant_memberships key="id" as |membership|}}
+        <span class="tag">{{membership.year.year}}</span>
+      {{/each}}
+    </div>
+  </div>
 
   <div class="level">
     <div class="level-item has-text-centered">
@@ -49,16 +61,6 @@
   {{/if}}
 
 
-
-{{!--        {{#if this.model.memberships}}
-          Socio nel:
-          <div class="ui celled horizontal list">
-            {{#each model.memberships key="id" as |membership|}}
-              <div class="item">{{membership.reference_year.year}}</div>
-            {{/each}}
-          </div>
-        {{/if}}
---}}
 
 {{!--
         {{#if model.medicals}}

@@ -24,6 +24,14 @@ export default class AuthenIndexRoute extends BaseRoute {
             to: 'day',
           },
          },
+         {
+          from: 'member',
+          to: 'membership',
+          dig: {
+            from: 'membership',
+            to: 'year',
+          },
+         },
         ],
        },
       ]
@@ -31,6 +39,7 @@ export default class AuthenIndexRoute extends BaseRoute {
     ]).then((res) => {
       return {
         person: this.store.peekRecord('ygg--core--person', this.session.person_id),
+        memberships: this.store.peekSelected('ygg--acao--membership', res.sel),
       };
     });
   }

@@ -221,3 +221,12 @@ flights_table:
     SL: Self-launch
     TOW: Traino
     WINCH: Verricello
+
+member:
+  roles:
+    TUG_PILOT: Trainatore
+    SPL_STUDENT: Allievo SPL
+    SPL_INSTRUCTOR: Istruttore SPL
+    BOARD_MEMBER: Consigliere
+    MAINTENANCE: Manutenzione AM
+    FIREMAN: Pompiere
