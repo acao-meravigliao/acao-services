@@ -88,6 +88,7 @@ export default class AuthenRoute extends VosRoute {
         return {
           person: person,
           member: person.member,
+          roles: person.member.roles.map((x) => (x.symbol)),
           years: this.store.peekSelected('ygg--acao--year', res.sel),
           memberships: this.store.peekSelected('ygg--acao--membership', res.sel),
           invoices: this.store.peekSelected('ygg--acao--invoice', res.sel),

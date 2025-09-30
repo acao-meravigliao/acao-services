@@ -6,6 +6,8 @@ export default class AuthenAircraftsRoute extends BaseRoute {
   @service store;
 
   model(params) {
+    const dig_shared = this.modelFor('authen').member.has_role('MAINTENANCE');
+
     return this.select_as_model([
      {
       type: 'ygg--core--person',
@@ -30,15 +32,15 @@ export default class AuthenAircraftsRoute extends BaseRoute {
      {
       type: 'ygg--acao--club',
       filter: { symbol: 'ACAO' },
-//      dig: {
-//        from: 'club_owner',
-//        to: 'aircraft',
-//        filter: { available: true },
-//        dig: {
-//          from: 'aircraft',
-//          to: 'aircraft_type',
-//        },
-//      },
+      dig: dig_shared ? {
+        from: 'club_owner',
+        to: 'aircraft',
+        filter: { available: true },
+        dig: {
+          from: 'aircraft',
+          to: 'aircraft_type',
+        },
+      } : null,
      },
     ]).then((res) => {
       this.club = this.store.peekSelected('ygg--acao--club', res.sel)[0];

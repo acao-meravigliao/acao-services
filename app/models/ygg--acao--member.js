@@ -19,4 +19,8 @@ export default class YggAcaoMemberModel extends Model {
   @vosHasMany('member', 'bar_transaction') bar_transactions;
   @vosHasMany('member', 'token_transaction') token_transactions;
   @vosHasMany('member', 'aircraft_owner') aircrafts_as_owner;
+
+  has_role(role) {
+    return this.roles.some((x) => (x.symbol === role));
+  }
 }
