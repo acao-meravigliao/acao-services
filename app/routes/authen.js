@@ -56,19 +56,24 @@ export default class AuthenRoute extends VosRoute {
        {
         from: 'person',
         to: 'acao_member',
-        dig: {
+        dig: [
+         {
           from: 'member',
           to: 'membership',
           dig: {
             from: 'membership',
             to: 'year',
           }
-        },
-       },
-       {
-        from: 'member',
-        to: 'invoice',
-//        filter: { status: 'NOT_PAID' },
+         },
+         {
+          from: 'member',
+          to: 'role',
+         },
+         {
+          from: 'member',
+          to: 'debt',
+         },
+        ],
        },
       ]
      },
