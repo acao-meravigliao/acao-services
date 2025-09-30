@@ -229,9 +229,17 @@ export default class FlightsTableComponent extends Component {
     this.router.transitionTo({ queryParams: { sd: val, ed: this.ed }});
   }
 
+  @action flt_sd_on_keypress(ev) {
+    ev.preventDefault();
+  }
+
   @action flt_ed_on_change(ev) {
     let val = ev.target.value ? new Date(ev.target.value).getTime() : null;
     this.router.transitionTo({ queryParams: { sd: this.args.sd, ed: val }});
+  }
+
+  @action flt_ed_on_keypress(ev) {
+    ev.preventDefault();
   }
 
 

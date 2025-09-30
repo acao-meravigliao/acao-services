@@ -71,14 +71,20 @@
       <div class="cell is-col-start-1">
         <label>
           Da<br />
-          <input type="date" class="input" value={{this.sd_value}} {{on "change" this.flt_sd_on_change}} />
+          <input type="date" class="input" value={{this.sd_value}}
+                 {{on "change" this.flt_sd_on_change}}
+                 {{on "keypress" this.flt_sd_on_keypress}}
+          />
         </label>
       </div>
 
       <div class="cell">
         <label>
           A<br />
-          <input type="date" class="input" value={{this.ed_value}} {{on "change" this.flt_ed_on_change}} />
+          <input type="date" class="input" value={{this.ed_value}}
+                 {{on "change" this.flt_ed_on_change}}
+                 {{on "keypress" this.flt_ed_on_keypress}}
+          />
         </label>
       </div>
 
