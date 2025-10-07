@@ -42,10 +42,10 @@ export default class AuthenAircraftsRoute extends BaseRoute {
         },
       } : null,
      },
-    ]).then((res) => {
-      this.club = this.store.peekSelected('ygg--acao--club', res.sel)[0];
+    ]).then((sel) => {
+      this.club = this.store.peekSelected('ygg--acao--club', sel)[0];
 
-      return this.store.peekSelected('ygg--acao--aircraft', res.sel);
+      return this.store.peekSelected('ygg--acao--aircraft', sel);
     });
   }
 

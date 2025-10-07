@@ -32,8 +32,8 @@ export default class AuthenBarTransactionsRoute extends BaseRoute {
         }
       }
      },
-    ).then((res) => {
-      return this.store.peekSelected('ygg--acao--bar-transaction', res.sel);
+    ).then((sel) => {
+      return this.store.peekSelected('ygg--acao--bar-transaction', sel);
     });
   }
 

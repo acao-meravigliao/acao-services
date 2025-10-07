@@ -36,10 +36,10 @@ export default class AuthenIndexRoute extends BaseRoute {
        },
       ]
      },
-    ]).then((res) => {
+    ]).then((sel) => {
       return {
         person: this.store.peekRecord('ygg--core--person', this.session.person_id),
-        memberships: this.store.peekSelected('ygg--acao--membership', res.sel),
+        memberships: this.store.peekSelected('ygg--acao--membership', sel),
       };
     });
   }
