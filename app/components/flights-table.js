@@ -35,6 +35,8 @@ export default class FlightsTableComponent extends Component {
 
   my_role = (flight) => (flight.role(this.member));
 
+  is_aircraft_mine = (ac) => (ac.is_owned_by(this.member));
+
   constructor() {
     super(...arguments);
 

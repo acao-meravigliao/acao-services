@@ -137,7 +137,7 @@
   </div>
 </div>
 
-<table class="bar-transactions table">
+<table class="flights-table table">
   <thead>
     <tr>
       <th colspan=4></th>
@@ -190,7 +190,17 @@
         {{format-date model.takeoff_time format="dmy"}}
       </td>
       <td class="aircraft_reg">
-        {{model.aircraft_reg}}
+        {{#if model.aircraft}}
+          {{#if (this.is_aircraft_mine model.aircraft)}}
+            <LinkTo @route="authen.aircraft" @model={{model.aircraft.id}}>
+              {{model.aircraft_reg}}
+            </LinkTo>
+          {{else}}
+            {{model.aircraft_reg}}
+          {{/if}}
+        {{else}}
+          {{model.aircraft_reg}}
+        {{/if}}
       </td>
 
       {{#if this.details}}
@@ -234,7 +244,7 @@
       <td>
         {{format-duration model.duration}}
       </td>
-      <td>
+      <td class="altitude">
         {{model.acao_quota}}
       </td>
 

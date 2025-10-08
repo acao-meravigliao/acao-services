@@ -29,6 +29,14 @@ export default class AuthenFlightRoute extends BaseRoute {
        {
         from: 'flight',
         to: 'aircraft',
+        dig: {
+          from: 'aircraft',
+          to: 'aircraft_owner',
+          dig: {
+            from: 'aircraft_owner',
+            to: 'member',
+          }
+        }
        },
        {
         from: 'flight',

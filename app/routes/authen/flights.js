@@ -37,6 +37,18 @@ export default class AuthenFlightsRoute extends BaseRoute {
 //          select: [ 'recorded_at', 'cnt', 'descr', 'amount', 'unit', 'prev_credit', 'credit' ],
           order: { 'takeoff_time': 'asc' },
           filter: filter,
+          dig: {
+            from: 'flight',
+            to: 'aircraft',
+            dig: {
+              from: 'aircraft',
+              to: 'aircraft_owner',
+              dig: {
+                from: 'aircraft_owner',
+                to: 'member',
+              }
+            }
+          }
          },
          {
           from: 'pilot2',
@@ -44,6 +56,18 @@ export default class AuthenFlightsRoute extends BaseRoute {
 //          select: [ 'recorded_at', 'cnt', 'descr', 'amount', 'unit', 'prev_credit', 'credit' ],
           order: { 'takeoff_time': 'asc' },
           filter: filter,
+          dig: {
+            from: 'flight',
+            to: 'aircraft',
+            dig: {
+              from: 'aircraft',
+              to: 'aircraft_owner',
+              dig: {
+                from: 'aircraft_owner',
+                to: 'member',
+              }
+            }
+          }
          },
         ],
       }

@@ -48,7 +48,18 @@
       <div class="content">
         <div class="grid">
           <div class="cell">
-            Aeromobile: <strong>{{this.model.aircraft_reg}}</strong><br />
+            Aeromobile:
+              <strong>
+                {{#if this.is_aircraft_mine}}
+                  <LinkTo @route="authen.aircraft" @model={{this.model.aircraft.id}}>
+                    {{this.model.aircraft_reg}}
+                  </LinkTo>
+                {{else}}
+                  {{this.model.aircraft_reg}}
+                {{/if}}
+              </strong>
+              <br />
+
             Pilota: <strong>{{this.model.pilot1_name}}
               {{#if this.model.pilot1_role}}({{this.model.pilot1_role}}){{/if}}
               </strong><br />
