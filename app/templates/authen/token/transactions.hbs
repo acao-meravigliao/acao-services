@@ -48,9 +48,13 @@
         </td>
         <td>
           {{#if model.aircraft}}
-            <LinkTo @route="authen.aircraft" @model={{model.aircraft.id}}>
+            {{#if (this.is_mine model.aircraft)}}
+              <LinkTo @route="authen.aircraft" @model={{model.aircraft.id}}>
+                {{model.aircraft.registration}}
+              </LinkTo>
+            {{else}}
               {{model.aircraft.registration}}
-            </LinkTo>
+            {{/if}}
           {{/if}}
         </td>
         <td>

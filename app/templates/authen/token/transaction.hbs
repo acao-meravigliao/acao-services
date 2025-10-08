@@ -10,9 +10,13 @@
   {{#if this.model.aircraft}}
     Aeromobile:
       <strong>
-        <LinkTo @route="authen.aircraft" @model={{this.model.aircraft.id}}>
+        {{#if this.is_aircraft_mine}}
+          <LinkTo @route="authen.aircraft" @model={{this.model.aircraft.id}}>
+            {{this.model.aircraft.registration}}
+          </LinkTo>
+        {{else}}
           {{this.model.aircraft.registration}}
-        </LinkTo>
+        {{/if}}
       </strong>
       <br />
   {{/if}}

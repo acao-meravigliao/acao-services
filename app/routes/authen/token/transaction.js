@@ -14,6 +14,14 @@ export default class AuthenTokenTransactionRoute extends BaseRoute {
        {
         from: 'token_transaction',
         to: 'aircraft',
+        dig: {
+          from: 'aircraft',
+          to: 'aircraft_owner',
+          dig: {
+            from: 'aircraft_owner',
+            to: 'member',
+          }
+        }
        },
        {
         from: 'token_transaction',

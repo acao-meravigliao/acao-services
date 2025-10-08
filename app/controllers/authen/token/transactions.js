@@ -1,10 +1,14 @@
 import Controller from '@ember/controller';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
+import { inject as controller } from '@ember/controller';
 
-export default class TokenTransactionController extends Controller {
+export default class TokenTransactionsController extends Controller {
   @service session;
   @service router;
+  @controller('authen') authen_controller;
+
+  is_mine = (ac) => (ac.is_owned_by(this.authen_controller.model.member));
 
   get sorted_models() {
     return this.model.sort((a,b) => (b.recorded_at - a.recorded_at));
