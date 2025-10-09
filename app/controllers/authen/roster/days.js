@@ -20,12 +20,16 @@ export default class RosterDaysController extends Controller {
       this.flt_incoming = false;
   }
 
+  get days() {
+    return this.model.get_all('ygg--acao--roster-day');
+  }
+
   get filtered_roster_days() {
     let start_of_day = new Date();
     start_of_day.setUTCHours(0, 0, 0, 0);
 
-    return this.model.filter((x) => (
-      (!this.flt_incoming || x.date > start_of_day) &&
+    return this.days.filter((x) => (
+      (!this.flt_incoming || x.date >= start_of_day) &&
         ((this.flt_high_season && x.high_season) ||
          (this.flt_low_season && !x.high_season))
     ));
@@ -49,24 +53,26 @@ export default class RosterDaysController extends Controller {
     this.router.transitionTo({ queryParams: { year: this.next_year }});
   }
 
-  @action toggle_incoming() {
-    this.flt_incoming = !this.flt_incoming;
+  @action flt_incoming_on_change(ev) {
+    this.flt_incoming = ev.target.checked;
   }
 
-  @action toggle_high_season() {
-    this.flt_high_season = !this.flt_high_season;
+  @action flt_high_season_on_change(ev) {
+    this.flt_high_season = ev.target.checked;
+
     if (!this.flt_high_season && !this.flt_low_season)
         this.flt_low_season = true;
   }
 
-  @action toggle_low_season() {
-    this.flt_low_season = !this.flt_low_season;
+  @action flt_low_season_on_change(ev) {
+    this.flt_low_season = ev.target.checked;
+
     if (!this.flt_high_season && !this.flt_low_season)
       this.flt_high_season = true;
   }
 
-  @action toggle_show_slots() {
-    this.show_slots = !this.show_slots;
+  @action show_slots_on_change(ev) {
+    this.show_slots = ev.target.checked;
   }
 
 

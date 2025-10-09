@@ -25,25 +25,25 @@
 
   <div class="level-item">
     <label>
-      <input type="checkbox" checked={{this.flt_incoming}} {{on "change" this.toggle_incoming}} />
+      <input type="checkbox" checked={{this.flt_incoming}} {{on "change" this.flt_incoming_on_change}} />
       Prossimi
     </label>
   </div>
   <div class="level-item">
     <label>
-      <input type="checkbox" checked={{this.flt_high_season}} {{on "change" this.toggle_high_season}} />
+      <input type="checkbox" checked={{this.flt_high_season}} {{on "change" this.flt_high_season_on_change}} />
       Alta stagione
     </label>
   </div>
   <div class="level-item">
     <label>
-      <input type="checkbox" checked={{this.flt_low_season}} {{on "change" this.toggle_low_season}} />
+      <input type="checkbox" checked={{this.flt_low_season}} {{on "change" this.flt_low_season_on_change}} />
       Bassa stagione
     </label>
   </div>
   <div class="level-item">
     <label>
-      <input type="checkbox" checked={{this.show_slots}} {{on "change" this.toggle_show_slots}} />
+      <input type="checkbox" checked={{this.show_slots}} {{on "change" this.show_slots_on_change}} />
       Mostra slot
     </label>
   </div>

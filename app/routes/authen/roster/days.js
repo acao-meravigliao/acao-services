@@ -31,9 +31,7 @@ export default class AuthenRosterDaysRoute extends BaseRoute {
         }
        },
      },
-    ]).then((sel) => {
-      return this.store.peekSelected('ygg--acao--roster-day', sel);
-    });
+    ]).then((sel) => { return sel; });
   }
 
   setupController(controller, model) {
