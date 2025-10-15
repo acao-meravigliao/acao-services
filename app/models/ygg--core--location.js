@@ -10,6 +10,7 @@ export default class YggCoreLocationModel extends Model {
   @attr('string') provider;
   @attr('string') location_type;
   @attr('string') region;
+  @attr('string') raw_address;
   @attr('number') accuracy;
   @attr('number') lat;
   @attr('number') lng;
@@ -22,4 +23,7 @@ export default class YggCoreLocationModel extends Model {
   get latlng() {
     return this.lat && this.lng ? [ this.lat, this.lng ] : null;
   }
+
+  @vosBelongsTo('birth_location', 'person') person_as_birth_location;
+  @vosBelongsTo('residence_location', 'person') person_as_residence_location;
 }
