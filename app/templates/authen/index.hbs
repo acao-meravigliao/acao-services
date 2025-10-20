@@ -5,7 +5,7 @@
     <div class="cell">
       <h1 class="title">
         {{t "authen.index.hello"}}
-        {{if this.model.person.nickname this.model.person.nickname this.model.person.first_name}}!
+        {{if this.person.nickname this.person.nickname this.person.first_name}}!
       </h1>
     </div>
     <div class="cell">
@@ -20,11 +20,11 @@
 
   <div class="level">
     <div class="level-item has-text-centered">
-      <BarGauge @credit={{this.model.person.member.bar_credit}} />
+      <BarGauge @credit={{this.person.member.bar_credit}} />
     </div>
 
     <div class="level-item has-text-centered">
-      <TokensGauge @credit={{this.model.person.member.bollini}} />
+      <TokensGauge @credit={{this.person.member.bollini}} />
     </div>
   </div>
 
@@ -38,7 +38,7 @@
   {{#if this.ms.next_renew_is_going_to_open_and_needed}}
     <div class="notification is-warning">
       {{t "authen.index.membership_not_open" year=this.ms.next_year.year htmlSafe=true}}
-      {{t "authen.index.membership_opening_in"}} {{format-date-from-now this.ms.next_year.renew_opening_time}}
+      {{t "authen.index.membership_will_open"}} {{format-date-from-now this.ms.next_year.renew_opening_time}}
     </div>
   {{/if}}
 
@@ -63,19 +63,19 @@
 
 
 {{!--
-        {{#if model.medicals}}
+        {{#if this.medicals}}
           <div class="ui segment">
             Visita medica:
-            {{#each this.model.medicals as |med|}}
+            {{#each this.medicals as |med|}}
               {{med.type}}: {{format-date this.med.valid_to}}<br />
             {{/each}}
           </div>
         {{/if}}
 
-        {{#if this.model.licenses}}
+        {{#if this.licenses}}
           <div class="ui segment">
             Licenze:
-            {{#each model.licenses as |lic|}}
+            {{#each this.licenses as |lic|}}
               {{lic.type}}: {{lic.identifier}}: {{format-date this.lic.valid_to}}
             {{/each}}
           </div>

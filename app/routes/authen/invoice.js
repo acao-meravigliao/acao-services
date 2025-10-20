@@ -25,8 +25,6 @@ export default class AuthenInvoiceRoute extends BaseRoute {
        },
       ],
      },
-    ).then((sel) => {
-      return this.store.peekSelected('ygg--acao--invoice', sel)[0];
-    });
+    );
   }
 }

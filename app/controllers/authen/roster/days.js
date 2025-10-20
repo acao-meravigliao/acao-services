@@ -20,11 +20,15 @@ export default class RosterDaysController extends Controller {
       this.flt_incoming = false;
   }
 
+  get days() {
+    return this.model.get_all('ygg--acao--roster-day');
+  }
+
   get filtered_roster_days() {
     let start_of_day = new Date();
     start_of_day.setUTCHours(0, 0, 0, 0);
 
-    return this.model.filter((x) => (
+    return this.days.filter((x) => (
       (!this.flt_incoming || x.date > start_of_day) &&
         ((this.flt_high_season && x.high_season) ||
          (this.flt_low_season && !x.high_season))

@@ -25,8 +25,6 @@ export default class AuthenTokenTransactionRoute extends BaseRoute {
        },
       ],
      },
-    ).then((sel) => {
-      return this.store.peekSelected('ygg--acao--token-transaction', sel)[0];
-    });
+    );
   }
 }

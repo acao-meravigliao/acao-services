@@ -29,9 +29,6 @@ export default class AuthenRosterDaysRoute extends BaseRoute {
        },
       ]
      },
-    ).then((sel) => {
-      // We do return an object otherwise when there is no roster day today, model will be null and we get redirected to home
-      return { today: this.store.peekSelected('ygg--acao--roster-day', sel)[0] };
-    });
+    );
   }
 }

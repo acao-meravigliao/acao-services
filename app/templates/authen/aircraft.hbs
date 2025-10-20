@@ -6,18 +6,18 @@
         <div class="media-left">
           <figure class="image is-48x48">
             <img
-              src={{this.ac_image this.model}}
+              src={{this.ac_image this.aircraft}}
               alt="Aircraft image"
             />
           </figure>
         </div>
         <div class="media-content">
           <p class="title is-4">
-            <LinkTo @route="authen.aircraft" @model={{this.model.id}}>
-              {{this.model.registration}} {{this.model.race_registration}}
+            <LinkTo @route="authen.aircraft" @model={{this.aircraft.id}}>
+              {{this.aircraft.registration}} {{this.aircraft.race_registration}}
             </LinkTo>
           </p>
-          <p class="subtitle is-6">{{this.model.aircraft_type.manufacturer}} {{this.model.aircraft_type.name}}</p>
+          <p class="subtitle is-6">{{this.aircraft.aircraft_type.manufacturer}} {{this.aircraft.aircraft_type.name}}</p>
         </div>
       </div>
 
@@ -28,26 +28,26 @@
               <strong>ACAO</strong>
             </p>
             <p>
-              {{#each this.model.owners as |owner|}}
+              {{#each this.aircraft.owners as |owner|}}
               Proprietario: <strong>{{owner.member.person.full_name}}{{if owner.is_referent " (referente)"}}</strong><br />
               {{/each}}
 
-              {{#if this.model.flarm_identifier}}
-                Codice FLARM: <strong>{{this.model.flarm_identifier}}</strong><br />
+              {{#if this.aircraft.flarm_identifier}}
+                Codice FLARM: <strong>{{this.aircraft.flarm_identifier}}</strong><br />
               {{/if}}
-              {{#if this.model.icao_identifier}}
-                Codice ICAO: <strong>{{this.model.icao_identifier}}</strong><br />
+              {{#if this.aircraft.icao_identifier}}
+                Codice ICAO: <strong>{{this.aircraft.icao_identifier}}</strong><br />
               {{/if}}
-              {{#if this.model.club}}
-                Club di riferimento: <strong>{{this.model.club.name}}</strong><br />
-                {{!--Club di riferimento: <strong><LinkTo @route="authen.club" model.club.id>{{this.model.club.name}}</LinkTo></strong><br />--}}
-              {{/if}}
-
-              {{#if this.model.serial_number}}
-                Numero di serie: <strong>{{this.model.serial_number}}</strong><br />
+              {{#if this.aircraft.club}}
+                Club di riferimento: <strong>{{this.aircraft.club.name}}</strong><br />
+                {{!--Club di riferimento: <strong><LinkTo @route="authen.club" aircraft.club.id>{{this.aircraft.club.name}}</LinkTo></strong><br />--}}
               {{/if}}
 
-              {{!--Posto hangar: <strong>{{if this.model.hangar "SÌ" "NO"}}</strong><br />--}}
+              {{#if this.aircraft.serial_number}}
+                Numero di serie: <strong>{{this.aircraft.serial_number}}</strong><br />
+              {{/if}}
+
+              {{!--Posto hangar: <strong>{{if this.aircraft.hangar "SÌ" "NO"}}</strong><br />--}}
             </p>
 
             <button class="button is-link" {{on "click" this.goto_flights}}>
@@ -77,7 +77,7 @@
               <a href="https://www.flarmnet.org/"><strong>Flarmnet</strong></a>
               (aggiornato {{format-date-from-now this.flarmnet_last_update}})
             </p>
-            {{#each this.model.flarmnet_entries as |entry|}}
+            {{#each this.aircraft.flarmnet_entries as |entry|}}
             <p>
               Tipo: <strong>{{entry.device_type}}</strong><br />
               Identificatore: <strong>{{entry.device_id}}</strong>
@@ -105,7 +105,7 @@
               <a href="https://ddb.glidernet.org/"><strong>OGN</strong></a>
               (aggiornato {{format-date-from-now this.ddb_last_update}})
             </p>
-            {{#each this.model.ogn_ddb_entries as |entry|}}
+            {{#each this.aircraft.ogn_ddb_entries as |entry|}}
             <p>
               Tipo: <strong>{{entry.device_type}}</strong><br />
               Identificatore: <strong>{{entry.device_id}}</strong>
@@ -132,7 +132,7 @@
           <div class="cell">
             <figure class="image">
               <img
-                src="/pics/{{this.model.id}}_ac_photo"
+                src="/pics/{{this.aircraft.id}}_ac_photo"
                 alt="Placeholder image"
               />
             </figure>

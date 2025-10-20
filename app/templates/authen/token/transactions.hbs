@@ -27,44 +27,44 @@
     </thead>
 
     <tbody>
-      {{#each this.sorted_models key="id" as |model|}}
+      {{#each this.sorted_token_transactions key="id" as |tt|}}
 
       <tr>
         <td>
-          {{format-date model.recorded_at format="dmy"}}
+          {{format-date tt.recorded_at format="dmy"}}
         </td>
         <td>
-          {{format-time model.recorded_at format="hhmm"}}
+          {{format-time tt.recorded_at format="hhmm"}}
         </td>
         <td>
-          {{model.descr}}
+          {{tt.descr}}
         </td>
         <td>
-          {{#if model.invoice}}
-            <LinkTo @route="authen.invoice" @model={{model.invoice.id}}>
-              {{model.invoice.identifier_full}}
+          {{#if tt.invoice}}
+            <LinkTo @route="authen.invoice" @model={{tt.invoice.id}}>
+              {{tt.invoice.identifier_full}}
             </LinkTo>
           {{/if}}
         </td>
         <td>
-          {{#if model.aircraft}}
-            <LinkTo @route="authen.aircraft" @model={{model.aircraft.id}}>
-              {{model.aircraft.registration}}
+          {{#if tt.aircraft}}
+            <LinkTo @route="authen.aircraft" @model={{tt.aircraft.id}}>
+              {{tt.aircraft.registration}}
             </LinkTo>
           {{/if}}
         </td>
         <td>
-          {{#if model.flight}}
-            <LinkTo @route="authen.flight" @model={{model.flight.id}}>
-              {{model.flight.source_id}}
+          {{#if tt.flight}}
+            <LinkTo @route="authen.flight" @model={{tt.flight.id}}>
+              {{tt.flight.source_id}}
             </LinkTo>
           {{/if}}
         </td>
         <td class="price">
-          {{format-number model.amount minimumFractionDigits=1 maximumFractionDigits=1}}
+          {{format-number tt.amount minimumFractionDigits=1 maximumFractionDigits=1}}
         </td>
         <td>
-          <LinkTo @route="authen.token.transaction" @model={{model.id}}>
+          <LinkTo @route="authen.token.transaction" @model={{tt.id}}>
             <FaIcon @icon="arrow-up-right-from-square" />
           </LinkTo>
         </td>

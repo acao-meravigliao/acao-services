@@ -12,12 +12,20 @@ export default class AuthenIndexController extends Controller {
 
   roster_entries_sort_order = ['roster_day.date'];
 
+  get person() {
+    return this.model.get_first('ygg--core--person');
+  }
+
+  get memberships() {
+    return this.model.get_all('ygg--acao--membership');
+  }
+
   get roles() {
-    return this.authen_controller.member.roles;
+    return this.authen_controller.roles;
   }
 
   get relevant_memberships() {
-    return this.model.memberships.filter((x) => (x.year === this.ms.current_year || x.year === this.ms.next_year));
+    return this.memberships.filter((x) => (x.year === this.ms.current_year || x.year === this.ms.next_year));
   }
 
   //------------------- Renewal -------------------

@@ -6,8 +6,12 @@ export default class InvoicesController extends Controller {
   @service session;
   @service router;
 
+  get invoices() {
+    return this.model.get_all('ygg--acao--invoice');
+  }
+
   get sorted_models() {
-    return this.model.sort((a,b) => (b.document_date - a.document_date));
+    return this.invoices.sort((a,b) => (b.document_date - a.document_date));
   }
 
   @action set_span(val) {

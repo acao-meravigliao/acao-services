@@ -83,17 +83,9 @@ export default class AuthenRoute extends VosRoute {
      },
     ]).then((sel) => {
       return this.vos.class_call('ygg--acao--roster-entry', 'compute_status').then((roster_status) => {
-        let person = this.store.peekRecord('ygg--core--person', this.session.person_id);
+        sel.roster_status = roster_status;
 
-        return {
-          person: person,
-          member: person.member,
-          roles: person.member.roles.map((x) => (x.symbol)),
-          years: this.store.peekSelected('ygg--acao--year', sel),
-          memberships: this.store.peekSelected('ygg--acao--membership', sel),
-          invoices: this.store.peekSelected('ygg--acao--invoice', sel),
-          roster_status: roster_status,
-        };
+        return sel;
       });
     });
   }
@@ -102,8 +94,8 @@ export default class AuthenRoute extends VosRoute {
     super.setupController(...arguments);
 
     this.ms.update({
-      memberships: model.memberships,
-      years: model.years,
+      memberships: model.get_all('ygg--acao--memberships'),
+      years: model.get_all('ygg--acao--year'),
     });
   }
 

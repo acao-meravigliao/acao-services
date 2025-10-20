@@ -14,8 +14,32 @@ export default class AuthenController extends Controller {
   @service hamburger;
   @service ms;
 
+  get person() {
+    return this.model.get_first('ygg--core--person');
+  }
+
   get member() {
-    return this.model.member;
+    return this.model.get_first('ygg--acao--member');
+  }
+
+  get roles() {
+    return this.member.roles.map((x) => (x.symbol));
+  }
+
+  get years() {
+    return this.model.get_all('ygg--acao--year');
+  }
+
+  get memberships() {
+    return this.member.memberships;
+  }
+
+  get invoices() {
+    return this.member.invoices;
+  }
+
+  get roster_status() {
+    return this.roster_status;
   }
 
   @action hamburger_show() {
@@ -39,8 +63,8 @@ export default class AuthenController extends Controller {
   }
 
   // ------------------- Roster ---------------------
-  get roster_cur_status() { return this.model.roster_status.current; }
-  get roster_next_status() { return this.model.roster_status.next; }
+  get roster_cur_status() { return this.roster_status.current; }
+  get roster_next_status() { return this.roster_status.next; }
 
   @action logout() {
     if (confirm("Sicuro di voler uscire?")) {

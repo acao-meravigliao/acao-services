@@ -6,7 +6,7 @@ export default class AuthenAircraftsRoute extends BaseRoute {
   @service store;
 
   model(params) {
-    const dig_shared = this.modelFor('authen').member.has_role('MAINTENANCE');
+    const dig_shared = this.modelFor('authen').get_first('ygg--acao--member').has_role('MAINTENANCE');
 
     return this.select_as_model([
      {
@@ -42,16 +42,6 @@ export default class AuthenAircraftsRoute extends BaseRoute {
         },
       } : null,
      },
-    ]).then((sel) => {
-      this.club = this.store.peekSelected('ygg--acao--club', sel)[0];
-
-      return this.store.peekSelected('ygg--acao--aircraft', sel);
-    });
-  }
-
-  setupController(controller, model) {
-    super.setupController(...arguments);
-
-    controller.club = this.club;
+    ]);
   }
 }

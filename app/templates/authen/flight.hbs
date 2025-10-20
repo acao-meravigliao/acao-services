@@ -10,36 +10,36 @@
         </div>
         <div class="media-content">
           <p class="title is-4">
-            <h1>Volo <strong>{{this.model.source_id}}</strong></h1>
+            <h1>Volo <strong>{{this.flight.source_id}}</strong></h1>
           </p>
           <p class="subtitle is-6">
             Decollo:
-            {{format-time this.model.takeoff_time format="timestamp_nosecs"}}
-            {{#if this.model.takeoff_airfield}}
-              {{this.model.takeoff_airfield.icao_code}} - {{this.model.takeoff_airfield.name}}
+            {{format-time this.flight.takeoff_time format="timestamp_nosecs"}}
+            {{#if this.flight.takeoff_airfield}}
+              {{this.flight.takeoff_airfield.icao_code}} - {{this.flight.takeoff_airfield.name}}
 
               {{!--
-              <LinkTo @route="authen.airfield" @model={{this.model.takeoff_airfield}}>
-                {{this.model.takeoff_airfield.name}}
+              <LinkTo @route="authen.airfield" @model={{this.flight.takeoff_airfield}}>
+                {{this.flight.takeoff_airfield.name}}
               </LinkTo>
               --}}
             {{else}}
-              {{this.model.takeoff_location_raw}}
+              {{this.flight.takeoff_location_raw}}
             {{/if}}
 
             <br />
             Atterraggio:
-            {{format-time this.model.landing_time format="timestamp_nosecs"}}
-            {{#if this.model.landing_airfield}}
-              {{this.model.landing_airfield.icao_code}} - {{this.model.landing_airfield.name}}
+            {{format-time this.flight.landing_time format="timestamp_nosecs"}}
+            {{#if this.flight.landing_airfield}}
+              {{this.flight.landing_airfield.icao_code}} - {{this.flight.landing_airfield.name}}
 
               {{!--
-              <LinkTo @route="authen.airfield" @model={{this.model.landing_airfield}}>
-                {{this.model.landing_airfield.name}}
+              <LinkTo @route="authen.airfield" @model={{this.flight.landing_airfield}}>
+                {{this.flight.landing_airfield.name}}
               </LinkTo>
               --}}
             {{else}}
-              {{this.model.landing_location_raw}}
+              {{this.flight.landing_location_raw}}
             {{/if}}
           </p>
         </div>
@@ -48,57 +48,57 @@
       <div class="content">
         <div class="grid">
           <div class="cell">
-            Aeromobile: <strong>{{this.model.aircraft_reg}}</strong><br />
-            Pilota: <strong>{{this.model.pilot1_name}}
-              {{#if this.model.pilot1_role}}({{this.model.pilot1_role}}){{/if}}
+            Aeromobile: <strong>{{this.flight.aircraft_reg}}</strong><br />
+            Pilota: <strong>{{this.flight.pilot1_name}}
+              {{#if this.flight.pilot1_role}}({{this.flight.pilot1_role}}){{/if}}
               </strong><br />
 
-            {{#if this.model.pilot2_role}}
+            {{#if this.flight.pilot2_role}}
               Passeggero:
-                <strong>{{this.model.pilot2_name}}
-                {{#if this.model.pilot2_role}}({{this.model.pilot2_role}}){{/if}}
+                <strong>{{this.flight.pilot2_name}}
+                {{#if this.flight.pilot2_role}}({{this.flight.pilot2_role}}){{/if}}
                 </strong><br />
             {{/if}}
 
-            Durata: <strong>{{format-duration this.model.duration}}</strong><br />
+            Durata: <strong>{{format-duration this.flight.duration}}</strong><br />
 
-            {{#if this.model.towed_by}}
+            {{#if this.flight.towed_by}}
               Trainato da:
-              <LinkTo @route="authen.flight" @model={{this.model.towed_by}}>
-                {{this.model.towed_by.aircraft_reg}}
+              <LinkTo @route="authen.flight" @model={{this.flight.towed_by}}>
+                {{this.flight.towed_by.aircraft_reg}}
               </LinkTo>
               <br />
             {{/if}}
-            {{#if this.model.towing}}
+            {{#if this.flight.towing}}
               Trainando:
-              <LinkTo @route="authen.flight" @model={{this.model.towing}}>
-                {{this.model.towing.aircraft_reg}}
+              <LinkTo @route="authen.flight" @model={{this.flight.towing}}>
+                {{this.flight.towing.aircraft_reg}}
               </LinkTo>
               <br />
             {{/if}}
 
-            {{#if this.model.launch_type}}
-              Lancio: <strong>{{this.model.launch_type}}</strong><br />
+            {{#if this.flight.launch_type}}
+              Lancio: <strong>{{this.flight.launch_type}}</strong><br />
             {{/if}}
 
-            Volo Istruzione: <strong>{{if this.model.instruction_flight "sì" "no"}}</strong><br />
-            Skill Test: <strong>{{if this.model.skill_test "sì" "no"}}</strong><br />
-            Proficiency check: <strong>{{if this.model.proficiency_check "sì" "no"}}</strong><br />
-            Maintenance check: <strong>{{if this.model.maintenance_check "sì" "no"}}</strong><br />
+            Volo Istruzione: <strong>{{if this.flight.instruction_flight "sì" "no"}}</strong><br />
+            Skill Test: <strong>{{if this.flight.skill_test "sì" "no"}}</strong><br />
+            Proficiency check: <strong>{{if this.flight.proficiency_check "sì" "no"}}</strong><br />
+            Maintenance check: <strong>{{if this.flight.maintenance_check "sì" "no"}}</strong><br />
 
-            {{#if this.model.purpose}}
-              Scopo: <strong>{{this.model.purpose}}</strong><br />
+            {{#if this.flight.purpose}}
+              Scopo: <strong>{{this.flight.purpose}}</strong><br />
             {{/if}}
 
-            {{#if this.model.acao_quota}}
-              Quota: <strong>{{this.model.acao_quota}}</strong><br />
+            {{#if this.flight.acao_quota}}
+              Quota: <strong>{{this.flight.acao_quota}}</strong><br />
             {{/if}}
 
-            Bollini: <strong>{{this.model.acao_bollini_volo}}</strong><br />
-            Tipo Volo: <strong>{{this.model.acao_tipo_volo_club}}</strong><br />
+            Bollini: <strong>{{this.flight.acao_bollini_volo}}</strong><br />
+            Tipo Volo: <strong>{{this.flight.acao_tipo_volo_club}}</strong><br />
           </div>
 
-          {{#if this.model.token_transactions}}
+          {{#if this.flight.token_transactions}}
             <div class="cell">
               Movimenti bollini:
               <table class="table">
@@ -134,8 +134,8 @@
               </table>
 
         {{!--
-            <LinkTo @route="authen.flight" @model={{this.model.towing}}>
-              {{this.model.towing.aircraft_reg}}
+            <LinkTo @route="authen.flight" @model={{this.flight.towing}}>
+              {{this.flight.towing.aircraft_reg}}
             </LinkTo>
         --}}
           </div>
@@ -144,21 +144,21 @@
       </div>
       {{!--
         <div class="ui segment" style="height: 600px">
-          {{#if this.model.takeoff_location.latlng}}
-            {{#leaflet-map center=model.takeoff_location.latlng zoom=11 class="flight-map" as |layers|}}
+          {{#if this.flight.takeoff_location.latlng}}
+            {{#leaflet-map center=flight.takeoff_location.latlng zoom=11 class="flight-map" as |layers|}}
               {{layers.tile url="https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png" maxZoom=13}}
-              {{#layers.marker location=model.takeoff_location.latlng title="Decollo"}}
+              {{#layers.marker location=flight.takeoff_location.latlng title="Decollo"}}
                 {{#popup-layer}}
                   <b>Decollo</b><br />
-                  {{model.takeoff_location.full_address}}
-                  {{model.takeoff_location.lat}},{{model.takeoff_location.lng}}
+                  {{flight.takeoff_location.full_address}}
+                  {{flight.takeoff_location.lat}},{{flight.takeoff_location.lng}}
                 {{/popup-layer}}
               {{/layers.marker}}
-              {{#layers.marker location=model.landing_location.latlng title="Atterraggio"}}
+              {{#layers.marker location=flight.landing_location.latlng title="Atterraggio"}}
                 {{#popup-layer}}
                   <b>Atterraggio</b><br />
-                  {{model.takeoff_location.full_address}}
-                  {{model.takeoff_location.lat}},{{model.takeoff_location.lng}}
+                  {{flight.takeoff_location.full_address}}
+                  {{flight.takeoff_location.lat}},{{flight.takeoff_location.lng}}
                 {{/popup-layer}}
               {{/layers.marker}}
             {{/leaflet-map}}

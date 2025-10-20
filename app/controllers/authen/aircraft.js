@@ -18,22 +18,30 @@ export default class AuthenAircraftController extends Controller {
   // FIXME: ac.aircraft_type will be made mandatory
   ac_image = (ac) => (this.ac_images[ac.aircraft_type && ac.aircraft_type.aircraft_class || 'GLD']);
 
-  fn_mismatch_device_id = (fe) => (fe.device_type === 'F' ?
-                                  fe.device_id != this.model.flarm_identifier :
-                                  fe.device_id != this.model.icao_identifier);
+  get aircraft() {
+    return this.model.get_first('ygg--acao--aircraft');
+  }
 
-  fn_mismatch_reg = (fe) => (fe.registration != this.model.registration);
-  fn_mismatch_cn = (fe) => (fe.cn != this.model.race_registration);
+  get sync_statuses() {
+    return this.model.get_all('ygg--acao--aircraft-sync-status');
+  }
+
+  fn_mismatch_device_id = (fe) => (fe.device_type === 'F' ?
+                                  fe.device_id != this.aircraft.flarm_identifier :
+                                  fe.device_id != this.aircraft.icao_identifier);
+
+  fn_mismatch_reg = (fe) => (fe.registration != this.aircraft.registration);
+  fn_mismatch_cn = (fe) => (fe.cn != this.aircraft.race_registration);
 
   ddb_mismatch_device_id = (fe) => (fe.device_type === 'F' ?
-                                  fe.device_id != this.model.flarm_identifier :
-                                  fe.device_id != this.model.icao_identifier);
+                                  fe.device_id != this.aircraft.flarm_identifier :
+                                  fe.device_id != this.aircraft.icao_identifier);
 
-  ddb_mismatch_reg = (fe) => (fe.aircraft_registration != this.model.registration);
-  ddb_mismatch_cn = (fe) => (fe.aircraft_competition_id != this.model.race_registration);
+  ddb_mismatch_reg = (fe) => (fe.aircraft_registration != this.aircraft.registration);
+  ddb_mismatch_cn = (fe) => (fe.aircraft_competition_id != this.aircraft.race_registration);
 
   @action goto_flights() {
-    this.router.transitionTo('authen.flights-by-ac', this.model.id);
+    this.router.transitionTo('authen.flights-by-ac', this.aircraft.id);
   }
 
   get flarmnet_last_update() {
@@ -51,7 +59,7 @@ export default class AuthenAircraftController extends Controller {
   @action upload_photo(file) {
     this.file = file;
 
-    var res = file.uploadBinary(`/ygg/acao/aircrafts/${this.model.id}/upload_photo`, {
+    var res = file.uploadBinary(`/ygg/acao/aircrafts/${this.aircraft.id}/upload_photo`, {
       accepts: 'application/json',
     }).finally(() => {
       this.file = null;
