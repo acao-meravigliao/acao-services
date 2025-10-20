@@ -7,5 +7,5 @@ export default class YggAcaoRosterDayModel extends Model {
   @attr('number') needed_people;
   @attr('string') descr;
 
-  @vosHasMany('day', 'entry') roster_entries;
+  @vosHasMany('day', 'entry') entries;
 }
