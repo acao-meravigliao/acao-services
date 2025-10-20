@@ -42,6 +42,10 @@
             {{t "menu.bar_transactions"}}
           </LinkTo>
 
+          <LinkTo @route="authen.debt.index" class="navbar-item" @activeClass="is-active">
+            {{t "menu.debts"}}
+          </LinkTo>
+
           <LinkTo @route="authen.invoices" class="navbar-item" @activeClass="is-active">
             {{t "menu.invoices"}}
           </LinkTo>
@@ -84,7 +88,7 @@
     <div class="navbar-end">
       <ul class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">
-          <FaIcon @icon="user" /> {{if this.model.person.nickname this.model.person.nickname this.model.person.first_name}}
+          <FaIcon @icon="user" /> {{if this.person.nickname this.person.nickname this.person.first_name}}
         </a>
         <div class="navbar-dropdown">
           <a class="navbar-item"{{on 'click' this.logout}}>

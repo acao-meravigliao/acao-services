@@ -16,10 +16,11 @@ Router.map(function() {
     this.route('people');
     this.route('person', { path: '/person/:id' });
 
-    this.route('memberships');
     this.route('membership', function() {
+      this.route('index');
       this.route('renew', { path: '/renew/:year' }, function() {
-        this.route('index');
+        this.route('biodata');
+        this.route('biodata-edit');
         this.route('data');
         this.route('roster');
         this.route('summary');
@@ -35,6 +36,11 @@ Router.map(function() {
 
     this.route('invoices');
     this.route('invoice', { path: '/invoice/:id' });
+
+    this.route('debt', function() {
+      this.route('index');
+      this.route('show', { path: '/show/:id' });
+    });
 
     this.route('bar', function() {
       this.route('transactions');

@@ -1,0 +1,148 @@
+{{page-title "Pagamento pendente"}}
+<div class="container page authen-aircraft">
+  <div class="card">
+    <div class="card-content">
+      <div class="media">
+        <div class="media-left">
+          <figure class="image is-48x48">
+            <FaIcon @icon="dollar-sign" @size="3x" />
+          </figure>
+        </div>
+        <div class="media-content">
+          <p class="title is-4">
+            Pagamento pendente {{this.debt.identifier}}
+          </p>
+          <p class="subtitle is-6">
+            {{this.debt.descr}}
+          </p>
+        </div>
+        <div class="media-right">
+          <h1 class="title">
+            {{format-number this.debt.total style="currency" currency="EUR"}}
+          </h1>
+        </div>
+      </div>
+
+      <div class="content">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Numero</th>
+              <th>Codice</th>
+              <th>Descrizione</th>
+              <th>Prezzo</th>
+              <th>IVA</th>
+              <th>Totale</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each this.sorted_details key="@index" as |detail|}}
+            <tr>
+              <td>{{detail.count}}</td>
+              <td>{{detail.code}}</td>
+              <td>{{detail.descr}}</td>
+              <td class="price">{{format-number detail.amount style="currency" currency="EUR"}}</td>
+              <td class="price">{{detail.vat}}%</td>
+              <td class="price">{{format-number detail.total style="currency" currency="EUR"}}</td>
+            </tr>
+            {{/each}}
+          </tbody>
+          <tfoot>
+            <tr>
+              <th colspan=5>Totale</th>
+              <td class="total price">{{format-number this.debt.total style="currency" currency="EUR"}}</td>
+            </tr>
+          </tfoot>
+        </table>
+
+        {{#if this.sorted_payments}}
+          <h2 class="title-2">Pagamenti</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Creato</th>
+                <th>Completato</th>
+                <th>Stato</th>
+                <th>Metodo</th>
+                <th>Ammontare</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each this.sorted_payments key="@index" as |payment|}}
+              <tr>
+                <td>{{format-time payment.created_at format="timestamp_nosecs"}}</td>
+                <td>{{format-time payment.completed_at format="timestamp_nosecs"}}</td>
+                <td>{{payment.state}}</td>
+                <td>{{payment.payment_method}}</td>
+                <td class="price">{{format-number payment.amount style="currency" currency="EUR"}}</td>
+              </tr>
+              {{/each}}
+            </tbody>
+            <tfoot>
+              <tr>
+                <th colspan=4>Pagato</th>
+                <td class="total price">{{format-number this.payments_completed_total style="currency" currency="EUR"}}</td>
+              </tr>
+              <tr>
+                <th colspan=4>Totale da pagare</th>
+                <td class="total price">{{format-number this.debt.total style="currency" currency="EUR"}}</td>
+              </tr>
+              <tr>
+                <th colspan=4>Dovuto</th>
+                <td class="total price">{{format-number this.debt.payments_needed style="currency" currency="EUR"}}</td>
+              </tr>
+            </tfoot>
+          </table>
+        {{/if}}
+
+        {{#if this.debt.is_pending}}
+          {{#if this.paying_with}}
+            {{#if (eq this.paying_with "CARD")}}
+              <Payment::Card @debt={{this.debt}} />
+            {{else if (eq this.paying_with "WIRE")}}
+              <Payment::Wire @debt={{this.debt}} />
+            {{else if (eq this.paying_with "CASH")}}
+              <Payment::Cash @debt={{this.debt}} />
+            {{else if (eq this.paying_with "CHECK")}}
+              <Payment::Check @debt={{this.debt}} />
+            {{/if}}
+
+            {{!--{{component (ensure-safe-component this.paying_with_component) debt=this.debt}}--}}
+
+            <button class="button" {{on "click" this.pay_cancel}}>Annulla</button>
+          {{else}}
+            <h1 class="title">Paga con:</h1>
+
+            <div class="field is-grouped is-grouped-multiline">
+              <button class="button is-link"
+                       {{on "click" (fn this.pay_with "CARD")}}>
+                <span class="icon"><FaIcon @icon="credit-card" /></span>
+                <span>Carta di Credito</span>
+              </button>
+              <button class="button is-link"
+                      {{on "click" (fn this.pay_with "WIRE")}}>
+                <span class="icon"><FaIcon @icon="money-bill-transfer" /></span>
+                <span>Bonifico</span>
+              </button>
+              <button class="button is-link"
+                       {{on "click" (fn this.pay_with "SATISPAY")}}>
+                <span class="icon"><FaIcon @icon="mobile-screen" /></span>
+                <span>SatisPay</span>
+              </button>
+              <button class="button is-link"
+                      {{on "click" (fn this.pay_with "CHECK")}}>
+                <span class="icon"><FaIcon @icon="money-check" /></span>
+                <span>Assegno</span>
+              </button>
+              <button class="button is-link"
+                      {{on "click" (fn this.pay_with "CASH")}}>
+                <span class="icon"><FaIcon @icon="money-bills" /></span>
+                <span>Contanti</span>
+              </button>
+            </div>
+          {{/if}}
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>

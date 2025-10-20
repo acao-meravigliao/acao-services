@@ -1,0 +1,64 @@
+{{page-title "Pagamenti pendenti"}}
+
+<div class="box">
+  <div class="grid">
+    <div class="cell">
+      <a {{on "click" (fn this.set_preset "d1")}}>
+        <span class="tag {{if (eq this.preset "d1") "is-success" "is-dark"}}">oggi</span>
+      </a>
+      <a {{on "click" (fn this.set_preset "d7")}}>
+        <span class="tag {{if (eq this.preset "d7") "is-success" "is-dark"}}">7 giorni</span>
+      </a>
+      <a {{on "click" (fn this.set_preset "d30")}}>
+        <span class="tag {{if (eq this.preset "d30") "is-success" "is-dark"}}">30 giorni</span>
+      </a>
+      <a {{on "click" (fn this.set_preset "d90")}}>
+        <span class="tag {{if (eq this.preset "d90") "is-success" "is-dark"}}">90 giorni</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="container page authen-debt-index">
+  <div class="grid is-col-min-12">
+    {{#each this.sorted_debts key="id" as |debt|}}
+      <div class="card cell">
+        <div class="card-content">
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-48x48">
+               <FaIcon @icon="dollar-sign" @size="3x" />
+              </figure>
+            </div>
+            <div class="media-content">
+              <p class="title is-4">
+                <LinkTo @route="authen.debt.show" @model={{debt.id}}>
+                  {{debt.identifier}}
+                </LinkTo>
+              </p>
+              <p class="subtitle is-6">{{debt.descr}}</p>
+            </div>
+            <div class="media-right">
+              <h1 class="title">
+                {{format-number debt.total style="currency" currency="EUR"}}
+              </h1>
+            </div>
+          </div>
+          <div class="content">
+            Creato il:
+              <strong><time datetime="{{debt.created_at}}">{{format-time debt.created_at format="timestamp"}}</time></strong><br />
+            {{#if debt.expires_at}}
+              Scade il:
+                <strong><time datetime="{{debt.expires_at}}">{{format-time debt.expires_at format="timestamp"}}</time></strong><br />
+            {{/if}}
+          </div>
+          <footer class="card-footer">
+            <LinkTo class="card-footer-item" @route="authen.debt.show" @model={{debt.id}}>
+              Paga
+            </LinkTo>
+          </footer>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>
