@@ -3,10 +3,9 @@ import { inject as controller } from '@ember/controller';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import MyException from 'acao-services/utils/my-exception';
-import RemoteException from 'acao-services/utils/remote-exception';
+import { VihaiException, RemoteException } from '@vihai/vihai-exceptions';
 
-class ServerResponseFormatError extends MyException { type = 'ServerResponseFormatError'; }
+class ServerResponseFormatError extends VihaiException { type = 'ServerResponseFormatError'; }
 
 export default class RenewSummaryMembershipController extends Controller {
   @service router;
