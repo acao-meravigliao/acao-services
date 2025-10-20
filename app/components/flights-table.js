@@ -12,6 +12,8 @@ export default class FlightsTableComponent extends Component {
   @service store;
   @service download;
   @tracked details = false;
+  @tracked sd;
+  @tracked ed;
   @tracked flt_show = false;
   @tracked flt_all_classes = true;
   @tracked flt_all_roles = true;
@@ -245,18 +247,6 @@ export default class FlightsTableComponent extends Component {
 
   @action set_sd(val) {
     this.router.transitionTo({ queryParams: { sd: val.toString() }});
-  }
-
-  @action on_sd_select(val) {
-    this.sd_selected = val.date;
-  }
-
-  @action on_sd_center_change(val) {
-    this.sd_center = val.date;
-  }
-
-  @action goto_flight_new() {
-    this.router.transitionTo('authen.flight.new');
   }
 
   format_duration(dur, secs) {
