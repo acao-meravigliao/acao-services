@@ -19,6 +19,7 @@ export default class Login2Controller extends Controller {
   @tracked ex = null;
 
   @action username_changed(ev) {
+    this.ex = null;
     this.username = ev.target.value;
 
     if (this.username.indexOf(' ') !== -1)
@@ -37,6 +38,7 @@ export default class Login2Controller extends Controller {
   }
 
   @action password_changed(ev) {
+    this.ex = null;
     this.password = ev.target.value;
   }
 
@@ -54,8 +56,8 @@ export default class Login2Controller extends Controller {
   @action authenticate(ev) {
     ev.preventDefault();
 
+    this.ex = null;
     this.password_show = false;
-
     this.submitting = true;
 
     let username = this.username;
