@@ -18,6 +18,25 @@ export default class RosterSelectorComponent extends Component {
     this.selection = A(this.args.initial_selection);
   }
 
+  get filtered_roster_days() {
+    return this.args.days.filter((x) => (
+      this.flt_available_slots ? x.entries.length < x.needed_people : true) &&
+      ((this.flt_high_season && x.high_season) || (this.flt_low_season && !x.high_season))
+    );
+  }
+
+  get sorted_filtered_roster_days() {
+    return this.filtered_roster_days.sort((a,b) => (a[this.roster_days_sort_order] - b[this.roster_days_sort_order]));
+  }
+
+  is_selected(day) {
+    return this.selection.includes(day);
+  }
+
+  get sorted_filtered_roster_days_with_selected() {
+    return this.sorted_filtered_roster_days.map((x) => ({ day: x, selected: this.is_selected(x) })) ;
+  }
+
   @action on_add(day) {
     this.selection.pushObject(day);
     this.selection_changed();
@@ -58,25 +77,6 @@ export default class RosterSelectorComponent extends Component {
 
     if (this.args.selection_validity_changed)
       this.args.selection_validity_changed(this.valid);
-  }
-
-  get filtered_roster_days() {
-    return this.args.days.filter((x) => (
-      this.flt_available_slots ? x.roster_entries.length < x.needed_people : true) &&
-      ((this.flt_high_season && x.high_season) || (this.flt_low_season && !x.high_season))
-    );
-  }
-
-  get sorted_filtered_roster_days() {
-    return this.filtered_roster_days.sort((a,b) => (a[this.roster_days_sort_order] - b[this.roster_days_sort_order]));
-  }
-
-  is_selected(day) {
-    return this.selection.includes(day);
-  }
-
-  get sorted_filtered_roster_days_with_selected() {
-    return this.sorted_filtered_roster_days.map((x) => ({ day: x, selected: this.is_selected(x) })) ;
   }
 
   @action toggle_high_season() {
