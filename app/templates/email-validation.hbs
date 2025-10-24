@@ -1,0 +1,24 @@
+{{page-title (t "email_validation.page_title")}}
+
+<div class="container">
+  {{#if this.model.success}}
+    <div class="notification is-success">
+      Grazie, l'indirizzo email {{this.model.address}} è stato verificato con successo!
+    </div>
+
+  {{else if (eq this.model.error "TokenNotFound")}}
+    <div class="notification is-danger">
+      Spiacenti, il codice di verifica non è stato trovato.
+    </div>
+
+  {{else if (eq this.model.error "TokenExpired")}}
+    <div class="notification is-danger">
+      Spiacenti, il codice di verifica è scaduto.
+    </div>
+
+  {{else if (eq this.model.error "TokenAlreadyUsed")}}
+    <div class="notification is-success">
+      Questo codice è già stato usato per verificare l'indirizzo email.
+    </div>
+  {{/if}}
+</div>

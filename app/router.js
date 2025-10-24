@@ -19,9 +19,12 @@ Router.map(function() {
     this.route('membership', function() {
       this.route('index');
       this.route('renew', { path: '/renew/:year' }, function() {
-        this.route('biodata');
-        this.route('biodata-edit');
+        this.route('bio');
+        this.route('bio-edit');
+        this.route('aircraft-owned');
+        this.route('aircraft-new');
         this.route('data');
+        this.route('roster-select');
         this.route('roster');
         this.route('summary');
         this.route('confirmation');
@@ -75,43 +78,42 @@ Router.map(function() {
       this.route('select', { path: '/select/:year' });
     });
 
-    this.route('tow-roster', function() {
-      this.route('today');
-      this.route('days');
-      this.route('select');
-    });
+//    this.route('tow-roster', function() {
+//      this.route('today');
+//      this.route('days');
+//      this.route('select');
+//    });
   });
 
-  this.route('initial-connection');
-  this.route('offline');
+//  this.route('roster', function() {
+//    this.route('today');
+//    this.route('days');
+//  });
+//
+//  this.route('tow-roster', function() {
+//    this.route('today');
+//    this.route('days');
+//  });
+//
+//  this.route('sap', function() {
+//    this.route('registration');
+//    this.route('list');
+//  });
+//
+//  this.route('ccv', function() {
+//    this.route('registration');
+//    this.route('list');
+//  });
 
   this.route('login');
   this.route('login2');
   this.route('password-recovery');
+  this.route('email-validation');
 
-  //this.route('radar');
-  //this.route('meteo');
-
-  this.route('roster', function() {
-    this.route('today');
-    this.route('days');
-  });
-
-  this.route('tow-roster', function() {
-    this.route('today');
-    this.route('days');
-  });
-
-  this.route('sap', function() {
-    this.route('registration');
-    this.route('list');
-  });
-
-  this.route('ccv', function() {
-    this.route('registration');
-    this.route('list');
-  });
+  this.route('initial-connection');
+  this.route('offline');
 
   this.route('index.json');
   this.route('page-not-found', { path: '/*wildcard' });
+
 });
