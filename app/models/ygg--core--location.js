@@ -16,6 +16,9 @@ export default class YggCoreLocationModel extends Model {
   @attr('number') lng;
   @attr('number') alt;
 
+  @vosBelongsTo('birth_location', 'person') person_as_birth_location;
+  @vosBelongsTo('residence_location', 'person') person_as_residence_location;
+
   get full_address() {
     return [ this.street_address, this.city, this.zip ].filter((x) => (x)).join(', ');
   }
@@ -23,7 +26,4 @@ export default class YggCoreLocationModel extends Model {
   get latlng() {
     return this.lat && this.lng ? [ this.lat, this.lng ] : null;
   }
-
-  @vosBelongsTo('birth_location', 'person') person_as_birth_location;
-  @vosBelongsTo('residence_location', 'person') person_as_residence_location;
 }
