@@ -24,14 +24,6 @@ export default class AuthenIndexRoute extends BaseRoute {
             to: 'day',
           },
          },
-         {
-          from: 'member',
-          to: 'membership',
-          dig: {
-            from: 'membership',
-            to: 'year',
-          },
-         },
         ],
        },
       ]
