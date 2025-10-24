@@ -38,7 +38,7 @@ authen:
     hello: Ciao
     membership_for_year: "L'iscrizione è aperta!"
     membership_not_open: "L'iscrizione non è ancora aperta."
-    membership_opening_in: "Aprirà in"
+    membership_will_open: "Aprirà in {interval}"
 
   bar:
     recharge:
@@ -64,23 +64,36 @@ authen:
     page_title: Iscrizione
     renew:
       page_title: Rinnovo iscrizione
-      index:
-        page_title: Inizio
+      already_member: "Risulti già iscritto per l'anno {year}"
+      not_yet_open: "L'iscrizione per l'anno <strong>{year}</strong> non è ancora aperta."
+      not_open: "L'iscrizione per l'anno <strong>{year}</strong> non è aperta."
+      opening_in: "Aprirà in"
+      blocked: "L'iscrizione per l'anno {year} è bloccata. Gentilmente rivolgiti in segreteria."
+
+      bio:
+        page_title: Dati personali
         hello: "Ciao {name},"
         text: "Con questa procedura potrai rinnovare la tua iscrizione per l'anno {year}."
         check_your_data: "Assicurati che i tuoi dati siano corretti:"
         name: Nome
         date_of_birth: Data di nascita
+        birth_location: Luogo di nascita
+        residence_location: Residenza
         email: Email
         pots_phone: Telefono fisso
         cell_phone: Cellulare
         proceed: Procedi...
-        blocked: "L'iscrizione per l'anno {year} è bloccata. Gentilmente rivolgiti in segreteria."
         payment_pending: Il pagamento è pendente
-        already_member: "Risulti già iscritto per l'anno {year}"
-        not_yet_open: "L'iscrizione per l'anno <strong>{year}</strong> non è ancora aperta."
-        not_open: "L'iscrizione per l'anno <strong>{year}</strong> non è aperta."
-        opening_in: "Aprirà in"
+
+      bio_edit:
+        page_title: Modifica dati personali
+        name: Nome
+        date_of_birth: Data di nascita
+        birth_location: Luogo di nascita
+        residence_location: Residenza
+        email: Email
+        pots_phone: Telefono fisso
+        cell_phone: Cellulare
 
       data:
         page_title: Dati
@@ -155,7 +168,7 @@ menu:
   token_transactions: Conto bollini
   bar_transactions: Conto bar
   invoices: Fatture
-  payments: Pagamenti
+  debts: Pagamenti pendenti
   roster: Turni di linea
   all_roster_days: Tutti i turni
   today_roster_entries: Turni di oggi
@@ -197,6 +210,9 @@ ex:
     "Ygg::Acao::PasswordRecoveryController::AccountNotFound":
       title: Utente non trovato
       detail: Verifica di aver inserito il codice pilota correttamente
+    "Ygg::Acao::PasswordRecoveryController::ContactNotFound":
+      title: Nessun indirizzo e-mail associato
+      detail: Purtroppo, non avendo un indirizzo e-mail associato a questo account, dovrai rivolgerti in segreteria
   local:
     "SessionLoadTimeout":
       title: Errore di collegamento
@@ -225,8 +241,10 @@ flights_table:
 member:
   roles:
     TUG_PILOT: Trainatore
+    SPL_PILOT: Pilota Aliante
     SPL_STUDENT: Allievo SPL
     SPL_INSTRUCTOR: Istruttore SPL
     BOARD_MEMBER: Consigliere
     MAINTENANCE: Manutenzione AM
-    FIREMAN: Pompiere
+    FIREMAN: Antincendio
+    STAFF: Staff
