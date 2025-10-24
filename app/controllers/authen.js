@@ -26,6 +26,10 @@ export default class AuthenController extends Controller {
     return this.member.roles.map((x) => (x.symbol));
   }
 
+  get available_roles() {
+    return this.model.get_all('ygg--acao--role');
+  }
+
   get years() {
     return this.model.get_all('ygg--acao--year');
   }

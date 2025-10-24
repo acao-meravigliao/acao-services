@@ -24,9 +24,7 @@ export default class AuthenIndexController extends Controller {
     return this.authen_controller.roles;
   }
 
-  get relevant_memberships() {
-    return this.memberships.filter((x) => (x.year === this.ms.current_year || x.year === this.ms.next_year));
-  }
+  icon_for = (role) => (this.authen_controller.available_roles.find((x) => (x.symbol === role)).icon);
 
   //------------------- Renewal -------------------
   @action start_current_membership_renewal() {
@@ -36,6 +34,10 @@ export default class AuthenIndexController extends Controller {
   @action start_next_membership_renewal() {
     this.router.transitionTo('authen.membership.renew', this.ms.next_year.year);
   }
+
+
+
+
 
   //------------------- Roster -------------------
   get my_next_roster_entries() {

@@ -67,36 +67,39 @@ export default class AuthenRoute extends VosRoute {
          },
          {
           from: 'member',
-          to: 'role',
+          to: 'debt',
          },
          {
           from: 'member',
-          to: 'debt',
+          to: 'role',
          },
         ],
        },
       ]
      },
      {
+      type: 'ygg--acao--role',
+     },
+     {
       type: 'ygg--acao--year',
       filter: { year: { gte: 2024 } },
      },
     ]).then((sel) => {
-      return this.vos.class_call('ygg--acao--roster-entry', 'compute_status').then((roster_status) => {
-        sel.roster_status = roster_status;
-
-        return sel;
+      this.ms.update({
+        memberships: sel.get_all('ygg--acao--membership'),
+        years: sel.get_all('ygg--acao--year'),
       });
-    });
-  }
 
-  setupController(controller, model) {
-    super.setupController(...arguments);
-
-    this.ms.update({
-      memberships: model.get_all('ygg--acao--memberships'),
-      years: model.get_all('ygg--acao--year'),
+      return sel;
     });
+
+//.then((sel) => {
+//      return this.vos.class_call('ygg--acao--member', 'roster_status', { year: }).then((res) => {
+//        sel.roster_status = res.body;
+//
+//        return sel;
+//      });
+//    });
   }
 
   @action refresh_model() {
