@@ -2,6 +2,7 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 import moment from 'moment';
+import 'moment/dist/locale/it';
 
 export default class ApplicationRoute extends Route {
   @service vos;
@@ -15,7 +16,6 @@ export default class ApplicationRoute extends Route {
     super(...arguments);
 
     this.intl.setLocale([ 'it-it' ]);
-
     moment.locale('it');
 
     this.vos.on('session_reset', () => {
