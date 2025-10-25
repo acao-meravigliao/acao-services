@@ -1,4 +1,4 @@
-<div class="component bar-gauge" {{on "click" this.open_list}}>
+<LinkTo class="component bar-gauge" @route="authen.bar.transactions" @activeClass="is-active">
   <p class="heading">
     Conto bar
   </p>
@@ -6,4 +6,4 @@
     {{format-number @credit style="currency" currency="EUR"}}
   </p>
   {{!-- <FaIcon @icon="gas-pump" {{on "click" this.recharge}} /> --}}
-</div>
+</LinkTo>
