@@ -66,11 +66,9 @@ export default class AuthenMembershipRenewBillController extends Controller {
   }
 
   @action submit() {
-    this.wizard.services = this.services;
-
-    this.wizard.setProperties(this.getProperties(
-      'email_allowed',
-    ));
+    this.wizard.update({
+      services: this.services,
+    });
 
     this.wizard.next('roster-select');
   }

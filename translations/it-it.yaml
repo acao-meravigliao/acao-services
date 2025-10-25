@@ -36,9 +36,10 @@ authen:
   index:
     page_title: Dashboard
     hello: Ciao
-    membership_for_year: "L'iscrizione è aperta!"
-    membership_not_open: "L'iscrizione non è ancora aperta."
-    membership_will_open: "Aprirà in {interval}"
+    the_membership: "L'iscrizione"
+    membership_for_year: "è aperta!"
+    membership_not_open: "non è ancora aperta."
+    membership_will_open: "aprirà in {interval}"
 
   bar:
     recharge:
@@ -64,11 +65,10 @@ authen:
     page_title: Iscrizione
     renew:
       page_title: Rinnovo iscrizione
+      blocked: "L'iscrizione per l'anno {year} è bloccata. Gentilmente rivolgiti in segreteria."
       already_member: "Risulti già iscritto per l'anno {year}"
       not_yet_open: "L'iscrizione per l'anno <strong>{year}</strong> non è ancora aperta."
       not_open: "L'iscrizione per l'anno <strong>{year}</strong> non è aperta."
-      opening_in: "Aprirà in"
-      blocked: "L'iscrizione per l'anno {year} è bloccata. Gentilmente rivolgiti in segreteria."
 
       bio:
         page_title: Dati personali

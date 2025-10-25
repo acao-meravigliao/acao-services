@@ -11,13 +11,17 @@ export default class AuthenMembershipRenewMailingController extends Controller {
   get wizard() { return this.wizard_controller.wizard; }
 
   @action accept() {
-    this.wizard.email_allowed = true;
+    this.wizard.update({
+      email_allowed: true,
+    });
 
     this.wizard.next('bill');
   }
 
   @action refuse() {
-    this.wizard.email_allowed = false;
+    this.wizard.update({
+      email_allowed: false,
+    });
 
     this.wizard.next('bill');
   }

@@ -9,13 +9,10 @@ export default class AuthenMembershipRenewController extends Controller {
   get wizard() { return this.model; }
 
   get renew_is_open() {
-    return this.wizard &&
-           this.wizard.opening_time &&
-           this.clock.date > new Date(this.wizard.opening_time);
+    return this.ms.renew_open_for_year(this.wizard.year_model);
   }
 
-  get renew_is_open_and_needed() {
-    return this.renew_is_open &&
-           !this.wizard.memberships.some((item) => (item.reference_year_id === this.wizard.year_id));
+  get renew_is_open_and_available() {
+    return this.ms.renew_open_and_available_for_year(this.wizard.year_model);
   }
 }

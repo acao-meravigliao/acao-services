@@ -28,7 +28,9 @@ export default class AuthenMembershipRenewRosterController extends Controller {
   }
 
   @action submit() {
-    this.wizard.selected_roster_days = this.selection;
+    this.wizard.update({
+      selected_roster_days: this.selection,
+    });
 
     this.wizard.next('summary');
   }

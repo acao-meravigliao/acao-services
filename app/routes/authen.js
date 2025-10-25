@@ -86,6 +86,7 @@ export default class AuthenRoute extends VosRoute {
      },
     ]).then((sel) => {
       this.ms.update({
+        passepartout: sel.get_first('ygg--acao--member').roles.some((x) => (x.symbol === 'STAFF')),
         memberships: sel.get_all('ygg--acao--membership'),
         years: sel.get_all('ygg--acao--year'),
       });

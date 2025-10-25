@@ -39,7 +39,7 @@ export default class AuthenMembershipRenewSummaryController extends Controller {
 
     this.wizard.debt_id = json.debt_id;
     this.wizard.next('confirmation');
-    this.send('refresh_model');
+//    this.send('refresh_model');
   }
 
   @action back() {

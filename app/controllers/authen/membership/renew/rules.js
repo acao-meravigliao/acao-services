@@ -11,7 +11,9 @@ export default class AuthenMembershipRenewRulesController extends Controller {
   get wizard() { return this.wizard_controller.wizard; }
 
   @action accept() {
-    this.wizard.rules_accepted = true;
+    this.wizard.update({
+      rules_accepted: true,
+    });
 
     this.wizard.next('privacy');
   }
