@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import SelectedService from 'acao-services/utils/selected-service';
 
-export default class AuthenRenewMembershipDataRoute extends Route {
+export default class AuthenRenewMembershipBillRoute extends Route {
   model() {
     return {
       services: this.modelFor('authen.membership.renew').services.map((x) => (

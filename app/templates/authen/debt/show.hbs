@@ -1,4 +1,5 @@
 {{page-title "Pagamento pendente"}}
+
 <div class="container page authen-aircraft">
   <div class="card">
     <div class="card-content">
@@ -96,7 +97,54 @@
         {{/if}}
 
         {{#if this.debt.is_pending}}
-          {{#if this.paying_with}}
+          {{#unless this.paying_with}}
+            <h1 class="title">Paga con:</h1>
+
+            <div class="field is-grouped is-grouped-multiline">
+              {{#if this.debt.pm_card_enabled}}
+                <button class="button is-link"
+                         {{on "click" (fn this.pay_with "CARD")}}>
+                  <span class="icon"><FaIcon @icon="credit-card" /></span>
+                  <span>Carta di Credito</span>
+                </button>
+              {{/if}}
+
+              {{#if this.debt.pm_wire_enabled}}
+                <button class="button is-link"
+                        {{on "click" (fn this.pay_with "WIRE")}}>
+                  <span class="icon"><FaIcon @icon="money-bill-transfer" /></span>
+                  <span>Bonifico</span>
+                </button>
+              {{/if}}
+
+
+{{!--
+              {{#if this.debt.pm_satispay_enabled}}
+                <button class="button is-link"
+                         {{on "click" (fn this.pay_with "SATISPAY")}}>
+                  <span class="icon"><FaIcon @icon="mobile-screen" /></span>
+                  <span>SatisPay</span>
+                </button>
+              {{/if}}
+--}}
+
+              {{#if this.debt.pm_check_enabled}}
+                <button class="button is-link"
+                        {{on "click" (fn this.pay_with "CHECK")}}>
+                  <span class="icon"><FaIcon @icon="money-check" /></span>
+                  <span>Assegno</span>
+                </button>
+              {{/if}}
+
+              {{#if this.debt.pm_cash_enabled}}
+                <button class="button is-link"
+                        {{on "click" (fn this.pay_with "CASH")}}>
+                  <span class="icon"><FaIcon @icon="money-bills" /></span>
+                  <span>Contanti</span>
+                </button>
+              {{/if}}
+            </div>
+          {{else}}
             {{#if (eq this.paying_with "CARD")}}
               <Payment::Card @debt={{this.debt}} />
             {{else if (eq this.paying_with "WIRE")}}
@@ -110,37 +158,7 @@
             {{!--{{component (ensure-safe-component this.paying_with_component) debt=this.debt}}--}}
 
             <button class="button" {{on "click" this.pay_cancel}}>Annulla</button>
-          {{else}}
-            <h1 class="title">Paga con:</h1>
-
-            <div class="field is-grouped is-grouped-multiline">
-              <button class="button is-link"
-                       {{on "click" (fn this.pay_with "CARD")}}>
-                <span class="icon"><FaIcon @icon="credit-card" /></span>
-                <span>Carta di Credito</span>
-              </button>
-              <button class="button is-link"
-                      {{on "click" (fn this.pay_with "WIRE")}}>
-                <span class="icon"><FaIcon @icon="money-bill-transfer" /></span>
-                <span>Bonifico</span>
-              </button>
-              <button class="button is-link"
-                       {{on "click" (fn this.pay_with "SATISPAY")}}>
-                <span class="icon"><FaIcon @icon="mobile-screen" /></span>
-                <span>SatisPay</span>
-              </button>
-              <button class="button is-link"
-                      {{on "click" (fn this.pay_with "CHECK")}}>
-                <span class="icon"><FaIcon @icon="money-check" /></span>
-                <span>Assegno</span>
-              </button>
-              <button class="button is-link"
-                      {{on "click" (fn this.pay_with "CASH")}}>
-                <span class="icon"><FaIcon @icon="money-bills" /></span>
-                <span>Contanti</span>
-              </button>
-            </div>
-          {{/if}}
+          {{/unless}}
         {{/if}}
       </div>
     </div>

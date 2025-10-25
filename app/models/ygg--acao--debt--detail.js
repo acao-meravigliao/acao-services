@@ -10,4 +10,8 @@ export default class YggAcaoDebtDetailModel extends Model {
   @attr('number') amount;
 
   @vosBelongsTo('detail', 'debt') debt;
+
+  get total() {
+    return this.count * (this.amount + this.amount * this.vat);
+  }
 }

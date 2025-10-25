@@ -1,0 +1,86 @@
+{{page-title (t "authen.membership.renew.bill.page_title")}}
+
+<div class="container">
+  <table class="renew-services table is-fullwidth">
+    <thead>
+      <tr>
+        <th class="is-narrow"></th>
+        <th>{{t "authen.membership.renew.bill.element"}}</th>
+        <th>{{t "authen.membership.renew.bill.cost"}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this.services key="@index" as |service index|}}
+      <tr>
+        <td class="collapsing">
+          {{#if service.removable}}
+            <button class="button" type="button" {{on "click" (fn this.service_del index)}}>
+              <span class="icon is-small"><FaIcon @icon="trash" /></span>
+            </button>
+          {{/if}}
+          {{#if service.toggable}}
+            <input type="checkbox" class="checkbox" checked={{service.enabled}} {{on "change" (fn this.service_toggle index)}} />
+          {{/if}}
+        </td>
+        <td style="overflow:visible;">
+          {{#if service.type_changeable}}
+            <PowerSelect @options={{this.service_types_opts}}
+                         @selected={{service.type}}
+                         @onChange={{fn this.service_set service}}
+                         @placeholder={{t "authen.membership.renew.bill.service_select_placeholder"}} as |el|>
+              {{el.name}}
+            </PowerSelect>
+          {{else}}
+            {{service.type.name}}
+          {{/if}}
+
+          {{#if service.type.extra_info}}
+            <div class="control">
+              <label>
+                {{service.type.extra_info}}
+                <input type="text" class="input" value={{service.extra_info}} {{on "change" (fn this.service_set_extra_info service)}} />
+              </label>
+            </div>
+          {{/if}}
+          {{#if service.type.notes}}
+            <div class="notification is-warning is-light">
+              {{service.type.notes}}
+            </div>
+          {{/if}}
+        </td>
+        <td class="price {{if service.enabled "" "disabled"}}">
+          {{#if service.type}}{{format-number service.type.price style="currency" currency="EUR"}}{{/if}}
+        </td>
+      </tr>
+      {{/each}}
+
+      <tr>
+        <td colspan="3">
+          <button class="button is-info" type="button" {{on "click" this.service_add}}>
+            <span class="icon">
+              <FaIcon @icon="plus" />
+            </span>
+            <strong>{{t "authen.membership.renew.bill.trailer_etc"}}</strong>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+
+    <tfoot>
+      <tr>
+        <th colspan="2">{{t "authen.membership.renew.bill.total"}}</th>
+        <td class="total price">{{format-number this.total style="currency" currency="EUR"}}</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="buttons is-centered">
+    <button class="button is-grey is-large" type="button" {{on "click" this.back}}>
+      <span class="icon"><FaIcon @icon="backward" /></span>
+      <span>{{t "authen.membership.renew.bill.back"}}</span>
+    </button>
+    <button class="button is-primary is-large" disabled={{this.submit_disabled}} type="button" {{on "click" this.submit}}>
+      {{t "authen.membership.renew.bill.forward"}}
+    </button>
+  </div>
+</div>

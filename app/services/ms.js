@@ -1,6 +1,7 @@
 import Service from '@ember/service';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import moment from 'moment';
 
 export default class MembershipStatusService extends Service {
   @service clock;
@@ -12,6 +13,10 @@ export default class MembershipStatusService extends Service {
   update(data) {
     this.memberships = data.memberships;
     this.years = data.years;
+  }
+
+  get relevant_memberships() {
+    return this.memberships.filter((x) => (x.year === this.current_year || x.year === this.next_year));
   }
 
   get current_year() {
@@ -63,5 +68,11 @@ export default class MembershipStatusService extends Service {
   get next_renew_is_going_to_open_and_needed() {
     return this.next_renew_is_going_to_open &&
            this.next_renew_is_needed;
+  }
+
+  get next_will_open_in() {
+    this.clock.date;
+
+    return moment(this.next_year.renew_opening_time).fromNow();
   }
 }

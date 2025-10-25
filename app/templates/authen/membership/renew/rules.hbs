@@ -1,0 +1,25 @@
+{{page-title (t "authen.membership.renew.rules.page_title")}}
+
+<div class="container has-text-centered box">
+  <p class="m-3">
+    {{t "authen.membership.renew.rules.declaration"}}
+  </p>
+
+  <p class="m-6">
+    <a class="button is-link is-large" href="/regolamento.pdf">
+      <span class="icon"><FaIcon @icon="download" /></span>
+      <span>{{t "authen.membership.renew.rules.link"}}</span>
+    </a>
+  </p>
+
+  <div class="buttons is-centered">
+    <button class="button is-grey is-large" type="button" {{on "click" this.back}}>
+      <span class="icon"><FaIcon @icon="backward" /></span>
+      <span>{{t "authen.membership.renew.rules.back"}}</span>
+    </button>
+    <button class="button is-primary is-large" type="button" {{on "click" this.accept}}>
+      <span class="icon"><FaIcon @icon="thumbs-up" /></span>
+      <span>{{t "authen.membership.renew.rules.confirm"}}</span>
+    </button>
+  </div>
+</div>

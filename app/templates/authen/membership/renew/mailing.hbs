@@ -1,0 +1,22 @@
+{{page-title (t "authen.membership.renew.mailing.page_title")}}
+
+<div class="container has-text-centered box">
+  <p class="m-3">
+    {{t "authen.membership.renew.mailing.declaration"}}
+  </p>
+
+  <div class="buttons is-centered">
+    <button class="button is-grey is-large" type="button" {{on "click" this.back}}>
+      <span class="icon"><FaIcon @icon="backward" /></span>
+      <span>{{t "authen.membership.renew.mailing.back"}}</span>
+    </button>
+    <button class="button is-primary is-large" type="button" {{on "click" this.refuse}}>
+      <span class="icon"><FaIcon @icon="thumbs-down" /></span>
+      <span>{{t "authen.membership.renew.mailing.refuse"}}</span>
+    </button>
+    <button class="button is-primary is-large" type="button" {{on "click" this.accept}}>
+      <span class="icon"><FaIcon @icon="thumbs-up" /></span>
+      <span>{{t "authen.membership.renew.mailing.accept"}}</span>
+    </button>
+  </div>
+</div>

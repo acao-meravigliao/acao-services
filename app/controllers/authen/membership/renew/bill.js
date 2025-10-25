@@ -6,18 +6,16 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import SelectedService from 'acao-services/utils/selected-service';
 
-export default class AuthenMembershipRenewDataController extends Controller {
+export default class AuthenMembershipRenewBillController extends Controller {
   @service session;
   @service router;
   @controller('authen.membership.renew') wizard_controller;
 
-  @tracked enable_email = true;
-  @tracked accept_rules = false;
-  @tracked payment_method;
+  @tracked email_allowed = true;
 
   get wizard() { return this.wizard_controller.wizard; }
 
-  get services() { return this.model.services }
+  get services() { return this.wizard.services; }
 
   get service_types_opts() {
     return this.wizard.service_types.sort((a,b) => (a.name.localeCompare(b.name))).
@@ -39,16 +37,7 @@ export default class AuthenMembershipRenewDataController extends Controller {
            ), 0);
   }
 
-  get form_invalid() {
-    return !this.accept_rules ||
-           !this.payment_method;
-  }
-
   get submit_disabled() { return this.form_invalid; }
-
-  get payment_wire() { return this.payment_method === 'WIRE'; }
-  get payment_check() { return this.payment_method === 'CHECK'; }
-  get payment_card() { return this.payment_method === 'CARD'; }
 
   @action service_add() {
     this.services.addObject(new SelectedService({
@@ -72,27 +61,18 @@ export default class AuthenMembershipRenewDataController extends Controller {
     this.services[index].enabled = !this.services[index].enabled;
   }
 
-  @action enable_email_set(ev) {
-    this.enable_email = ev.target.checked;
+  @action email_allowed_set(ev) {
+    this.email_allowed = ev.target.checked;
   }
-
-  @action accept_rules_set(ev) {
-    this.accept_rules = ev.target.checked;
-  }
-
-  @action payment_method_set(value) {
-    this.payment_method = value;
-  }
-
 
   @action submit() {
     this.wizard.services = this.services;
 
     this.wizard.setProperties(this.getProperties(
-      'enable_email', 'accept_rules', 'payment_method',
+      'email_allowed',
     ));
 
-    this.wizard.next('roster');
+    this.wizard.next('roster-select');
   }
 
   @action back() {

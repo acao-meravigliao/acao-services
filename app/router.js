@@ -23,7 +23,11 @@ Router.map(function() {
         this.route('bio-edit');
         this.route('aircraft-owned');
         this.route('aircraft-new');
-        this.route('data');
+        this.route('cap');
+        this.route('rules');
+        this.route('mailing');
+        this.route('privacy');
+        this.route('bill');
         this.route('roster-select');
         this.route('roster');
         this.route('summary');

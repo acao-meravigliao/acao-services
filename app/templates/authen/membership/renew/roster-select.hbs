@@ -1,0 +1,22 @@
+{{page-title (t "authen.membership.renew.roster.page_title")}}
+
+<RosterSelector
+  @initial_selection={{this.wizard.selected_roster_days}}
+  @days={{this.roster_days}}
+  @needed_total={{this.roster_status.will_need_total}}
+  @needed_high_season={{this.roster_status.will_need_high_season}}
+  @show_slots={{true}}
+  @member={{this.member}}
+  @selection_changed={{this.selection_changed}}
+  @selection_validity_changed={{this.selection_validity_changed}}
+/>
+
+<div class="buttons is-centered">
+  <button class="button is-grey is-large" type="button" {{on "click" this.back}}>
+    <span class="icon"><FaIcon @icon="backward" /></span>
+    <span>{{t "authen.membership.renew.roster.back"}}</span>
+  </button>
+  <button class="button is-primary is-large" disabled={{not this.submit_enabled}} type="button" {{on "click" this.submit}}>
+    {{t "authen.membership.renew.roster.forward"}}
+  </button>
+</div>

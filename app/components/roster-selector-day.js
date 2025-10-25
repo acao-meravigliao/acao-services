@@ -4,13 +4,8 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 export default class RosterSelectorDayComponent extends Component {
-  @tracked selected = false;
-
   constructor() {
     super(...arguments);
-
-    if (this.args.selected)
-      this.selected = true;
   }
 
   get sorted_entries() {
@@ -20,7 +15,7 @@ export default class RosterSelectorDayComponent extends Component {
   }
 
   get missing_entries() {
-    return Array(Math.max(this.args.day.needed_people - (this.args.day.entries.length + (this.selected ? 1 : 0)), 0));
+    return Array(Math.max(this.args.day.needed_people - (this.args.day.entries.length + (this.args.selected ? 1 : 0)), 0));
   }
 
   get unavailable() {
@@ -32,16 +27,9 @@ export default class RosterSelectorDayComponent extends Component {
     if (this.unavailable)
       return;
 
-    if (this.selected) {
-      this.selected = false;
-
-      if (this.args.on_del)
-        this.args.on_del(this.args.day);
-    } else {
-      this.selected = true;
-
-      if (this.args.on_add)
-        this.args.on_add(this.args.day);
-    }
+    if (this.args.selected)
+      this.args.on_del && this.args.on_del(this.args.day);
+    else
+      this.args.on_add && this.args.on_add(this.args.day);
   }
 }

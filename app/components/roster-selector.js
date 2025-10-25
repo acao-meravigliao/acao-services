@@ -29,13 +29,7 @@ export default class RosterSelectorComponent extends Component {
     return this.filtered_roster_days.sort((a,b) => (a[this.roster_days_sort_order] - b[this.roster_days_sort_order]));
   }
 
-  is_selected(day) {
-    return this.selection.includes(day);
-  }
-
-  get sorted_filtered_roster_days_with_selected() {
-    return this.sorted_filtered_roster_days.map((x) => ({ day: x, selected: this.is_selected(x) })) ;
-  }
+  is_selected = (day) => (this.selection.map((x)=>(x.id)).includes(day.id));
 
   @action on_add(day) {
     this.selection.pushObject(day);

@@ -1,0 +1,186 @@
+{{page-title (t "authen.membership.renew.bio_edit.page_title")}}
+
+<div class="container box">
+
+  <div>
+    {{t "authen.membership.renew.bio_edit.name"}}:
+      <strong>{{this.wizard.person.first_name}} {{this.wizard.person.last_name}}</strong>
+  </div>
+
+  <div>
+    {{t "authen.membership.renew.bio_edit.date_of_birth"}}:
+      <strong>{{format-date this.wizard.person.birth_date}}</strong>
+  </div>
+
+  <div>
+    {{t "authen.membership.renew.bio_edit.birth_location"}}:
+      <strong>{{this.wizard.person.birth_location.raw_address}}</strong>
+  </div>
+
+  <div>
+    {{t "authen.membership.renew.bio_edit.residence_location"}}:
+      <strong>{{this.wizard.person.residence_location.raw_address}}</strong>
+  </div>
+
+  {{!--
+  <div class="field">
+    <label class="label">Telefono fisso</label>
+    <div class="control">
+      <input class="input" type="text" placeholder="+39 555 123456">
+    </div>
+  </div>
+  --}}
+
+  {{#each this.emails as |item index|}}
+    <div class="field has-addons">
+      <div class="control is-expanded has-icons-left has-icons-right">
+        <input class="input {{if item.is_valid "" "is-danger"}}"
+               type="email"
+               placeholder="xxx@yyy.com"
+               value={{item.value}}
+               {{on "change" (fn this.email_change item)}}
+        />
+        <span class="icon is-small is-left">
+          <FaIcon @icon="envelope" />
+        </span>
+        {{#unless item.is_valid}}
+          <span class="icon is-small is-right">
+            <FaIcon @icon="exclamation-triangle" />
+          </span>
+        {{/unless}}
+      </div>
+      <div class="control">
+        <button type="submit" class="button is-danger" {{on "click" (fn this.email_remove item)}}>
+          <span class="icon is-small">
+            <FaIcon @icon="remove" />
+          </span>
+        </button>
+      </div>
+    </div>
+  {{/each}}
+  <button type="submit" class="button is-link" {{on "click" this.email_add}}>
+    <span class="icon is-small">
+      <FaIcon @icon="plus" />
+    </span>
+    <span>Email</span>
+  </button>
+
+  {{!--------------------}}
+
+  {{#each this.fixed_phones as |item index|}}
+    <div class="field has-addons">
+      <div class="control is-expanded has-icons-left has-icons-right">
+        <input class="input {{if item.is_valid "" "is-danger"}}"
+               type="phone"
+               placeholder="+39 347 123456"
+               value={{item.value}}
+               {{on "change" (fn this.fixed_phone_change item)}}
+        />
+        <span class="icon is-small is-left">
+          <FaIcon @icon="envelope" />
+        </span>
+        {{#unless item.is_valid}}
+          <span class="icon is-small is-right">
+            <FaIcon @icon="exclamation-triangle" />
+          </span>
+        {{/unless}}
+      </div>
+      <div class="control">
+        <button type="submit" class="button is-danger" {{on "click" (fn this.fixed_phone_remove item)}}>
+          <span class="icon is-small">
+            <FaIcon @icon="remove" />
+          </span>
+        </button>
+      </div>
+    </div>
+  {{/each}}
+  <div>
+    <button type="submit" class="button is-link" {{on "click" this.fixed_phone_add}}>
+      <span class="icon is-small">
+        <FaIcon @icon="plus" />
+      </span>
+      <span>Telefono fisso</span>
+    </button>
+  </div>
+
+  {{!--------------------}}
+
+  {{#each this.mobile_phones as |item index|}}
+    <div class="field has-addons">
+      <div class="control is-expanded has-icons-left has-icons-right">
+        <input class="input {{if item.is_valid "" "is-danger"}}"
+               type="phone"
+               placeholder="+39 347 123456"
+               value={{item.value}}
+               {{on "change" (fn this.mobile_phone_change item)}}
+        />
+        <span class="icon is-small is-left">
+          <FaIcon @icon="envelope" />
+        </span>
+        {{#unless item.is_valid}}
+          <span class="icon is-small is-right">
+            <FaIcon @icon="exclamation-triangle" />
+          </span>
+        {{/unless}}
+      </div>
+      <div class="control">
+        <button type="submit" class="button is-danger" {{on "click" (fn this.mobile_phone_remove item)}}>
+          <span class="icon is-small">
+            <FaIcon @icon="remove" />
+          </span>
+        </button>
+      </div>
+    </div>
+  {{/each}}
+  <button type="submit" class="button is-link" {{on "click" this.mobile_phone_add}}>
+    <span class="icon is-small">
+      <FaIcon @icon="plus" />
+    </span>
+    <span>Cellulare</span>
+  </button>
+
+  {{!--------------------}}
+
+  <div class="buttons is-centered">
+    <button class="button is-grey is-large" type="button" {{on "click" this.back}}>
+      <span class="icon"><FaIcon @icon="backward" /></span>
+      <span>Indietro</span>
+    </button>
+    <button class="button is-primary is-large {{if this.in_progress "is-loading"}}" disabled={{this.submit_disabled}} type="button" {{on "click" this.submit}}>
+      Okay
+    </button>
+  </div>
+
+  <ExceptionDecoder @ex={{this.error}} as |title detail|>
+    <div class="notification is-danger">
+      <h1 class="title">{{title}}</h1><br />
+      {{detail}}
+    </div>
+  </ExceptionDecoder>
+
+
+{{!--
+      <p>
+        {{t "authen.membership.renew.index.email"}}: <strong>{{if index ", "}}{{item.value}}{{/each}}</strong><br />
+        {{t "authen.membership.renew.index.pots_phone"}}: <strong>{{#each this.my_fixed_phones as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
+        {{t "authen.membership.renew.index.cell_phone"}}: <strong>{{#each this.my_mobiles as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
+      </p>
+
+      <div class="buttons is-centered">
+        I tuoi dati sono corretti?
+      </div>
+
+      <div class="buttons is-centered">
+        <button class="button is-warning is-large" disabled={{this.form_invalid}} type="button" {{on "click" this.submit_no}}>
+          No
+          {{t "authen.membership.renew.index.proceed"}}
+        </button>
+        <button class="button is-primary is-large" disabled={{this.form_invalid}} type="button" {{on "click" this.submit_yes}}>
+          Sì
+        </button>
+      </div>
+    {{/if}}
+  </div>
+--}}
+
+</div>

@@ -49,6 +49,11 @@ export default {
     },
 
   },
+  relative: {
+    compact: {
+      style: 'narrow',
+    },
+  },
   number: {
     compact: { notation: 'compact' },
     EUR: {

@@ -8,6 +8,11 @@ export default class YggAcaoDebtModel extends Model {
   @attr('date') completed_at;
   @attr('string') state;
   @attr('string') descr;
+  @attr('boolean') pm_card_enabled;
+  @attr('boolean') pm_wire_enabled;
+  @attr('boolean') pm_check_enabled;
+  @attr('boolean') pm_cash_enabled;
+  @attr('boolean') pm_satispay_enabled;
 
 //  @vosBelongsTo('debt', 'person') person;
   @vosBelongsTo('debt', 'member') member;

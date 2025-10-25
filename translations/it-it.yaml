@@ -95,22 +95,36 @@ authen:
         pots_phone: Telefono fisso
         cell_phone: Cellulare
 
-      data:
-        page_title: Dati
+      bill:
+        page_title: Servizi
         element: Elemento
         cost: Costo
         service_select_placeholder: Seleziona il servizio...
         trailer_etc: "Posto carrello, ecc..."
         total: Total
-        email_auth: "Autorizzo l'invio per e-mail delle comunicazioni, convocazioni di assemblee e ogni altra disposizione obbligatoria.  (DPR 15 marzo 1997 n. 59 art 15 secondo comma, D.P.R. 28 dicembre 2000 n.445 art. 14 comma terzo, D.P.R. 13 febbraio 2001 n. 123 art. 8, Direttiva 2000/31/CE 8 giugno 2000 art. 11, comma 1)"
-        rules: "Dichiaro  di aver preso visione del <a href=\"/regolamento.pdf\">Regolamento</a> dell'Aeroclub e di accettarlo in modo totale e incondizionato."
-        payment_method: Metodo di pagamento
-        wire: Bonifico Bancario
-        check: Assegno
-        credit_card: Carte (in segreteria)
-        accept_rules: Accetta il regolamento aeroportuale e scegli il metodo di pagamento.
         back: Indietro
         forward: Avanti...
+
+      rules:
+        page_title: Regolamento
+        link: Regolamento
+        declaration: "Dichiaro di aver preso visione del regolamento dell'Aeroclub e di accettarlo in modo totale e incondizionato."
+        confirm: Accetto
+        back: Indietro
+
+      privacy:
+        page_title: Privacy
+        link: Informativa Privacy
+        declaration: "Dichiaro di aver preso visione dell'informativa privacy"
+        accept: Accetto
+        back: Indietro
+
+      mailing:
+        page_title: Mail
+        declaration: "Autorizzo l'invio per e-mail delle comunicazioni, convocazioni di assemblee e ogni altra disposizione obbligatoria.  (DPR 15 marzo 1997 n. 59 art 15 secondo comma, D.P.R. 28 dicembre 2000 n.445 art. 14 comma terzo, D.P.R. 13 febbraio 2001 n. 123 art. 8, Direttiva 2000/31/CE 8 giugno 2000 art. 11, comma 1)"
+        accept: Accetto
+        refuse: Rifiuto
+        back: Indietro
 
       roster:
         page_title: Selezione turni di linea

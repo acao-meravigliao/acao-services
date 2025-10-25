@@ -1,2 +1,13 @@
 {{page-title (t "authen.membership.renew.page_title")}}
-{{outlet}}
+
+{{#if this.wizard.blocked}}
+  <div class="notification is-error">
+    {{t "authen.membership.index.blocked" year=this.wizard.year htmlSafe=true}}
+  </div>
+{{else if this.renew_is_open_and_needed}}
+  {{outlet}}
+{{else}}
+  <div class="notification is-error">
+    {{t "authen.membership.renew.not_open" year=this.wizard.year htmlSafe=true}}
+  </div>
+{{/if}}

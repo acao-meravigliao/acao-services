@@ -1,0 +1,92 @@
+{{page-title (t "authen.membership.renew.bio.page_title")}}
+
+<div class="container">
+  <div class="box">
+    <h1 class="title">{{t "authen.membership.renew.bio.hello" name=this.wizard.person.first_name}}</h1>
+
+    {{#if this.wizard.membership}}
+      <div class="notification is-info">
+        {{t "authen.membership.renew.bio.already_member" year=this.wizard.year}}
+      <//div>
+
+      {{#if this.payment_is_pending}}
+        <LinkTo target="authen.payment" @model={{this.wizard.membership.payment_id}} class="button is-huge">
+          {{t "authen.membership.renew.bio.payment_pending"}}
+        </LinkTo>
+      {{/if}}
+
+    {{else}}
+      <p>
+        {{t "authen.membership.renew.bio.text" year=this.wizard.year}}
+      </p>
+      <p>
+        {{t "authen.membership.renew.bio.check_your_data" year=this.wizard.year}}
+      </p>
+      <p>
+        {{t "authen.membership.renew.bio.name"}}:
+          <strong>{{this.wizard.person.first_name}} {{this.wizard.person.last_name}}</strong><br />
+
+        {{t "authen.membership.renew.bio.date_of_birth"}}:
+          <strong>{{format-date this.wizard.person.birth_date}}</strong><br />
+
+        {{t "authen.membership.renew.bio.birth_location"}}:
+          <strong>{{this.wizard.person.birth_location.raw_address}}</strong><br />
+
+        {{t "authen.membership.renew.bio.residence_location"}}:
+          <strong>{{this.wizard.person.residence_location.raw_address}}</strong><br />
+
+        {{#each this.emails as |email index|}}
+          {{t "authen.membership.renew.bio.email"}}:
+            <strong>{{email.email}}</strong>
+
+            {{#if email.ml_address}}
+              {{#if email.ml_address.validated}}
+                <span class="tag is-success">Validato</span>
+              {{else}}
+                <span class="tag is-danger">Non validato</span>
+              {{/if}}
+
+              {{#unless email.ml_address.reliable}}
+                <span class="tag is-danger">Problemi di consegna</span>
+              {{/unless}}
+            {{/if}}
+            <br />
+        {{/each}}
+
+        {{t "authen.membership.renew.bio.pots_phone"}}:
+          <strong>{{#each this.fixed_phones as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
+
+        {{t "authen.membership.renew.bio.cell_phone"}}:
+          <strong>{{#each this.mobiles as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
+      </p>
+
+
+      <div class="buttons is-centered">
+        Verifica che i tuoi dati siano corretti, altrimenti comunica le variazioni in segreteria.
+      </div>
+
+      <div class="buttons is-centered">
+        <button class="button is-primary is-large" disabled={{this.form_invalid}} type="button" {{on "click" this.submit_yes}}>
+          <span class="icon"><FaIcon @icon="play" /></span> 
+          <span>Avanti</span>
+        </button>
+      </div>
+
+      {{!--
+      <div class="buttons is-centered">
+        I tuoi dati sono corretti?
+      </div>
+
+      <div class="buttons is-centered">
+        <button class="button is-warning is-large" disabled={{this.form_invalid}} type="button" {{on "click" this.submit_no}}>
+          No
+        </button>
+        <button class="button is-primary is-large" disabled={{this.form_invalid}} type="button" {{on "click" this.submit_yes}}>
+          Sì
+        </button>
+      </div>
+      --}}
+
+    {{/if}}
+  </div>
+</div>
