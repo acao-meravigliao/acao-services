@@ -10,7 +10,7 @@ export default class ApplicationRoute extends Route {
   @service intl;
   @service version_checker;
 
-  initialConnection = true;
+  initial_connection = true;
 
   constructor() {
     super(...arguments);
@@ -34,7 +34,7 @@ export default class ApplicationRoute extends Route {
       this.session.load().then(() => {
         if (this.vos.state != 'READY') {
           this.vos.connect().then(() => {
-            this.initialConnection = false;
+            this.initial_connection = false;
             resolve();
           }).catch(() => { reject(); });
         }
