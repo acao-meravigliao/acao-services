@@ -85,7 +85,7 @@ export default class MembershipStatusService extends Service {
   }
 
   get next_renew_is_going_to_open() {
-    renew_going_to_open_for_year(this.next_year);
+    return this.renew_going_to_open_for_year(this.next_year);
   }
 
   get next_renew_is_going_to_open_and_available() {
