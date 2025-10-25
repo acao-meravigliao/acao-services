@@ -5,11 +5,9 @@ import { tracked } from '@glimmer/tracking';
 import config from 'acao-services/config/environment';
 
 export default class AuthenController extends Controller {
-//  @service('vihai-object-streaming') vos;
   @service store;
   @service session;
   @service router;
-//  @service('shopping-cart') cart;
   @service clock;
   @service ms;
 
@@ -45,19 +43,7 @@ export default class AuthenController extends Controller {
     return this.roster_status;
   }
 
-  get my_page_title() {
-    return 'FIXME';
+  get pending_debts() {
+    return this.member.debts.filter((x) => (x.state === 'PENDING'));
   }
-
-  get my_payments() {
-    return [];//this.model.payments.filter(((x) => (x.person_id === this.session.person_id)));
-  }
-
-  get pending_payments() {
-    return [];//this.my_payments.filter((x) => (x.state === 'PENDING'));
-  }
-
-  // ------------------- Roster ---------------------
-  get roster_cur_status() { return this.roster_status.current; }
-  get roster_next_status() { return this.roster_status.next; }
 }
