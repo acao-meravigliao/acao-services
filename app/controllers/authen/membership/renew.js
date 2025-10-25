@@ -7,4 +7,12 @@ export default class AuthenMembershipRenewController extends Controller {
   @service ms;
 
   get wizard() { return this.model; }
+
+  get renew_is_open() {
+    return this.ms.renew_open_for_year(this.wizard.year_model);
+  }
+
+  get renew_is_open_and_available() {
+    return this.ms.renew_open_and_available_for_year(this.wizard.year_model);
+  }
 }

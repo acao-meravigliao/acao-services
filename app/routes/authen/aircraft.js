@@ -47,16 +47,6 @@ export default class AuthenAircraftRoute extends BaseRoute {
      {
       type: 'ygg--acao--aircraft-sync-status',
      },
-    ]).then((sel) => {
-      this.sync_statuses = this.store.peekSelected('ygg--acao--aircraft-sync-status', sel);
-
-      return this.store.peekRecord('ygg--acao--aircraft', params.id);
-    });
-  }
-
-  setupController(controller, model) {
-    super.setupController(...arguments);
-
-    controller.sync_statuses = this.sync_statuses;
+    ]);
   }
 }

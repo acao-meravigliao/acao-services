@@ -12,13 +12,19 @@ export default class AuthenIndexController extends Controller {
 
   roster_entries_sort_order = ['roster_day.date'];
 
-  get roles() {
-    return this.authen_controller.member.roles;
+  get person() {
+    return this.model.get_first('ygg--core--person');
   }
 
-  get relevant_memberships() {
-    return this.model.memberships.filter((x) => (x.year === this.ms.current_year || x.year === this.ms.next_year));
+  get memberships() {
+    return this.model.get_all('ygg--acao--membership');
   }
+
+  get roles() {
+    return this.authen_controller.roles;
+  }
+
+  icon_for = (role) => (this.authen_controller.available_roles.find((x) => (x.symbol === role)).icon);
 
   //------------------- Renewal -------------------
   @action start_current_membership_renewal() {
@@ -28,6 +34,10 @@ export default class AuthenIndexController extends Controller {
   @action start_next_membership_renewal() {
     this.router.transitionTo('authen.membership.renew', this.ms.next_year.year);
   }
+
+
+
+
 
   //------------------- Roster -------------------
   get my_next_roster_entries() {

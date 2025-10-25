@@ -5,14 +5,17 @@
     <div class="cell">
       <h1 class="title">
         {{t "authen.index.hello"}}
-        {{if this.model.person.nickname this.model.person.nickname this.model.person.first_name}}!
+        {{if this.person.nickname this.person.nickname this.person.first_name}}!
       </h1>
     </div>
     <div class="cell">
       {{#each this.roles as |role|}}
-        <span class="tag">{{t (concat "member.roles." role.symbol)}}</span>
+        <span class="tag">
+          <span class="icon"><FaIcon @icon={{this.icon_for role}} /></span>
+          <span>{{t (concat "member.roles." role)}}</span>
+        </span>
       {{/each}}
-      {{#each this.relevant_memberships key="id" as |membership|}}
+      {{#each this.ms.relevant_memberships key="id" as |membership|}}
         <span class="tag">{{membership.year.year}}</span>
       {{/each}}
     </div>
@@ -20,32 +23,35 @@
 
   <div class="level">
     <div class="level-item has-text-centered">
-      <BarGauge @credit={{this.model.person.member.bar_credit}} />
+      <BarGauge @credit={{this.person.member.bar_credit}} />
     </div>
 
     <div class="level-item has-text-centered">
-      <TokensGauge @credit={{this.model.person.member.bollini}} />
+      <TokensGauge @credit={{this.person.member.bollini}} />
     </div>
   </div>
 
-  {{#if this.ms.current_renew_is_open_and_needed}}
-    <div class="notification is-success">
-      {{t "authen.index.membership_for_year" year=this.ms.current_year.year htmlSafe=true}}
-      <button class="button is-info" type="button" {{on "click" this.start_current_membership_renewal}}>Inizia</button>
-    </div>
-  {{/if}}
-
-  {{#if this.ms.next_renew_is_going_to_open_and_needed}}
-    <div class="notification is-warning">
-      {{t "authen.index.membership_not_open" year=this.ms.next_year.year htmlSafe=true}}
-      {{t "authen.index.membership_opening_in"}} {{format-date-from-now this.ms.next_year.renew_opening_time}}
-    </div>
-  {{/if}}
-
-  {{#if this.ms.next_renew_is_open_and_needed}}
-    <button class="button is-huge is-multiline is-success" {{on "click" this.start_next_membership_renewal}}>
+  {{#if this.ms.current_renew_is_open_and_available}}
+    <button class="button is-huge is-multiline is-success" {{on "click" this.start_current_membership_renewal}}>
+      <span>L'iscrizione</span>
       <span class="is-size-2 has-text-weight-bold">{{this.ms.current_year.year}}</span>
       <span>{{t "authen.index.membership_for_year"}}</span>
+    </button>
+  {{/if}}
+
+  {{#if this.ms.next_renew_is_open_and_available}}
+    <button class="button is-huge is-multiline is-success" {{on "click" this.start_next_membership_renewal}}>
+      <span>{{t "authen.index.the_membership"}}</span>
+      <span class="is-size-2 has-text-weight-bold">{{this.ms.next_year.year}}</span>
+      <span>{{t "authen.index.membership_for_year"}}</span>
+    </button>
+  {{/if}}
+
+  {{#if this.ms.next_renew_is_going_to_open_and_available}}
+    <button class="button is-huge is-multiline is-grey" disabled>
+      <span>{{t "authen.index.the_membership"}}</span>
+      <span class="is-size-2 has-text-weight-bold">{{this.ms.next_year.year}}</span>
+      <span>{{t "authen.index.membership_will_open" interval=this.ms.next_will_open_in}}</span>
     </button>
   {{/if}}
 
@@ -63,19 +69,19 @@
 
 
 {{!--
-        {{#if model.medicals}}
+        {{#if this.medicals}}
           <div class="ui segment">
             Visita medica:
-            {{#each this.model.medicals as |med|}}
+            {{#each this.medicals as |med|}}
               {{med.type}}: {{format-date this.med.valid_to}}<br />
             {{/each}}
           </div>
         {{/if}}
 
-        {{#if this.model.licenses}}
+        {{#if this.licenses}}
           <div class="ui segment">
             Licenze:
-            {{#each model.licenses as |lic|}}
+            {{#each this.licenses as |lic|}}
               {{lic.type}}: {{lic.identifier}}: {{format-date this.lic.valid_to}}
             {{/each}}
           </div>

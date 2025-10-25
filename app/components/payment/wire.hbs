@@ -1,12 +1,12 @@
-<div class="box">
+<div>
   Se non lo hai già fatto procedi al versamento alle seguenti coordinate:
 
-  <div class="box content">
-    <h4>Aero Club Adele Orsi Associazione Sportiva Dilettantistica</h4>
+  <div class="notification is-primary is-light">
+    <strong>Aero Club Adele Orsi Associazione Sportiva Dilettantistica</strong><br />
     Banca Popolare di Sondrio - Agenzia di Gavirate<br />
     IBAN: <strong><span style="font-family: monospace">IT70R0569650250000020249X74</span></strong><br />
-    Causale: <strong>Pagamento codice {{@payment.identifier}}{{#if @payment.reason_for_payment}} per {{@payment.reason_for_payment}}{{/if}}</strong><br />
-    Importo: <strong>{{format-number @payment.amount style="currency" currency="EUR"}}</strong>
+    Importo: <strong>{{format-number @debt.payment_needed style="currency" currency="EUR"}}</strong>
+    Causale: <strong>Pagamento codice {{@debt.identifier}}{{#if @debt.descr}} per {{@debt.descr}}{{/if}}</strong><br />
   </div>
 
   <div class="notification is-warning">

@@ -8,8 +8,12 @@ export default class FlightController extends Controller {
   @service router;
   @controller('authen') authen_controller;
 
+  get flight() {
+    return this.model.get_first('ygg--acao--flight');
+  }
+
   get sorted_token_transactions() {
-    return this.model.token_transactions.sort((a,b) => (a.recorded_at - b.recorded_at));
+    return this.flight.token_transactions.sort((a,b) => (a.recorded_at - b.recorded_at));
   }
 
   get is_aircraft_mine() {

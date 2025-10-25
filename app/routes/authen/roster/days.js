@@ -31,7 +31,7 @@ export default class AuthenRosterDaysRoute extends BaseRoute {
         }
        },
      },
-    ]).then((sel) => { return sel; });
+    ]);
   }
 
   setupController(controller, model) {

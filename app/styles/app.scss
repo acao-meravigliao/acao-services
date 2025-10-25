@@ -11,7 +11,7 @@ html {
 
   body {
     header {
-      background-color: #aaf;
+      background-color: #ffc300;
       padding: 0.5em;
       text-align: center;
 
@@ -42,21 +42,6 @@ html {
     }
   }
 }
-
-
-
-
-
-.navbar-menu {
-  a.active {
-//    @extend .is-active;
-  }
-}
-
-
-
-
-
 
 ::-ms-reveal {
   display: none

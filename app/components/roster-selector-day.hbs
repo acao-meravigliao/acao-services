@@ -1,4 +1,4 @@
-<div class="roster-selector-day {{if this.selected "selected"}} {{if this.unavailable "unavailable"}}" {{on "click" this.click}}>
+<div class="roster-selector-day {{if @selected "selected"}} {{if this.unavailable "unavailable"}}" {{on "click" this.click}}>
   <div class="background" />
   <div class="date-block {{if @day.high_season "high-season" "low-season"}}">
     <div class="date">
@@ -8,11 +8,11 @@
   </div>
   <div class="entries">
     {{#each this.sorted_entries as |entry|}}
-      <div class="entry">• {{entry.person.first_name}} {{entry.person.last_name}}</div>
+      <div class="entry">• {{entry.member.person.first_name}} {{entry.member.person.last_name}}</div>
     {{/each}}
 
-    {{#if this.selected}}
-      <div class="entry">• {{@person.first_name}} {{@person.last_name}}</div>
+    {{#if @selected}}
+      <div class="entry">• {{@member.person.first_name}} {{@member.person.last_name}}</div>
     {{/if}}
 
     {{#if @show_slots}}

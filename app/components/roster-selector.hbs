@@ -48,14 +48,15 @@
 </div>
 
 <div class="roster-selector-days">
+{{this.wizard.selected_roster_days.length}}
   {{#if this.sorted_filtered_roster_days}}
     <div class="items">
-    {{#each this.sorted_filtered_roster_days_with_selected as |day|}}
+    {{#each this.sorted_filtered_roster_days as |day|}}
       <RosterSelectorDay
-        @day={{day.day}}
+        @day={{day}}
         @show_slots={{@show_slots}}
-        @selected={{day.selected}}
-        @person={{@person}}
+        @selected={{this.is_selected day}}
+        @member={{@member}}
         @on_add={{this.on_add}}
         @on_del={{this.on_del}}
       />

@@ -17,8 +17,16 @@ export default class AuthenAircraftsController extends Controller {
   // FIXME ac.aircraft_type will be made mandatory
   ac_image = (ac) => (this.ac_images[ac.aircraft_type && ac.aircraft_type.aircraft_class || 'GLD']);
 
+  get aircrafts() {
+    return this.model.get_all('ygg--acao--aircraft');
+  }
+
+  get club() {
+    return this.model.get_first('ygg--acao--club');
+  }
+
   get private_ac() {
-    return this.model.filter((x) => (x.owners.some((y) => (y.member === this.authen_controller.model.member))));
+    return this.aircrafts.filter((x) => (x.owners.some((y) => (y.member === this.authen_controller.member))));
   }
 
   get private_ac_sorted() {
@@ -26,7 +34,7 @@ export default class AuthenAircraftsController extends Controller {
   }
 
   get shared_ac() {
-    return this.model.filter((x) => (x.club_owner === this.club));
+    return this.aircrafts.filter((x) => (x.club_owner === this.club));
   }
 
   ac_compare(a,b) {

@@ -2,6 +2,7 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 import moment from 'moment';
+import 'moment/dist/locale/it';
 
 export default class ApplicationRoute extends Route {
   @service vos;
@@ -9,13 +10,12 @@ export default class ApplicationRoute extends Route {
   @service intl;
   @service version_checker;
 
-  initialConnection = true;
+  initial_connection = true;
 
   constructor() {
     super(...arguments);
 
     this.intl.setLocale([ 'it-it' ]);
-
     moment.locale('it');
 
     this.vos.on('session_reset', () => {
@@ -34,7 +34,7 @@ export default class ApplicationRoute extends Route {
       this.session.load().then(() => {
         if (this.vos.state != 'READY') {
           this.vos.connect().then(() => {
-            this.initialConnection = false;
+            this.initial_connection = false;
             resolve();
           }).catch(() => { reject(); });
         }

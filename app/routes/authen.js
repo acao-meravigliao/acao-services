@@ -67,44 +67,40 @@ export default class AuthenRoute extends VosRoute {
          },
          {
           from: 'member',
-          to: 'role',
+          to: 'debt',
          },
          {
           from: 'member',
-          to: 'debt',
+          to: 'role',
          },
         ],
        },
       ]
      },
      {
+      type: 'ygg--acao--role',
+     },
+     {
       type: 'ygg--acao--year',
       filter: { year: { gte: 2024 } },
      },
     ]).then((sel) => {
-      return this.vos.class_call('ygg--acao--roster-entry', 'compute_status').then((roster_status) => {
-        let person = this.store.peekRecord('ygg--core--person', this.session.person_id);
-
-        return {
-          person: person,
-          member: person.member,
-          roles: person.member.roles.map((x) => (x.symbol)),
-          years: this.store.peekSelected('ygg--acao--year', sel),
-          memberships: this.store.peekSelected('ygg--acao--membership', sel),
-          invoices: this.store.peekSelected('ygg--acao--invoice', sel),
-          roster_status: roster_status,
-        };
+      this.ms.update({
+        passepartout: sel.get_first('ygg--acao--member').roles.some((x) => (x.symbol === 'STAFF')),
+        memberships: sel.get_all('ygg--acao--membership'),
+        years: sel.get_all('ygg--acao--year'),
       });
-    });
-  }
 
-  setupController(controller, model) {
-    super.setupController(...arguments);
-
-    this.ms.update({
-      memberships: model.memberships,
-      years: model.years,
+      return sel;
     });
+
+//.then((sel) => {
+//      return this.vos.class_call('ygg--acao--member', 'roster_status', { year: }).then((res) => {
+//        sel.roster_status = res.body;
+//
+//        return sel;
+//      });
+//    });
   }
 
   @action refresh_model() {

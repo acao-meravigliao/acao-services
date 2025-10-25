@@ -9,8 +9,12 @@ export default class AuthenMembershipRenewConfirmationController extends Control
 
   get wizard() { return this.wizard_controller.wizard; }
 
-  @action go_to_payment() {
-console.log("PAYMENT ID=", this.wizard.payment_id);
-    this.router.transitionTo("authen.payment", this.wizard.payment_id);
+  @action go_to_debt() {
+console.log("DEBT ID=", this.wizard.debt_id);
+    this.router.transitionTo("authen.debt.show", this.wizard.debt_id);
+  }
+
+  @action back() {
+    this.wizard.prev();
   }
 }

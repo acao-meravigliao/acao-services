@@ -50,8 +50,6 @@ export default class AuthenFlightsByAcRoute extends BaseRoute {
        },
       ],
      },
-    ).then((sel) => {
-      return this.store.peekSelected('ygg--acao--flight', sel);
-    });
+    );
   }
 }

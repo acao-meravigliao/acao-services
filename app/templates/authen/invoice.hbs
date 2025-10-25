@@ -10,7 +10,7 @@
         </div>
         <div class="media-content">
           <p class="title is-4">
-            <h1>{{t "invoice.invoice"}} <strong>{{this.model.identifier_full}}</strong></h1>
+            <h1>{{t "invoice.invoice"}} <strong>{{this.invoice.identifier_full}}</strong></h1>
           </p>
           <p class="subtitle is-6">
           </p>
@@ -20,13 +20,13 @@
       <div class="content">
         <div class="grid">
           <div class="cell">
-            Data: <strong>{{format-date this.model.document_date format="dmy"}}</strong><br />
-            Destinatario: <strong>{{this.model.recipient}}</strong><br />
-            Indirizzo: <strong>{{this.model.address}}</strong><br />
-            Codice Fiscale: <strong>{{this.model.codice_fiscale}}</strong><br />
-            Partita IVA: <strong>{{this.model.partita_iva}}</strong><br />
-            Email: <strong>{{this.model.email}}</strong><br />
-            Pagamento: <strong>{{t (concat "payment.methods." this.model.payment_method)}}</strong><br />
+            Data: <strong>{{format-date this.invoice.document_date format="dmy"}}</strong><br />
+            Destinatario: <strong>{{this.invoice.recipient}}</strong><br />
+            Indirizzo: <strong>{{this.invoice.address}}</strong><br />
+            Codice Fiscale: <strong>{{this.invoice.codice_fiscale}}</strong><br />
+            Partita IVA: <strong>{{this.invoice.partita_iva}}</strong><br />
+            Email: <strong>{{this.invoice.email}}</strong><br />
+            Pagamento: <strong>{{t (concat "payment.methods." this.invoice.payment_method)}}</strong><br />
           </div>
           <div class="cell">
             <table class="invoice table">
@@ -41,7 +41,7 @@
                 </tr>
               </thead>
               <tbody>
-                {{#each this.model.sorted_details key="@index" as |detail|}}
+                {{#each this.invoice.sorted_details key="@index" as |detail|}}
                 <tr>
                   <td>{{detail.count}}</td>
                   <td>{{detail.descr}}{{#if detail.specific_data}} - {{detail.specific_data}}{{/if}}</td>
@@ -55,7 +55,7 @@
               <tfoot>
                 <tr>
                   <th colspan=5>Totale</th>
-                  <td class="total price">{{format-number this.model.amount style="currency" currency="EUR"}}</td>
+                  <td class="total price">{{format-number this.invoice.amount style="currency" currency="EUR"}}</td>
                 </tr>
               </tfoot>
             </table>

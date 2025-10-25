@@ -37,16 +37,16 @@
         <div>
           <h2 class="subtitle">Turni di linea:</h2>
           <p>
-            {{#if this.wizard.roster_status.total}}
-              Necessari {{this.wizard.roster_status.total}} turni di linea
-              {{#if this.wizard.roster_status.high_season}}
-                di cui {{this.wizard.roster_status.high_season}} in alta stagione.
+            {{#if this.wizard.roster_status.will_need_total}}
+              Necessari {{this.wizard.roster_status.will_need_total}} turni di linea
+              {{#if this.wizard.roster_status.will_need_high_season}}
+                di cui {{this.wizard.roster_status.will_need_high_season}} in alta stagione.
               {{/if}}
             {{else}}
               Non è necessario alcun turno di linea
             {{/if}}
-            {{#if this.wizard.roster_status.reason}}
-              perché {{t (concat "authen.roster.reasons." this.wizard.roster_status.reason)}}
+            {{#if this.wizard.roster_status.will_need_reason}}
+              perché {{t (concat "authen.roster.reasons." this.wizard.roster_status.will_need_reason)}}
             {{/if}}
           </p>
           {{#each this.wizard.selected_roster_days as |roster_day|}}

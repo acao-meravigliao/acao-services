@@ -10,8 +10,12 @@ export default class TokenTransactionsController extends Controller {
 
   is_mine = (ac) => (ac.is_owned_by(this.authen_controller.model.member));
 
-  get sorted_models() {
-    return this.model.sort((a,b) => (b.recorded_at - a.recorded_at));
+  get token_transactions() {
+    return this.model.get_all('ygg--acao--token-transaction');
+  }
+
+  get sorted_token_transactions() {
+    return this.token_transactions.sort((a,b) => (b.recorded_at - a.recorded_at));
   }
 
   @action set_span(val) {

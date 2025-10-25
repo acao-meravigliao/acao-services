@@ -27,7 +27,11 @@ export default class FlightsController extends Controller {
     this.sd = date.getTime();
   }
 
+  get flights() {
+    return this.model.get_all('ygg--acao--flight');
+  }
+
   get member() {
-    return this.authen_controller.model.member;
+    return this.authen_controller.member;
   }
 }

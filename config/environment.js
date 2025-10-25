@@ -50,7 +50,7 @@ module.exports = function (environment) {
 
   if (environment === 'production') {
     ENV.airbrake = {
-      host: 'https://errbit.sevio.it',
+      host: 'https://errbit.vihai.it',
       projectId:  '1',
       projectKey: '8af5b361c917d0f581a40552ff4c1ac0'
     };

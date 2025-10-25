@@ -1,0 +1,12 @@
+{{page-title (t "authen.memberships.page_title")}}
+
+<div class="container box page authen-memberships">
+  <div class="tags are-large">
+    {{#each this.sorted_models key="id" as |data|}}
+      <span class="tag">
+        {{data.year.year}}
+      </span>
+
+    {{/each}}
+  </div>
+</div>

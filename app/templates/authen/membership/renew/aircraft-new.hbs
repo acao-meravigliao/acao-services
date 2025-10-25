@@ -1,0 +1,49 @@
+{{page-title (t "authen.membership.renew.aircraft-owned.page_title")}}
+
+<div class="container">
+  <div class="box">
+
+    <div class="buttons is-centered">
+      Possiedi un aliante?
+    </div>
+
+    {{#if this.enter_aircraft_data}}
+      <div class="field">
+        <div class="control is-expanded">
+          <input class="input"
+                  type="text"
+                  placeholder="D-1234"
+                  value={{this.registration}}
+                  {{on "change" this.registration_on_change}}
+          />
+        </div>
+      </div>
+
+      <div class="buttons is-centered">
+        <button class="button is-grey is-large" type="button" {{on "click" this.back}}>
+          <span class="icon"><FaIcon @icon="backward" /></span>
+          <span>Indietro</span>
+        </button>
+        <button class="button is-warning is-large" disabled={{this.form_invalid}} type="button" {{on "click" this.has_glider_no_clicked}}>
+          No
+        </button>
+        <button class="button is-primary is-large" disabled={{this.form_invalid}} type="button" {{on "click" this.has_glider_yes_clicked}}>
+          Sì
+        </button>
+      </div>
+    {{else}}
+      <div class="buttons is-centered">
+        <button class="button is-grey is-large" type="button" {{on "click" this.back}}>
+          <span class="icon"><FaIcon @icon="backward" /></span>
+          <span>Indietro</span>
+        </button>
+        <button class="button is-warning is-large" disabled={{this.form_invalid}} type="button" {{on "click" this.has_glider_no_clicked}}>
+          No
+        </button>
+        <button class="button is-primary is-large" disabled={{this.form_invalid}} type="button" {{on "click" this.has_glider_yes_clicked}}>
+          Sì
+        </button>
+      </div>
+    {{/if}}
+  </div>
+</div>

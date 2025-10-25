@@ -10,10 +10,14 @@ export default class YggCoreLocationModel extends Model {
   @attr('string') provider;
   @attr('string') location_type;
   @attr('string') region;
+  @attr('string') raw_address;
   @attr('number') accuracy;
   @attr('number') lat;
   @attr('number') lng;
   @attr('number') alt;
+
+  @vosBelongsTo('birth_location', 'person') person_as_birth_location;
+  @vosBelongsTo('residence_location', 'person') person_as_residence_location;
 
   get full_address() {
     return [ this.street_address, this.city, this.zip ].filter((x) => (x)).join(', ');

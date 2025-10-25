@@ -36,9 +36,10 @@ authen:
   index:
     page_title: Dashboard
     hello: Ciao
-    membership_for_year: "L'iscrizione è aperta!"
-    membership_not_open: "L'iscrizione non è ancora aperta."
-    membership_opening_in: "Aprirà in"
+    the_membership: "L'iscrizione"
+    membership_for_year: "è aperta!"
+    membership_not_open: "non è ancora aperta."
+    membership_will_open: "aprirà in {interval}"
 
   bar:
     recharge:
@@ -64,40 +65,66 @@ authen:
     page_title: Iscrizione
     renew:
       page_title: Rinnovo iscrizione
-      index:
-        page_title: Inizio
+      blocked: "L'iscrizione per l'anno {year} è bloccata. Gentilmente rivolgiti in segreteria."
+      already_member: "Risulti già iscritto per l'anno {year}"
+      not_yet_open: "L'iscrizione per l'anno <strong>{year}</strong> non è ancora aperta."
+      not_open: "L'iscrizione per l'anno <strong>{year}</strong> non è aperta."
+
+      bio:
+        page_title: Dati personali
         hello: "Ciao {name},"
         text: "Con questa procedura potrai rinnovare la tua iscrizione per l'anno {year}."
         check_your_data: "Assicurati che i tuoi dati siano corretti:"
         name: Nome
         date_of_birth: Data di nascita
+        birth_location: Luogo di nascita
+        residence_location: Residenza
         email: Email
         pots_phone: Telefono fisso
         cell_phone: Cellulare
         proceed: Procedi...
-        blocked: "L'iscrizione per l'anno {year} è bloccata. Gentilmente rivolgiti in segreteria."
         payment_pending: Il pagamento è pendente
-        already_member: "Risulti già iscritto per l'anno {year}"
-        not_yet_open: "L'iscrizione per l'anno <strong>{year}</strong> non è ancora aperta."
-        not_open: "L'iscrizione per l'anno <strong>{year}</strong> non è aperta."
-        opening_in: "Aprirà in"
 
-      data:
-        page_title: Dati
+      bio_edit:
+        page_title: Modifica dati personali
+        name: Nome
+        date_of_birth: Data di nascita
+        birth_location: Luogo di nascita
+        residence_location: Residenza
+        email: Email
+        pots_phone: Telefono fisso
+        cell_phone: Cellulare
+
+      bill:
+        page_title: Servizi
         element: Elemento
         cost: Costo
         service_select_placeholder: Seleziona il servizio...
         trailer_etc: "Posto carrello, ecc..."
         total: Total
-        email_auth: "Autorizzo l'invio per e-mail delle comunicazioni, convocazioni di assemblee e ogni altra disposizione obbligatoria.  (DPR 15 marzo 1997 n. 59 art 15 secondo comma, D.P.R. 28 dicembre 2000 n.445 art. 14 comma terzo, D.P.R. 13 febbraio 2001 n. 123 art. 8, Direttiva 2000/31/CE 8 giugno 2000 art. 11, comma 1)"
-        rules: "Dichiaro  di aver preso visione del <a href=\"/regolamento.pdf\">Regolamento</a> dell'Aeroclub e di accettarlo in modo totale e incondizionato."
-        payment_method: Metodo di pagamento
-        wire: Bonifico Bancario
-        check: Assegno
-        credit_card: Carte (in segreteria)
-        accept_rules: Accetta il regolamento aeroportuale e scegli il metodo di pagamento.
         back: Indietro
         forward: Avanti...
+
+      rules:
+        page_title: Regolamento
+        link: Regolamento
+        declaration: "Dichiaro di aver preso visione del regolamento dell'Aeroclub e di accettarlo in modo totale e incondizionato."
+        confirm: Accetto
+        back: Indietro
+
+      privacy:
+        page_title: Privacy
+        link: Informativa Privacy
+        declaration: "Dichiaro di aver preso visione dell'informativa privacy"
+        accept: Accetto
+        back: Indietro
+
+      mailing:
+        page_title: Mail
+        declaration: "Autorizzo l'invio per e-mail delle comunicazioni, convocazioni di assemblee e ogni altra disposizione obbligatoria.  (DPR 15 marzo 1997 n. 59 art 15 secondo comma, D.P.R. 28 dicembre 2000 n.445 art. 14 comma terzo, D.P.R. 13 febbraio 2001 n. 123 art. 8, Direttiva 2000/31/CE 8 giugno 2000 art. 11, comma 1)"
+        accept: Accetto
+        refuse: Rifiuto
+        back: Indietro
 
       roster:
         page_title: Selezione turni di linea
@@ -155,7 +182,7 @@ menu:
   token_transactions: Conto bollini
   bar_transactions: Conto bar
   invoices: Fatture
-  payments: Pagamenti
+  debts: Pagamenti pendenti
   roster: Turni di linea
   all_roster_days: Tutti i turni
   today_roster_entries: Turni di oggi
@@ -197,6 +224,9 @@ ex:
     "Ygg::Acao::PasswordRecoveryController::AccountNotFound":
       title: Utente non trovato
       detail: Verifica di aver inserito il codice pilota correttamente
+    "Ygg::Acao::PasswordRecoveryController::ContactNotFound":
+      title: Nessun indirizzo e-mail associato
+      detail: Purtroppo, non avendo un indirizzo e-mail associato a questo account, dovrai rivolgerti in segreteria
   local:
     "SessionLoadTimeout":
       title: Errore di collegamento
@@ -225,8 +255,10 @@ flights_table:
 member:
   roles:
     TUG_PILOT: Trainatore
+    SPL_PILOT: Pilota Aliante
     SPL_STUDENT: Allievo SPL
     SPL_INSTRUCTOR: Istruttore SPL
     BOARD_MEMBER: Consigliere
     MAINTENANCE: Manutenzione AM
-    FIREMAN: Pompiere
+    FIREMAN: Antincendio
+    STAFF: Staff

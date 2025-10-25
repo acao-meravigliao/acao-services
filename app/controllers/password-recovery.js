@@ -2,11 +2,10 @@ import Controller from '@ember/controller';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import MyException from 'acao-services/utils/my-exception';
-import RemoteException from 'acao-services/utils/remote-exception';
+import { VihaiException, RemoteException } from '@vihai/vihai-exceptions';
 
-class RequestTimeout extends MyException { type = 'RequestTimeout'; }
-class ServerFailure extends MyException { type = 'ServerFailure'; }
+class RequestTimeout extends VihaiException { type = 'RequestTimeout'; }
+class ServerFailure extends VihaiException { type = 'ServerFailure'; }
 class ServerError extends RemoteException { }
 
 export default class PasswordRecoveryController extends Controller {
