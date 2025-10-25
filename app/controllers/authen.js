@@ -11,7 +11,6 @@ export default class AuthenController extends Controller {
   @service router;
 //  @service('shopping-cart') cart;
   @service clock;
-  @service hamburger;
   @service ms;
 
   get person() {
@@ -46,14 +45,6 @@ export default class AuthenController extends Controller {
     return this.roster_status;
   }
 
-  @action hamburger_show() {
-    this.hamburger.toggle();
-  }
-
-  @action hamburger_hide() {
-    this.hamburger.active = false;
-  }
-
   get my_page_title() {
     return 'FIXME';
   }
@@ -69,12 +60,4 @@ export default class AuthenController extends Controller {
   // ------------------- Roster ---------------------
   get roster_cur_status() { return this.roster_status.current; }
   get roster_next_status() { return this.roster_status.next; }
-
-  @action logout() {
-    if (confirm("Sicuro di voler uscire?")) {
-      this.session.logout().then(() => {
-        this.router.transitionTo(config.login_route);
-      });
-    }
-  }
 }
