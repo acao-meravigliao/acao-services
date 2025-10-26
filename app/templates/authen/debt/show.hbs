@@ -109,6 +109,14 @@
                 </button>
               {{/if}}
 
+              {{#if this.debt.pm_debt_enabled}}
+                <button class="button is-link"
+                         {{on "click" (fn this.pay_with "DEBT")}}>
+                  <span class="icon"><FaIcon @icon="credit-card" /></span>
+                  <span>Bancomat</span>
+                </button>
+              {{/if}}
+
               {{#if this.debt.pm_wire_enabled}}
                 <button class="button is-link"
                         {{on "click" (fn this.pay_with "WIRE")}}>
@@ -147,6 +155,8 @@
           {{else}}
             {{#if (eq this.paying_with "CARD")}}
               <Payment::Card @debt={{this.debt}} />
+            {{else if (eq this.paying_with "DEBT")}}
+              <Payment::Debt @debt={{this.debt}} />
             {{else if (eq this.paying_with "WIRE")}}
               <Payment::Wire @debt={{this.debt}} />
             {{else if (eq this.paying_with "CASH")}}

@@ -9,6 +9,7 @@ export default class YggAcaoDebtModel extends Model {
   @attr('string') state;
   @attr('string') descr;
   @attr('boolean') pm_card_enabled;
+  @attr('boolean') pm_debt_enabled;
   @attr('boolean') pm_wire_enabled;
   @attr('boolean') pm_check_enabled;
   @attr('boolean') pm_cash_enabled;
