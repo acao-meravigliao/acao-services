@@ -74,7 +74,7 @@ authen:
         page_title: Dati personali
         hello: "Ciao {name},"
         text: "Con questa procedura potrai rinnovare la tua iscrizione per l'anno {year}."
-        check_your_data: "Assicurati che i tuoi dati siano corretti:"
+        check_your_data: "Verifica che i tuoi dati siano corretti, altrimenti comunica le variazioni in segreteria."
         name: Nome
         date_of_birth: Data di nascita
         birth_location: Luogo di nascita
