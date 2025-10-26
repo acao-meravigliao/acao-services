@@ -36,6 +36,14 @@ export default class AuthenRenewMembershipRosterSelectRoute extends BaseRoute {
       }
     });
   }
+
+  setupController(controller, model) {
+    super.setupController(...arguments);
+
+    const wizard = this.modelFor('authen.membership.renew');
+
+    controller.selection = wizard.selected_roster_days;
+  }
 }
 
 //  @action willTransition(transition) {

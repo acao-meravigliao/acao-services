@@ -231,6 +231,19 @@ export default class AuthenRenewMembershipRoute extends BaseRoute {
 
       // Wizard state ------------------
 
+      // Services
+      this.wizard.services = A(this.wizard.base_services.map((x) => new SelectedService({
+        type: sel.get_one('ygg--acao--service-type', x.service_type_id),
+        type_changeable: false,
+        removable: x.removable,
+        toggable: x.toggable,
+        enabled: x.enabled,
+        extra_info: x.extra_info,
+      })));
+
+      // Roster
+      this.wizard.selected_roster_days = [];
+
       // Mailing consent
       this.wizard.email_allowed = this.wizard.member.email_allowed;
 
@@ -243,15 +256,6 @@ export default class AuthenRenewMembershipRoute extends BaseRoute {
       this.wizard.consent_magazine = this.wizard.member.consent_magazine;
       this.wizard.consent_fai = this.wizard.member.consent_fai;
       this.wizard.consent_marketing = this.wizard.member.consent_marketing;
-
-      this.wizard.services = A(this.wizard.base_services.map((x) => new SelectedService({
-        type: sel.get_one('ygg--acao--service-type', x.service_type_id),
-        type_changeable: false,
-        removable: x.removable,
-        toggable: x.toggable,
-        enabled: x.enabled,
-        extra_info: x.extra_info,
-      })));
 
       this.wizard.aircraft_checked = this.wizard.aircraft_ownerships.map((x) => ([ x.id, null ]));
 

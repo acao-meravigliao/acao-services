@@ -31,13 +31,17 @@ export default class RosterSelectorComponent extends Component {
 
   is_selected = (day) => (this.selection.map((x)=>(x.id)).includes(day.id));
 
+
   @action on_add(day) {
     this.selection.pushObject(day);
     this.selection_changed();
   }
 
+  // For some reason day and ourday are not the same object when jumping steps, indagate further
   @action on_del(day) {
-    this.selection.removeObject(day);
+    const ourday = this.selection.find((x) => (x.id === day.id));
+
+    this.selection.removeObject(ourday);
     this.selection_changed();
   }
 
