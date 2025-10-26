@@ -93,14 +93,6 @@ export default class AuthenRoute extends VosRoute {
 
       return sel;
     });
-
-//.then((sel) => {
-//      return this.vos.class_call('ygg--acao--member', 'roster_status', { year: }).then((res) => {
-//        sel.roster_status = res.body;
-//
-//        return sel;
-//      });
-//    });
   }
 
   @action refresh_model() {
