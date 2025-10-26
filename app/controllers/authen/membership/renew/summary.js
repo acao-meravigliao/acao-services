@@ -24,6 +24,7 @@ export default class AuthenMembershipRenewSummaryController extends Controller {
   }
 
   @action async submit() {
+    this.submit_error = null;
     this.submitting = true;
 
     let json;

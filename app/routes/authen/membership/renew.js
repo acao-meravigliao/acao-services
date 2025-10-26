@@ -82,6 +82,7 @@ class WizardState extends EmberObject {
 
   async submit() {
     let req = {
+      year: this.year,
       email_allowed: this.email_allowed,
       privacy_accepted: this.privacy_accepted,
       consent_association: this.consent_association,
@@ -125,6 +126,8 @@ class WizardState extends EmberObject {
     if (!res.headers.get('content-type').startsWith('application/json')) {
       throw new RemoteException;
     }
+
+    return await res.json();
   }
 }
 
