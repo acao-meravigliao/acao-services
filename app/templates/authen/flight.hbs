@@ -51,7 +51,7 @@
             Aeromobile:
               <strong>
                 {{#if this.is_aircraft_mine}}
-                  <LinkTo @route="authen.aircraft" @flight={{this.flight.aircraft.id}}>
+                  <LinkTo @route="authen.aircraft" @model={{this.flight.aircraft.id}}>
                     {{this.flight.aircraft_reg}}
                   </LinkTo>
                 {{else}}
