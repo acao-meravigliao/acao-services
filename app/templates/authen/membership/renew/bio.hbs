@@ -20,9 +20,6 @@
         {{t "authen.membership.renew.bio.text" year=this.wizard.year}}
       </p>
       <p>
-        {{t "authen.membership.renew.bio.check_your_data" year=this.wizard.year}}
-      </p>
-      <p>
         {{t "authen.membership.renew.bio.name"}}:
           <strong>{{this.wizard.person.first_name}} {{this.wizard.person.last_name}}</strong><br />
 
@@ -62,7 +59,9 @@
 
 
       <div class="buttons is-centered">
-        Verifica che i tuoi dati siano corretti, altrimenti comunica le variazioni in segreteria.
+        <p>
+          {{t "authen.membership.renew.bio.check_your_data" year=this.wizard.year}}
+        </p>
       </div>
 
       <div class="buttons is-centered">
