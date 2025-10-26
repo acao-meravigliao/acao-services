@@ -57,8 +57,21 @@ export default class AuthenMembershipRenewBillController extends Controller {
     this.services[index].type = this.store.peekRecord('ygg--acao--service-type', service_type_id);
   }
 
-  @action service_toggle(index) {
-    this.services[index].enabled = !this.services[index].enabled;
+  @action service_toggle(svc) {
+    svc.enabled = !svc.enabled;
+
+    // Ugly hack
+    if (svc.enabled && svc.type.symbol === 'CAA') {
+      let cap = this.services.find((x) => (x.type.symbol === 'CAP'));
+      if (cap)
+        cap.enabled = false;
+    }
+
+    if (svc.enabled && svc.type.symbol === 'CAP') {
+      let caa = this.services.find((x) => (x.type.symbol === 'CAA'));
+      if (caa)
+        caa.enabled = false;
+    }
   }
 
   @action email_allowed_set(ev) {

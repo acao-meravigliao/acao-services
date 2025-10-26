@@ -19,7 +19,7 @@
             </button>
           {{/if}}
           {{#if service.toggable}}
-            <input type="checkbox" class="checkbox" checked={{service.enabled}} {{on "change" (fn this.service_toggle index)}} />
+            <input type="checkbox" class="checkbox" checked={{service.enabled}} {{on "change" (fn this.service_toggle service)}} />
           {{/if}}
         </td>
         <td style="overflow:visible;">
