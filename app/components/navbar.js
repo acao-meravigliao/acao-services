@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import config from 'acao-services/config/environment';
 
 export default class NavbarComponent extends Component {
   @service router;
