@@ -60,7 +60,7 @@
         <td>
           <label class="radio">
             <input type="radio" name="consent_accessory" value="yes"
-                   checked={{this.is_true this.consent_}}
+                   checked={{this.is_true this.consent_accessory}}
                    {{on "change" this.consent_accessory_on_change}} /> Acconsento
           </label>
         </td>
@@ -163,11 +163,11 @@
   </table>
 
   <div class="buttons is-centered">
-    <button class="button is-grey is-large" type="button" {{on "click" this.back}}>
+    <button class="button is-grey is-large" {{on "click" this.back}}>
       <span class="icon"><FaIcon @icon="backward" /></span>
       <span>{{t "authen.membership.renew.privacy.back"}}</span>
     </button>
-    <button class="button is-primary is-large" type="button" {{on "click" this.accept}}>
+    <button class="button is-primary is-large" disabled={{this.accept_disabled}} {{on "click" this.accept}}>
       <span class="icon"><FaIcon @icon="thumbs-up" /></span>
       <span>{{t "authen.membership.renew.privacy.accept"}}</span>
     </button>

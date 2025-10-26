@@ -15,6 +15,17 @@ export default class AuthenMembershipRenewPrivacyController extends Controller {
   is_true = (val) => (val === true);
   is_false = (val) => (val === false);
 
+  get accept_disabled() {
+    return !!(
+      (this.consent_association !== true) ||
+      (this.consent_surveillance !== true) ||
+      (this.consent_accessory !== true) ||
+      (this.consent_profiling === null) ||
+      (this.consent_magazine === null) ||
+      (this.consent_fai === null) ||
+      (this.consent_marketing === null));
+  }
+
   @tracked consent_association;
   @action consent_association_on_change(el) {
     this.consent_association = el.target.value === 'yes';
