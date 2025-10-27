@@ -31,14 +31,14 @@ export default class MembershipStatusService extends Service {
 
   renew_open_for_year(year_model) {
     return this.passepartout ||
-           this.year_model &&
-           this.year_model.renew_opening_time &&
-           this.clock.date > new Date(this.year_model.renew_opening_time);
+           year_model &&
+           year_model.renew_opening_time &&
+           this.clock.date > new Date(year_model.renew_opening_time);
   }
 
   renew_available_for_year(year_model) {
     return this.passepartout ||
-           !this.memberships.some((item) => (item.reference_year_id === this.year_model.id));
+           !this.memberships.some((item) => (item.reference_year_id === year_model.id));
   }
 
   renew_open_and_available_for_year(year_model) {
@@ -47,11 +47,11 @@ export default class MembershipStatusService extends Service {
   }
 
   renew_going_to_open_for_year(year_model) {
-    return this.year_model &&
-           this.year_model.renew_announce_time &&
-           this.year_model.renew_opening_time &&
-           this.clock.time > new Date(this.year_model.renew_announce_time) &&
-           this.clock.time < new Date(this.year_model.renew_opening_time);
+    return year_model &&
+           year_model.renew_announce_time &&
+           year_model.renew_opening_time &&
+           this.clock.time > new Date(year_model.renew_announce_time) &&
+           this.clock.time < new Date(year_model.renew_opening_time);
   }
 
   get current_renew_is_open() {
