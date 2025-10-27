@@ -60,15 +60,28 @@ table {
     &.disabled {
       text-decoration: line-through;
     }
+
+    &.negative {
+      color: red;
+    }
+
+    &.total {
+      font-family: monospace;
+      font-weight: bold !important;
+      text-align: right !important;
+    }
   }
+
+  // Deprecated
   td.total {
     font-family: monospace;
     font-weight: bold !important;
     text-align: right !important;
   }
-  td.time {
-    font-family: monospace;
-  }
+
+  //td.time {
+  //  font-family: monospace;
+  //}
 }
 
 .roster-entry {
