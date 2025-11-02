@@ -11,6 +11,12 @@ export default class YggAcaoPaymentModel extends Model {
   @attr('string') person_id;
   @attr('string') payment_method;
   @attr('string') reason_for_payment;
+  @attr('string') obj_type;
+
+  @attr('string') sp_status;
+  @attr('string') sp_expired;
+  @attr('string') sp_sender_type;
+  @attr('string') sp_sender_name;
 
   @vosBelongsTo('payment', 'person') person;
   @vosHasMany('payment', 'invoice') invoice;

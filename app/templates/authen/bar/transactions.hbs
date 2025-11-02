@@ -13,6 +13,15 @@
     </a>
   </div>
 
+  <div class="level">
+    <div class="level-item has-text-centered">
+      <BarGauge @credit={{this.member.bar_credit}} />
+    </div>
+    <div class="level-item has-text-centered">
+      <PayWithSatispay @create_payment={{this.pay_with_satispay_create_payment}} />
+    </div>
+  </div>
+
   <table class="bar-transactions table">
     <thead>
       <tr>

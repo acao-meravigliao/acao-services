@@ -125,16 +125,13 @@
                 </button>
               {{/if}}
 
-
-{{!--
               {{#if this.debt.pm_satispay_enabled}}
-                <button class="button is-link"
-                         {{on "click" (fn this.pay_with "SATISPAY")}}>
+                <button class="button is-link {{if this.pay_with_satispay_in_progress "is-loading"}}"
+                         {{on "click" (fn this.pay_with_satispay)}}>
                   <span class="icon"><FaIcon @icon="mobile-screen" /></span>
                   <span>SatisPay</span>
                 </button>
               {{/if}}
---}}
 
               {{#if this.debt.pm_check_enabled}}
                 <button class="button is-link"
@@ -152,6 +149,9 @@
                 </button>
               {{/if}}
             </div>
+
+            <FancyExceptionBox @ex={{this.pay_with_satispay_error}} />
+
           {{else}}
             {{#if (eq this.paying_with "CARD")}}
               <Payment::Card @debt={{this.debt}} />

@@ -1,0 +1,36 @@
+{{page-title "Pagamento"}}
+
+<div class="container page authen-aircraft">
+  <div class="card">
+    <div class="card-content">
+      <div class="media">
+        <div class="media-left">
+          <figure class="image is-48x48">
+            <FaIcon @icon="dollar-sign" @size="3x" />
+          </figure>
+        </div>
+        <div class="media-content">
+          <p class="title is-4">
+            Pagamento {{this.payment.identifier}}
+          </p>
+          <p class="subtitle is-6">
+            {{this.payment.descr}}
+          </p>
+        </div>
+        <div class="media-right">
+          <h1 class="title">
+            {{format-number this.payment.total style="currency" currency="EUR"}}
+          </h1>
+        </div>
+      </div>
+
+      <div class="content">
+        Stato: <strong>{{this.payment.state}}</strong><br />
+        Creato Il: <strong>{{format-time this.payment.created_at format="timestamp"}}</strong><br />
+        Completato Il: <strong>{{format-time this.payment.completed_at format="timestamp"}}</strong><br />
+        Scadenza: <strong>{{format-time this.payment.expires_at format="timestamp"}}</strong><br />
+        Causale: <strong>{{this.payment.reason_for_payment}}</strong><br />
+      </div>
+    </div>
+  </div>
+</div>

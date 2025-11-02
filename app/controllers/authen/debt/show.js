@@ -2,6 +2,9 @@ import Controller from '@ember/controller';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import { VihaiException, RemoteException } from '@vihai/vihai-exceptions';
+
+class ServerFailure extends VihaiException { type = 'ServerFailure'; }
 
 export default class AuthenDebtShowController extends Controller {
   @service session;
@@ -48,7 +51,27 @@ export default class AuthenDebtShowController extends Controller {
 
 //    this.router.transitionTo('authen.debt.pay_with.' + method);
   }
-  @action pay_cancel() {
-    this.paying_with = null;
+
+  @tracked pay_with_satispay_in_progress = false;
+  @tracked pay_with_satispay_error;
+
+  @action async pay_with_satispay() {
+    this.pay_with_satispay_in_progress = true;
+    let res;
+
+    try {
+      res = await this.vos.call(this.debt.id, 'pay_with_satispay', {}, { });
+    } catch(e) {
+      this.pay_with_satispay_in_progress = false;
+      this.pay_with_satispay_error = e;
+      return;
+    }
+
+    this.pay_with_satispay_in_progress = false;
+
+    if (res.body.success)
+      window.location.replace(res.body.redirect_url);
+    else
+      throw ServerFailure;
   }
 }

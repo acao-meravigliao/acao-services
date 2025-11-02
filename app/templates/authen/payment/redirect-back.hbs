@@ -1,0 +1,45 @@
+{{page-title "Pagamento"}}
+
+AAA
+<div class="container page authen-aircraft">
+  <div class="card">
+    <div class="card-content">
+      <div class="media">
+        <div class="media-left">
+          <figure class="image is-48x48">
+            <FaIcon @icon="dollar-sign" @size="3x" />
+          </figure>
+        </div>
+        <div class="media-content">
+          <p class="title is-4">
+            Pagamento {{this.payment.identifier}}
+          </p>
+          <p class="subtitle is-6">
+            {{this.payment.descr}}
+          </p>
+        </div>
+        <div class="media-right">
+          <h1 class="title">
+            {{format-number this.payment.total style="currency" currency="EUR"}}
+          </h1>
+        </div>
+      </div>
+AAA
+<RawModelViewer @model={{this.payment}} />
+
+      <div class="content">
+        {{#if (eq this.payment.payment_method "SATISPAY")}}
+
+          {{#if (eq this.payment.sp_status "PENDING")}}
+            <h1 class="is-h1">In attesa di conferma...</h1>
+            <div class="waiting-spinner" />
+          {{else if (eq this.payment.sp_status "CANCELED")}}
+            <h1 class="is-h1">Pagamento Annullato</h1>
+          {{else if (eq this.payment.sp_status "ACCEPTED")}}
+            <h1 class="is-h1">Pagamento Confermato!</h1>
+          {{/if}}
+        {{/if}}
+      </div>
+    </div>
+  </div>
+</div>

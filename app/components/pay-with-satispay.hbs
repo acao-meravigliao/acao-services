@@ -1,0 +1,51 @@
+{{#if this.modal_open}}
+  <div class="modal is-active">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Ricarica Bar</p>
+        <button class="modal-close is-large" aria-label="close" {{on "click" this.close_modal}}></button>
+      </header>
+      <section class="modal-card-body">
+        <div class="control has-icons-right">
+          <input type="number" class="input is-large"
+                 value={{this.amount_for_input}}
+                 placeholder="123.00" step="10.00" max=1000 min=5 list="amount"
+                 required
+                 {{on "change" this.amount_on_change}}
+                 {{on "input" this.amount_on_input}}
+          />
+          <span class="icon is-large is-right">€</span>
+        </div>
+
+        <datalist id="amount">
+          <option value="10" data-value=10></option>
+          <option value="20" data-value=20></option>
+          <option value="50" data-value=50></option>
+          <option value="100" data-value=100></option>
+          <option value="200" data-value=200></option>
+          <option value="500" data-value=500></option>
+        </datalist>
+      </section>
+      <footer class="modal-card-foot">
+        <div class="buttons">
+          <button class="button"
+                  {{on "click" this.close_modal}}>Annulla</button>
+          <button class="button is-success {{if this.in_progress "is-loading"}}"
+                  disabled={{this.okay_disabled}}
+                  {{on "click" this.okay}}>Paga con Satispay</button>
+        </div>
+
+      </footer>
+      <FancyExceptionBox @ex={{this.error}} />
+    </div>
+  </div>
+{{else}}
+  <div class="buttons is-centered">
+    <button type="button" class="button is-primary" {{on "click" this.open_modal}}>
+      <span class="icon"><FaIcon @icon="gas-pump" /></span>
+      <span>Carica con Satispay</span>
+    </button>
+  </div>
+{{/if}}
+
