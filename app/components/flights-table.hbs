@@ -192,7 +192,7 @@
       <td class="aircraft_reg">
         {{#if model.aircraft}}
           {{#if (this.is_aircraft_mine model.aircraft)}}
-            <LinkTo @route="authen.aircraft" @model={{model.aircraft.id}}>
+            <LinkTo @route="authen.aircraft.show" @model={{model.aircraft.id}}>
               {{model.aircraft_reg}}
             </LinkTo>
           {{else}}
@@ -257,7 +257,7 @@
       </td>
       {{/if}}
       <td>
-        <LinkTo @route="authen.flight" @model={{model.id}}>
+        <LinkTo @route="authen.flight.show" @model={{model.id}}>
           <FaIcon @icon="arrow-up-right-from-square" />
         </LinkTo>
       </td>

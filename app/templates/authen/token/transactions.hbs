@@ -41,7 +41,7 @@
         </td>
         <td>
           {{#if tt.invoice}}
-            <LinkTo @route="authen.invoice" @model={{tt.invoice.id}}>
+            <LinkTo @route="authen.invoice.show" @model={{tt.invoice.id}}>
               {{tt.invoice.identifier_full}}
             </LinkTo>
           {{/if}}
@@ -49,7 +49,7 @@
         <td>
           {{#if tt.aircraft}}
             {{#if (this.is_mine tt.aircraft)}}
-              <LinkTo @route="authen.aircraft" @model={{tt.aircraft.id}}>
+              <LinkTo @route="authen.aircraft.show" @model={{tt.aircraft.id}}>
                 {{tt.aircraft.registration}}
               </LinkTo>
             {{else}}
@@ -59,7 +59,7 @@
         </td>
         <td>
           {{#if tt.flight}}
-            <LinkTo @route="authen.flight" @model={{tt.flight.id}}>
+            <LinkTo @route="authen.flight.show" @model={{tt.flight.id}}>
               {{tt.flight.source_id}}
             </LinkTo>
           {{/if}}

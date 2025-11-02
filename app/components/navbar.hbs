@@ -16,12 +16,20 @@
 
   <div class="navbar-menu {{if this.hamburger_active "is-active"}}" {{on "click" this.hamburger_hide}}>
     <div class="navbar-start">
-      <LinkTo @route="authen.flights" class="navbar-item">
+      <LinkTo @route="authen.flight.index" class="navbar-item">
         Stralcio Voli
       </LinkTo>
 
-      <LinkTo @route="authen.aircrafts" class="navbar-item">
+      <LinkTo @route="authen.aircraft.index" class="navbar-item">
         Aeromobili
+      </LinkTo>
+
+      <LinkTo @route="authen.license.index" class="navbar-item">
+        Licenze
+      </LinkTo>
+
+      <LinkTo @route="authen.medical.index" class="navbar-item">
+        Visite Mediche
       </LinkTo>
 
       <div class="navbar-item has-dropdown is-hoverable">
@@ -46,7 +54,7 @@
             {{#if @pending_debts}}<span class="tag is-danger">{{@pending_debts.length}}</span>{{/if}}
           </LinkTo>
 
-          <LinkTo @route="authen.invoices" class="navbar-item" @activeClass="is-active">
+          <LinkTo @route="authen.invoice.index" class="navbar-item" @activeClass="is-active">
             {{t "menu.invoices"}}
           </LinkTo>
         </div>

@@ -13,9 +13,6 @@ Router.map(function() {
       this.route('checkout');
     });
 
-    this.route('people');
-    this.route('person', { path: '/person/:id' });
-
     this.route('membership', function() {
       this.route('index');
       this.route('renew', { path: '/renew/:year' }, function() {
@@ -35,18 +32,30 @@ Router.map(function() {
       });
     });
 
-    this.route('licenses');
-    this.route('medicals');
+    this.route('medical', function() {
+      this.route('index');
+      this.route('show', { path: '/show/:id' });
+    });
 
-    this.route('payments');
-    this.route('payment', { path: '/payment/:id' });
+    this.route('license', function() {
+      this.route('index');
+      this.route('show', { path: '/show/:id' });
+    });
 
-    this.route('invoices');
-    this.route('invoice', { path: '/invoice/:id' });
+    this.route('invoice', function() {
+      this.route('index');
+      this.route('show', { path: '/show/:id' });
+    });
 
     this.route('debt', function() {
       this.route('index');
       this.route('show', { path: '/show/:id' });
+    });
+
+    this.route('payment', function() {
+      this.route('index');
+      this.route('show', { path: '/show/:id' });
+      this.route('redirect-back', { path: '/redirect-back/:id' });
     });
 
     this.route('bar', function() {
@@ -60,21 +69,32 @@ Router.map(function() {
       this.route('transaction', { path: '/transaction/:id' });
     });
 
-    this.route('flights');
-    this.route('flights-by-ac', { path: '/flights-by-ac/:id' });
-    this.route('flight', { path: '/flight/:id' });
-    this.route('flight-new', { path: '/flight/new' });
+    this.route('aircraft', function() {
+      this.route('index');
+      this.route('show', { path: '/show/:id' });
+    });
 
-    this.route('aircrafts');
-    this.route('aircraft', { path: '/aircraft/:id' });
+    this.route('aircraft-type', function() {
+      this.route('index');
+      this.route('show', { path: '/show/:id' });
+    });
 
-    this.route('aircraft-types');
-    this.route('aircraft-type', { path: '/aircraft-type/:id' });
+    this.route('airfield', function() {
+      this.route('index');
+      this.route('show', { path: '/show/:id' });
+    });
 
-    this.route('clubs');
-    this.route('club', { path: '/club/:id' });
+    this.route('club', function() {
+      this.route('index');
+      this.route('show', { path: '/show/:id' });
+    });
 
-    this.route('airfield', { path: '/airfield/:id' });
+    this.route('flight', function() {
+      this.route('index');
+      this.route('index_by_ac');
+      this.route('show', { path: '/show/:id' });
+      this.route('new');
+    });
 
     this.route('roster', function() {
       this.route('today');
@@ -89,11 +109,6 @@ Router.map(function() {
 //    });
   });
 
-//  this.route('roster', function() {
-//    this.route('today');
-//    this.route('days');
-//  });
-//
 //  this.route('tow-roster', function() {
 //    this.route('today');
 //    this.route('days');

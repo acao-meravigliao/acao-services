@@ -1,0 +1,28 @@
+{{page-title "Licenza"}}
+
+<div class="container page authen-aircraft">
+  <div class="card">
+    <div class="card-content">
+      <div class="media">
+        <div class="media-left">
+          <figure class="image is-48x48">
+            <FaIcon @icon="id-card" @size="3x" />
+          </figure>
+        </div>
+        <div class="media-content">
+          <p class="title is-4">
+            Licenza {{this.license.type}} {{this.license.identifier}}
+          </p>
+          <p class="subtitle is-6">
+            {{this.license.descr}}
+          </p>
+        </div>
+      </div>
+
+      <div class="content">
+        Rilasciata Il: <strong>{{format-date this.license.isued_at}}</strong><br />
+        Valida Al: <strong>{{format-date this.license.valid_to}}</strong><br />
+      </div>
+    </div>
+  </div>
+</div>

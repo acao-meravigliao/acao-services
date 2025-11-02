@@ -11,7 +11,7 @@
     Aeromobile:
       <strong>
         {{#if this.is_aircraft_mine}}
-          <LinkTo @route="authen.aircraft" @model={{this.token_transaction.aircraft.id}}>
+          <LinkTo @route="authen.aircraft.show" @model={{this.token_transaction.aircraft.id}}>
             {{this.token_transaction.aircraft.registration}}
           </LinkTo>
         {{else}}
@@ -24,7 +24,7 @@
   {{#if this.token_transaction.flight}}
     Volo:
       <strong>
-        <LinkTo @route="authen.flight" @model={{this.token_transaction.flight.id}}>
+        <LinkTo @route="authen.flight.show" @model={{this.token_transaction.flight.id}}>
           {{this.token_transaction.flight.source_id}}
         </LinkTo>
       </strong>
@@ -34,7 +34,7 @@
   {{#if this.token_transaction.invoice}}
     Fattura:
       <strong>
-        <LinkTo @route="authen.invoice" @model={{this.token_transaction.invoice.id}}>
+        <LinkTo @route="authen.invoice.show" @model={{this.token_transaction.invoice.id}}>
           {{this.token_transaction.invoice.identifier_full}}
         </LinkTo>
       </strong>

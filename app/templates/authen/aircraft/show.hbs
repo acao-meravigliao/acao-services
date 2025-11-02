@@ -1,0 +1,145 @@
+{{page-title "Aeromobile"}}
+<div class="container page authen-aircraft">
+  <div class="card">
+    <div class="card-content">
+      <div class="media">
+        <div class="media-left">
+          <figure class="image is-48x48">
+            <img
+              src={{this.ac_image this.aircraft}}
+              alt="Aircraft image"
+            />
+          </figure>
+        </div>
+        <div class="media-content">
+          <p class="title is-4">
+            <LinkTo @route="authen.aircraft.show" @model={{this.aircraft.id}}>
+              {{this.aircraft.registration}} {{this.aircraft.race_registration}}
+            </LinkTo>
+          </p>
+          <p class="subtitle is-6">{{this.aircraft.aircraft_type.manufacturer}} {{this.aircraft.aircraft_type.name}}</p>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="grid">
+          <div class="cell">
+            <p>
+              <strong>ACAO</strong>
+            </p>
+            <p>
+              {{#each this.aircraft.owners as |owner|}}
+              Proprietario: <strong>{{owner.member.person.full_name}}{{if owner.is_referent " (referente)"}}</strong><br />
+              {{/each}}
+
+              {{#if this.aircraft.flarm_identifier}}
+                Codice FLARM: <strong>{{this.aircraft.flarm_identifier}}</strong><br />
+              {{/if}}
+              {{#if this.aircraft.icao_identifier}}
+                Codice ICAO: <strong>{{this.aircraft.icao_identifier}}</strong><br />
+              {{/if}}
+              {{#if this.aircraft.club}}
+                Club di riferimento: <strong>{{this.aircraft.club.name}}</strong><br />
+                {{!--Club di riferimento: <strong><LinkTo @route="authen.club" aircraft.club.id>{{this.aircraft.club.name}}</LinkTo></strong><br />--}}
+              {{/if}}
+
+              {{#if this.aircraft.serial_number}}
+                Numero di serie: <strong>{{this.aircraft.serial_number}}</strong><br />
+              {{/if}}
+
+              {{!--Posto hangar: <strong>{{if this.aircraft.hangar "SÌ" "NO"}}</strong><br />--}}
+            </p>
+
+            <button class="button is-link" {{on "click" this.goto_flights}}>
+              <span class="icon"><FaIcon @icon="plane-departure" /></span>
+              <span>
+                Stralcio Voli
+              </span>
+            </button>
+
+{{!--
+            {{#let (file-queue name="photos" onFileAdded=this.upload_photo) as |queue|}}
+              <label class="button">
+                <span class="icon"><FaIcon @icon="upload" /></span>
+                <span>
+                  Carica foto...
+                </span>
+                <input type="file" accept="image/*" capture="environment" hidden {{queue.selectFile}} />
+              </label>
+            {{/let}}
+
+            Progress: {{this.file.progress}}<br />
+--}}
+
+          </div>
+          <div class="cell">
+            <p>
+              <a href="https://www.flarmnet.org/"><strong>Flarmnet</strong></a>
+              (aggiornato {{format-date-from-now this.flarmnet_last_update}})
+            </p>
+            {{#each this.aircraft.flarmnet_entries as |entry|}}
+            <p>
+              Tipo: <strong>{{entry.device_type}}</strong><br />
+              Identificatore: <strong>{{entry.device_id}}</strong>
+                {{#if (this.fn_mismatch_device_id entry)}}
+                  <span class="tag is-warning"><FaIcon @icon="triangle-exclamation" /></span>
+                {{/if}}
+              <br />
+              Marche: <strong>{{entry.registration}}</strong>
+                {{#if (this.fn_mismatch_reg entry)}}
+                  <span class="tag is-warning"><FaIcon @icon="triangle-exclamation" /></span>
+                {{/if}}
+              <br />
+              Sigle di gara: <strong>{{entry.cn}}</strong>
+                {{#if (this.fn_mismatch_cn entry)}}
+                  <span class="tag is-warning"><FaIcon @icon="triangle-exclamation" /></span>
+                {{/if}}
+              <br />
+              Tracking <FaIcon @icon={{if entry.tracked "circle-check" "circle-xmark"}} /><br />
+              Identificato <FaIcon @icon={{if entry.identified "circle-check" "circle-xmark"}} /><br />
+            </p>
+            {{/each}}
+          </div>
+          <div class="cell">
+            <p>
+              <a href="https://ddb.glidernet.org/"><strong>OGN</strong></a>
+              (aggiornato {{format-date-from-now this.ddb_last_update}})
+            </p>
+            {{#each this.aircraft.ogn_ddb_entries as |entry|}}
+            <p>
+              Tipo: <strong>{{entry.device_type}}</strong><br />
+              Identificatore: <strong>{{entry.device_id}}</strong>
+                {{#if (this.ddb_mismatch_device_id entry)}}
+                  <span class="tag is-warning"><FaIcon @icon="triangle-exclamation" /></span>
+                {{/if}}
+              <br />
+              Marche: <strong>{{entry.aircraft_registration}}</strong>
+                {{#if (this.ddb_mismatch_reg entry)}}
+                  <span class="tag is-warning"><FaIcon @icon="triangle-exclamation" /></span>
+                {{/if}}
+              <br />
+              Sigle di gara: <strong>{{entry.aircraft_competition_id}}</strong>
+                {{#if (this.ddb_mismatch_cn entry)}}
+                  <span class="tag is-warning"><FaIcon @icon="triangle-exclamation" /></span>
+                {{/if}}
+              <br />
+              Tracking <FaIcon @icon={{if entry.tracked "circle-check" "circle-xmark"}} /><br />
+              Identificato <FaIcon @icon={{if entry.identified "circle-check" "circle-xmark"}} /><br />
+            </p>
+            {{/each}}
+          </div>
+{{!--
+          <div class="cell">
+            <figure class="image">
+              <img
+                src="/pics/{{this.aircraft.id}}_ac_photo"
+                alt="Placeholder image"
+              />
+            </figure>
+          </div>
+--}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

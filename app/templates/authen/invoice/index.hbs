@@ -1,0 +1,53 @@
+{{page-title (t "invoices.page_title")}}
+
+<div class="container page authen-invoices">
+
+  <div class="box">
+    <a {{on "click" (fn this.set_span 30)}}>
+      <span class="tag {{if (eq this.span 30) "is-success" "is-dark"}}">ultimo mese</span>
+    </a>
+    <a {{on "click" (fn this.set_span 90)}}>
+      <span class="tag {{if (eq this.span 90) "is-success" "is-dark"}}">ultimi 3 mesi</span>
+    </a>
+    <a {{on "click" (fn this.set_span 365)}}>
+      <span class="tag {{if (eq this.span 365) "is-success" "is-dark"}}">ultimi 12 mesi</span>
+    </a>
+  </div>
+
+  <table class="invoices table">
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Numero fattura</th>
+        <th>Pagamento</th>
+        <th>Ammontare</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {{#each this.sorted_models key="id" as |model|}}
+
+      <tr>
+        <td>
+          {{format-date model.document_date format="dmy"}}
+        </td>
+        <td>
+          {{model.identifier_full}}
+        </td>
+        <td>
+          {{t (concat "payment.methods." model.payment_method)}}
+        </td>
+        <td class="price">
+          {{format-number model.amount style="currency" currency="EUR"}}
+        </td>
+        <td>
+          <LinkTo @route="authen.invoice.show" @model={{model.id}}>
+            <FaIcon @icon="arrow-up-right-from-square" />
+          </LinkTo>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+
