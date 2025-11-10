@@ -9,5 +9,5 @@ export default class YggMlAddressModel extends Model {
   @attr('number') reliability_score;
 
   @vosBelongsTo('ml_address', 'email') person_email;
-  @vosHasMany('address', 'validation_token') validation_tokens;
+  @vosHasMany('address', 'validation') validations;
 }
