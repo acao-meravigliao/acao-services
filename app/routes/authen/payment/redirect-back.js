@@ -1,5 +1,6 @@
 import BaseRoute from '../../base-route';
 import { service } from '@ember/service';
+import { later } from '@ember/runloop';
 
 export default class AuthenPaymentShowRoute extends BaseRoute {
   @service store;
@@ -34,5 +35,30 @@ export default class AuthenPaymentShowRoute extends BaseRoute {
 
       return res;
     });
+  }
+
+  afterModel(model) {
+    const payment = model.get_first('ygg--acao--payment');
+
+    if (payment.state === 'COMPLETED' &&
+        payment.sp_status === 'ACCEPTED' &&
+        payment.obj_type === 'Ygg::Acao::BarTransaction') {
+      later(this, () => { this.router.transitionTo('authen.bar.transactions') }, 3000);
+    } else if (payment.state === 'PENDING' &&
+               payment.payment_method === 'SATISPAY' &&
+               payment.sp_status === 'PENDING') {
+      later(this, this.recheck_state, 1000);
+    }
+  }
+
+  recheck_state() {
+    later(this, () => {
+      if (payment.state === 'COMPLETED' &&
+          payment.sp_status === 'ACCEPTED' &&
+          payment.obj_type === 'Ygg::Acao::BarTransaction')
+        this.router.transitionTo('authen.bar.transactions');
+    }, 1000);
+
+    later(this, this.recheck_state, 1000);
   }
 }
