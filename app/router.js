@@ -109,21 +109,6 @@ Router.map(function() {
 //    });
   });
 
-//  this.route('tow-roster', function() {
-//    this.route('today');
-//    this.route('days');
-//  });
-//
-//  this.route('sap', function() {
-//    this.route('registration');
-//    this.route('list');
-//  });
-//
-//  this.route('ccv', function() {
-//    this.route('registration');
-//    this.route('list');
-//  });
-
   this.route('login');
   this.route('login2');
   this.route('password-recovery');
