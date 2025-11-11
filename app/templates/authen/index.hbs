@@ -31,42 +31,43 @@
     </div>
   </div>
 
-  {{#if this.ms.current_renew_is_open_and_available}}
-    <button class="button is-huge is-multiline is-success" {{on "click" this.start_current_membership_renewal}}>
-      <span>L'iscrizione</span>
-      <span class="is-size-2 has-text-weight-bold">{{this.ms.current_year.year}}</span>
-      <span>{{t "authen.index.membership_for_year"}}</span>
-    </button>
-  {{/if}}
+  <div class="grid">
+    {{#if this.ms.current_renew_is_open_and_available}}
+      <div class="cell">
+        <button class="button is-huge is-multiline is-success" {{on "click" this.start_current_membership_renewal}}>
+          <span>L'iscrizione</span>
+          <span class="is-size-2 has-text-weight-bold">{{this.ms.current_year.year}}</span>
+          <span>{{t "authen.index.membership_for_year"}}</span>
+        </button>
+      </div>
+    {{/if}}
 
-  {{#if this.ms.next_renew_is_open_and_available}}
-    <button class="button is-huge is-multiline is-success" {{on "click" this.start_next_membership_renewal}}>
-      <span>{{t "authen.index.the_membership"}}</span>
-      <span class="is-size-2 has-text-weight-bold">{{this.ms.next_year.year}}</span>
-      <span>{{t "authen.index.membership_for_year"}}</span>
-    </button>
-  {{/if}}
+    {{#if this.ms.next_renew_is_open_and_available}}
+      <div class="cell">
+        <button class="button is-huge is-multiline is-success" {{on "click" this.start_next_membership_renewal}}>
+          <span>{{t "authen.index.the_membership"}}</span>
+          <span class="is-size-2 has-text-weight-bold">{{this.ms.next_year.year}}</span>
+          <span>{{t "authen.index.membership_for_year"}}</span>
+        </button>
+      </div>
+    {{/if}}
 
-  {{#if this.ms.next_renew_is_going_to_open_and_available}}
-    <button class="button is-huge is-multiline is-grey" disabled>
-      <span>{{t "authen.index.the_membership"}}</span>
-      <span class="is-size-2 has-text-weight-bold">{{this.ms.next_year.year}}</span>
-      <span>{{t "authen.index.membership_will_open" interval=this.ms.next_will_open_in}}</span>
-    </button>
-  {{/if}}
+    {{#if this.ms.next_renew_is_going_to_open_and_available}}
+      <div class="cell">
+        <button class="button is-huge is-multiline is-grey" disabled>
+          <span>{{t "authen.index.the_membership"}}</span>
+          <span class="is-size-2 has-text-weight-bold">{{this.ms.next_year.year}}</span>
+          <span>{{t "authen.index.membership_will_open" interval=this.ms.next_will_open_in}}</span>
+        </button>
+      </div>
+    {{/if}}
 
-  {{#if this.my_next_roster_entries}}
-    Prossimi turni di linea:
-    <div class="level">
-      {{#each this.my_next_roster_entries as |re|}}
-        <div class="level-entry">
-          <RosterEntry @entry={{re}} />
-        </div>
-      {{/each}}
-    </div>
-  {{/if}}
-
-
+    {{#each this.my_next_roster_entries as |re|}}
+      <div class="cell">
+        <RosterEntry @entry={{re}} />
+      </div>
+    {{/each}}
+  </div>
 
 {{!--
         {{#if this.medicals}}

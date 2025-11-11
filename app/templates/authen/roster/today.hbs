@@ -1,17 +1,18 @@
 {{page-title (t "authen.roster.today.page_title")}}
 <div class="container">
-  {{#if this.day.today}}
+  {{#if this.today}}
 
-    <h1 class="title">{{format-date this.day.today.date}}</h1>
+    <h1 class="title">{{format-date this.today.date}}</h1>
 
-    {{#each this.day.today.roster_entries as |entry|}}
-      <i class="ui {{if entry.chief "spy" "user"}} icon"></i>
-      {{entry.member.person.first_name}} {{entry.member.person.last_name}}<br />
+    {{#each this.today.entries as |entry|}}
+      <FaIcon @icon={{if entry.chief "spy" "user"}} />
+      {{entry.member.person.first_name}} {{entry.member.person.last_name}}
       {{#if entry.notes}}
         <div class="notification">
           {{entry.notes}}
         </div>
       {{/if}}
+      <br />
     {{/each}}
   {{else}}
     <div class="notification is-info">

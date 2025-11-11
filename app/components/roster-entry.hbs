@@ -4,8 +4,8 @@
       {{format-date @entry.roster_day.date format="dm_long"}}
     </div>
 
-    {{#each @entry.roster_day.roster_entries as |entry|}}
-      • {{entry.person.first_name}} {{entry.person.last_name}}<br />
+    {{#each @entry.roster_day.entries as |entry|}}
+      • {{entry.member.person.first_name}} {{entry.member.person.last_name}}<br />
     {{/each}}
 
     {{#if @entry.notes}}

@@ -4,7 +4,7 @@ import { action } from '@ember/object';
 import { service } from '@ember/service';
 
 export default class RosterTodatController extends Controller {
-  get day() {
+  get today() {
     return this.model.get_first('ygg--acao--roster-day');
   }
 }

@@ -36,23 +36,12 @@ export default class AuthenIndexController extends Controller {
   }
 
 
-
-
-
   //------------------- Roster -------------------
   get my_next_roster_entries() {
-    return [];//this.my_next_roster_entries_unsorted.sortBy('roster_entries_sort_order');
-  }
-
-  get all_roster_entries() {
-    return [];//this.store.peekAll('ygg--acao--roster-entry');
+    return this.model.get_all('ygg--acao--roster-entry');
   }
 
   get my_next_roster_entries_unsorted() {
-    return this.all_roster_entries.filter((item) => (
-       item.belongsTo('person').id() === this.session.person_id &&
-       item.belongsTo('roster_day').value().date > new Date()
-      )
-    );
+    return this.my_next_roster_entries.sort((a,b) => (a.date - b.date));
   }
 }
