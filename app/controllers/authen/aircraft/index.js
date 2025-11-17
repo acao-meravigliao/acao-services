@@ -18,7 +18,7 @@ export default class AuthenAircraftsController extends Controller {
   ac_image = (ac) => (this.ac_images[ac.aircraft_type && ac.aircraft_type.aircraft_class || 'GLD']);
 
   get aircrafts() {
-    return this.model.get_all('ygg--acao--aircraft');
+    return this.model.get_cls('ygg--acao--aircraft');
   }
 
   get club() {

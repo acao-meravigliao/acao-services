@@ -78,7 +78,7 @@ export default class AuthenDebtIndexController extends Controller {
   }
 
   get debts() {
-    return this.model.get_all('ygg--acao--debt');
+    return this.model.get_cls('ygg--acao--debt');
   }
 
   get filtered_debts() {

@@ -1,6 +1,5 @@
-import Model, { attr } from '@ember-data/model';
-import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
+import { VosModel, attr, vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 
-export default class YggCorePersonAclEntryModel extends Model {
+export default class YggCorePersonAclEntryModel extends VosModel {
   @attr('string') capability;
 }

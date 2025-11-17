@@ -1,12 +1,11 @@
-import Model, { attr } from '@ember-data/model';
-import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
+import { VosModel, attr, vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 
-export default class YggAcaoLicenseModel extends Model {
+export default class YggAcaoLicenseModel extends VosModel {
   @attr('string') type;
   @attr('string') identifier;
   @attr('date') issued_at;
   @attr('date') valid_to;
   @attr('date') valid_to2;
 
-  @vosBelongsTo('license', 'pilot') pilot;
+  @vosBelongsTo('license', 'member') member;
 }

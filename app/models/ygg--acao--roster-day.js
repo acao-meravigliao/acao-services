@@ -1,7 +1,6 @@
-import Model, { attr } from '@ember-data/model';
-import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
+import { VosModel, attr, vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 
-export default class YggAcaoRosterDayModel extends Model {
+export default class YggAcaoRosterDayModel extends VosModel {
   @attr('date') date;
   @attr('boolean') high_season;
   @attr('number') needed_people;

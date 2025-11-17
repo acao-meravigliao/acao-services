@@ -220,10 +220,10 @@ export default class AuthenRenewMembershipRoute extends BaseRoute {
       Object.assign(this.wizard, res[1].body);
       this.wizard.person = sel.get_first('ygg--core--person');
       this.wizard.member = sel.get_first('ygg--acao--member');
-      this.wizard.memberships = sel.get_all('ygg--acao--membership');
-      this.wizard.year_model = sel.get_all('ygg--acao--year').find((x) => (x.year === year));
-      this.wizard.service_types = sel.get_all('ygg--acao--service-type');
-      this.wizard.aircraft_ownerships = sel.get_all('ygg--acao--aircraft--owner');
+      this.wizard.memberships = sel.get_cls('ygg--acao--membership');
+      this.wizard.year_model = sel.get_cls('ygg--acao--year').find((x) => (x.year === year));
+      this.wizard.service_types = sel.get_cls('ygg--acao--service-type');
+      this.wizard.aircraft_ownerships = sel.get_cls('ygg--acao--aircraft--owner');
       this.wizard.year = this.wizard.year_model.year;
       this.wizard.announce_time = this.wizard.year_model.renew_announce_time;
       this.wizard.opening_time = this.wizard.year_model.renew_opening_time;

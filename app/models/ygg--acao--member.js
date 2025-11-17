@@ -1,7 +1,6 @@
-import Model, { attr } from '@ember-data/model';
-import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
+import { VosModel, attr, vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 
-export default class YggAcaoMemberModel extends Model {
+export default class YggAcaoMemberModel extends VosModel {
   @attr('date') created_at;
   @attr('date') updated_at;
 
@@ -29,11 +28,15 @@ export default class YggAcaoMemberModel extends Model {
 
   @vosBelongsTo('acao_member', 'person') person;
   @vosHasMany('member', 'role') roles;
+  @vosHasMany('member', 'medical') medicals;
+  @vosHasMany('member', 'license') licenses;
+  @vosHasMany('member', 'aircraft_owner') aircrafts_as_owner;
   @vosHasMany('member', 'roster_entry') roster_entries;
   @vosHasMany('member', 'bar_transaction') bar_transactions;
   @vosHasMany('member', 'token_transaction') token_transactions;
-  @vosHasMany('member', 'aircraft_owner') aircrafts_as_owner;
   @vosHasMany('member', 'debt') debts;
+  @vosHasMany('member', 'payment') payments;
+  @vosHasMany('member', 'invoice') invoices;
 
   has_role(role) {
     return this.roles.some((x) => (x.symbol === role));

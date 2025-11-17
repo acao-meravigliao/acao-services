@@ -72,7 +72,7 @@ export default class RosterSelectController extends Controller {
   }
 
   cancelSelections() {
-    this.store.peekAll('ygg--acao--roster-entry').forEach(function(record) { record.rollbackAttributes(); });
+    this.store.get_cls('ygg--acao--roster-entry').forEach(function(record) { record.rollbackAttributes(); });
   }
 
   saveSelections() {
@@ -98,7 +98,7 @@ export default class RosterSelectController extends Controller {
 
   @action addDay(dayEntry) {
     this.store.createRecord('ygg--acao--roster-entry', {
-      person: this.store.peekRecord('ygg--core--person', this.get('session.person_id')),
+      person: this.store.get_cls('ygg--core--person', this.get('session.person_id')),
       roster_day: dayEntry,
     });
   }

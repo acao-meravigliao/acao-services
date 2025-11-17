@@ -1,7 +1,6 @@
-import Model, { attr } from '@ember-data/model';
-import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
+import { VosModel, attr, vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 
-export default class YggAcaoBarTransactionModel extends Model {
+export default class YggAcaoBarTransactionModel extends VosModel {
   @attr('date') recorded_at;
   @attr('number') cnt;
   @attr('string') descr;

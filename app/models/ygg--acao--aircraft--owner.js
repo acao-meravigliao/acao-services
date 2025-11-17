@@ -1,7 +1,6 @@
-import Model, { attr } from '@ember-data/model';
-import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
+import { VosModel, attr, vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 
-export default class YggAcaoAircraftOwnerModel extends Model {
+export default class YggAcaoAircraftOwnerModel extends VosModel {
   @attr('boolean') is_referent;
 
   @vosBelongsTo('aircraft_owner', 'aircraft') aircraft;

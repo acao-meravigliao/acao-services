@@ -1,8 +1,7 @@
-import Model, { attr } from '@ember-data/model';
-import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
+import { VosModel, attr, vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 import { tracked } from '@glimmer/tracking';
 
-export default class YggAcaoFlightModel extends Model {
+export default class YggAcaoFlightModel extends VosModel {
   @attr('number') source_id;
 
   @attr('string') aircraft_reg;

@@ -21,7 +21,7 @@ export default class RosterDaysController extends Controller {
   }
 
   get days() {
-    return this.model.get_all('ygg--acao--roster-day');
+    return this.model.get_cls('ygg--acao--roster-day');
   }
 
   get filtered_roster_days() {

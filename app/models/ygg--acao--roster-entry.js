@@ -1,7 +1,6 @@
-import Model, { attr } from '@ember-data/model';
-import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
+import { VosModel, attr, vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 
-export default class YggAcaoRosterEntryModel extends Model {
+export default class YggAcaoRosterEntryModel extends VosModel {
   @attr('string') notes;
   @attr('date', { readOnly: true }) selected_at;
   @attr('date', { readOnly: true }) on_offer_since;

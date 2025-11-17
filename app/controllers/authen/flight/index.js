@@ -26,7 +26,7 @@ export default class AuthenFlightIndexController extends Controller {
   }
 
   get flights() {
-    return this.model.get_all('ygg--acao--flight');
+    return this.model.get_cls('ygg--acao--flight');
   }
 
   get member() {

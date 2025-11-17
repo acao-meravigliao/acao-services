@@ -11,7 +11,7 @@ export default class TokenTransactionsController extends Controller {
   is_mine = (ac) => (ac.is_owned_by(this.authen_controller.model.member));
 
   get token_transactions() {
-    return this.model.get_all('ygg--acao--token-transaction');
+    return this.model.get_cls('ygg--acao--token-transaction');
   }
 
   get sorted_token_transactions() {

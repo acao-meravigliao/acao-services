@@ -24,11 +24,11 @@ export default class AuthenController extends Controller {
   }
 
   get available_roles() {
-    return this.model.get_all('ygg--acao--role');
+    return this.model.get_cls('ygg--acao--role');
   }
 
   get years() {
-    return this.model.get_all('ygg--acao--year');
+    return this.model.get_cls('ygg--acao--year');
   }
 
   get memberships() {

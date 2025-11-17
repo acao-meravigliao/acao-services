@@ -1,7 +1,6 @@
-import Model, { attr } from '@ember-data/model';
-import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
+import { VosModel, attr, vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 
-export default class AircarftModel extends Model {
+export default class AircarftModel extends VosModel {
   @attr('date') created_at;
   @attr('date') updated_at;
   @attr('string') race_registration;

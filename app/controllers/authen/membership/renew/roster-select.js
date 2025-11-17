@@ -19,7 +19,7 @@ export default class AuthenMembershipRenewRosterSelectController extends Control
    }
 
   get roster_days() {
-    return this.model.get_all('ygg--acao--roster-day');
+    return this.model.get_cls('ygg--acao--roster-day');
   }
 
   get member() {

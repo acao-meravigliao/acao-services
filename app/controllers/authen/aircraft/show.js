@@ -23,7 +23,7 @@ export default class AuthenAircraftController extends Controller {
   }
 
   get sync_statuses() {
-    return this.model.get_all('ygg--acao--aircraft-sync-status');
+    return this.model.get_cls('ygg--acao--aircraft-sync-status');
   }
 
   fn_mismatch_device_id = (fe) => (fe.device_type === 'F' ?

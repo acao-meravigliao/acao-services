@@ -7,7 +7,7 @@ export default class AuthenInvoiceIndexController extends Controller {
   @service router;
 
   get invoices() {
-    return this.model.get_all('ygg--acao--invoice');
+    return this.model.get_cls('ygg--acao--invoice');
   }
 
   get sorted_models() {

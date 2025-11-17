@@ -1,7 +1,6 @@
-import Model, { attr } from '@ember-data/model';
-import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
+import { VosModel, attr, vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 
-export default class YggCoreLocationModel extends Model {
+export default class YggCoreLocationModel extends VosModel {
   @attr('string') street_address;
   @attr('string') city;
   @attr('string') state;

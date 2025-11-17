@@ -17,7 +17,7 @@ export default class AuthenIndexController extends Controller {
   }
 
   get memberships() {
-    return this.model.get_all('ygg--acao--membership');
+    return this.model.get_cls('ygg--acao--membership');
   }
 
   get roles() {
@@ -38,7 +38,7 @@ export default class AuthenIndexController extends Controller {
 
   //------------------- Roster -------------------
   get my_next_roster_entries() {
-    return this.model.get_all('ygg--acao--roster-entry');
+    return this.model.get_cls('ygg--acao--roster-entry');
   }
 
   get my_next_roster_entries_unsorted() {

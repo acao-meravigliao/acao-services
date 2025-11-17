@@ -1,7 +1,6 @@
-import Model, { attr } from '@ember-data/model';
-import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
+import { VosModel, attr, vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 
-export default class YggAcaoPaymentModel extends Model {
+export default class YggAcaoPaymentModel extends VosModel {
   @attr('string') identifier;
   @attr('date') created_at;
   @attr('date') expires_at;

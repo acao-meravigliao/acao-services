@@ -13,7 +13,7 @@ export default class BarTransactionController extends Controller {
   }
 
   get bar_transactions() {
-    return this.model.get_all('ygg--acao--bar-transaction');
+    return this.model.get_cls('ygg--acao--bar-transaction');
   }
 
   get sorted_models() {

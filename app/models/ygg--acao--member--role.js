@@ -1,7 +1,6 @@
-import Model, { attr } from '@ember-data/model';
-import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
+import { VosModel, attr, vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 
-export default class YggAcaoMemberRoleModel extends Model {
+export default class YggAcaoMemberRoleModel extends VosModel {
   @attr('string') symbol;
   @attr('string') name;
   @attr('date') valid_from;

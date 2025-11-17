@@ -1,7 +1,6 @@
-import Model, { attr } from '@ember-data/model';
-import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
+import { VosModel, attr, vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 
-export default class YggAcaoOgnDdbEntryModel extends Model {
+export default class YggAcaoOgnDdbEntryModel extends VosModel {
   @attr('string') device_type;
   @attr('string') device_id;
   @attr('string') aircraft_model_id;

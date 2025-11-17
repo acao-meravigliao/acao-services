@@ -1,7 +1,6 @@
-import Model, { attr } from '@ember-data/model';
-import { vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
+import { VosModel, attr, vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 
-export default class YggAcaoInvoiceModel extends Model {
+export default class YggAcaoInvoiceModel extends VosModel {
   @attr('string') person_id;
   @attr('string') identifier;
   @attr('string') identifier_full;
@@ -21,6 +20,7 @@ export default class YggAcaoInvoiceModel extends Model {
 
   @vosHasMany('invoice', 'detail') details;
   @vosBelongsTo('invoice', 'person') person;
+  @vosBelongsTo('invoice', 'member') member;
   @vosHasMany('invoice', 'payment') payments;
   @vosBelongsTo('invoice', 'token_transaction') token_transaction;
 
