@@ -24,13 +24,27 @@
         Aeromobili
       </LinkTo>
 
-      <LinkTo @route="authen.license.index" class="navbar-item">
-        Licenze
-      </LinkTo>
 
-      <LinkTo @route="authen.medical.index" class="navbar-item">
-        Visite Mediche
-      </LinkTo>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          Documenti
+        </a>
+
+        <div class="navbar-dropdown">
+          <LinkTo @route="authen.license.index" class="navbar-item">
+            Licenza
+          </LinkTo>
+
+          <LinkTo @route="authen.medical.index" class="navbar-item">
+            Visita Medica
+          </LinkTo>
+
+          <LinkTo @route="authen.fai-card.index" class="navbar-item">
+            Tessera FAI
+          </LinkTo>
+         </div>
+      </div>
 
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">

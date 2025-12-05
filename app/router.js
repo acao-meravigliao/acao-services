@@ -42,6 +42,11 @@ Router.map(function() {
       this.route('show', { path: '/show/:id' });
     });
 
+    this.route('fai-card', function() {
+      this.route('index');
+      this.route('show', { path: '/show/:id' });
+    });
+
     this.route('invoice', function() {
       this.route('index');
       this.route('show', { path: '/show/:id' });

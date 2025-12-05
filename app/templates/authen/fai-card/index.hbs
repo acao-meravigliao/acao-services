@@ -1,0 +1,33 @@
+{{page-title "Licenze"}}
+
+<div class="container page authen-fai-card-index">
+  <div class="grid is-col-min-20">
+    {{#each this.sorted_fai_cards key="id" as |fai_card|}}
+      <div class="card cell">
+        <div class="card-content">
+          <div class="media">
+            <div class="media-left">
+              <figure class="image is-48x48">
+               <FaIcon @icon="id-card" @size="3x" />
+              </figure>
+            </div>
+            <div class="media-content">
+              <p class="title is-4">
+                <LinkTo @route="authen.fai-card.show" @model={{fai_card.id}}>
+                  {{fai_card.type}} {{fai_card.identifier}}
+                </LinkTo>
+              </p>
+              <p class="subtitle is-6"></p>
+            </div>
+          </div>
+          <div class="content">
+            Rilasciata Il: <strong>{{format-date fai_card.issued_at}}</strong><br />
+            Valida Al: <strong>{{format-date fai_card.valid_to}}</strong><br />
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>
+
+

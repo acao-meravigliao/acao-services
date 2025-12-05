@@ -1,0 +1,28 @@
+{{page-title "Licenza"}}
+<div class="container page authen-aircraft">
+  <nav class="panel">
+    <p class="panel-heading">
+      <div class="media">
+        <div class="media-left">
+          <figure class="image is-32x32">
+            <FaIcon @icon="id-card" @size="2x" />
+          </figure>
+        </div>
+        <div class="media-content">
+          <p class="title is-4">
+            Tessera FAI <strong>{{this.fai_card.identifier}}</strong>
+          </p>
+          <p class="subtitle is-6">
+            {{this.fai_card.type}}
+          </p>
+        </div>
+      </div>
+    </p>
+    <div class="panel-block is-active">
+      <div>
+        Rilasciata il: <strong>{{format-date this.fai_card.issued_at format="dmy"}}</strong><br />
+        Valida al: <strong>{{format-date this.fai_card.valid_to format="dmy"}}</strong><br />
+      </div>
+    </div>
+  </nav>
+</div>
