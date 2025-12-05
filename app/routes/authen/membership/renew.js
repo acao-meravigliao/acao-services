@@ -233,7 +233,7 @@ export default class AuthenRenewMembershipRoute extends BaseRoute {
 
       // Services
       this.wizard.services = A(this.wizard.base_services.map((x) => new SelectedService({
-        type: sel.get_one('ygg--acao--service-type', x.service_type_id),
+        type: sel.get(x.service_type_id),
         type_changeable: false,
         removable: x.removable,
         toggable: x.toggable,
