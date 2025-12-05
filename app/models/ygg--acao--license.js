@@ -8,4 +8,5 @@ export default class YggAcaoLicenseModel extends VosModel {
   @attr('date') valid_to2;
 
   @vosBelongsTo('license', 'member') member;
+  @vosHasMany('license', 'rating') ratings;
 }

@@ -19,6 +19,14 @@ export default class AuthenLicenseShowRoute extends BaseRoute {
           to: 'person',
         },
        },
+       {
+        from: 'license',
+        to: 'rating',
+        dig: {
+          from: 'rating',
+          to: 'rating_type',
+        }
+       },
       ],
      },
     ]);

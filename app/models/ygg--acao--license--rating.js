@@ -6,4 +6,5 @@ export default class YggAcaoLicenseRatingModel extends VosModel {
   @attr('date') valid_to;
 
   @vosBelongsTo('rating', 'license') license;
+  @vosBelongsTo('rating', 'rating_type') rating_type;
 }
