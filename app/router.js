@@ -8,10 +8,7 @@ export default class Router extends EmberRouter {
 
 Router.map(function() {
   this.route('authen', function() {
-    this.route('shop', function() {
-      this.route('cart');
-      this.route('checkout');
-    });
+    this.route('currency');
 
     this.route('membership', function() {
       this.route('index');
@@ -111,6 +108,11 @@ Router.map(function() {
 //      this.route('today');
 //      this.route('days');
 //      this.route('select');
+//    });
+//
+//    this.route('shop', function() {
+//      this.route('cart');
+//      this.route('checkout');
 //    });
   });
 

@@ -205,6 +205,113 @@ comp:
     no_days: "Non ci sono giornate di linea nel {year}"
     filters: Filtri
 
+flights_table:
+  aircraft_class_label: Classe
+  aircraft_class_placeholder: Classe
+  aircraft_class:
+    "": "-"
+    GLD: Aliante
+    SEP: Aereo
+    TMG: TMG
+
+  launch_label: Lancio
+  launch_placeholder: Lancio
+  launch:
+    "": "-"
+    SL: Self-launch
+    TOW: Traino
+    WINCH: Verricello
+
+member:
+  roles:
+    TUG_PILOT: Trainatore
+    SPL_PILOT: Pilota Aliante
+    SPL_STUDENT: Allievo SPL
+    SPL_INSTRUCTOR: Istruttore SPL
+    BOARD_MEMBER: Consigliere
+    MAINTENANCE: Manutenzione AM
+    FIREMAN: Antincendio
+    STAFF: Staff
+
+currency_explorer:
+  symbol:
+    membership: Iscrizione
+    ass: Associazione
+    cav: CAV
+    caa: CAA
+    cap: CAP
+    medical: Visita medica
+    spl_license: Licenza SPL
+    ppl_license: Licenza PPL
+    tow_launch_endorsment: Abilitazione Traino
+    sl_launch_endorsment: Abilitazione SLSS
+    winch_launch_endorsment: Abilitazione Verricello
+    tmg_endorsment: Abilitazione TMG
+    ppl_tmg_endorsment: Abilitazione TMG su PPL
+    pax_endorsment: Abilitazione Passeggero
+    gld_launches_in_24_months: Lanci aliante in 24 mesi
+    gld_hours_in_24_months: Ore aliante in 24 mesi
+    tmg_launches_in_24_months: Lanci TMG in 24 mesi
+    tmg_hours_in_24_months: Ore TMG in 24 mesi
+    fifteen_gld_launches_in_24_months: 15 lanci aliante in 24 mesi
+    twelve_tmg_launches_in_24_months: 12 lanci TMG in 24 mesi
+    five_gld_hours_in_24_months: 5 ore aliante in 24 mesi
+    six_tmg_hours_in_24_months: 6 ore TMG in 24 mesi
+    twelve_gld_or_tmg_hours_in_24_months: Dodici ore aliante/TMG in 24 mesi
+    two_gld_training_flights_in_24_months: Due training flight in 24 mesi
+    one_tmg_training_flight_in_24_months: Un training flight in 24 mesi
+    one_gld_proficiency_flight_in_24_months: Un proficiency check aliante in 24 mesi
+    one_tmg_proficiency_flight_in_24_months: Un proficiency check TMG in 24 mesi
+    five_tows_in_24_months: Cinque traini in 24 mesi
+    five_winches_in_24_months: Cinque verricellate in 24 mesi
+    five_sl_in_24_months: Cinque decolli self-launching in 24 mesi
+    five_sl_or_tmg_in_24_months: Cinque decolli self-launching/TMG in 24 mesi
+    three_gld_launches_in_90_days: Tre lanci aliante in 90 giorni
+    three_tmg_launches_in_90_days: Tre decolli TMG in 90 giorni
+    acao_recency: Currency ACAO
+    ten_hours_as_pic: Dieci ore come PIC
+    thirty_launches_as_pic: Trenta lanci come PIC
+    gld_current: Currency aliante
+    tow_current: Currency traino
+    sl_current: Currency self-launching
+    winch_current: Currency verricello
+    gld_pax_current: Trasporto passeggero su aliante
+    tmg_pax_current: Trasporto passeggero su TMG
+
+  matrix:
+    gld_tow_private_solo: Volo in aliante, trainato, su aliante privato, solo
+    gld_tow_private_solo_picus: Volo in aliante, trainato, su aliante privato, solo, supervisionato
+    gld_tow_private_pax: Volo in aliante, trainato, su aliante privato, con passeggero
+    gld_tow_private_student: Volo in aliante, trainato, su aliante privato, allievo
+    gld_tow_club_solo: Volo in aliante, trainato, su aliante club, solo
+    gld_tow_club_solo_picus: Volo in aliante, trainato, su aliante club, supervisionato
+    gld_tow_club_pax: Volo in aliante, trainato, su aliante club, con passeggero
+    gld_tow_club_student: Volo in aliante, trainato, su aliante club, allievo
+    gld_sl_private_solo: Volo in aliante, self-launching, su aliante privato, solo
+    gld_sl_private_solo_picus: Volo in aliante, self-launching, su aliante privato, solo, supervisionato
+    gld_sl_private_pax: Volo in aliante, self-launching, su aliante privato, con passeggero
+    gld_sl_private_student: Volo in aliante, self-launching, su aliante privato, allievo
+    gld_sl_club_solo: Volo in aliante, self-launching, su aliante club, solo
+    gld_sl_club_solo_picus: Volo in aliante, self-launching, su aliante club, solo, supervisionato
+    gld_sl_club_pax: Volo in aliante, self-launching, su aliante club, con passeggero
+    gld_sl_club_student: Volo in aliante, self-launching, su aliante club, allievo
+    gld_winch_private_solo: Volo in aliante, verricello, su aliante privato, solo
+    gld_winch_private_solo_picus: Volo in aliante, verricello, su aliante privato, solo, supervisionato
+    gld_winch_private_pax: Volo in aliante, verricello, su aliante privato, con passeggero
+    gld_winch_private_student: Volo in aliante, verricello, su aliante privato, allievo
+    gld_winch_club_solo: Volo in aliante, verricello, su aliante club, solo
+    gld_winch_club_solo_picus: Volo in aliante, verricello, su aliante club, solo, supervisionato
+    gld_winch_club_pax: Volo in aliante, verricello, su aliante club, con passeggero
+    gld_winch_club_student: Volo in aliante, verricello, su aliante club, allievo
+    tmg_private_solo: Volo in TMG privato, solo
+    tmg_private_solo_picus: Volo in TMG privato, solo, supervisionato
+    tmg_private_pax: Volo in TMG privato, con passeggero
+    tmg_private_student: Volo in TMG privato, allievo
+    tmg_club_solo: Volo in TMG club, solo
+    tmg_club_solo_picus: Volo in TMGclub, solo, supervisionato
+    tmg_club_pax: Volo in TMG club, con passeggero
+    tmg_club_student: Volo in TMG club, allievo
+
 version_checker:
   version_changed_reload: 'Il sito è stato aggiornato, vuoi ricaricare?'
 
@@ -235,30 +342,3 @@ ex:
       title: Credenziali errate
       detail: Controlla di aver digitato correttamente codice pilota e password
 
-flights_table:
-  aircraft_class_label: Classe
-  aircraft_class_placeholder: Classe
-  aircraft_class:
-    "": "-"
-    GLD: Aliante
-    SEP: Aereo
-    TMG: TMG
-
-  launch_label: Lancio
-  launch_placeholder: Lancio
-  launch:
-    "": "-"
-    SL: Self-launch
-    TOW: Traino
-    WINCH: Verricello
-
-member:
-  roles:
-    TUG_PILOT: Trainatore
-    SPL_PILOT: Pilota Aliante
-    SPL_STUDENT: Allievo SPL
-    SPL_INSTRUCTOR: Istruttore SPL
-    BOARD_MEMBER: Consigliere
-    MAINTENANCE: Manutenzione AM
-    FIREMAN: Antincendio
-    STAFF: Staff
