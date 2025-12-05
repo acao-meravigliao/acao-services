@@ -57,7 +57,7 @@ export default class SessionService extends Service.extend(Evented) {
       return;
 
     let abc = new AbortController();
-    setTimeout(() => abc.abort(), 5000);
+    setTimeout(() => abc.abort(), 7500);
 
     try {
       res = await fetch('/ygg/session/check_or_create', {
@@ -131,7 +131,7 @@ export default class SessionService extends Service.extend(Evented) {
 
       this.last_reported_activity = new Date();
 
-      await this.update(json);
+      this.update(json);
 
       if (json.authenticated) {
         return json;
@@ -180,7 +180,7 @@ export default class SessionService extends Service.extend(Evented) {
 
       this.last_reported_activity = new Date();
 
-      await this.update(json);
+      this.update(json);
 
       if (json.authenticated) {
         return json;
@@ -230,7 +230,7 @@ export default class SessionService extends Service.extend(Evented) {
 
       this.last_reported_activity = new Date();
 
-      await this.update(json);
+      this.update(json);
 
       if (json.authenticated) {
         return json;
@@ -256,7 +256,7 @@ export default class SessionService extends Service.extend(Evented) {
     this.idle_timer_stop();
 
     let abc = new AbortController();
-    setTimeout(() => abc.abort(), 5000);
+    setTimeout(() => abc.abort(), 7500);
 
     let res = await fetch('/ygg/session/logout', {
       method: 'POST',
@@ -275,7 +275,7 @@ export default class SessionService extends Service.extend(Evented) {
 
       let json = await res.json();
 
-      await this.update(json);
+      this.update(json);
     } else {
       if (!res.headers.get('content-type').startsWith('application/problem+json')) {
         throw(new ServerFailure);
@@ -346,7 +346,7 @@ export default class SessionService extends Service.extend(Evented) {
     }
   }
 
-  async update(session_data) {
+  update(session_data) {
     let old_authenticated = this.is_authenticated;
 
     this.session_id = session_data.id;
@@ -370,6 +370,17 @@ export default class SessionService extends Service.extend(Evented) {
     if (this.expires) {
       this.activity();
     }
+  }
+
+  async load_from_vos() {
+    this.our_sel = await this.vos.select({
+      type: 'ygg--core--session',
+      id: this.session_id,
+    });
+  }
+
+  get model() {
+    return this.our_sel && this.our_sel.get_first('ygg--core--session');
   }
 
   idle_timer_start() {
