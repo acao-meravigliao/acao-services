@@ -19,9 +19,6 @@ export default class YggAcaoFlightModel extends VosModel {
   @attr('string') pilot2_name;
 
   @attr('boolean') instruction_flight;
-  @attr('boolean') skill_test;
-  @attr('boolean') proficiency_check;
-  @attr('boolean') maintenance_check;
   @attr('string') launch_type;
   @attr('string') purpose;
   @attr('number') acao_quota;
