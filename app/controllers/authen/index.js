@@ -38,7 +38,9 @@ export default class AuthenIndexController extends Controller {
 
   //------------------- Roster -------------------
   get my_next_roster_entries() {
-    return this.model.get_cls('ygg--acao--roster-entry');
+    return this.model.get_cls('ygg--acao--roster-entry').
+             filter((x) => (x.member.person.id == this.session.person_id && x.roster_day.date.getTime() > new Date().getTime())).
+             sort((a,b) => (a.roster_day.date.getTime() - b.roster_day.date.getTime()));
   }
 
   get my_next_roster_entries_unsorted() {

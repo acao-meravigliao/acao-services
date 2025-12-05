@@ -22,6 +22,18 @@ export default class AuthenIndexRoute extends BaseRoute {
           dig: {
             from: 'entry',
             to: 'day',
+            dig: {
+              from: 'day',
+              to: 'entry',
+              dig: {
+                from: 'roster_entry',
+                to: 'member',
+                dig: {
+                  from: 'acao_member',
+                  to: 'person',
+                }
+              }
+            }
           },
          },
         ],
