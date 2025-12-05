@@ -48,8 +48,10 @@ export default class AuthenDebtShowController extends Controller {
 
   @action pay_with(method) {
     this.paying_with = method;
+  }
 
-//    this.router.transitionTo('authen.debt.pay_with.' + method);
+  @action pay_cancel() {
+    this.paying_with = null;
   }
 
   @tracked pay_with_satispay_in_progress = false;
