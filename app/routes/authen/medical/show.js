@@ -12,7 +12,7 @@ export default class AuthenMedicalShowRoute extends BaseRoute {
       id: params.id,
       dig: [
        {
-        from: 'payment',
+        from: 'medical',
         to: 'member',
         dig: {
           from: 'acao_member',

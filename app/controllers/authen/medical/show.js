@@ -9,7 +9,7 @@ export default class AuthenMedicalShowController extends Controller {
   @service toaster;
   @service vos;
 
-  get payment() {
+  get medical() {
     return this.model.get_first('ygg--acao--medical');
   }
 }
