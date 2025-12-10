@@ -206,6 +206,15 @@ comp:
     filters: Filtri
 
 flights_table:
+  presets:
+    d1: oggi
+    dy: ieri
+    d2: due giorni
+    d7: sette giorni
+    week: settimana (solare)
+    month: mese
+    d90: 90 giorni
+    m24: 24 mesi
   aircraft_class_label: Classe
   aircraft_class_placeholder: Classe
   aircraft_class:
@@ -234,7 +243,7 @@ member:
     STAFF: Staff
 
 currency_explorer:
-  symbol:
+  conds:
     membership: Iscrizione
     ass: Associazione
     cav: CAV
@@ -277,8 +286,6 @@ currency_explorer:
     winch_current: Currency verricello
     gld_pax_current: Trasporto passeggero su aliante
     tmg_pax_current: Trasporto passeggero su TMG
-
-  matrix:
     gld_tow_private_solo: Volo in aliante, trainato, su aliante privato, solo
     gld_tow_private_solo_picus: Volo in aliante, trainato, su aliante privato, solo, supervisionato
     gld_tow_private_pax: Volo in aliante, trainato, su aliante privato, con passeggero

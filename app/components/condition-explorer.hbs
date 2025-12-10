@@ -1,0 +1,30 @@
+<div>
+  <a {{on "click" this.toggle_expand}} disabled>
+    {{#if this.ft.deps}}
+      <FaIcon @icon={{if this.is_expanded "square-minus" "square-plus"}} />
+    {{else}}
+      <FaIcon @icon="circle" />
+    {{/if}}
+    <span class="tag {{if this.ft.value "is-success" "is-danger"}}">
+      <FaIcon @icon={{if this.ft.value "check" "xmark"}} />
+    </span>
+    {{t (concat "currency_explorer.conds." @symbol)}}
+    {{#if this.ft.until}}
+      fino a {{format-date this.ft.until format="dmy"}}
+      {{#if (this.date_is_within_one_month this.ft.until)}}
+        <span class="has-text-warning">
+          <FaIcon @icon="triangle-exclamation" />
+        </span>
+      {{/if}}
+    {{/if}}
+  </a>
+
+  {{#if (and this.ft.deps this.is_expanded)}}
+    <br />
+    <div class="is-size-7" style="margin-left: 2em">
+      {{#each this.ft.deps as |dep|}}
+        <ConditionExplorer @conds={{@conds}} @symbol={{dep}} />
+      {{/each}}
+    </div>
+  {{/if}}
+</div>

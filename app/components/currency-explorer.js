@@ -2,17 +2,22 @@ import Component from '@glimmer/component';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { TrackedMap } from 'tracked-built-ins';
 
 export default class CurrencyExplorerComponent extends Component {
-  expanded_symbols = new TrackedMap;
 
   get cs() {
     return this.args.status;
   }
 
+  get conds() {
+    return this.args.status.conds;
+  }
+
   get glm() {
-    return this.args.status.gld_matrix;
+    const mc = this.args.status.matrix_conds;
+const    r= Object.fromEntries(Object.entries(this.args.status.conds).filter(([k,v]) => (mc.includes(k))));
+console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEEE", r);
+return r;
   }
 
   date_is_within_one_month = (date) => {
@@ -25,9 +30,12 @@ export default class CurrencyExplorerComponent extends Component {
       return false;
   };
 
-  is_expanded = (symbol) => (this.expanded_symbols.get(symbol));
+  @tracked debug;
+  @action open_debug() {
+    this.debug = true;
+  }
 
-  @action toggle_expand(symbol) {
-    this.expanded_symbols.set(symbol, !this.expanded_symbols.get(symbol));
+  get cs_text() {
+    return JSON.stringify(this.cs, null, 2);
   }
 }

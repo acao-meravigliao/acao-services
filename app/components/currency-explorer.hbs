@@ -1,7 +1,8 @@
 <div>
   <div class="level">
     <div class="level-item has-text-centered">
-      <div class="box">
+      <LinkTo class="box" @route="authen.flight.index"
+              @query={{hash pilot_id=@member.id preset="m24" cls="GLD" roles="PIC,PICUS,DUAL,FI_PIC"}} >
         <p class="heading">
           Voli aliante negli ultimi 24 mesi
         </p>
@@ -11,11 +12,12 @@
             x {{format-duration-in-secs this.cs.gld_hours_in_24_months}} ore
           {{/if}}
         </p>
-      </div>
+      </LinkTo>
     </div>
 
     <div class="level-item has-text-centered">
-      <div class="box">
+      <LinkTo class="box" @route="authen.flight.index"
+              @query={{hash pilot_id=@member.id preset="d90" cls="GLD" roles="PIC,PICUS,DUAL,FI_PIC"}} >
         <p class="heading">
           Voli aliante negli ultimi 90 giorni
         </p>
@@ -25,11 +27,12 @@
             x {{format-duration-in-secs this.cs.gld_hours_in_90_days}} ore
           {{/if}}
         </p>
-      </div>
+      </LinkTo>
     </div>
 
     <div class="level-item has-text-centered">
-      <div class="box">
+      <LinkTo class="box" @route="authen.flight.index"
+              @query={{hash pilot_id=@member.id preset="m24" cls="TMG" roles="PIC,PICUS,DUAL,FI_PIC"}} >
         <p class="heading">
           Voli TMG negli ultimi 24 mesi
         </p>
@@ -39,11 +42,12 @@
             x {{format-duration-in-secs this.cs.tmg_hours_in_24_months}} ore
           {{/if}}
         </p>
-      </div>
+      </LinkTo>
     </div>
 
     <div class="level-item has-text-centered">
-      <div class="box">
+      <LinkTo class="box" @route="authen.flight.index"
+              @query={{hash pilot_id=@member.id preset="d90" cls="TMG" roles="PIC,PICUS,DUAL,FI_PIC"}} >
         <p class="heading">
           Voli TMG negli ultimi 90 giorni
         </p>
@@ -53,38 +57,21 @@
             x {{format-duration-in-secs this.cs.tmg_hours_in_90_days}} ore
           {{/if}}
         </p>
-      </div>
+      </LinkTo>
     </div>
   </div>
 
   {{#each-in this.glm as |symbol ft|}}
-    <a {{on "click" (fn this.toggle_expand symbol)}}>
-      <span class="tag {{if ft.valid "is-success" "is-danger"}}">
-        <FaIcon @icon={{if ft.valid "check" "xmark"}} />
-      </span>
-      {{t (concat "currency_explorer.matrix." symbol)}}
-      {{#if ft.until}}
-        fino a {{format-date ft.until format="dmy"}}
-        {{#if (this.date_is_within_one_month ft.until)}}
-          <span class="has-text-warning">
-            <FaIcon @icon="triangle-exclamation" />
-          </span>
-        {{/if}}
-      {{/if}}
-    </a>
-
-    {{#if (and ft.depends (this.is_expanded symbol))}}
-      <br />
-      <div class="is-size-7" style="margin-left: 2em">
-        {{#each ft.depends as |dep|}}
-          <span class="tag {{if (get this.cs (concat dep ".valid")) "is-success" "is-danger"}}">
-            <FaIcon @icon={{if (get this.cs (concat dep ".valid")) "check" "xmark"}} />
-          </span>
-
-          {{t (concat "currency_explorer.symbol." dep)}}: {{format-date (get this.cs (concat dep ".until"))}}<br />
-        {{/each}}
-      </div>
-    {{/if}}
-    <br />
+    <ConditionExplorer @conds={{this.conds}} @symbol={{symbol}} />
   {{/each-in}}
+
+  <button class="button is-tiny" {{on "click" this.open_debug}}>
+    <span class="icon"><FaIcon @icon="bug" /></span>
+  </button>
+
+  {{#if this.debug}}
+    <pre class="is-size-7">
+      {{this.cs_text}}
+    </pre>
+  {{/if}}
 </div>

@@ -1,4 +1,11 @@
 {{page-title "Voli"}}
 <div class="container page authen-flights is-fluid">
-  <FlightsTable @flights={{this.flights}} @member={{this.member}} @sd={{this.sd}} @ed={{this.ed}} />
+  <FlightsTable @flights={{this.flights}}
+                @user_member={{this.member}}
+                @sd={{this.sd}} @ed={{this.ed}}
+                @preset={{this.preset}}
+                @flt_classes={{this.cls}}
+                @flt_roles={{this.roles}}
+                @flt_launches={{this.launches}}
+  />
 </div>

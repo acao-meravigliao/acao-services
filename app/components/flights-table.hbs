@@ -1,18 +1,13 @@
 <div class="box">
   <div class="grid">
     <div class="cell">
-      <a {{on "click" (fn this.set_preset "d30")}}>
-        <span class="tag {{if (eq this.preset "d30") "is-success" "is-dark"}}">ultimo mese</span>
-      </a>
-      <a {{on "click" (fn this.set_preset "d90")}}>
-        <span class="tag {{if (eq this.preset "d90") "is-success" "is-dark"}}">ultimi 3 mesi</span>
-      </a>
-      <a {{on "click" (fn this.set_preset "d365")}}>
-        <span class="tag {{if (eq this.preset "d365") "is-success" "is-dark"}}">ultimi 12 mesi</span>
-      </a>
-      <a {{on "click" (fn this.set_preset "dy")}}>
-        <span class="tag {{if (eq this.preset "dy") "is-success" "is-dark"}}">Anno solare</span>
-      </a>
+      {{#each-in this.presets as |symbol preset|}}
+        <a {{on "click" (fn this.set_preset symbol)}}>
+          <span class="tag {{if (eq this.preset symbol) "is-success" "is-dark"}}">
+            {{t (concat "flights_table.presets." symbol)}}
+          </span>
+        </a>
+      {{/each-in}}
     </div>
 
     <div class="cell">
@@ -58,13 +53,6 @@
         </span>
         <span>JSON</span>
       </button>
-{{!--      <button class="button is-success" {{on "click" this.goto_flight_new}}>
-        <span class="icon is-small">
-          <FaIcon @icon="plus" />
-        </span>
-        <span>Volo...</span>
-      </button>
---}}
     </div>
 
     {{#if this.flt_show}}
@@ -91,9 +79,20 @@
       <div class="cell">
         <label>
           Marche
-          <input type="text" class="input" value={{this.flt_reg}} {{on "change" this.flt_reg_change}} />
+          <input type="text" class="input" value={{this.flt_reg}} {{on "input" this.flt_reg_change}} />
         </label>
       </div>
+
+      {{#if @flt_member}}
+        Pilota: {{@flt_member.person.full_name}}
+      {{else}}
+        <div class="cell">
+          <label>
+            Pilota
+            <input type="text" class="input" value={{this.flt_pilot}} {{on "input" this.flt_pilot_change}} />
+          </label>
+        </div>
+      {{/if}}
 
       <div class="cell">
         {{t "flights_table.launch_label"}}

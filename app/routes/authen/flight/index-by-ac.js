@@ -14,6 +14,14 @@ export default class AuthenFlightIndexByAcRoute extends BaseRoute {
       refreshModel: true,
       replace: true,
     },
+    preset: {
+    },
+    cls: {
+    },
+    roles: {
+    },
+    launches: {
+    },
   };
 
   model(params) {

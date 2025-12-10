@@ -3,6 +3,7 @@ import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { TrackedObject } from 'tracked-built-ins';
+import { later } from '@ember/runloop';
 import moment from 'moment';
 import * as XLSX from 'xlsx';
 
@@ -12,32 +13,31 @@ export default class FlightsTableComponent extends Component {
   @service store;
   @service download;
   @tracked details = false;
-  @tracked sd;
-  @tracked ed;
-  @tracked flt_show = false;
-  @tracked flt_all_classes = true;
-  @tracked flt_all_roles = true;
-  @tracked flt_reg;
-  @tracked flt_launch;
 
   classes = [
-    new TrackedObject({ symbol: 'gld', match: 'GLD', name: 'Aliante', enabled: true }),
-    new TrackedObject({ symbol: 'tmg', match: 'TMG', name: 'TMG', enabled: true }),
-    new TrackedObject({ symbol: 'sep', match: 'SEP', name: 'Aereo', enabled: true }),
-    new TrackedObject({ symbol: 'ulm', match: 'ULM', name: 'ULM', enabled: true }),
-  ]
+    new TrackedObject({ symbol: 'GLD', name: 'Aliante', enabled: true }),
+    new TrackedObject({ symbol: 'TMG', name: 'TMG', enabled: true }),
+    new TrackedObject({ symbol: 'SEP', name: 'Aereo', enabled: true }),
+    new TrackedObject({ symbol: 'ULM', name: 'ULM', enabled: true }),
+  ];
 
   roles = [
-    new TrackedObject({ symbol: 'pic', match: 'PIC', name: 'PIC', enabled: true }),
-    new TrackedObject({ symbol: 'pax', match: 'PAX', name: 'PAX', enabled: true }),
-    new TrackedObject({ symbol: 'dual', match: 'DUAL', name: 'DUAL', enabled: true }),
-    new TrackedObject({ symbol: 'fi', match: 'FI', name: 'FI', enabled: true }),
-    new TrackedObject({ symbol: 'fe', match: 'FE', name: 'FE', enabled: true }),
-  ]
+    new TrackedObject({ symbol: 'PIC', name: 'PIC', enabled: true }),
+    new TrackedObject({ symbol: 'PICUS', name: 'PICUS', enabled: true }),
+    new TrackedObject({ symbol: 'PAX', name: 'PAX', enabled: true }),
+    new TrackedObject({ symbol: 'DUAL', name: 'DUAL', enabled: true }),
+    new TrackedObject({ symbol: 'FI', name: 'FI', enabled: true }),
+    new TrackedObject({ symbol: 'FI_PIC', name: 'FI_PIC', enabled: true }),
+    new TrackedObject({ symbol: 'FE', name: 'FE', enabled: true }),
+  ];
 
-  my_role = (flight) => (flight.role(this.member));
+  launches = [
+    new TrackedObject({ symbol: 'TOW', name: 'Traino', enabled: true }),
+    new TrackedObject({ symbol: 'SL', name: 'Self-launch', enabled: false }),
+    new TrackedObject({ symbol: 'WINCH', name: 'Verricello', enabled: false }),
+  ];
 
-  is_aircraft_mine = (ac) => (ac.is_owned_by(this.member));
+  is_aircraft_mine = (ac) => (ac.is_owned_by(this.args.user_member));
 
   constructor() {
     super(...arguments);
@@ -48,27 +48,95 @@ export default class FlightsTableComponent extends Component {
     date.setSeconds(0);
     date.setMilliseconds(0);
 
-    this.d30 = new Date(date);
-    this.d30.setDate(date.getDate() - 30);
+    this.presets = {};
+    this.presets['d1'] = { sd: new Date(date) };
 
-    this.d90 = new Date(date);
-    this.d90.setDate(date.getDate() - 90);
+    this.presets['dy'] = { };
+    this.presets['dy'].sd = new Date(date);
+    this.presets['dy'].sd.setDate(date.getDate() - 2);
+    this.presets['dy'].ed = new Date(date);
+    this.presets['dy'].ed.setDate(date.getDate() - 1);
 
-    this.d365 = new Date(date);
-    this.d365.setDate(date.getDate() - 365);
+    this.presets['d2'] = {};
+    this.presets['d2'].sd = new Date(date);
+    this.presets['d2'].sd.setDate(date.getDate() - 2);
 
-    this.dy = new Date(date);
-    this.dy.setDate(1);
-    this.dy.setMonth(0);
+    this.presets['d7'] = {};
+    this.presets['d7'].sd = new Date(date);
+    this.presets['d7'].sd.setDate(date.getDate() - 7);
+
+    this.presets['week'] = {};
+    this.presets['week'].sd = new Date(date);
+    this.presets['week'].sd.setDate(date.getDate() - 7);
+// start of week
+//    this.presets['dw'].sd.setDate(date.getDate() - 7);
+
+    this.presets['month'] = {};
+    this.presets['month'].sd = new Date(date);
+    this.presets['month'].sd.setDate(date.getDate() - 31);
+
+    this.presets['d90'] = {};
+    this.presets['d90'].sd = new Date(date);
+    this.presets['d90'].sd.setDate(date.getDate() - 90);
+
+    this.presets['m24'] = {};
+    this.presets['m24'].sd = new Date(date);
+    this.presets['m24'].sd.setMonth(date.getMonth() - 24);
 
     // if (matchMedia('handheld').matches)
+
+    if (this.args.preset) {
+      later(() => {
+        this.set_preset(this.args.preset);
+       });
+    }
+
+    if (this.args.flt_classes) {
+      const classes = this.args.flt_classes.split(',');
+      if (this.classes.some((x) => (classes.includes(x.symbol)))) {
+        this.flt_all_classes = false;
+        this.classes.forEach((x) => (x.enabled = (classes.includes(x.symbol))));
+      }
+    }
+
+    if (this.args.flt_roles) {
+      const roles = this.args.flt_roles.split(',');
+      if (this.roles.some((x) => (roles.includes(x.symbol)))) {
+        this.flt_all_roles = false;
+        this.roles.forEach((x) => (x.enabled = (roles.includes(x.symbol))));
+      }
+    }
+
+    if (this.args.flt_launches) {
+      const launches = this.args.flt_launches.split(',');
+      if (this.launches.some((x) => (launches.includes(launch.symbol)))) {
+        this.flt_all_launches = false;
+        this.launches.forEach((x) => (x.enabled = (launches.includes(x.symbol))));
+      }
+    }
 
     if (screen.width >= 1320)
       this.details = true;
   }
 
-  get member() {
-    return this.args.member;
+  get preset() {
+    const preset = Object.keys(this.presets).find((x) => (
+      (!this.presets[x].sd || this.presets[x].sd.getTime() === this.args.sd) &&
+      (!this.presets[x].ed || this.presets[x].ed.getTime() === this.args.ed)))
+
+    return preset;
+  }
+
+  @action set_preset(val) {
+    const preset = this.presets[val];
+
+    const qp = {
+      preset: null,
+      sd: preset.sd ? preset.sd.getTime() : null,
+      ed: preset.ed ? preset.ed.getTime() : null,
+    };
+
+    this.router.transitionTo({ queryParams: qp });
   }
 
   get sd_date() {
@@ -77,28 +145,6 @@ export default class FlightsTableComponent extends Component {
 
   get sd_value() {
     return this.args.sd ? this.sd_date.toISOString().split('T')[0] : '';
-  }
-
-  get preset() {
-    if (this.args.sd === this.d30.getTime())
-      return 'd30';
-    else if (this.args.sd === this.d90.getTime())
-      return 'd90';
-    else if (this.args.sd === this.d365.getTime())
-      return 'd365';
-    else if (this.args.sd === this.dy.getTime())
-      return 'dy';
-    else
-      return null;
-  }
-
-  @action set_preset(val) {
-    switch(val) {
-    case 'd30': this.set_sd(this.d30.getTime()); break;
-    case 'd90': this.set_sd(this.d90.getTime()); break;
-    case 'd365': this.set_sd(this.d365.getTime()); break;
-    case 'dy': this.set_sd(this.dy.getTime()); break;
-    }
   }
 
   get ed_date() {
@@ -110,19 +156,36 @@ export default class FlightsTableComponent extends Component {
   }
 
   flight_class_matches(flt) {
-    return this.flt_all_classes || this.classes.some((x) => (x.enabled && flt.aircraft_class === x.match ));
+    return this.flt_all_classes || this.classes.some((x) => (x.enabled && flt.aircraft_class === x.symbol ));
   }
 
   flight_role_matches(flt) {
-    return this.flt_all_roles || this.roles.some((x) => (x.enabled && flt.role(this.member) === x.match ));
+    const member = this.args.user_member || this.args.flt_member;
+
+    return this.flt_all_roles ||
+             (member ?
+                this.roles.some((x) => (x.enabled && flt.role(member) === x.symbol)) :
+                this.roles.some((x) => (x.enabled && flt.pilot1_role === x.symbol)));
+  }
+
+  flight_launch_matches(flt) {
+    return this.flt_all_launches || this.launches.some((x) => (x.enabled && flt.launch_type === x.symbol ));
+  }
+
+  flight_pilot_matches(flt) {
+    return !this.flt_pilot ||
+           (flt.pilot1_name && flt.pilot1_name.toLowerCase().includes(this.flt_pilot.toLowerCase())) ||
+           (flt.pilot2_name && flt.pilot2_name.toLowerCase().includes(this.flt_pilot.toLowerCase()));
   }
 
   get filtered_models() {
     return this.args.flights.filter((x) => (
       this.flight_role_matches(x) &&
       this.flight_class_matches(x) &&
-      (!this.flt_reg || x.aircraft_reg.toLowerCase().includes(this.flt_reg.toLowerCase())) &&
-      (!this.flt_launch || x.launch_type === this.flt_launch)
+      this.flight_launch_matches(x) &&
+      this.flight_pilot_matches(x) &&
+      (!this.args.pilot_id || (x.pilot1 && x.pilot1.id === this.args.pilot_id) || (x.pilot2 && x.pilot2.id === this.args.pilot_id)) &&
+      (!this.flt_reg || x.aircraft_reg.toLowerCase().includes(this.flt_reg.toLowerCase()))
     ));
   }
 
@@ -159,10 +222,17 @@ export default class FlightsTableComponent extends Component {
   }
 
   @action details_toggle(ev) { this.details = !this.details; }
-  @action flt_show_toggle(ev) { this.flt_show = !this.flt_show; }
 
   // ------------------
 
+  @tracked flt_show = false;
+  @action flt_show_toggle(ev) {
+    this.flt_show = !this.flt_show;
+  }
+
+  // ------------------
+
+  @tracked flt_all_classes = true;
   @action flt_all_classes_change(ev) {
     this.flt_all_classes = ev.target.checked;
 
@@ -180,6 +250,7 @@ export default class FlightsTableComponent extends Component {
 
   // ------------------
 
+  @tracked flt_all_roles = true;
   @action flt_all_roles_change(ev) {
     this.flt_all_roles = ev.target.checked;
 
@@ -195,36 +266,47 @@ export default class FlightsTableComponent extends Component {
       this.flt_all_roles = false;
   }
 
-  // ------------------
-
-  @action flt_reg_change(ev) {
-    this.flt_reg = ev.target.value;
-  }
-
   //-----------
-  get flt_launch_opts() {
-    return [
-     { symbol: null, name: '-' },
-     { symbol: 'SL', name: 'Self-launch' },
-     { symbol: 'TOW', name: 'Traino' },
-     { symbol: 'WINCH', name: 'Verricello' },
-    ];
-  }
 
-  get flt_launch_sel() {
-    return this.flt_launch_opts.find((x) => (x.symbol === this.flt_launch));
+  @tracked flt_all_launches = true;
+  @action flt_all_launches_change(ev) {
+    this.flt_all_launches = ev.target.checked;
+
+    if (ev.target.checked) {
+      this.launches.forEach((x) => (x.enabled = true));
+    }
   }
 
   @action flt_launch_change(ev) {
-    this.flt_launch = ev.symbol;
+    if (ev.symbol === null) {
+      const launch = this.launches.forEach((x) => (x.enabled = true));
+      this.flt_all_launches = true;
+    } else {
+      const launch = this.launches.forEach((x) => (x.enabled = (x.symbol === ev.symbol)));
+      this.flt_all_launches = false;
+    }
   }
 
-  get flt_aircraft_class_sel() {
-    return this.flt_aircraft_class_opts.find((x) => (x.symbol === this.flt_aircraft_class));
+  get flt_launch_sel() {
+    return this.launches.find((x) => (x.symbol === this.flt_launch));
   }
 
-  @action flt_aircraft_class_change(ev) {
-    this.flt_aircraft_class = ev.symbol;
+  get flt_launch_opts() {
+    return [{symbol: null, name: '-' }].concat(this.launches);
+  }
+
+  // ------------------
+
+  @tracked flt_pilot;
+  @action flt_pilot_change(ev) {
+    this.flt_pilot = ev.target.value;
+  }
+
+  // ------------------
+
+  @tracked flt_reg;
+  @action flt_reg_change(ev) {
+    this.flt_reg = ev.target.value;
   }
 
   //-----------
@@ -246,9 +328,12 @@ export default class FlightsTableComponent extends Component {
     ev.preventDefault();
   }
 
-
   @action set_sd(val) {
     this.router.transitionTo({ queryParams: { sd: val.toString() }});
+  }
+
+  @action goto_flight_new() {
+    this.router.transitionTo('authen.flight.new');
   }
 
   format_duration(dur, secs) {

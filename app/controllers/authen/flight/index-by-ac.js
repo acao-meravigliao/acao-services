@@ -10,7 +10,7 @@ export default class AuthenFlightIndexByAcController extends Controller {
   @service session;
   @controller('authen') authen_controller;
 
-  queryParams = [ 'sd', 'ed', ];
+  queryParams = [ 'sd', 'ed', 'preset', 'cls', 'roles', 'launches', ];
 
   ed = null;
 

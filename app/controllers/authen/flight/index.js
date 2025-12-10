@@ -8,7 +8,7 @@ export default class AuthenFlightIndexController extends Controller {
   @service router;
   @controller('authen') authen_controller;
 
-  queryParams = [ 'sd', 'ed', ];
+  queryParams = [ 'sd', 'ed', 'preset', 'cls', 'roles', 'launches', ];
 
   ed = null;
 
