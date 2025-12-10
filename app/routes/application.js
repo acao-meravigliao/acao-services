@@ -1,6 +1,7 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
+import { formats } from 'acao-services/ember-intl';
 import moment from 'moment';
 import 'moment/dist/locale/it';
 
@@ -12,10 +13,12 @@ export default class ApplicationRoute extends Route {
 
   initial_connection = true;
 
-  constructor() {
-    super(...arguments);
-
+  async beforeModel() {
     this.intl.setLocale([ 'it-it' ]);
+    this.intl.setFormats(formats);
+
+console.log("AAAAAAAAAAAAAAAAAAA", this.intl);
+
     moment.locale('it');
 
     this.vos.on('session_reset', () => {

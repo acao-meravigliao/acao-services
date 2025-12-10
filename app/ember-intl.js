@@ -1,5 +1,5 @@
-export default {
-  time: {
+export const formats = {
+  formatTime: {
     hhmm: {
       hour: 'numeric',
       minute: 'numeric',
@@ -25,7 +25,7 @@ export default {
       minute: 'numeric',
     },
   },
-  date: {
+  formatDate: {
     ddd: {
       weekday: 'short',
     },
@@ -49,12 +49,12 @@ export default {
     },
 
   },
-  relative: {
+  formatRelativeTime: {
     compact: {
       style: 'narrow',
     },
   },
-  number: {
+  formatNumber: {
     compact: { notation: 'compact' },
     EUR: {
       style: 'currency',
