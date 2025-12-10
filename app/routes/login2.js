@@ -2,13 +2,14 @@ import Route from '@ember/routing/route';
 import { service } from '@ember/service';
 
 export default class Login2Route extends Route {
+  @service vos;
+  @service router;
   @service session;
 
-  authenticatedRoute = 'authen.index';
-
   beforeModel(transition) {
-    if (this.get('session.isAuthenticated')) {
-      this.transitionTo(this.authenticatedRoute);
+    if (this.session.is_authenticated) {
+      // No need to be here, go to the index for authenticated people
+      this.router.transitionTo(config.authenticated_route);
     } else {
       return this._super(...arguments);
     }
