@@ -6,6 +6,8 @@ import ENV from '../config/environment';
 
 
 export default class VersionCheckerService extends Service {
+  @service intl;
+
   interval = 60000;
   reload = 'ask';
 
@@ -16,7 +18,8 @@ export default class VersionCheckerService extends Service {
     super(...arguments);
 
     this.version = ENV.APP.version;
-console.log("VERSION=", this.version);
+
+    console.log("VERSION=", this.version);
 
     this.timer_start();
   }
@@ -34,13 +37,15 @@ console.log("VERSION=", this.version);
     this.timer = later(this, this.timer_fired, this.interval);
   }
 
-  timer_fired() {
-    fetch('/index.json', { cache: false }).then((res) => {
+  async timer_fired() {
+    try {
+      const res = await fetch('/index.json', { cache: 'no-cache' });
+
       if (res.ok) {
-        let data = res.json();
+        let data = await res.json();
 
         if (data.meta) {
-          let meta = data.meta.findBy('name', ENV.APP.name + '/config/environment');
+          let meta = data.meta.find((x) => (x.name === ENV.APP.name + '/config/environment'));
           if (meta) {
             this.available_version = JSON.parse(decodeURIComponent(meta.content)).APP.version;
 
@@ -50,14 +55,16 @@ console.log("VERSION=", this.version);
           }
         }
       }
+    } catch(e) {
+      console.log("Error fetching version", e);
+    }
 
-      this.timer_start();
-    }).catch((res) => {
-      this.timer_start();
-    });
+    this.timer_start();
   }
 
   version_mismatch() {
+    console.log("VERSION CHANGED:", this.available_version, this.version);
+
     switch(this.reload) {
     case 'yes': window.location.reload(); break;
     case 'ask':

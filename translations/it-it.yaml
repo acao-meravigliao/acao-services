@@ -232,7 +232,7 @@ flights_table:
     WINCH: Verricello
 
 member:
-  roles:
+  role:
     TUG_PILOT: Trainatore
     SPL_PILOT: Pilota Aliante
     SPL_STUDENT: Allievo SPL
@@ -241,6 +241,17 @@ member:
     MAINTENANCE: Manutenzione AM
     FIREMAN: Antincendio
     STAFF: Staff
+
+license:
+  rating_type:
+    TMG: Touring Motor Glider
+    SLSS: Self-Launching Self-Sustaining
+    FI: Flight Instructor
+    TOW: Traino Alianti
+    PAX: Trasporto Passeggeri
+    TOW_LAUNCH: Lancio al Traino
+    WINCH: Lancio al Traino
+    ACRO: Abilitazione ACRO
 
 currency_explorer:
   conds:
@@ -286,6 +297,7 @@ currency_explorer:
     winch_current: Currency verricello
     gld_pax_current: Trasporto passeggero su aliante
     tmg_pax_current: Trasporto passeggero su TMG
+    fi_rating: Abilitazione Istruttore
     gld_tow_private_solo: Volo in aliante, trainato, su aliante privato, solo
     gld_tow_private_solo_picus: Volo in aliante, trainato, su aliante privato, solo, supervisionato
     gld_tow_private_pax: Volo in aliante, trainato, su aliante privato, con passeggero
@@ -318,6 +330,83 @@ currency_explorer:
     tmg_club_solo_picus: Volo in TMGclub, solo, supervisionato
     tmg_club_pax: Volo in TMG club, con passeggero
     tmg_club_student: Volo in TMG club, allievo
+
+  help:
+    membership: Indica la regolarità dell'iscrizione. L'iscrizione è tipicamente valida dal giorno in cui viene ricevuto il pagamento al 31/1 dell'anno successivo.
+    ass: Indica la regolarità della quota associativa
+    cav: Indica la regolarità del pagamento del Contributo Attività Volo
+    caa: Indica la presenza del contributo per l'uso degli alianti del club, senza un aliante di proprietà.
+    cap: Indica la presenza del contributo per l'uso degli alianti del club con anche un altiante di proprietà.
+    medical: Presenza e validità della visita medica
+    spl_license: Presenza e validità della licenza SPL
+    ppl_license: Presenza e validità della licenza PPL
+    tow_launch_endorsment: Abilitazione al lancio con aerotraino. Si ottiene durante il corso, se il corso si svolge al traino, oppure in un secondo tempo effettuando la relativa istruzione. Fare riferimento all'articolo SFCL.155
+    sl_launch_endorsment: Abilitazione al lancio con aliante Self-launching. Si ottiene durante il corso, se il corso si svolge su SLMG, oppure, in un secondo tempo, effettuando la relativa istruzione. Fare riferimento all'articolo SFCL.155
+    winch_launch_endorsment: 
+    tmg_endorsment: 
+    ppl_tmg_endorsment: 
+    pax_endorsment: 
+    gld_launches_in_24_months: 
+    gld_hours_in_24_months: 
+    tmg_launches_in_24_months: 
+    tmg_hours_in_24_months: 
+    fifteen_gld_launches_in_24_months: 
+    twelve_tmg_launches_in_24_months: 
+    five_gld_hours_in_24_months: 
+    six_tmg_hours_in_24_months: 
+    twelve_gld_or_tmg_hours_in_24_months: 
+    two_gld_training_flights_in_24_months: 
+    one_tmg_training_flight_in_24_months: 
+    one_gld_proficiency_flight_in_24_months: 
+    one_tmg_proficiency_flight_in_24_months: 
+    five_tows_in_24_months: 
+    five_winches_in_24_months: 
+    five_sl_in_24_months: 
+    five_sl_or_tmg_in_24_months: 
+    three_gld_launches_in_90_days: 
+    three_tmg_launches_in_90_days: 
+    acao_recency: 
+    ten_hours_as_pic: 
+    thirty_launches_as_pic: 
+    gld_current: 
+    tow_current: 
+    sl_current: 
+    winch_current: 
+    gld_pax_current: 
+    tmg_pax_current: 
+    fi_rating: 
+    gld_tow_private_solo: 
+    gld_tow_private_solo_picus: 
+    gld_tow_private_pax: 
+    gld_tow_private_student: 
+    gld_tow_club_solo: 
+    gld_tow_club_solo_picus: 
+    gld_tow_club_pax: 
+    gld_tow_club_student: 
+    gld_sl_private_solo: 
+    gld_sl_private_solo_picus: 
+    gld_sl_private_pax: 
+    gld_sl_private_student: 
+    gld_sl_club_solo: 
+    gld_sl_club_solo_picus: 
+    gld_sl_club_pax: 
+    gld_sl_club_student: 
+    gld_winch_private_solo: 
+    gld_winch_private_solo_picus: 
+    gld_winch_private_pax: 
+    gld_winch_private_student: 
+    gld_winch_club_solo: 
+    gld_winch_club_solo_picus: 
+    gld_winch_club_pax: 
+    gld_winch_club_student: 
+    tmg_private_solo: 
+    tmg_private_solo_picus: 
+    tmg_private_pax: 
+    tmg_private_student: 
+    tmg_club_solo: 
+    tmg_club_solo_picus: 
+    tmg_club_pax: 
+    tmg_club_student: 
 
 version_checker:
   version_changed_reload: 'Il sito è stato aggiornato, vuoi ricaricare?'

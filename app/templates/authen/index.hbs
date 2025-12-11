@@ -12,7 +12,7 @@
       {{#each this.roles as |role|}}
         <span class="tag">
           <span class="icon"><FaIcon @icon={{this.icon_for role}} /></span>
-          <span>{{t (concat "member.roles." role)}}</span>
+          <span>{{t (concat "member.role." role)}}</span>
         </span>
       {{/each}}
       {{#each this.ms.relevant_memberships key="id" as |membership|}}
