@@ -15,9 +15,7 @@ export default class CurrencyExplorerComponent extends Component {
 
   get glm() {
     const mc = this.args.status.matrix_conds;
-const    r= Object.fromEntries(Object.entries(this.args.status.conds).filter(([k,v]) => (mc.includes(k))));
-console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEEE", r);
-return r;
+    return Object.fromEntries(Object.entries(this.args.status.conds).filter(([k,v]) => (mc.includes(k))));
   }
 
   date_is_within_one_month = (date) => {
