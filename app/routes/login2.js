@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
+import config from 'acao-services/config/environment';
 
 export default class Login2Route extends Route {
   @service vos;
