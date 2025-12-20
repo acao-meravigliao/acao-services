@@ -83,6 +83,7 @@
     "eslint-plugin-n": "^17.23.1",
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-qunit": "^8.2.5",
+    "iterator-polyfill": "^1.0.9",
     "leaflet": "^1.9.4",
     "lodash": "^4.17.21",
     "merge": "^2.1.1",
