@@ -298,38 +298,38 @@ currency_explorer:
     gld_pax_current: Trasporto passeggero su aliante
     tmg_pax_current: Trasporto passeggero su TMG
     fi_rating: Abilitazione Istruttore
-    gld_tow_private_solo: Volo in aliante, trainato, su aliante privato, solo
-    gld_tow_private_solo_picus: Volo in aliante, trainato, su aliante privato, solo, supervisionato
+    gld_tow_private_solo: Volo in aliante, trainato, su aliante privato, senza passeggero
+    gld_tow_private_solo_picus: Volo in aliante, trainato, su aliante privato, senza passeggero, supervisionato
     gld_tow_private_pax: Volo in aliante, trainato, su aliante privato, con passeggero
-    gld_tow_private_student: Volo in aliante, trainato, su aliante privato, allievo
-    gld_tow_club_solo: Volo in aliante, trainato, su aliante club, solo
+    gld_tow_private_student: Volo in aliante, trainato, su aliante privato, in istruzione
+    gld_tow_club_solo: Volo in aliante, trainato, su aliante club, senza passeggero
     gld_tow_club_solo_picus: Volo in aliante, trainato, su aliante club, supervisionato
     gld_tow_club_pax: Volo in aliante, trainato, su aliante club, con passeggero
-    gld_tow_club_student: Volo in aliante, trainato, su aliante club, allievo
-    gld_sl_private_solo: Volo in aliante, self-launching, su aliante privato, solo
-    gld_sl_private_solo_picus: Volo in aliante, self-launching, su aliante privato, solo, supervisionato
+    gld_tow_club_student: Volo in aliante, trainato, su aliante club, in istruzione
+    gld_sl_private_solo: Volo in aliante, self-launching, su aliante privato, senza passeggero
+    gld_sl_private_solo_picus: Volo in aliante, self-launching, su aliante privato, senza passeggero, supervisionato
     gld_sl_private_pax: Volo in aliante, self-launching, su aliante privato, con passeggero
-    gld_sl_private_student: Volo in aliante, self-launching, su aliante privato, allievo
-    gld_sl_club_solo: Volo in aliante, self-launching, su aliante club, solo
-    gld_sl_club_solo_picus: Volo in aliante, self-launching, su aliante club, solo, supervisionato
+    gld_sl_private_student: Volo in aliante, self-launching, su aliante privato, in istruzione
+    gld_sl_club_solo: Volo in aliante, self-launching, su aliante club, senza passeggero
+    gld_sl_club_solo_picus: Volo in aliante, self-launching, su aliante club, senza passeggero, supervisionato
     gld_sl_club_pax: Volo in aliante, self-launching, su aliante club, con passeggero
-    gld_sl_club_student: Volo in aliante, self-launching, su aliante club, allievo
-    gld_winch_private_solo: Volo in aliante, verricello, su aliante privato, solo
-    gld_winch_private_solo_picus: Volo in aliante, verricello, su aliante privato, solo, supervisionato
+    gld_sl_club_student: Volo in aliante, self-launching, su aliante club, in istruzione
+    gld_winch_private_solo: Volo in aliante, verricello, su aliante privato, senza passeggero
+    gld_winch_private_solo_picus: Volo in aliante, verricello, su aliante privato, senza passeggero, supervisionato
     gld_winch_private_pax: Volo in aliante, verricello, su aliante privato, con passeggero
-    gld_winch_private_student: Volo in aliante, verricello, su aliante privato, allievo
-    gld_winch_club_solo: Volo in aliante, verricello, su aliante club, solo
-    gld_winch_club_solo_picus: Volo in aliante, verricello, su aliante club, solo, supervisionato
+    gld_winch_private_student: Volo in aliante, verricello, su aliante privato, in istruzione
+    gld_winch_club_solo: Volo in aliante, verricello, su aliante club, senza passeggero
+    gld_winch_club_solo_picus: Volo in aliante, verricello, su aliante club, senza passeggero, supervisionato
     gld_winch_club_pax: Volo in aliante, verricello, su aliante club, con passeggero
-    gld_winch_club_student: Volo in aliante, verricello, su aliante club, allievo
-    tmg_private_solo: Volo in TMG privato, solo
-    tmg_private_solo_picus: Volo in TMG privato, solo, supervisionato
+    gld_winch_club_student: Volo in aliante, verricello, su aliante club, in istruzione
+    tmg_private_solo: Volo in TMG privato, senza passeggero
+    tmg_private_solo_picus: Volo in TMG privato, senza passeggero, supervisionato
     tmg_private_pax: Volo in TMG privato, con passeggero
-    tmg_private_student: Volo in TMG privato, allievo
-    tmg_club_solo: Volo in TMG club, solo
-    tmg_club_solo_picus: Volo in TMGclub, solo, supervisionato
+    tmg_private_student: Volo in TMG privato, in istruzione
+    tmg_club_solo: Volo in TMG club, senza passeggero
+    tmg_club_solo_picus: Volo in TMG club, senza passeggero, supervisionato
     tmg_club_pax: Volo in TMG club, con passeggero
-    tmg_club_student: Volo in TMG club, allievo
+    tmg_club_student: Volo in TMG club, in istruzione
 
   help:
     membership: Indica la regolarità dell'iscrizione. L'iscrizione è tipicamente valida dal giorno in cui viene ricevuto il pagamento al 31/1 dell'anno successivo.
