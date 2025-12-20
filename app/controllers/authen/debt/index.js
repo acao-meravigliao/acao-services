@@ -62,19 +62,30 @@ export default class AuthenDebtIndexController extends Controller {
     this.router.transitionTo({ queryParams: qp });
   }
 
+  toDS(d) {
+    if (!d)
+      return null;
+
+    d = new Date(d);
+
+    return d.getFullYear().toString().padStart(4, '0') + '-' +
+           (d.getMonth()+1).toString().padStart(2, '0') + '-' +
+           d.getDate().toString().padStart(2, '0');
+  }
+
   get sd_date() {
     return this.sd ? new Date(parseInt(this.sd)) : null;
   }
 
   get sd_value() {
-    return this.sd ? this.sd_date.toISOString().split('T')[0] : '';
+    return this.toDS(this.args.sd);
   }
   get ed_date() {
     return this.ed ? new Date(parseInt(this.ed)) : null;
   }
 
   get ed_value() {
-    return this.ed ? this.ed_date.toISOString().split('T')[0] : '';
+    return this.toDS(this.args.ed);
   }
 
   get debts() {

@@ -66,10 +66,11 @@ export default class FlightsTableComponent extends Component {
     this.presets['d7'].sd.setDate(date.getDate() - 7);
 
     this.presets['week'] = {};
+    const yesterday = new Date(date);
+    yesterday.setDate(yesterday.getDate() - 1);
+
     this.presets['week'].sd = new Date(date);
-    this.presets['week'].sd.setDate(date.getDate() - 7);
-// start of week
-//    this.presets['dw'].sd.setDate(date.getDate() - 7);
+    this.presets['week'].sd.setDate(date.getDate() - yesterday.getDay());
 
     this.presets['month'] = {};
     this.presets['month'].sd = new Date(date);
@@ -139,12 +140,23 @@ export default class FlightsTableComponent extends Component {
     this.router.transitionTo({ queryParams: qp });
   }
 
+  toDS(d) {
+    if (!d)
+      return null;
+
+    d = new Date(d);
+
+    return d.getFullYear().toString().padStart(4, '0') + '-' +
+           (d.getMonth()+1).toString().padStart(2, '0') + '-' +
+           d.getDate().toString().padStart(2, '0');
+  }
+
   get sd_date() {
     return this.args.sd ? new Date(parseInt(this.args.sd)) : null;
   }
 
   get sd_value() {
-    return this.args.sd ? this.sd_date.toISOString().split('T')[0] : '';
+    return this.toDS(this.args.sd);
   }
 
   get ed_date() {
@@ -152,7 +164,7 @@ export default class FlightsTableComponent extends Component {
   }
 
   get ed_value() {
-    return this.args.ed ? this.ed_date.toISOString().split('T')[0] : '';
+    return this.toDS(this.args.ed);
   }
 
   flight_class_matches(flt) {
