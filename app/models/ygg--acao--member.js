@@ -27,6 +27,7 @@ export default class YggAcaoMemberModel extends VosModel {
   @attr('boolean', { allowNull: true }) consent_members;
 
   @vosBelongsTo('acao_member', 'person') person;
+  @vosHasMany('member', 'membership') memberships;
   @vosHasMany('member', 'role') roles;
   @vosHasMany('member', 'medical') medicals;
   @vosHasMany('member', 'license') licenses;
