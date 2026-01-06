@@ -10,7 +10,7 @@
     </span>
     {{t (concat "currency_explorer.conds." @symbol)}}
     {{#if this.ft.until}}
-      fino a {{format-date this.ft.until format="dmy"}}
+      , fino a {{format-date this.ft.until format="dmy"}}
       {{#if (this.date_is_within_one_month this.ft.until)}}
         <span class="has-text-warning">
           <FaIcon @icon="triangle-exclamation" />
