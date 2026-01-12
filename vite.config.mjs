@@ -6,11 +6,15 @@ export default defineConfig({
   server: {
     allowedHosts: true,
     proxy: {
-      '/ygg': 'http://localhost:3330',
+      '/ygg': {
+        target: 'http://localhost:3330/',
+        changeOrigin: true,
+      },
       '/vos2': {
-        target: 'ws://localhost:3330/vos2',
+        target: 'ws://localhost:3330/',
         ws: true,
         //rewriteWsOrigin: true,
+        changeOrigin: true,
       },
     },
   },

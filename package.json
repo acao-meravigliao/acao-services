@@ -12,17 +12,18 @@
   },
   "scripts": {
     "build": "vite build",
-    "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\"",
+    "format": "prettier . --cache --write",
+    "lint": "concurrently \"pnpm:lint:*(!fix)\" --names \"lint:\" --prefixColors auto",
     "lint:css": "stylelint \"**/*.css\"",
-    "lint:css:fix": "concurrently \"npm:lint:css -- --fix\"",
-    "lint:fix": "concurrently \"npm:lint:*:fix\" --names \"fix:\"",
+    "lint:css:fix": "concurrently \"pnpm:lint:css -- --fix\"",
+    "lint:fix": "concurrently \"pnpm:lint:*:fix\" --names \"fix:\" --prefixColors auto && pnpm format",
+    "lint:format": "prettier . --cache --check",
     "lint:hbs": "ember-template-lint .",
     "lint:hbs:fix": "ember-template-lint . --fix",
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
     "start": "vite",
-    "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
-    "test:ember": "vite build --mode test && ember test --path dist"
+    "test": "vite build --mode development && ember test --path dist"
   },
   "devDependencies": {
     "@babel/core": "^7.28.5",
@@ -39,13 +40,15 @@
     "@embroider/macros": "^1.19.6",
     "@embroider/vite": "^1.5.0",
     "@fortawesome/ember-fontawesome": "^3.1.0",
+    "@fortawesome/fontawesome-svg-core": "^7.1.0",
     "@fortawesome/free-solid-svg-icons": "^7.1.0",
     "@glimmer/component": "^2.0.0",
     "@glimmer/tracking": "^1.1.2",
     "@rollup/plugin-babel": "^6.1.0",
     "@vihai/ember-vos": "file:../ember-vos",
-    "@vihai/vihai-exceptions": "^0.1.2",
+    "@vihai/vihai-exceptions": "^1.0.2",
     "babel-plugin-ember-template-compilation": "^3.0.1",
+    "baseline-browser-mapping": "^2.9.14",
     "bulma": "^1.0.4",
     "concurrently": "^9.2.1",
     "decorator-transforms": "^2.3.1",
@@ -96,8 +99,13 @@
     "stylelint-config-standard": "^39.0.1",
     "stylelint-prettier": "^5.0.3",
     "tracked-built-ins": "^4.1.0",
-    "vite": "^7.3.0",
+    "vite": "^7.3.1",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "sharp"
+    ]
   },
   "engines": {
     "node": ">= 18"

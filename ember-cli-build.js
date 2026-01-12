@@ -25,9 +25,5 @@ module.exports = async function(defaults) {
     },
   });
 
-  return compatBuild(app, buildOnce, {
-    staticHelpers: true,
-    staticModifiers: true,
-    staticComponents: true,
-  });
+  return compatBuild(app, buildOnce);
 };
