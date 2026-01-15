@@ -6,10 +6,16 @@ import compatModules from "@embroider/virtual/compat-modules";
 import './font-awesome';
 import 'iterator-polyfill';
 
+// import the setupInspector() function
+import setupInspector from '@embroider/legacy-inspector-support/ember-source-4.12';
+
 export default class App extends Application {
   modulePrefix = config.modulePrefix;
   podModulePrefix = config.podModulePrefix;
   Resolver = Resolver.withModules(compatModules);
+
+  // setup inspector for this application
+  inspector = setupInspector(this);
 }
 
 function installPolyfill() {
