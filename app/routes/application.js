@@ -4,6 +4,8 @@ import { action } from '@ember/object';
 import { formats } from 'acao-services/ember-intl';
 import moment from 'moment';
 import 'moment/dist/locale/it';
+import translationsForItIt from 'virtual:ember-intl/translations/it-it';
+import translationsForEnUs from 'virtual:ember-intl/translations/en-us';
 
 export default class ApplicationRoute extends Route {
   @service vos;
@@ -14,11 +16,6 @@ export default class ApplicationRoute extends Route {
   initial_connection = true;
 
   async beforeModel() {
-    this.intl.setLocale([ 'it-it' ]);
-    this.intl.setFormats(formats);
-
-console.log("AAAAAAAAAAAAAAAAAAA", this.intl);
-
     moment.locale('it');
 
     this.vos.on('session_reset', () => {
@@ -28,6 +25,14 @@ console.log("AAAAAAAAAAAAAAAAAAA", this.intl);
     this.vos.on('instance_mismatch', () => {
       this.refresh();
     });
+  }
+
+  beforeModel() {
+    this.intl.addTranslations('it-it', translationsForItIt);
+    this.intl.addTranslations('en-us', translationsForEnUs);
+
+    this.intl.setFormats(formats);
+    this.intl.setLocale([ 'it-it' ]);
   }
 
   async model() {
