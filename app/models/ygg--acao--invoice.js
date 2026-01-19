@@ -16,7 +16,7 @@ export default class YggAcaoInvoiceModel extends VosModel {
   @attr('string') payment_state;
   @attr('string') notes;
   @attr('string') payment_method;
-  @attr('number') amount;
+  @attr('decimal') amount;
 
   @vosHasMany('invoice', 'detail') details;
   @vosBelongsTo('invoice', 'person') person;

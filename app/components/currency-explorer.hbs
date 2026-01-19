@@ -59,6 +59,39 @@
         </p>
       </LinkTo>
     </div>
+
+{{!--
+    <div class="level-item has-text-centered">
+      <LinkTo class="box" @route="authen.flight.index"
+              @query={{hash pilot_id=@member.id preset="m24" cls="SEP" roles="PIC,PICUS,DUAL,FI_PIC"}} >
+        <p class="heading">
+          Voli SEP negli ultimi 24 mesi
+        </p>
+        <p class="title">
+          {{this.cs.sep_launches_in_24_months}}
+          {{#if this.cs.sep_hours_in_24_months}}
+            x {{format-duration-in-secs this.cs.sep_hours_in_24_months}} ore
+          {{/if}}
+        </p>
+      </LinkTo>
+    </div>
+
+    <div class="level-item has-text-centered">
+      <LinkTo class="box" @route="authen.flight.index"
+              @query={{hash pilot_id=@member.id preset="d90" cls="SEP" roles="PIC,PICUS,DUAL,FI_PIC"}} >
+        <p class="heading">
+          Voli SEP negli ultimi 90 giorni
+        </p>
+        <p class="title">
+          {{this.cs.sep_launches_in_90_days}}
+          {{#if this.cs.sep_hours_in_90_days}}
+            x {{format-duration-in-secs this.cs.sep_hours_in_90_days}} ore
+          {{/if}}
+        </p>
+      </LinkTo>
+    </div>
+--}}
+
   </div>
 
   {{#each-in this.glm as |symbol ft|}}

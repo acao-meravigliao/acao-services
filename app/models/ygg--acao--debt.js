@@ -1,4 +1,5 @@
 import { VosModel, attr, vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
+import Decimal from 'decimal.js';
 
 export default class YggAcaoDebtModel extends VosModel {
   @attr('string') identifier;
@@ -31,11 +32,11 @@ export default class YggAcaoDebtModel extends VosModel {
   }
 
   get total() {
-    return this.details.reduce((a,x) => (a + x.count * (x.amount + x.amount * x.vat)), 0);
+    return this.details.reduce((a,x) => (a.plus((new Decimal(x.count)).times(x.amount.plus(x.amount.times(x.vat))))), new Decimal(0));
   }
 
   get payments_total() {
-    return this.payments.reduce((a,x) => (a + x.amount), 0);
+    return this.payments.reduce((a,x) => (a.plus(x.amount)), new Decimal(0));
   }
 
   get payments_completed() {
@@ -43,15 +44,14 @@ export default class YggAcaoDebtModel extends VosModel {
   }
 
   get payments_completed_total() {
-    return this.payments_completed.reduce((a,x) => (a + x.amount), 0);
+    return this.payments_completed.reduce((a,x) => (a.plus(x.amount)), new Decimal(0));
   }
 
   get payments_needed() {
-    return this.total - this.payments_completed_total;
+    return this.total.minus(this.payments_completed_total);
   }
 
   get payment_needed() {
-    return this.total - this.payments_total;
+    return this.total.minus(this.payments_total);
   }
-
 }

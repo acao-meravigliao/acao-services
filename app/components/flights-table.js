@@ -340,13 +340,13 @@ export default class FlightsTableComponent extends Component {
     ev.preventDefault();
   }
 
-  @action set_sd(val) {
-    this.router.transitionTo({ queryParams: { sd: val.toString() }});
-  }
+  //-----------
 
   @action goto_flight_new() {
     this.router.transitionTo('authen.flight.new');
   }
+
+  //-----------
 
   format_duration(dur, secs) {
     if (!dur)

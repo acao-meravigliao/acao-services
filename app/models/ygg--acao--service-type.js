@@ -3,8 +3,8 @@ import { VosModel, attr, vosBelongsTo, vosHasMany } from '@vihai/ember-vos';
 export default class YggAcaoMemberServiceModel extends VosModel {
   @attr('string') symbol;
   @attr('string') name;
-  @attr('number') price;
-  @attr('number') vat;
+  @attr('decimal') price;
+  @attr('decimal') vat;
   @attr('string') name;
   @attr('string') extra_info;
   @attr('string') descr;

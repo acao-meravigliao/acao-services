@@ -4,10 +4,10 @@ export default class YggAcaoBarTransactionModel extends VosModel {
   @attr('date') recorded_at;
   @attr('number') cnt;
   @attr('string') descr;
-  @attr('number') amount;
+  @attr('decimal') amount;
   @attr('string') unit;
-  @attr('number') prev_credit;
-  @attr('number') credit;
+  @attr('decimal') prev_credit;
+  @attr('decimal') credit;
 
   @vosBelongsTo('bar_transaction', 'member') member;
 }

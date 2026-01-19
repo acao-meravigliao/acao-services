@@ -4,7 +4,7 @@
       {{#each-in this.presets as |symbol preset|}}
         <a {{on "click" (fn this.set_preset symbol)}}>
           <span class="tag {{if (eq this.preset symbol) "is-success" "is-dark"}}">
-            {{t (concat "flights_table.presets." symbol)}}
+            {{t (concat "presets." symbol)}}
           </span>
         </a>
       {{/each-in}}

@@ -6,7 +6,7 @@ export default class YggAcaoPaymentModel extends VosModel {
   @attr('date') expires_at;
   @attr('date') completed_at;
   @attr('string') state;
-  @attr('number') amount;
+  @attr('decimal') amount;
   @attr('string') person_id;
   @attr('string') payment_method;
   @attr('string') reason_for_payment;

@@ -206,15 +206,6 @@ comp:
     filters: Filtri
 
 flights_table:
-  presets:
-    d1: oggi
-    dy: ieri
-    d2: due giorni
-    d7: sette giorni
-    week: settimana (solare)
-    month: mese
-    d90: 90 giorni
-    m24: 24 mesi
   aircraft_class_label: Classe
   aircraft_class_placeholder: Classe
   aircraft_class:
@@ -252,6 +243,17 @@ license:
     TOW_LAUNCH: Lancio al Traino
     WINCH: Lancio al Traino
     ACRO: Abilitazione ACRO
+
+presets:
+  d1: oggi
+  dy: ieri
+  d2: due giorni
+  d7: sette giorni
+  week: settimana (solare)
+  month: mese
+  d90: 90 giorni
+  m12: 12 mesi
+  m24: 24 mesi
 
 currency_explorer:
   conds:

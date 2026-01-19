@@ -6,10 +6,10 @@ export default class YggAcaoInvoiceDetailModel extends VosModel {
   @attr('number') row_type;
   @attr('number') row_number;
   @attr('string') descr;
-  @attr('number') single_amount;
-  @attr('number') untaxed_amount;
-  @attr('number') vat_amount;
-  @attr('number') total_amount;
+  @attr('decimal') single_amount;
+  @attr('decimal') untaxed_amount;
+  @attr('decimal') vat_amount;
+  @attr('decimal') total_amount;
 
 //  @attr('string', { key: 'data' }) specific_data;
 

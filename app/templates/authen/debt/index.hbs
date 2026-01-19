@@ -1,25 +1,20 @@
 {{page-title "Pagamenti pendenti"}}
 
-<div class="box">
-  <div class="grid">
-    <div class="cell">
-      <a {{on "click" (fn this.set_preset "d1")}}>
-        <span class="tag {{if (eq this.preset "d1") "is-success" "is-dark"}}">oggi</span>
-      </a>
-      <a {{on "click" (fn this.set_preset "d7")}}>
-        <span class="tag {{if (eq this.preset "d7") "is-success" "is-dark"}}">7 giorni</span>
-      </a>
-      <a {{on "click" (fn this.set_preset "d30")}}>
-        <span class="tag {{if (eq this.preset "d30") "is-success" "is-dark"}}">30 giorni</span>
-      </a>
-      <a {{on "click" (fn this.set_preset "d90")}}>
-        <span class="tag {{if (eq this.preset "d90") "is-success" "is-dark"}}">90 giorni</span>
-      </a>
+<div class="container page authen-debt-index">
+  <div class="box">
+    <div class="grid">
+      <div class="cell">
+        {{#each-in this.presets as |symbol preset|}}
+          <a {{on "click" (fn this.set_preset symbol)}}>
+            <span class="tag {{if (eq this.preset symbol) "is-success" "is-dark"}}">
+              {{t (concat "presets." symbol)}}
+            </span>
+          </a>
+        {{/each-in}}
+      </div>
     </div>
   </div>
-</div>
 
-<div class="container page authen-debt-index">
   <div class="grid is-col-min-20">
     {{#each this.sorted_debts key="id" as |debt|}}
       <div class="card cell">
