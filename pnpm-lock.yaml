@@ -75,17 +75,20 @@ importers:
         specifier: ^1.0.2
         version: 1.0.2(@babel/core@7.28.6)
       babel-plugin-ember-template-compilation:
-        specifier: ^3.0.1
-        version: 3.1.0
+        specifier: ^4.0.0
+        version: 4.0.0
       baseline-browser-mapping:
-        specifier: ^2.9.14
-        version: 2.9.14
+        specifier: ^2.9.15
+        version: 2.9.15
       bulma:
         specifier: ^1.0.4
         version: 1.0.4
       concurrently:
         specifier: ^9.2.1
         version: 9.2.1
+      decimal.js:
+        specifier: ^10.6.0
+        version: 10.6.0
       decorator-transforms:
         specifier: ^2.3.1
         version: 2.3.1(@babel/core@7.28.6)
@@ -144,7 +147,7 @@ importers:
         specifier: ^9.5.0
         version: 9.5.0(@ember/test-helpers@5.4.1(@babel/core@7.28.6))(@glimmer/component@2.0.0)(ember-modifier@4.2.2(@babel/core@7.28.6))(tracked-built-ins@4.1.0(@babel/core@7.28.6))
       ember-intl:
-        specifier: ^8.0.2
+        specifier: ^8.0.3
         version: 8.0.3(@babel/core@7.28.6)(@ember/test-helpers@5.4.1(@babel/core@7.28.6))(typescript@5.9.3)
       ember-load-initializers:
         specifier: ^3.0.1
@@ -187,7 +190,7 @@ importers:
         version: 17.23.2(eslint@9.39.2)(typescript@5.9.3)
       eslint-plugin-prettier:
         specifier: ^5.5.5
-        version: 5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@9.39.2))(eslint@9.39.2)(prettier@3.7.4)
+        version: 5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@9.39.2))(eslint@9.39.2)(prettier@3.8.0)
       eslint-plugin-qunit:
         specifier: ^8.2.5
         version: 8.2.5(eslint@9.39.2)
@@ -207,8 +210,8 @@ importers:
         specifier: ^2.30.1
         version: 2.30.1
       prettier:
-        specifier: ^3.7.4
-        version: 3.7.4
+        specifier: ^3.8.0
+        version: 3.8.0
       qunit:
         specifier: ^2.25.0
         version: 2.25.0
@@ -226,7 +229,7 @@ importers:
         version: 39.0.1(stylelint@16.26.1(typescript@5.9.3))
       stylelint-prettier:
         specifier: ^5.0.3
-        version: 5.0.3(prettier@3.7.4)(stylelint@16.26.1(typescript@5.9.3))
+        version: 5.0.3(prettier@3.8.0)(stylelint@16.26.1(typescript@5.9.3))
       tracked-built-ins:
         specifier: ^4.1.0
         version: 4.1.0(@babel/core@7.28.6)
@@ -2263,6 +2266,10 @@ packages:
     resolution: {integrity: sha512-kk7cGyblE9n4MB98rqw2wuUW7YLD5FM+Tr97gNSYL4e8DBMQndLuWaWNx1wfd7o00NjFhhoTR+HZs2nj23g2Lw==}
     engines: {node: '>= 18.*'}
 
+  babel-plugin-ember-template-compilation@4.0.0:
+    resolution: {integrity: sha512-J2dR6ZPfPNuIR7vzhneO9xR0aTvOHITszuGif2EOYw3Qg3KlIVEd/hNnEeubyWgjYXn06Sgm6/NdNXEMNSsWYQ==}
+    engines: {node: '>= 18.*'}
+
   babel-plugin-htmlbars-inline-precompile@5.3.1:
     resolution: {integrity: sha512-QWjjFgSKtSRIcsBhJmEwS2laIdrA6na8HAlc/pEAhjHgQsah/gMiBFRZvbQTy//hWxR4BMwV7/Mya7q5H8uHeA==}
     engines: {node: 10.* || >= 12.*}
@@ -2322,8 +2329,8 @@ packages:
     resolution: {integrity: sha512-5T6P4xPgpp0YDFvSWwEZ4NoE3aM4QBQXDzmVbraCkFj8zHM+mba8SyqB5DbZWyR7mYHo6Y7BdQo3MoA4m0TeQg==}
     engines: {node: '>=0.10.0'}
 
-  baseline-browser-mapping@2.9.14:
-    resolution: {integrity: sha512-B0xUquLkiGLgHhpPBqvl7GWegWBUNuujQ6kXd/r1U38ElPT6Ok8KZ8e+FpUGEc2ZoRQUzq/aUnaKFc/svWUGSg==}
+  baseline-browser-mapping@2.9.15:
+    resolution: {integrity: sha512-kX8h7K2srmDyYnXRIppo4AH/wYgzWVCs+eKr3RusRSQ5PvRYoEFmR/I0PbdTjKFAoKqp5+kbxnNTFO9jOfSVJg==}
     hasBin: true
 
   basic-auth@2.0.1:
@@ -5826,8 +5833,8 @@ packages:
     engines: {node: '>=10.13.0'}
     hasBin: true
 
-  prettier@3.7.4:
-    resolution: {integrity: sha512-v6UNi1+3hSlVvv8fSaoUbggEM5VErKmmpGA7Pl3HF8V6uKY7rvClBOJlH6yNwQtfTueNkGVpOv/mtWL9L4bgRA==}
+  prettier@3.8.0:
+    resolution: {integrity: sha512-yEPsovQfpxYfgWNhCfECjG5AQaO+K3dp6XERmOepyPDVqcJm+bjyCVO3pmU+nAPe0N5dDvekfGezt/EIiRe1TA==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -9707,6 +9714,12 @@ snapshots:
       babel-import-util: 3.0.1
       import-meta-resolve: 4.2.0
 
+  babel-plugin-ember-template-compilation@4.0.0:
+    dependencies:
+      '@glimmer/syntax': 0.95.0
+      babel-import-util: 3.0.1
+      import-meta-resolve: 4.2.0
+
   babel-plugin-htmlbars-inline-precompile@5.3.1:
     dependencies:
       babel-plugin-ember-modules-api-polyfill: 3.5.0
@@ -9792,7 +9805,7 @@ snapshots:
       mixin-deep: 1.3.2
       pascalcase: 0.1.1
 
-  baseline-browser-mapping@2.9.14: {}
+  baseline-browser-mapping@2.9.15: {}
 
   basic-auth@2.0.1:
     dependencies:
@@ -10210,7 +10223,7 @@ snapshots:
 
   browserslist@4.28.1:
     dependencies:
-      baseline-browser-mapping: 2.9.14
+      baseline-browser-mapping: 2.9.15
       caniuse-lite: 1.0.30001764
       electron-to-chromium: 1.5.267
       node-releases: 2.0.27
@@ -11752,10 +11765,10 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  eslint-plugin-prettier@5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@9.39.2))(eslint@9.39.2)(prettier@3.7.4):
+  eslint-plugin-prettier@5.5.5(@types/eslint@9.6.1)(eslint-config-prettier@10.1.8(eslint@9.39.2))(eslint@9.39.2)(prettier@3.8.0):
     dependencies:
       eslint: 9.39.2
-      prettier: 3.7.4
+      prettier: 3.8.0
       prettier-linter-helpers: 1.0.1
       synckit: 0.11.12
     optionalDependencies:
@@ -14147,7 +14160,7 @@ snapshots:
 
   prettier@2.8.8: {}
 
-  prettier@3.7.4: {}
+  prettier@3.8.0: {}
 
   printf@0.6.1: {}
 
@@ -15099,9 +15112,9 @@ snapshots:
       stylelint: 16.26.1(typescript@5.9.3)
       stylelint-config-recommended: 17.0.0(stylelint@16.26.1(typescript@5.9.3))
 
-  stylelint-prettier@5.0.3(prettier@3.7.4)(stylelint@16.26.1(typescript@5.9.3)):
+  stylelint-prettier@5.0.3(prettier@3.8.0)(stylelint@16.26.1(typescript@5.9.3)):
     dependencies:
-      prettier: 3.7.4
+      prettier: 3.8.0
       prettier-linter-helpers: 1.0.1
       stylelint: 16.26.1(typescript@5.9.3)
 
