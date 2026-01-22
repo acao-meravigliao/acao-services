@@ -3,6 +3,7 @@ import { inject as controller } from '@ember/controller';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import Decimal from 'decimal.js';
 
 export default class AuthenMembershipRenewSummaryController extends Controller {
   @service router;
@@ -14,9 +15,9 @@ export default class AuthenMembershipRenewSummaryController extends Controller {
   get wizard() { return this.wizard_controller.wizard; }
 
   get total() {
-    return this.wizard.services.reduce((previous, service) => (
-             previous + ((service.type && service.enabled) ? service.type.price : 0)
-           ), 0);
+    return this.wizard.services.reduce((a, service) => (
+             a.plus((service.type && service.enabled) ? service.type.price : Decimal(0))
+           ), Decimal(0));
   }
 
   get can_submit() {

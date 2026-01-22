@@ -5,6 +5,7 @@ import { A } from '@ember/array';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import SelectedService from 'acao-services/utils/selected-service';
+import Decimal from 'decimal.js';
 
 export default class AuthenMembershipRenewBillController extends Controller {
   @service session;
@@ -32,9 +33,9 @@ export default class AuthenMembershipRenewBillController extends Controller {
   }
 
   get total() {
-    return this.services.reduce((previous, service) => (
-             previous + ((service.type && service.enabled) ? service.type.price : 0)
-           ), 0);
+    return this.services.reduce((a, service) => (
+             a.plus((service.type && service.enabled) ? service.type.price : Decimal(0))
+           ), Decimal(0));
   }
 
   get submit_disabled() { return this.form_invalid; }
