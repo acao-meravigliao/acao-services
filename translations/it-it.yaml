@@ -251,6 +251,8 @@ presets:
   d7: sette giorni
   week: settimana (solare)
   month: mese
+  d30: 30 giorni
+  d60: 60 giorni
   d90: 90 giorni
   m12: 12 mesi
   m24: 24 mesi
