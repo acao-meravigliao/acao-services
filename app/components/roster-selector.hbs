@@ -23,24 +23,35 @@
         </a>
 
         <div class="navbar-dropdown is-right">
+          {{#if this.flt_incoming_enabled}}
+            <div class="navbar-item">
+              <label>
+                <input type="checkbox" checked={{this.flt_incoming}} {{on "change" this.flt_incoming_changed}} />
+                {{t "comp.roster_selector.incoming"}}
+              </label>
+            </div>
+          {{/if}}
           <div class="navbar-item">
             <label>
-              <input type="checkbox" checked={{this.flt_high_season}} {{on "change" this.toggle_high_season}} />
+              <input type="checkbox" checked={{this.flt_high_season}} {{on "change" this.flt_high_season_changed}} />
               {{t "comp.roster_selector.high_season"}}
             </label>
           </div>
           <div class="navbar-item">
             <label>
-              <input type="checkbox" checked={{this.flt_low_season}} {{on "change" this.toggle_low_season}} />
+              <input type="checkbox" checked={{this.flt_low_season}} {{on "change" this.flt_low_season_changed}} />
               {{t "comp.roster_selector.low_season"}}
             </label>
           </div>
-          <div class="navbar-item">
-            <label>
-              <input type="checkbox" checked={{this.flt_available_slots}} {{on "change" this.toggle_available_slots}} />
-              {{t "comp.roster_selector.only_available_days"}}
-            </label>
-          </div>
+
+          {{#if this.flt_available_slots_enabled}}
+            <div class="navbar-item">
+              <label>
+                <input type="checkbox" checked={{this.flt_available_slots}} {{on "change" this.flt_available_slots_changed}} />
+                {{t "comp.roster_selector.only_available_days"}}
+              </label>
+            </div>
+          {{/if}}
         </div>
       </div>
     </div>

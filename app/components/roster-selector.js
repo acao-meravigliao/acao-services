@@ -5,10 +5,6 @@ import { tracked } from '@glimmer/tracking';
 import { A } from '@ember/array';
 
 export default class RosterSelectorComponent extends Component {
-  @tracked flt_high_season = true;
-  @tracked flt_low_season = true;
-  @tracked flt_available_slots = false;
-  @tracked flt_show = false;
   @tracked roster_days_sort_order = [ 'date' ];
   @tracked selection = A();
 
@@ -16,12 +12,26 @@ export default class RosterSelectorComponent extends Component {
     super(...arguments);
 
     this.selection = A(this.args.initial_selection);
+
+    this.flt_incoming_enabled = (this.args.flt_incoming_enabled !== undefined) ? this.args.flt_incoming_enabled : true;
+    this.flt_incoming = (this.args.flt_incoming !== undefined) ? this.args.flt_incoming : true;
+
+    this.flt_low_season = (this.args.flt_low_season !== undefined) ? this.args.flt_low_season : true;
+    this.flt_high_season = (this.args.flt_high_season !== undefined) ? this.args.flt_high_season : true;
+
+    this.flt_available_slots_enabled = (this.args.flt_available_slots_enabled !== undefined) ? this.args.flt_available_slots_enabled : true;
+    this.flt_available_slots = (this.args.flt_available_slots !== undefined) ? this.args.flt_available_slots : true;
   }
 
   get filtered_roster_days() {
+    let start_of_day = new Date();
+    start_of_day.setUTCHours(0, 0, 0, 0);
+    start_of_day.setDate(start_of_day.getDate() + 1);
+
     return this.args.days.filter((x) => (
-      this.flt_available_slots ? x.entries.length < x.needed_people : true) &&
-      ((this.flt_high_season && x.high_season) || (this.flt_low_season && !x.high_season))
+      (!this.flt_incoming || x.date >= start_of_day) &&
+      ((this.flt_high_season && x.high_season) || (this.flt_low_season && !x.high_season)) &&
+      (!this.flt_available_slots || (x.entries.length < x.needed_people)))
     );
   }
 
@@ -30,7 +40,6 @@ export default class RosterSelectorComponent extends Component {
   }
 
   is_selected = (day) => (this.selection.map((x)=>(x.id)).includes(day.id));
-
 
   @action on_add(day) {
     this.selection.pushObject(day);
@@ -77,20 +86,28 @@ export default class RosterSelectorComponent extends Component {
       this.args.selection_validity_changed(this.valid);
   }
 
-  @action toggle_high_season() {
-    this.flt_high_season = !this.flt_high_season;
+  @tracked flt_incoming = false;
+  @action flt_incoming_changed(ev) {
+    this.flt_incoming = ev.target.checked;
+  }
+
+  @tracked flt_high_season = true;
+  @action flt_high_season_changed(ev) {
+    this.flt_high_season = ev.target.checked;
     if (!this.flt_high_season && !this.flt_low_season)
         this.flt_low_season = true;
   }
 
-  @action toggle_low_season() {
-    this.flt_low_season = !this.flt_low_season;
+  @tracked flt_low_season = true;
+  @action flt_low_season_changed(ev) {
+    this.flt_low_season = ev.target.checked;
     if (!this.flt_high_season && !this.flt_low_season)
       this.flt_high_season = true;
   }
 
-  @action toggle_available_slots() {
-    this.flt_available_slots = !this.flt_available_slots;
+  @tracked flt_available_slots = false;
+  @action flt_available_slots_changed(ev) {
+    this.flt_available_slots = ev.target.checked;
   }
 
   @action toggle_filters() {
