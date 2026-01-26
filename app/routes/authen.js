@@ -1,8 +1,7 @@
-import Route from '@ember/routing/route';
+import VosRoute from '@vihai/ember-vos/routes/vos-route';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 import { hash, all } from 'rsvp';
-import VosRoute from '@vihai/ember-vos/routes/vos-route';
 import config from 'acao-services/config/environment';
 
 export default class AuthenRoute extends VosRoute {
