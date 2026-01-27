@@ -107,9 +107,6 @@ importers:
       ember-cli:
         specifier: ~6.10.0
         version: 6.10.0(@types/node@25.0.8)(ejs@3.1.10)(handlebars@4.7.8)(underscore@1.13.7)
-      ember-cli-app-version:
-        specifier: ^7.0.0
-        version: 7.0.0(ember-source@6.10.0(@glimmer/component@2.0.0)(rsvp@4.8.5))
       ember-cli-babel:
         specifier: ^8.2.0
         version: 8.2.0(@babel/core@7.28.6)
@@ -200,6 +197,9 @@ importers:
       eslint-plugin-qunit:
         specifier: ^8.2.5
         version: 8.2.5(eslint@9.39.2)
+      git-repo-info:
+        specifier: ^2.1.1
+        version: 2.1.1
       iterator-polyfill:
         specifier: ^1.0.9
         version: 1.0.9
@@ -3559,12 +3559,6 @@ packages:
     peerDependencies:
       '@ember/test-helpers': ^2.9.4 || ^3.2.1 || ^4.0.2 || ^5.0.0
       '@glimmer/component': ^1.1.2 || ^2.0.0
-
-  ember-cli-app-version@7.0.0:
-    resolution: {integrity: sha512-zWIkxvlRrW7w1/vp+bGkmS27QsVum7NKp8N9DgAjhFMWuKewVqGyl/jeYaujMS/I4WSKBzSG9WHwBy2rjbUWxA==}
-    engines: {node: '>= 18'}
-    peerDependencies:
-      ember-source: ^3.28.0 || >= 4.0.0
 
   ember-cli-babel-plugin-helpers@1.1.1:
     resolution: {integrity: sha512-sKvOiPNHr5F/60NLd7SFzMpYPte/nnGkq/tMIfXejfKHIhaiIkYFqX8Z9UFTKWLLn+V7NOaby6niNPZUdvKCRw==}
@@ -11624,14 +11618,6 @@ snapshots:
       - '@glint/environment-ember-loose'
       - '@glint/template'
       - ember-source
-      - supports-color
-
-  ember-cli-app-version@7.0.0(ember-source@6.10.0(@glimmer/component@2.0.0)(rsvp@4.8.5)):
-    dependencies:
-      ember-cli-babel: 7.26.11
-      ember-source: 6.10.0(@glimmer/component@2.0.0)(rsvp@4.8.5)
-      git-repo-info: 2.1.1
-    transitivePeerDependencies:
       - supports-color
 
   ember-cli-babel-plugin-helpers@1.1.1: {}

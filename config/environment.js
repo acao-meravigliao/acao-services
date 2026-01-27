@@ -1,6 +1,14 @@
 'use strict';
 
+const repo_info = require('git-repo-info')();
+
 module.exports = function (environment) {
+
+  const version = repo_info.lastTag +
+                  ((repo_info.commitsSinceLastTag > 0) ? `-${repo_info.commitsSinceLastTag}` : '') +
+                  `-g${repo_info.sha.substring(0,7)}`;
+  console.log("VERSION=", version);
+
   const ENV = {
     modulePrefix: 'acao-services',
     environment,
@@ -21,6 +29,7 @@ module.exports = function (environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+      version: version,
     },
 
     authenticated_route: 'authen.index',
