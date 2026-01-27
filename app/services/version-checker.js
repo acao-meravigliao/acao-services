@@ -43,9 +43,8 @@ export default class VersionCheckerService extends Service {
 
       if (res.ok) {
         let data = await res.json();
-
         if (data.meta) {
-          let meta = data.meta.find((x) => (x.name === ENV.APP.name + '/config/environment'));
+          const meta = data.meta.find((x) => (x.name === ENV.modulePrefix + '/config/environment'));
           if (meta) {
             this.available_version = JSON.parse(decodeURIComponent(meta.content)).APP.version;
 
