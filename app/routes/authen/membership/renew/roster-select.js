@@ -11,9 +11,9 @@ export default class AuthenRenewMembershipRosterSelectRoute extends BaseRoute {
   beforeModel() {
     const wizard = this.modelFor('authen.membership.renew');
 
-    if (wizard.roster_status.will_need_high_season === 0 &&
-        wizard.roster_status.will_need_total === 0)
-      wizard.skip_to('summary');
+    //if (wizard.roster_status.will_need_high_season === 0 &&
+    //    wizard.roster_status.will_need_total === 0)
+    //  wizard.skip_to('summary');
   }
 
   model(params) {
