@@ -21,6 +21,9 @@ export default class RosterSelectorComponent extends Component {
 
     this.flt_available_slots_enabled = (this.args.flt_available_slots_enabled !== undefined) ? this.args.flt_available_slots_enabled : true;
     this.flt_available_slots = (this.args.flt_available_slots !== undefined) ? this.args.flt_available_slots : true;
+
+    if (this.args.selection_validity_changed)
+      this.args.selection_validity_changed(this.valid);
   }
 
   get filtered_roster_days() {
