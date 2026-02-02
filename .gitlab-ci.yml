@@ -13,5 +13,5 @@ install_dependencies:
     paths:
       - node_modules
   script:
-    - npm config set spin false
-    - npm ci
+    - pnpm config set spin false
+    - pnpm install --frozen-lockfile
