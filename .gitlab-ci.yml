@@ -1,18 +1,22 @@
+default:
+  image: buildimg-node24:latest
+  cache:
+    key:
+      files:
+        - pnpm-lock.yaml
+    paths:
+      - .pnpm-store
+  tags:
+    - ember-builder
+
 stages:
   - prepare
   - test
   - build
   - deploy
 
-cache:
-  paths:
-    - .pnpm-store
-
 install_dependencies:
   stage: prepare
-  image: buildimg-node24:latest
-  tags:
-    - ember-builder
   script:
     - echo "@vihai:registry=https://${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc
     - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
