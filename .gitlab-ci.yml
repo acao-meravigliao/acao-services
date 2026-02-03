@@ -4,14 +4,25 @@ stages:
   - build
   - deploy
 
+cache:
+  paths:
+    - .pnpm-store
+
 install_dependencies:
   stage: prepare
   image: buildimg-node24:latest
   tags:
     - ember-builder
-  cache:
-    paths:
-      - node_modules
   script:
-    - pnpm config set spin false
+    - pnpm config set store-dir .pnpm-store
     - pnpm install --frozen-lockfile
+
+test:
+  stage: test
+  script:
+    - pnpm test
+
+build:
+  stage: build
+  script:
+    - pnpm build
