@@ -48,7 +48,7 @@
     "@glimmer/component": "^2.0.0",
     "@glimmer/tracking": "^1.1.2",
     "@rollup/plugin-babel": "^6.1.0",
-    "@vihai/ember-vos": "^4.1.1",
+    "@vihai/ember-vos": "^4.1.2",
     "@vihai/vihai-exceptions": "^1.0.3",
     "babel-plugin-ember-template-compilation": "^4.0.0",
     "baseline-browser-mapping": "^2.9.19",
