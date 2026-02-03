@@ -8,16 +8,7 @@ default:
       - .pnpm-store
   tags:
     - ember-builder
-
-stages:
-  - prepare
-  - test
-  - build
-  - deploy
-
-install_dependencies:
-  stage: prepare
-  script:
+  before_script:
     - echo "@vihai:registry=https://${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/" > .npmrc
     - echo "//${CI_SERVER_HOST}/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
     - echo "//${CI_SERVER_HOST}/api/v4/projects/:_authToken=${CI_JOB_TOKEN}" >> .npmrc
@@ -26,6 +17,11 @@ install_dependencies:
     - corepack prepare pnpm@latest-10 --activate
     - pnpm config set store-dir .pnpm-store
     - pnpm install --frozen-lockfile
+
+stages:
+  - test
+  - build
+  - deploy
 
 test:
   stage: test
