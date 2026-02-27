@@ -91,14 +91,7 @@
           </div>
         </form>
 
-        {{#if this.ex}}
-          <ExceptionDecoder @ex={{this.ex}} as |title detail|>
-            <div class="notification is-danger">
-              <h1 class="title">{{title}}</h1><br />
-              {{detail}}
-            </div>
-          </ExceptionDecoder>
-        {{/if}}
+        <FancyExceptionBox @ex={{this.ex}} />
       </div>
     </div>
   </div>
