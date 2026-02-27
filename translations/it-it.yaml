@@ -56,7 +56,7 @@ authen:
       has_disability: 'persona con disabilità'
       board_member: 'membro del consiglio'
       tow_pilot: 'trainatore'
-      cav_not_paid: 'senza CAV'
+      nonpilot: 'non è pilota'
 
   memberships:
     page_title: Iscrizioni
@@ -199,6 +199,7 @@ comp:
   roster_selector:
     total_entries: "{count} di {needed} turni di linea."
     high_season_entries: "{count} di {needed} turni di linea in alta stagione."
+    incoming: Prossimi turni
     high_season: Alta stagione
     low_season: Bassa stagione
     only_available_days: Solo giorni disponibili

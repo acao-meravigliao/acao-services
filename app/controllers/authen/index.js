@@ -10,8 +10,6 @@ export default class AuthenIndexController extends Controller {
   @service ms;
   @controller('authen') authen_controller;
 
-  roster_entries_sort_order = ['roster_day.date'];
-
   get person() {
     return this.model.get_first('ygg--core--person');
   }
@@ -22,6 +20,12 @@ export default class AuthenIndexController extends Controller {
 
   get roles() {
     return this.authen_controller.roles;
+  }
+
+  get pm_enabled() {
+    return this.roles.includes('SPL_INSTRUCTOR') ||
+           this.roles.includes('PPL_INSTRUCTOR') ||
+           this.roles.includes('STAFF');
   }
 
   icon_for = (role) => (this.authen_controller.available_roles.find((x) => (x.symbol === role)).icon);

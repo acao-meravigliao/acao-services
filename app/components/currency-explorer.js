@@ -5,6 +5,12 @@ import { action } from '@ember/object';
 
 export default class CurrencyExplorerComponent extends Component {
 
+  constructor() {
+    super(...arguments);
+
+    this.expand_conditions = (this.args.expand_conditions !== undefined) ? this.args.expand_conditions : true;
+  }
+
   get cs() {
     return this.args.status;
   }
@@ -16,6 +22,12 @@ export default class CurrencyExplorerComponent extends Component {
   get glm() {
     const mc = this.args.status.matrix_conds;
     return Object.fromEntries(Object.entries(this.args.status.conds).filter(([k,v]) => (mc.includes(k))));
+  }
+
+  @tracked expand_conditions;
+
+  @action expand_conditions_click() {
+    this.expand_conditions = true;
   }
 
   date_is_within_one_month = (date) => {
