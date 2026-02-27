@@ -8,7 +8,6 @@ export default class ConditionExplorerComponent extends Component {
   @service session;
   @service store;
 
-
   @tracked is_expanded = false;
 
   @action toggle_expand(symbol) {
@@ -16,8 +15,6 @@ export default class ConditionExplorerComponent extends Component {
   }
 
   get ft() {
-console.log("CCCCCCCCCCCCCCCC1", this.args.conds);
-console.log("CCCCCCCCCCCCCCCC2", this.args.symbol);
     return this.args.conds[this.args.symbol];
   }
 }
