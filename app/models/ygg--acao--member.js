@@ -26,6 +26,30 @@ export default class YggAcaoMemberModel extends VosModel {
   @attr('boolean', { allowNull: true }) consent_marketing;
   @attr('boolean', { allowNull: true }) consent_members;
 
+  @attr('boolean') wind_rating;
+  @attr('boolean') wind_lim;
+  @attr('date') wind_lim_to;
+  @attr('string') wind_lim_reason;
+  @attr('boolean') solo_rating;
+  @attr('boolean') solo_lim;
+  @attr('date') solo_lim_to;
+  @attr('string') solo_lim_reason;
+  @attr('boolean') astir_rating;
+  @attr('boolean') astir_lim;
+  @attr('date') astir_lim_to;
+  @attr('string') astir_lim_reason;
+  @attr('boolean') discus_rating;
+  @attr('boolean') discus_lim;
+  @attr('date') discus_lim_to;
+  @attr('string') discus_lim_reason;
+  @attr('boolean') duodiscus_rating;
+  @attr('boolean') duodiscus_lim;
+  @attr('date') duodiscus_lim_to;
+  @attr('string') duodiscus_lim_reason;
+  @attr('boolean') pax_lim;
+  @attr('date') pax_lim_to;
+  @attr('string') pax_lim_reason;
+
   @vosBelongsTo('acao_member', 'person') person;
   @vosHasMany('member', 'membership') memberships;
   @vosHasMany('member', 'role') roles;
@@ -38,6 +62,7 @@ export default class YggAcaoMemberModel extends VosModel {
   @vosHasMany('member', 'debt') debts;
   @vosHasMany('member', 'payment') payments;
   @vosHasMany('member', 'invoice') invoices;
+  @vosHasMany('member', 'pm_note') pm_notes;
 
   has_role(role) {
     return this.roles.some((x) => (x.symbol === role));

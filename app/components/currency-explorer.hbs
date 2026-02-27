@@ -94,9 +94,17 @@
 
   </div>
 
-  {{#each-in this.glm as |symbol ft|}}
-    <ConditionExplorer @conds={{this.conds}} @symbol={{symbol}} />
-  {{/each-in}}
+  {{#if this.expand_conditions}}
+    <div class="box">
+      {{#each-in this.glm as |symbol ft|}}
+        <ConditionExplorer @conds={{this.conds}} @symbol={{symbol}} />
+      {{/each-in}}
+    </div>
+  {{else}}
+    <button class="button" {{on "click" this.expand_conditions_click}}>
+      Currency completa
+    </button>
+  {{/if}}
 
   <button class="button is-tiny" {{on "click" this.open_debug}}>
     <span class="icon"><FaIcon @icon="bug" /></span>

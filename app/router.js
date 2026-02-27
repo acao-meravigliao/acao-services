@@ -114,6 +114,11 @@ Router.map(function() {
 //      this.route('cart');
 //      this.route('checkout');
 //    });
+
+    this.route('pm', function() {
+      this.route('index');
+      this.route('show', { path: '/show/:id' });
+    });
   });
 
   this.route('login');

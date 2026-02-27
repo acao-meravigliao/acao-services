@@ -1,0 +1,56 @@
+<div class="container is-fluid">
+
+  <div class="grid">
+    <div class="cell">
+      <FaIcon @icon="user" @size="8x" />
+      <input type="text" class="input"
+             placeholder="Codice pilota o nome"
+             {{did-insert this.did_insert_search_input}}
+             {{on "input" this.search_input_on_input}}
+             {{on "change" this.search_input_on_change}} />
+    </div>
+  </div>
+
+  {{#if this.searching}}
+    <div class="grid is-col-min-15">
+      {{#each this.search_results as |res|}}
+        <LinkTo class="cell card" @route="authen.pm.show" @model={{res.acao_member_id}}>
+          <div class="card-content">
+            <div class="media">
+              <div class="media-left">
+                <figure class="image is-48x48">
+                  <FaIcon @icon="user" @size="3x" />
+                </figure>
+              </div>
+              <div class="media-content">
+                <p class="title is-4">{{res.first_name}} {{res.last_name}}</p>
+                <p class="subtitle is-6">{{res.acao_code}}</p>
+              </div>
+            </div>
+          </div>
+        </LinkTo>
+      {{/each}}
+    </div>
+  {{else}}
+    <div class="grid">
+      {{#each this.relevant_members as |member|}}
+        <LinkTo class="cell card" @route="authen.pm.show" @model={{member.id}}>
+          <div class="card-content">
+            <div class="media">
+              <div class="media-left">
+                <figure class="image is-48x48">
+                  <FaIcon @icon="user" @size="3x" />
+                </figure>
+              </div>
+              <div class="media-content">
+                <p class="title is-4">{{member.person.full_name}}</p>
+                <p class="subtitle is-6">{{member.code}}</p>
+              </div>
+            </div>
+          </div>
+        </LinkTo>
+      {{/each}}
+    </div>
+  {{/if}}
+
+</div>
