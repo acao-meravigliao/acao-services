@@ -233,6 +233,9 @@ member:
     MAINTENANCE: Manutenzione AM
     FIREMAN: Antincendio
     STAFF: Staff
+    CSVVA: Membro CSVVA
+    NONPILOT: Non pilota
+    PARKING_GUEST: Ospite Parcheggio
 
 license:
   rating_type:
