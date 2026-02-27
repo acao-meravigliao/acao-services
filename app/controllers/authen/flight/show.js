@@ -9,7 +9,7 @@ export default class AuthenFlightShowController extends Controller {
   @controller('authen') authen_controller;
 
   get flight() {
-    return this.model.get_first('ygg--acao--flight');
+    return this.model.flight;
   }
 
   get sorted_token_transactions() {
