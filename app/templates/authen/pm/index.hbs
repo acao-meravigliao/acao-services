@@ -1,13 +1,13 @@
 <div class="container is-fluid">
 
-  <div class="grid">
-    <div class="cell">
-      <FaIcon @icon="user" @size="8x" />
-      <input type="text" class="input"
+  <div class="field">
+    <div class="control has-icons-left has-icons-right">
+      <input type="text" class="input is-success"
              placeholder="Codice pilota o nome"
              {{did-insert this.did_insert_search_input}}
              {{on "input" this.search_input_on_input}}
              {{on "change" this.search_input_on_change}} />
+      <span class="icon is-small is-left"><FaIcon @icon="user"/></span>
     </div>
   </div>
 
