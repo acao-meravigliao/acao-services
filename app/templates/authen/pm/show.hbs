@@ -23,7 +23,75 @@
     </h2>
   </p>
 
-  <CurrencyExplorer @status={{this.model.currency_status}} @expand_conditions={{false}} />
+  <div class="grid is-col-min-4">
+    <div class="cell is-gap-0">
+      <LinkTo class="button is-fullwidth is-huge is-multiline {{this.currency_color}}" @route="authen.pm.currency" @model={{this.member.id}}>
+        <span><FaIcon @icon="stopwatch" @size="2x" /></span>
+        <span>Currency</span>
+      </LinkTo>
+    </div>
+
+    <div class="cell">
+      <button class="button is-fullwidth is-huge is-multiline {{this.notes_color}}">
+        <span><FaIcon @icon="note-sticky" @size="2x" /></span>
+        <span>Note</span>
+      </button>
+    </div>
+
+    {{#if this.member.wind_rating}}
+      <div class="cell">
+        <button class="button is-fullwidth is-huge is-multiline {{if this.member.wind_lim "is-danger" "is-success"}}">
+          <span><FaIcon @icon="wind" @size="2x" /></span>
+          <span>Vento</span>
+        </button>
+      </div>
+    {{/if}}
+
+    {{#if this.member.astir_rating}}
+      <div class="cell">
+        <button class="button is-fullwidth is-huge is-multiline {{if this.member.astir_lim "is-danger" "is-success"}}">
+          <span><FaIcon @icon="paper-plane" @size="2x" /></span>
+          <span>Astir</span>
+        </button>
+      </div>
+    {{/if}}
+
+    {{#if this.member.discus_rating}}
+      <div class="cell">
+        <button class="button is-fullwidth is-huge is-multiline {{if this.member.discus_lim "is-danger" "is-success"}}">
+          <span><FaIcon @icon="paper-plane" @size="2x" /></span>
+          <span>Discus</span>
+        </button>
+      </div>
+    {{/if}}
+
+    {{#if this.member.duodiscus_rating}}
+      <div class="cell">
+        <button class="button is-fullwidth is-huge is-multiline {{if this.member.duodiscus_lim "is-danger" "is-success"}}">
+          <span><FaIcon @icon="paper-plane" @size="2x" /></span>
+          <span>DuoDiscus</span>
+        </button>
+      </div>
+    {{/if}}
+
+    {{#if this.member.solo_lim}}
+      <div class="cell">
+        <button class="button is-fullwidth is-huge is-multiline is-danger">
+          <span><FaIcon @icon="triangle-exclamation" @size="2x" /></span>
+          <span>No Solo</span>
+        </button>
+      </div>
+    {{/if}}
+
+    {{#if this.member.pax_lim}}
+      <div class="cell">
+        <button class="button is-fullwidth is-huge is-multiline is-danger">
+          <span><FaIcon @icon="triangle-exclamation" @size="2x" /></span>
+          <span>NO PAX</span>
+        </button>
+      </div>
+    {{/if}}
+  </div>
 
   {{#if this.editing}}
     <table class="box table">
@@ -204,40 +272,16 @@
     </table>
 
   {{else}}
-    <div class="box">
-      {{#if this.member.wind_rating}}
-        <div class="tag is-info">Vento</div>
-      {{else}}
-        <div class="tag is-warning">No Vento</div>
-      {{/if}}
-
-      {{#if this.member.astir_rating}}
-        <div class="tag is-info">Astir</div>
-      {{else}}
-        <div class="tag is-warning">Astir</div>
-      {{/if}}
-
-      {{#if this.member.discus_rating}}
-        <div class="tag is-info">Discus</div>
-      {{else}}
-        <div class="tag is-warning">Discus</div>
-      {{/if}}
-
-      {{#if this.member.duodiscus_rating}}
-        <div class="tag is-info">Duo Discus</div>
-      {{else}}
-        <div class="tag is-warning">Duo Discus</div>
-      {{/if}}
-    </div>
-
     {{#if this.member.wind_lim}}
       <div class="message is-warning">
         <div class="message-header">
           Limitazione vento
         </div>
         <div class="message-body">
-          Impostata da: XXX<br />
-          Fino a: {{format-date this.member.wind_lim_to}}<br />
+          {{!--Impostata da: XXX<br />--}}
+          {{#if this.member.wind_lim_to}}
+            Fino a: {{format-date this.member.wind_lim_to}}<br />
+          {{/if}}
           Motivo: {{this.member.wind_lim_reason}}
         </div>
       </div>
@@ -249,21 +293,10 @@
           No volo da solo
         </div>
         <div class="message-body">
-          Impostata da: XXX<br />
+          {{!--Impostata da: XXX<br />--}}
+          {{#if this.member.solo_lim_to}}
           Fino a: {{format-date this.member.solo_lim_to}}<br />
-          Motivo: {{this.member.solo_lim_reason}}
-        </div>
-      </div>
-    {{/if}}
-
-    {{#if this.member.solo_lim}}
-      <div class="message is-warning">
-        <div class="message-header">
-          No volo da solo
-        </div>
-        <div class="message-body">
-          Impostata da: XXX<br />
-          Fino a: {{format-date this.member.solo_lim_to}}<br />
+          {{/if}}
           Motivo: {{this.member.solo_lim_reason}}
         </div>
       </div>
@@ -275,8 +308,10 @@
           No Astir
         </div>
         <div class="message-body">
-          Impostata da: XXX<br />
+          {{!--Impostata da: XXX<br />--}}
+          {{#if this.member.astir_lim_to}}
           Fino a: {{format-date this.member.astir_lim_to}}<br />
+          {{/if}}
           Motivo: {{this.member.astir_lim_reason}}
         </div>
       </div>
@@ -288,8 +323,10 @@
           No Astir
         </div>
         <div class="message-body">
-          Impostata da: XXX<br />
+          {{!--Impostata da: XXX<br />--}}
+          {{#if this.member.discus_lim_to}}
           Fino a: {{format-date this.member.discus_lim_to}}<br />
+          {{/if}}
           Motivo: {{this.member.discus_lim_reason}}
         </div>
       </div>
@@ -301,8 +338,10 @@
           No Astir
         </div>
         <div class="message-body">
-          Impostata da: XXX<br />
+          {{!--Impostata da: XXX<br />--}}
+          {{#if this.member.duodiscus_lim_to}}
           Fino a: {{format-date this.member.duodiscus_lim_to}}<br />
+          {{/if}}
           Motivo: {{this.member.duodiscus_lim_reason}}
         </div>
       </div>
@@ -314,47 +353,36 @@
           No Astir
         </div>
         <div class="message-body">
-          Impostata da: XXX<br />
+          {{!--Impostata da: XXX<br />--}}
+          {{#if this.member.pax_lim_to}}
           Fino a: {{format-date this.member.pax_lim_to}}<br />
+          {{/if}}
           Motivo: {{this.member.pax_lim_reason}}
         </div>
       </div>
     {{/if}}
   {{/if}}
 
-  <div class="grid">
-    <div class="cell">
-      {{#each this.pm_notes as |note|}}
-        <div class="card">
-          <div class="card-content is-warning">
-            <div class="media">
-              <div class="media-left">
-                <figure class="image is-48x48">
-                  <FaIcon @icon="note-sticky" @size="2x" />
-                </figure>
-              </div>
-              <div class="media-content">
-                <p class="title is-4">
-                  {{note.cls}}
-                </p>
-                <p class="subtitle is-6">
-                  Autore: {{note.author.person.full_name}}
-                </p>
-                <p class="subtitle is-6">
-                  {{note.text}}
-                </p>
-              </div>
-              {{#if this.editing}}
-                <div class="media-right">
-                  <a class="tag is-delete" {{on 'click' (fn this.edit_pm_note_remove note)}}></a>
-                </div>
-              {{/if}}
-            </div>
-          </div>
-        </div>
-      {{/each}}
+  {{#each this.pm_notes as |note|}}
+    <div class="message {{if (eq note.cls "WARN") "is-warning"}}">
+      <div class="message-header">
+        {{#if (eq note.cls "WARN")}}
+          <FaIcon @icon="triangle-exclamation" />
+        {{/if}}
+
+        {{note.author.person.full_name}},
+
+        {{format-date-from-now note.created_at}}
+
+        {{#if this.editing}}
+          <button class="delete" {{on 'click' (fn this.edit_pm_note_remove note)}} />
+        {{/if}}
+      </div>
+      <div class="message-body">
+        {{note.text}}
+      </div>
     </div>
-  </div>
+  {{/each}}
 
   {{#if this.editing}}
     <p>

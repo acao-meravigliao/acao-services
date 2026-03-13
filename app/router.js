@@ -118,6 +118,7 @@ Router.map(function() {
     this.route('pm', function() {
       this.route('index');
       this.route('show', { path: '/show/:id' });
+      this.route('currency', { path: '/currency/:id' });
     });
   });
 

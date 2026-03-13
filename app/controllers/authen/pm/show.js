@@ -26,6 +26,24 @@ export default class PmShowController extends Controller {
     return this.model.currency_status;
   }
 
+  get currency_color() {
+    const baro = this.cs.baro;
+
+    if (baro < 0.3)
+      return 'is-danger';
+    else if (baro < 0.6)
+      return 'is-warning';
+    else
+      return 'is-success';
+  }
+
+  get notes_color() {
+    if (this.pm_notes.length > 0)
+      return 'is-warning';
+    else
+      return 'is-success';
+  }
+
   // ================ Editing
 
   @tracked esel;
