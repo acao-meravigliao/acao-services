@@ -30,16 +30,14 @@ export default class AuthenPmShowRoute extends BaseRoute {
        {
         from: 'member',
         to: 'pm_note',
-        dig: [
-         {
+        dig: {
           from: 'pm_note',
           to: 'author',
-         },
-         {
-          from: 'pm_note',
-          to: 'member',
-         },
-        ]
+          dig: {
+            from: 'acao_member',
+            to: 'person',
+          },
+        },
        },
       ],
      },
