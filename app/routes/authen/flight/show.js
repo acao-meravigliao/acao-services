@@ -4,8 +4,8 @@ import { service } from '@ember/service';
 export default class AuthenFlightShowRoute extends BaseRoute {
   @service store;
 
-  model(params) {
-    return this.select_as_model(
+  async model(params) {
+    const sel = await this.select_as_model(
      {
       type: 'ygg--acao--flight',
       id: params.id,
@@ -69,5 +69,9 @@ export default class AuthenFlightShowRoute extends BaseRoute {
       ],
      },
     );
+
+    sel.flight = sel.get(params.id);
+
+    return sel;
   }
 }
