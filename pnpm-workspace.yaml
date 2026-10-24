@@ -2,3 +2,5 @@ allowBuilds:
   '@parcel/watcher': false
   core-js: false
   sharp: true
+minimumReleaseAgeExclude:
+  - baseline-browser-mapping@2.11.30
