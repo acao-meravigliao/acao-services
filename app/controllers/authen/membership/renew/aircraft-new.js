@@ -61,24 +61,29 @@ export default class AuthenMembershipRenewAircraftNewController extends Controll
 
   //---------
 
-  @tracked parking = null;
+  @tracked parking;
+  @tracked parking_descr;
 
   get parking_confirmed() { return this.parking !== null }
 
   @action parking_click_a() {
     this.parking = "TRAILER_A";
+    this.parking_descr = 'Carrello Zona A';
   }
 
   @action parking_click_bc() {
     this.parking = "TRAILER_BC";
+    this.parking_descr = 'Carrello Zona B/C';
   }
 
   @action parking_click_hangar() {
     this.parking = "HANGAR";
+    this.parking_descr = 'Hangar';
   }
 
   @action parking_click_other() {
     this.parking = "OTHER";
+    this.parking_descr = 'Altro';
   }
 
   @action submit() {
