@@ -78,8 +78,8 @@ importers:
         specifier: ^7.1.0
         version: 7.1.0(@babel/core@7.29.7(supports-color@10.2.2))(supports-color@10.2.2)
       '@vihai/ember-vos':
-        specifier: file:../ember-vos
-        version: file:../ember-vos(@babel/core@7.29.7(supports-color@10.2.2))(supports-color@10.2.2)
+        specifier: ^4.2.0
+        version: 4.2.0(@babel/core@7.29.7(supports-color@10.2.2))(supports-color@10.2.2)
       '@vihai/vihai-exceptions':
         specifier: ^1.0.5
         version: 1.0.5(@babel/core@7.29.7(supports-color@10.2.2))(supports-color@10.2.2)
@@ -1865,8 +1865,8 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4 <6.1.0'
 
-  '@vihai/ember-vos@file:../ember-vos':
-    resolution: {directory: ../ember-vos, type: directory}
+  '@vihai/ember-vos@4.2.0':
+    resolution: {integrity: sha1-fg0pq1+/k4ibzsrJSl9xr6YEsvQ=, tarball: https://repo.vihai.it/api/v4/projects/190/packages/npm/@vihai/ember-vos/-/@vihai/ember-vos-4.2.0.tgz}
 
   '@vihai/vihai-exceptions@1.0.5':
     resolution: {integrity: sha1-lsh5GMsxSCAHEjSu1gzMsheE500=, tarball: https://repo.vihai.it/api/v4/projects/193/packages/npm/@vihai/vihai-exceptions/-/@vihai/vihai-exceptions-1.0.5.tgz}
@@ -2138,11 +2138,6 @@ packages:
 
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
-
-  baseline-browser-mapping@2.11.29:
-    resolution: {integrity: sha512-YeesxhUmR4h5y5V8KF8iBCqJb8YFrBJ++XBTeGcWIaQOYXGN19JM0FoiOjAhwuDoln8owMgXcWBmgHtYSkky2w==}
-    engines: {node: '>=6.0.0'}
-    hasBin: true
 
   baseline-browser-mapping@2.11.30:
     resolution: {integrity: sha512-YJs6Pz17RMNv8HoyKREtCY38E3BV1nPkWVmIb+XN1uHC1Vqt3KZCH/uJH9ZKRoiKb/icZ6tvehyee6RZNbFfRA==}
@@ -8514,7 +8509,7 @@ snapshots:
     dependencies:
       typescript: 6.0.3
 
-  '@vihai/ember-vos@file:../ember-vos(@babel/core@7.29.7(supports-color@10.2.2))(supports-color@10.2.2)':
+  '@vihai/ember-vos@4.2.0(@babel/core@7.29.7(supports-color@10.2.2))(supports-color@10.2.2)':
     dependencies:
       '@embroider/addon-shim': 1.10.3(supports-color@10.2.2)
       '@vihai/vihai-exceptions': 1.0.5(@babel/core@7.29.7(supports-color@10.2.2))(supports-color@10.2.2)
@@ -8807,8 +8802,6 @@ snapshots:
   balanced-match@4.0.4: {}
 
   base64-js@1.5.1: {}
-
-  baseline-browser-mapping@2.11.29: {}
 
   baseline-browser-mapping@2.11.30: {}
 
@@ -9189,7 +9182,7 @@ snapshots:
 
   browserslist@4.29.3:
     dependencies:
-      baseline-browser-mapping: 2.11.29
+      baseline-browser-mapping: 2.11.30
       caniuse-lite: 1.0.30001816
       electron-to-chromium: 1.5.459
       node-releases: 2.0.59
