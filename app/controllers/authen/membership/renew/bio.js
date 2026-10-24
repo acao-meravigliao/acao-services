@@ -12,26 +12,22 @@ export default class AuthenMembershipRenewBioController extends Controller {
   get wizard() { return this.wizard_controller.wizard; }
 
   get emails() {
-    return this.wizard.person.emails.filter((x) => (!x.isDeleted));
+    return this.wizard.person.emails;
   }
 
   get fixed_phones() {
-    return this.wizard.person.contacts.filter((x) => ( !x.isDeleted && x.type === 'phone'));
+    return this.wizard.person.contacts.filter((x) => (x.type === 'phone'));
   }
 
   get mobiles() {
-    return this.wizard.person.contacts.filter((x) => ( !x.isDeleted && x.type === 'mobile'));
+    return this.wizard.person.contacts.filter((x) => (x.type === 'mobile'));
   }
 
   @action submit_yes() {
-    this.wizard.next('rules');
-
-/*
     if (this.wizard.aircraft_ownerships.length > 0)
       this.wizard.next('aircraft-owned', { ac: this.wizard.aircraft_ownerships[0].aircraft.id })
     else
-      this.wizard.next('roster-select');
-*/
+      this.wizard.next('aircraft-new');
   }
 
   @action submit_no() {

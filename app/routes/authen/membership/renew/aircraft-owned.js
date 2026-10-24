@@ -19,4 +19,11 @@ export default class AuthenRenewMembershipRenewAircraftOwnedRoute extends BaseRo
 
     return ac;
   }
+
+  setupController(controller, model) {
+    super.setupController(...arguments);
+
+    controller.reset();
+  }
+
 }

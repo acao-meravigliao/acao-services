@@ -37,7 +37,7 @@
         <input class="input {{if item.is_valid "" "is-danger"}}"
                type="email"
                placeholder="xxx@yyy.com"
-               value={{item.value}}
+               value={{item.email}}
                {{on "change" (fn this.email_change item)}}
         />
         <span class="icon is-small is-left">
@@ -72,12 +72,12 @@
       <div class="control is-expanded has-icons-left has-icons-right">
         <input class="input {{if item.is_valid "" "is-danger"}}"
                type="phone"
-               placeholder="+39 347 123456"
+               placeholder="+39 0321 123456"
                value={{item.value}}
                {{on "change" (fn this.fixed_phone_change item)}}
         />
         <span class="icon is-small is-left">
-          <FaIcon @icon="envelope" />
+          <FaIcon @icon="phone" />
         </span>
         {{#unless item.is_valid}}
           <span class="icon is-small is-right">
@@ -115,7 +115,7 @@
                {{on "change" (fn this.mobile_phone_change item)}}
         />
         <span class="icon is-small is-left">
-          <FaIcon @icon="envelope" />
+          <FaIcon @icon="mobile-screen" />
         </span>
         {{#unless item.is_valid}}
           <span class="icon is-small is-right">

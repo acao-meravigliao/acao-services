@@ -9,59 +9,79 @@ export default class AuthenMembershipRenewAircraftOwnedController extends Contro
   @service router;
   @controller('authen.membership.renew') wizard_controller;
 
-  @tracked ownership_confirmed = false;
-  @tracked referent_confirmed = false;
-
   get wizard() { return this.wizard_controller.wizard; }
 
   get aircraft() {
     return this.model.aircraft;
   }
 
-  @action ownership_click_yes() {
-    this.ownership_confirmed = true;
+  reset() {
+    this.user = null;
+    this.referent = null;
+    this.parking = null;
   }
 
-  @action ownership_click_no() {
-    this.ownership_confirmed = false;
+  @tracked user;
 
-    // XXX Record removed aircraft
+  get user_confirmed() { return this.user !== null }
+
+  @action user_click_yes() {
+    this.user = true;
+  }
+
+  @action user_click_no() {
+    this.user = false;
+
+    this.wizard.aircraft_changes.push({
+      op: 'REMOVE',
+      id: this.aircraft.id,
+    });
 
     this.goto_next();
   }
 
+  @tracked referent;
+
+  get referent_confirmed() { return this.referent !== null }
+
   @action referent_click_yes() {
-    this.referent_confirmed = true;
+    this.referent = true;
   }
 
   @action referent_click_no() {
-    this.referent_confirmed = false;
+    this.referent = false;
   }
 
-  @tracked parking_confirmed = false;
   @tracked parking;
 
+  get parking_confirmed() { return this.parking !== null }
+
   @action parking_click_a() {
-    this.parking_confirmed = true;
-    this.parking = "Carrello Area A";
+    this.parking = "TRAILER_A";
   }
 
   @action parking_click_bc() {
-    this.parking_confirmed = true;
-    this.parking = "Carrello Area BC";
+    this.parking = "TRAILER_BC";
   }
 
   @action parking_click_hangar() {
-    this.parking_confirmed = true;
-    this.parking = "Hangar";
+    this.parking = "HANGAR";
   }
 
   @action parking_click_other() {
-    this.parking_confirmed = true;
-    this.parking = "Altro";
+    this.parking = "OTHER";
   }
 
   @action submit() {
+    if (this.user) {
+      this.wizard.aircraft_changes.push({
+        op: 'UPDATE',
+        id: this.aircraft.id,
+        parking: this.parking,
+        referent: this.referent,
+      });
+    }
+
     this.goto_next();
   }
 

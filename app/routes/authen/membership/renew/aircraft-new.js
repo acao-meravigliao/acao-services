@@ -9,4 +9,10 @@ export default class AuthenRenewMembershipRenewAircraftNewRoute extends BaseRout
   model(params) {
     return {};
   }
+
+  setupController(controller, model) {
+    super.setupController(...arguments);
+
+    controller.reset();
+  }
 }

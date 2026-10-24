@@ -219,6 +219,7 @@ export default class AuthenRenewMembershipRoute extends BaseRoute {
       // Read-only utility values ------------------
       Object.assign(this.wizard, res[1].body);
       this.wizard.person = sel.get_first('ygg--core--person');
+      this.wizard.context_sel = sel;
       this.wizard.member = sel.get_first('ygg--acao--member');
       this.wizard.memberships = sel.get_cls('ygg--acao--membership');
       this.wizard.year_model = sel.get_cls('ygg--acao--year').find((x) => (x.year === year));
@@ -230,16 +231,6 @@ export default class AuthenRenewMembershipRoute extends BaseRoute {
       this.wizard.roster_status = roster_status_res.body;
 
       // Wizard state ------------------
-
-      // Services
-      this.wizard.services = A(this.wizard.base_services.map((x) => new SelectedService({
-        type: sel.get(x.service_type_id),
-        type_changeable: false,
-        removable: x.removable,
-        toggable: x.toggable,
-        enabled: x.enabled,
-        extra_info: x.extra_info,
-      })));
 
       // Roster
       this.wizard.selected_roster_days = [];
@@ -257,7 +248,7 @@ export default class AuthenRenewMembershipRoute extends BaseRoute {
       this.wizard.consent_fai = this.wizard.member.consent_fai;
       this.wizard.consent_marketing = this.wizard.member.consent_marketing;
 
-      this.wizard.aircraft_checked = this.wizard.aircraft_ownerships.map((x) => ([ x.id, null ]));
+      this.wizard.aircraft_changes = [];
 
       console.log("WIZARD INITIALIZED AS=", this.wizard);
 

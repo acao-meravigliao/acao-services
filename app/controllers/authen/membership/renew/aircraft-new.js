@@ -18,21 +18,80 @@ export default class AuthenMembershipRenewAircraftNewController extends Controll
     return this.model.aircraft;
   }
 
-  @action has_glider_no_clicked() {
+  reset() {
+    this.another_aircraft = null;
+    this.registration = null;
+    this.registration_entered = null;
+    this.referent = null;
+    this.parking = null;
   }
 
-  @action has_glider_yes_clicked() {
-    this.enter_aircraft_data = true;
+  @tracked another_aircraft = null;
+  @action another_aircraft_yes_clicked() {
+    this.another_aircraft = true;
   }
 
-
-  @action okay_clicked() {
-    this.wizard.next('roster-select');
+  @action another_aircraft_no_clicked() {
+    this.wizard.next('rules');
   }
 
-//  @action submit_no() {
-//    this.wizard.next('bio-edit');
-//  }
+  @tracked registration = '';
+  @tracked registration_entered = false;
+  @action registration_on_input(ev) {
+  }
+
+  @action registration_on_change(ev) {
+    this.registration_entered = (ev.target.value !== '');
+    this.registration = ev.target.value.trim().toUpperCase();
+  }
+
+  //---------
+
+  @tracked referent = null;
+
+  get referent_confirmed() { return this.referent !== null }
+
+  @action referent_click_yes() {
+    this.referent = true;
+  }
+
+  @action referent_click_no() {
+    this.referent = false;
+  }
+
+  //---------
+
+  @tracked parking = null;
+
+  get parking_confirmed() { return this.parking !== null }
+
+  @action parking_click_a() {
+    this.parking = "TRAILER_A";
+  }
+
+  @action parking_click_bc() {
+    this.parking = "TRAILER_BC";
+  }
+
+  @action parking_click_hangar() {
+    this.parking = "HANGAR";
+  }
+
+  @action parking_click_other() {
+    this.parking = "OTHER";
+  }
+
+  @action submit() {
+
+    this.wizard.aircraft_changes.push({
+      op: 'ADD',
+      registration: this.registration,
+      parking: this.parking,
+      referent: this.referent,
+    });
+
+    this.wizard.next('rules');
+  }
 
   @action back() {
     this.wizard.prev();

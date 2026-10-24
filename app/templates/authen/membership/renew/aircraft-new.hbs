@@ -1,49 +1,97 @@
-{{page-title (t "authen.membership.renew.aircraft-owned.page_title")}}
+{{page-title (t "authen.membership.renew.aircraft-new.page_title")}}
 
 <div class="container">
   <div class="box">
 
     <div class="buttons is-centered">
-      Possiedi un aliante?
+      Sei proprietario, comproprietario o utilizzatore di un mezzo privato non elencato?
+
+      {{#unless this.another_aircraft}}
+        <button class="button is-primary is-large" disabled={{this.form_invalid}} type="button"
+                {{on "click" this.another_aircraft_yes_clicked}}>
+          Sì
+        </button>
+        <button class="button is-warning is-large" disabled={{this.form_invalid}} type="button"
+                {{on "click" this.another_aircraft_no_clicked}}>
+          No
+        </button>
+      {{else}}
+        <strong>Sì</strong>
+      {{/unless}}
     </div>
 
-    {{#if this.enter_aircraft_data}}
-      <div class="field">
-        <div class="control is-expanded">
-          <input class="input"
-                  type="text"
-                  placeholder="D-1234"
-                  value={{this.registration}}
-                  {{on "change" this.registration_on_change}}
-          />
-        </div>
+    {{#if this.another_aircraft}}
+      <div class="buttons is-centered">
+        {{#unless this.registration_entered}}
+          <div class="field">
+            <label class="label">Marche</label>
+            <div class="control is-expanded">
+              <input class="input"
+                      type="text"
+                      placeholder="D-1234"
+                      value={{this.registration}}
+                      {{on "input" this.registration_on_input}}
+                      {{on "change" this.registration_on_change}}
+              />
+            </div>
+          </div>
+        {{else}}
+          Marche: <strong>{{this.registration}}</strong>
+        {{/unless}}
       </div>
 
-      <div class="buttons is-centered">
-        <button class="button is-grey is-large" type="button" {{on "click" this.back}}>
-          <span class="icon"><FaIcon @icon="backward" /></span>
-          <span>Indietro</span>
-        </button>
-        <button class="button is-warning is-large" disabled={{this.form_invalid}} type="button" {{on "click" this.has_glider_no_clicked}}>
-          No
-        </button>
-        <button class="button is-primary is-large" disabled={{this.form_invalid}} type="button" {{on "click" this.has_glider_yes_clicked}}>
-          Sì
-        </button>
-      </div>
-    {{else}}
-      <div class="buttons is-centered">
-        <button class="button is-grey is-large" type="button" {{on "click" this.back}}>
-          <span class="icon"><FaIcon @icon="backward" /></span>
-          <span>Indietro</span>
-        </button>
-        <button class="button is-warning is-large" disabled={{this.form_invalid}} type="button" {{on "click" this.has_glider_no_clicked}}>
-          No
-        </button>
-        <button class="button is-primary is-large" disabled={{this.form_invalid}} type="button" {{on "click" this.has_glider_yes_clicked}}>
-          Sì
-        </button>
-      </div>
+      {{#if this.registration_entered}}
+        <div class="buttons is-centered">
+          Sei tu la persona di riferimento per questo mezzo?
+
+          {{#if this.referent_confirmed}}
+            <strong>{{if this.referent "Sì" "No"}}</strong>
+          {{else}}
+            <button class="button is-primary is-large" type="button" {{on "click" this.referent_click_yes}}>
+              Sì
+            </button>
+            <button class="button is-warning is-large" type="button" {{on "click" this.referent_click_no}}>
+              No
+            </button>
+          {{/if}}
+        </div>
+      {{/if}}
+
+      {{#if this.referent_confirmed}}
+        <div class="buttons is-centered">
+          Dove è ricoverato il mezzo?
+
+          {{#if this.parking_confirmed}}
+            <strong>{{this.parking}}</strong>
+          {{else}}
+            <button class="button is-warning is-large" type="button" {{on "click" this.parking_click_a}}>
+              Carrello Area A
+            </button>
+            <button class="button is-warning is-large" type="button" {{on "click" this.parking_click_bc}}>
+              Carrello Area B/C
+            </button>
+            <button class="button is-primary is-large" type="button" {{on "click" this.parking_click_hangar}}>
+              Hangar
+            </button>
+            <button class="button is-primary is-large" type="button" {{on "click" this.parking_click_other}}>
+              Altrove
+            </button>
+          {{/if}}
+        </div>
+      {{/if}}
     {{/if}}
+
+    <div class="buttons is-centered">
+      <button class="button is-grey is-large" type="button" {{on "click" this.back}}>
+        <span class="icon"><FaIcon @icon="backward" /></span>
+        <span>Indietro</span>
+      </button>
+      {{#if this.parking_confirmed}}
+        <button class="button is-warning is-large" type="button" {{on "click" this.submit}}>
+          Avanti
+        </button>
+      {{/if}}
+    </div>
+
   </div>
 </div>

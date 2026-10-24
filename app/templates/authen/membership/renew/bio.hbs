@@ -57,34 +57,18 @@
           <strong>{{#each this.mobiles as |item index|}}{{if index ", "}}{{item.value}}{{/each}}</strong><br />
       </p>
 
-
-      <div class="buttons is-centered">
-        <p>
-          {{t "authen.membership.renew.bio.check_your_data" year=this.wizard.year}}
-        </p>
-      </div>
-
-      <div class="buttons is-centered">
-        <button class="button is-primary is-large" disabled={{this.form_invalid}} type="button" {{on "click" this.submit_yes}}>
-          <span class="icon"><FaIcon @icon="play" /></span> 
-          <span>Avanti</span>
-        </button>
-      </div>
-
-      {{!--
       <div class="buttons is-centered">
         I tuoi dati sono corretti?
       </div>
 
       <div class="buttons is-centered">
-        <button class="button is-warning is-large" disabled={{this.form_invalid}} type="button" {{on "click" this.submit_no}}>
-          No
-        </button>
         <button class="button is-primary is-large" disabled={{this.form_invalid}} type="button" {{on "click" this.submit_yes}}>
           Sì
         </button>
+        <button class="button is-warning is-large" disabled={{this.form_invalid}} type="button" {{on "click" this.submit_no}}>
+          No
+        </button>
       </div>
-      --}}
 
     {{/if}}
   </div>

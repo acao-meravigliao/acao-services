@@ -16,7 +16,7 @@ export default class AuthenMembershipRenewBillController extends Controller {
 
   get wizard() { return this.wizard_controller.wizard; }
 
-  get services() { return this.wizard.services; }
+  get services() { return this.model.services; }
 
   get service_types_opts() {
     return this.wizard.service_types.sort((a,b) => (a.name.localeCompare(b.name))).
