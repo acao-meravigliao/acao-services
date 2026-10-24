@@ -31,113 +31,125 @@
   </div>
   --}}
 
-  {{#each this.emails as |item index|}}
-    <div class="field has-addons">
-      <div class="control is-expanded has-icons-left has-icons-right">
-        <input class="input {{if item.is_valid "" "is-danger"}}"
-               type="email"
-               placeholder="xxx@yyy.com"
-               value={{item.email}}
-               {{on "change" (fn this.email_change item)}}
-        />
-        <span class="icon is-small is-left">
-          <FaIcon @icon="envelope" />
-        </span>
-        {{#unless item.is_valid}}
-          <span class="icon is-small is-right">
-            <FaIcon @icon="exclamation-triangle" />
-          </span>
-        {{/unless}}
-      </div>
-      <div class="control">
-        <button type="submit" class="button is-danger" {{on "click" (fn this.email_remove item)}}>
-          <span class="icon is-small">
-            <FaIcon @icon="remove" />
-          </span>
-        </button>
-      </div>
-    </div>
-  {{/each}}
-  <button type="submit" class="button is-link" {{on "click" this.email_add}}>
-    <span class="icon is-small">
-      <FaIcon @icon="plus" />
-    </span>
-    <span>Email</span>
-  </button>
+  <div class="box">
+    Indirizzi e-mail:
 
-  {{!--------------------}}
-
-  {{#each this.fixed_phones as |item index|}}
-    <div class="field has-addons">
-      <div class="control is-expanded has-icons-left has-icons-right">
-        <input class="input {{if item.is_valid "" "is-danger"}}"
-               type="phone"
-               placeholder="+39 0321 123456"
-               value={{item.value}}
-               {{on "change" (fn this.fixed_phone_change item)}}
-        />
-        <span class="icon is-small is-left">
-          <FaIcon @icon="phone" />
-        </span>
-        {{#unless item.is_valid}}
-          <span class="icon is-small is-right">
-            <FaIcon @icon="exclamation-triangle" />
+    {{#each this.emails as |item index|}}
+      <div class="field has-addons">
+        <div class="control is-expanded has-icons-left has-icons-right">
+          <input class="input {{if item.is_valid "" "is-danger"}}"
+                 type="email"
+                 placeholder="xxx@yyy.com"
+                 value={{item.email}}
+                 {{on "change" (fn this.email_change item)}}
+          />
+          <span class="icon is-small is-left">
+            <FaIcon @icon="envelope" />
           </span>
-        {{/unless}}
+          {{#unless item.is_valid}}
+            <span class="icon is-small is-right">
+              <FaIcon @icon="exclamation-triangle" />
+            </span>
+          {{/unless}}
+        </div>
+        <div class="control">
+          <button type="submit" class="button is-danger" {{on "click" (fn this.email_remove item)}}>
+            <span class="icon is-small">
+              <FaIcon @icon="remove" />
+            </span>
+          </button>
+        </div>
       </div>
-      <div class="control">
-        <button type="submit" class="button is-danger" {{on "click" (fn this.fixed_phone_remove item)}}>
-          <span class="icon is-small">
-            <FaIcon @icon="remove" />
-          </span>
-        </button>
-      </div>
-    </div>
-  {{/each}}
-  <div>
-    <button type="submit" class="button is-link" {{on "click" this.fixed_phone_add}}>
+    {{/each}}
+    <button type="submit" class="button is-link" {{on "click" this.email_add}}>
       <span class="icon is-small">
         <FaIcon @icon="plus" />
       </span>
-      <span>Telefono fisso</span>
+      <span>Email</span>
     </button>
   </div>
 
   {{!--------------------}}
 
-  {{#each this.mobile_phones as |item index|}}
-    <div class="field has-addons">
-      <div class="control is-expanded has-icons-left has-icons-right">
-        <input class="input {{if item.is_valid "" "is-danger"}}"
-               type="phone"
-               placeholder="+39 347 123456"
-               value={{item.value}}
-               {{on "change" (fn this.mobile_phone_change item)}}
-        />
-        <span class="icon is-small is-left">
-          <FaIcon @icon="mobile-screen" />
+  <div class="box">
+    Numeri di telefono (fisso):
+
+    {{#each this.fixed_phones as |item index|}}
+      <div class="field has-addons">
+        <div class="control is-expanded has-icons-left has-icons-right">
+          <input class="input {{if item.is_valid "" "is-danger"}}"
+                 type="phone"
+                 placeholder="+39 0321 123456"
+                 value={{item.value}}
+                 {{on "change" (fn this.fixed_phone_change item)}}
+          />
+          <span class="icon is-small is-left">
+            <FaIcon @icon="phone" />
+          </span>
+          {{#unless item.is_valid}}
+            <span class="icon is-small is-right">
+              <FaIcon @icon="exclamation-triangle" />
+            </span>
+          {{/unless}}
+        </div>
+        <div class="control">
+          <button type="submit" class="button is-danger" {{on "click" (fn this.fixed_phone_remove item)}}>
+            <span class="icon is-small">
+              <FaIcon @icon="remove" />
+            </span>
+          </button>
+        </div>
+      </div>
+    {{/each}}
+    <div>
+      <button type="submit" class="button is-link" {{on "click" this.fixed_phone_add}}>
+        <span class="icon is-small">
+          <FaIcon @icon="plus" />
         </span>
-        {{#unless item.is_valid}}
-          <span class="icon is-small is-right">
-            <FaIcon @icon="exclamation-triangle" />
-          </span>
-        {{/unless}}
-      </div>
-      <div class="control">
-        <button type="submit" class="button is-danger" {{on "click" (fn this.mobile_phone_remove item)}}>
-          <span class="icon is-small">
-            <FaIcon @icon="remove" />
-          </span>
-        </button>
-      </div>
+        <span>Telefono fisso</span>
+      </button>
     </div>
-  {{/each}}
-  <button type="submit" class="button is-link" {{on "click" this.mobile_phone_add}}>
-    <span class="icon is-small">
-      <FaIcon @icon="plus" />
-    </span>
-    <span>Cellulare</span>
-  </button>
+  </div>
+
+  {{!--------------------}}
+
+  <div class="box">
+    Numeri di telefono (cellulare):
+
+    {{#each this.mobile_phones as |item index|}}
+      <div class="field has-addons">
+        <div class="control is-expanded has-icons-left has-icons-right">
+          <input class="input {{if item.is_valid "" "is-danger"}}"
+                 type="phone"
+                 placeholder="+39 347 123456"
+                 value={{item.value}}
+                 {{on "change" (fn this.mobile_phone_change item)}}
+          />
+          <span class="icon is-small is-left">
+            <FaIcon @icon="mobile-screen" />
+          </span>
+          {{#unless item.is_valid}}
+            <span class="icon is-small is-right">
+              <FaIcon @icon="exclamation-triangle" />
+            </span>
+          {{/unless}}
+        </div>
+        <div class="control">
+          <button type="submit" class="button is-danger" {{on "click" (fn this.mobile_phone_remove item)}}>
+            <span class="icon is-small">
+              <FaIcon @icon="remove" />
+            </span>
+          </button>
+        </div>
+      </div>
+    {{/each}}
+    <button type="submit" class="button is-link" {{on "click" this.mobile_phone_add}}>
+      <span class="icon is-small">
+        <FaIcon @icon="plus" />
+      </span>
+      <span>Cellulare</span>
+    </button>
+  </div>
 
   {{!--------------------}}
 
