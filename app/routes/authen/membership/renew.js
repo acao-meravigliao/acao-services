@@ -3,7 +3,7 @@ import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { all } from 'rsvp';
 import EmberObject from '@ember/object';
-import { A } from '@ember/array';
+import { TrackedArray } from 'tracked-built-ins';
 import SelectedService from 'acao-services/utils/selected-service';
 
 import { VihaiException, RemoteException } from '@vihai/vihai-exceptions';
@@ -14,13 +14,13 @@ class WizardState extends EmberObject {
   @tracked steps;
   @tracked email_allowed = true;
   @tracked accept_rules = false;
-  @tracked services = A();
-  @tracked roster_days = A();
+  @tracked services = new TrackedArray();
+  @tracked roster_days = new TrackedArray();
 
   constructor() {
     super(...arguments);
 
-    this.steps = A([]);
+    this.steps = new TrackedArray();
   }
 
   update(args) {
@@ -59,7 +59,7 @@ class WizardState extends EmberObject {
   }
 
   restart() {
-    this.steps.clear();
+    this.steps.length = 0;
     this.steps.push(this.start_from);
 
     this.transition_to_step(this.current_step);

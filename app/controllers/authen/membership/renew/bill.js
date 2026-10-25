@@ -51,7 +51,7 @@ export default class AuthenMembershipRenewBillController extends Controller {
   }
 
   @action service_del(index) {
-    this.services.removeAt(index);
+    this.services.splice(index, 1);
   }
 
   @action set_service_type(index, service_type_id) {
