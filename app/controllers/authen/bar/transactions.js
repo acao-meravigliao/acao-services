@@ -36,8 +36,6 @@ export default class BarTransactionController extends Controller {
       return;
     }
 
-    console.log("BBBBBBBBBBBBBBBBBBBBBBBBB", res);
-
     this.pay_with_satispay_in_progress = false;
 
     if (res.body.success)

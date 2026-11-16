@@ -174,11 +174,8 @@ export default class PmShowController extends Controller {
   }
 
   @action edit_pm_note_remove(pm_note) {
-console.log("AAAAAAAA1");
-
     const rel = this.sel.rels.values().find((x) => (x.match(pm_note, 'pm_note', this.member, 'member')));
 
-console.log("AAAAAAAA2", pm_note);
     this.sel.obj_del(pm_note);
     this.sel.rel_del(rel);
   }

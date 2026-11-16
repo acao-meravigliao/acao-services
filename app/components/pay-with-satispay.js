@@ -51,8 +51,6 @@ export default class PayWithSatispayComponent extends Component {
       return;
     }
 
-    console.log("BBBBBBBBBBBBBBBBBBBBBBBBB", res);
-
     this.progress = false;
 
     if (res.body.success)

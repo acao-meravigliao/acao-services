@@ -21,7 +21,6 @@ export default class ApplicationController extends Controller {
   }
 
   on_vos_state_changed(new_state, old_state) {
-console.log("VOS STATE CHANGED", old_state, new_state);
     if (new_state != 'READY' && old_state == 'READY') {
       this.offline = true;
     } else if (new_state == 'READY' && old_state != 'READY') {
