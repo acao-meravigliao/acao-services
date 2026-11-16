@@ -25,3 +25,4 @@ minimumReleaseAgeExclude:
   - sass-embedded-win32-x64@1.108.0
   - sass-embedded@1.108.0
   - sass@1.108.0
+  - eslint-plugin-ember@13.11.0
