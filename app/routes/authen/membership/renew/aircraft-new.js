@@ -1,7 +1,7 @@
-import BaseRoute from '../../../base-route';
+import WizardPageRoute from './wizard-page-route';
 import { service } from '@ember/service';
 
-export default class AuthenRenewMembershipRenewAircraftNewRoute extends BaseRoute {
+export default class AuthenRenewMembershipRenewAircraftNewRoute extends WizardPageRoute {
   @service store;
   @service session;
   @service router;

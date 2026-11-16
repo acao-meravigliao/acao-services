@@ -1,27 +1,17 @@
-import BaseRoute from '../../../base-route';
+import WizardPageRoute from './wizard-page-route';
 import { hash } from 'rsvp';
 import { service } from '@ember/service';
 import { action } from '@ember/object';
 
-export default class AuthenRenewMembershipRosterSelectRoute extends BaseRoute {
+export default class AuthenRenewMembershipRosterSelectRoute extends WizardPageRoute {
   @service store;
   @service session;
   @service router;
 
-  beforeModel() {
-    const wizard = this.modelFor('authen.membership.renew');
-
-    //if (wizard.roster_status.will_need_high_season === 0 &&
-    //    wizard.roster_status.will_need_total === 0)
-    //  wizard.skip_to('summary');
-  }
-
   model(params) {
-    const wizard = this.modelFor('authen.membership.renew');
-
     return this.select_as_model({
       type: 'ygg--acao--roster-day',
-      filter: { date: { between: [ new Date(wizard.year, 0, 1), new Date(wizard.year + 1, 0, 1) ] } },
+      filter: { date: { between: [ new Date(this.wizard.year, 0, 1), new Date(this.wizard.year + 1, 0, 1) ] } },
       dig: {
         from: 'day',
         to: 'entry',
@@ -40,9 +30,7 @@ export default class AuthenRenewMembershipRosterSelectRoute extends BaseRoute {
   setupController(controller, model) {
     super.setupController(...arguments);
 
-    const wizard = this.modelFor('authen.membership.renew');
-
-    controller.selection = wizard.selected_roster_days;
+    controller.selection = this.wizard.selected_roster_days;
   }
 }
 

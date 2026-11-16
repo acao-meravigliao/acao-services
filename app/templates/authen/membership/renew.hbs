@@ -17,3 +17,29 @@
     {{t "authen.membership.renew.not_open" year=this.wizard.year htmlSafe=true}}
   </div>
 {{/if}}
+
+{{!--
+<div class="box">
+  Aircraft Ownerships:<br />
+  {{raw-models-viewer models=this.wizard.aircraft_ownerships}}
+</div>
+
+<div class="box">
+  Aircraft:<br />
+  {{raw-models-viewer models=this.wizard.aircrafts}}
+</div>
+
+<div class="box">
+  Wizard history:<br />
+  <table class="table">
+    <tr><th>Page</th><th>Params</th></tr>
+    {{#each this.wizard.steps as |step|}}
+    <tr>
+      <td>{{step.page}}</td>
+      <td><RawValueViewer @value={{step.params}} /></td>
+    </tr>
+    {{/each}}
+  </table>
+</div>
+
+--}}

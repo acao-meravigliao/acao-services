@@ -95,12 +95,22 @@ authen:
         pots_phone: Telefono fisso
         cell_phone: Cellulare
 
+      aircraft-owned:
+        page_title: Mezzo
+        back: Indietro
+        forward: Avanti...
+
+      aircraft-new:
+        page_title: Nuovo Mezzo
+        back: Indietro
+        forward: Avanti...
+
       bill:
         page_title: Servizi
         element: Elemento
         cost: Costo
         service_select_placeholder: Seleziona il servizio...
-        trailer_etc: "Posto carrello, ecc..."
+        add_service: "Aggiungi servizio..."
         total: Total
         back: Indietro
         forward: Avanti...

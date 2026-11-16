@@ -24,27 +24,32 @@
         </td>
         <td style="overflow:visible;">
           {{#if service.type_changeable}}
-            <PowerSelect @options={{this.service_types_opts}}
-                         @selected={{service.type}}
-                         @onChange={{fn this.service_set service}}
-                         @placeholder={{t "authen.membership.renew.bill.service_select_placeholder"}} as |el|>
-              {{el.name}}
-            </PowerSelect>
+            <select {{on "change" (fn this.service_set service)}}>
+              {{#each this.service_types_opts as |opt|}}
+                <option value={{opt.id}} selected={{eq opt.id service.type.id}}>
+                  {{opt.name}}
+                </option>
+              {{/each}}
+            </select>
+
+            {{#if service.type.extra_info}}
+              <div class="control">
+                <label>
+                  {{service.type.extra_info}}
+                  <input type="text" class="input" value={{service.extra_info}} {{on "change" (fn this.service_set_extra_info service)}} />
+                </label>
+              </div>
+            {{/if}}
           {{else}}
-            {{service.type.name}}
+            {{service.type.name}} {{service.extra_info}}
           {{/if}}
 
-          {{#if service.type.extra_info}}
-            <div class="control">
-              <label>
-                {{service.type.extra_info}}
-                <input type="text" class="input" value={{service.extra_info}} {{on "change" (fn this.service_set_extra_info service)}} />
-              </label>
-            </div>
-          {{/if}}
           {{#if service.type.notes}}
-            <div class="notification is-warning is-light">
-              {{service.type.notes}}
+            <div class="icon-text">
+              <span class="icon has-text-warning">
+                <FaIcon @icon="exclamation-triangle" />
+              </span>
+              <span>{{service.type.notes}}</span>
             </div>
           {{/if}}
         </td>
@@ -60,7 +65,7 @@
             <span class="icon">
               <FaIcon @icon="plus" />
             </span>
-            <strong>{{t "authen.membership.renew.bill.trailer_etc"}}</strong>
+            <strong>{{t "authen.membership.renew.bill.add_service"}}</strong>
           </button>
         </td>
       </tr>

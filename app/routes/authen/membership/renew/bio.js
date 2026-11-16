@@ -1,5 +1,5 @@
-import Route from '@ember/routing/route';
+import WizardPageRoute from './wizard-page-route';
 import { service } from '@ember/service';
 
-export default class AuthenRenewMembershipRenewBioRoute extends Route {
+export default class AuthenRenewMembershipRenewBioRoute extends WizardPageRoute {
 }

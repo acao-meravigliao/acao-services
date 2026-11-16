@@ -4,7 +4,8 @@
   <div class="box">
 
     <div class="buttons is-centered">
-      Sei proprietario, comproprietario o utilizzatore di un mezzo privato non elencato?
+      Sei proprietario, comproprietario o utilizzatore di un
+      {{if this.other_aircraft "altro mezzo?" "aliante o altro mezzo?"}}
 
       {{#unless this.another_aircraft}}
         <button class="button is-primary is-large" disabled={{this.form_invalid}} type="button"
@@ -21,7 +22,7 @@
     </div>
 
     {{#if this.another_aircraft}}
-      <div class="buttons is-centered">
+      <div class="has-text-centered">
         {{#unless this.registration_entered}}
           <div class="field">
             <label class="label">Marche</label>
@@ -35,8 +36,31 @@
               />
             </div>
           </div>
+
+          {{#if this.aircraft}}
+            Mezzo trovato:
+              <strong>{{this.aircraft.registration}}
+              {{#if this.aircraft.race_registration}}- {{this.aircraft.race_registration}}{{/if}}</strong><br />
+            {{#if this.aircraft.aircraft_type}}
+              Tipo: <strong>{{this.aircraft.aircraft_type.manufacturer}} - {{this.aircraft.aircraft_type.name}}</strong><br />
+            {{/if}}
+            {{#if this.aircraft.wingspan_computed}}
+              Apertura alare: <strong>{{this.aircraft.wingspan_computed}} m</strong><br />
+            {{/if}}
+          {{else if this.registration}}
+            Mezzo {{this.registration}} non trovato, verrà creato!<br />
+          {{/if}}
+
+          <button class="button is-primary" disabled={{not this.registration_ok_enabled}}
+            {{on "click" this.registration_ok_clicked}}>Ok</button>
         {{else}}
-          Marche: <strong>{{this.registration}}</strong>
+          Marche: <strong>{{this.registration}}</strong><br />
+          {{#if this.aircraft.aircraft_type}}
+            Tipo: <strong>{{this.aircraft.aircraft_type.manufacturer}} - {{this.aircraft.aircraft_type.name}}</strong><br />
+          {{/if}}
+          {{#if this.aircraft.wingspan_computed}}
+            Apertura alare: <strong>{{this.aircraft.wingspan_computed}} m</strong><br />
+          {{/if}}
         {{/unless}}
       </div>
 
@@ -87,11 +111,21 @@
         <span>Indietro</span>
       </button>
       {{#if this.parking_confirmed}}
-        <button class="button is-warning is-large" type="button" {{on "click" this.submit}}>
+        <button type="button" class="button is-warning is-large {{if this.submitting "is-loading"}}" {{on "click" this.submit}}>
           Avanti
         </button>
       {{/if}}
     </div>
-
   </div>
+
+  {{#if this.submit_error}}
+    <ExceptionDecoder @ex={{this.submit_error}} as |title detail backtrace|>
+      <div class="box notification is-danger">
+        <h1 class="title">{{title}}</h1>
+        <div>
+          {{detail}}
+        </div>
+      </div>
+    </ExceptionDecoder>
+  {{/if}}
 </div>

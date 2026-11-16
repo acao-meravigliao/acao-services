@@ -1,10 +1,7 @@
-import Route from '@ember/routing/route';
+import WizardPageRoute from './wizard-page-route';
 import { service } from '@ember/service';
-import { hash } from 'rsvp';
 
-export default class AuthenRenewMembershipSummaryRoute extends Route {
+export default class AuthenRenewMembershipSummaryRoute extends WizardPageRoute {
   model() {
-    return hash({
-    });
   }
 }

@@ -25,7 +25,7 @@ export default class AuthenMembershipRenewBioController extends Controller {
 
   @action submit_yes() {
     if (this.wizard.aircraft_ownerships.length > 0)
-      this.wizard.next('aircraft-owned', { ac: this.wizard.aircraft_ownerships[0].aircraft.id })
+      this.wizard.next('aircraft-owned', { aco: this.wizard.aircraft_ownerships[0].id })
     else
       this.wizard.next('aircraft-new');
   }
@@ -35,6 +35,7 @@ export default class AuthenMembershipRenewBioController extends Controller {
   }
 
   @action back() {
-    this.wizard.prev();
+    history.back();
+    //this.wizard.prev();
   }
 }

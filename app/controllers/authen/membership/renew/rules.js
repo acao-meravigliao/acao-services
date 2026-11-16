@@ -19,6 +19,7 @@ export default class AuthenMembershipRenewRulesController extends Controller {
   }
 
   @action back() {
-    this.wizard.prev();
+    history.back();
+    //this.wizard.prev();
   }
 }

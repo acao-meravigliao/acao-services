@@ -118,7 +118,8 @@ export default class AuthenMembershipRenewBioEditController extends Controller {
 
     this.commit().then(() => {
       this.in_progress = false;
-      this.wizard.prev('bio');
+      history.back();
+      //this.wizard.prev('bio');
     }).catch((err) => {
       this.in_progress = false;
       this.error = err.exception;
@@ -126,6 +127,7 @@ export default class AuthenMembershipRenewBioEditController extends Controller {
   }
 
   @action back() {
-    this.wizard.prev();
+    history.back();
+    //this.wizard.prev();
   }
 }

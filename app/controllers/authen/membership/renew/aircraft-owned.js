@@ -5,101 +5,128 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 export default class AuthenMembershipRenewAircraftOwnedController extends Controller {
-  @service session;
   @service router;
   @controller('authen.membership.renew') wizard_controller;
+  @service vos;
 
   get wizard() { return this.wizard_controller.wizard; }
 
+  get esel() { return this.model.esel; }
+
+  get aircraft_owner() {
+    return this.model.aircraft_owner;
+  }
+
   get aircraft() {
-    return this.model.aircraft;
+    return this.aircraft_owner.aircraft;
   }
 
   reset() {
-    this.user = null;
-    this.referent = null;
-    this.parking = null;
+    this.current_idx = this.wizard.aircraft_ownerships.findIndex((x) => (x.id === this.aircraft_owner.id));
+
+    this.user_confirmed = false;
+    this.referent_confirmed = false;
+    this.parking_confirmed = false;
   }
 
-  @tracked user;
-
-  get user_confirmed() { return this.user !== null }
+  @tracked user_confirmed;
 
   @action user_click_yes() {
-    this.user = true;
+    this.user_confirmed = true;
   }
 
-  @action user_click_no() {
-    this.user = false;
+  @action async user_click_no() {
+    this.user_confired = true;
 
-    this.wizard.aircraft_changes.push({
-      op: 'REMOVE',
-      id: this.aircraft.id,
-    });
+    try {
+      const res = await this.vos.class_call('ygg--acao--membership', 'aircraft_ownership_remove', {
+        ownership_id: this.aircraft_owner.id,
+      });
+    } catch(e) {
+      this.submit_error = e;
+      return;
+    }
 
     this.goto_next();
   }
 
-  @tracked referent;
-
-  get referent_confirmed() { return this.referent !== null }
+  @tracked referent_confirmed;
 
   @action referent_click_yes() {
-    this.referent = true;
+    this.aircraft_owner.referent = true;
+    this.referent_confirmed = true;
   }
 
   @action referent_click_no() {
-    this.referent = false;
+    this.aircraft_owner.referent = false;
+    this.referent_confirmed = true;
   }
 
-  @tracked parking;
+  @tracked parking_confirmed;
   @tracked parking_descr;
 
-  get parking_confirmed() { return this.parking !== null }
-
   @action parking_click_a(ev) {
-    this.parking = "TRAILER_A";
+    this.parking_confirmed = true;
     this.parking_descr = 'Carrello Zona A';
+    this.aircraft.parking = "TRAILER_A";
   }
 
   @action parking_click_bc() {
-    this.parking = "TRAILER_BC";
+    this.parking_confirmed = true;
     this.parking_descr = 'Carrello Zona B/C';
+    this.aircraft.parking = "TRAILER_BC";
   }
 
   @action parking_click_hangar() {
-    this.parking = "HANGAR";
+    this.parking_confirmed = true;
     this.parking_descr = 'Hangar';
+    this.aircraft.parking = "HANGAR";
   }
 
   @action parking_click_other() {
-    this.parking = "OTHER";
+    this.parking_confirmed = true;
     this.parking_descr = 'Altro';
+    this.aircraft.parking = "OTHER";
   }
 
-  @action submit() {
-    if (this.user) {
-      this.wizard.aircraft_changes.push({
-        op: 'UPDATE',
-        id: this.aircraft.id,
-        parking: this.parking,
-        referent: this.referent,
-      });
+get pippo() {
+  return JSON.stringify(this.esel.compute_changes(this.wizard.context_sel));
+}
+
+  @tracked submitting = false;
+  @tracked submit_error;
+
+  @action async submit() {
+    const changes = this.esel.compute_changes(this.wizard.context_sel);
+
+    if (changes.length > 0) {
+      try {
+        const res = await this.vos.class_call('ygg--acao--membership', 'aircraft_ownership_update', {
+          ownership_id: this.aircraft_owner.id,
+          referent: this.aircraft_owner.referent,
+          parking: this.aircraft.parking,
+        });
+      } catch(e) {
+        this.submit_error = e;
+        this.submitting = false;
+        return;
+      }
+
+      this.submitting = false;
     }
 
     this.goto_next();
   }
 
   goto_next() {
-    const idx = this.wizard.aircraft_ownerships.findIndex((x) => (x.aircraft.id === this.aircraft.id));
-
-    if (idx < this.wizard.aircraft_ownerships.length - 1)
-      this.wizard.next('aircraft-owned', { ac: this.wizard.aircraft_ownerships[idx + 1].aircraft.id })
+    if (this.current_idx < this.wizard.aircraft_ownerships.length - 1)
+      this.wizard.next('aircraft-owned', { aco: this.wizard.aircraft_ownerships[this.current_idx + 1].id })
     else
       this.wizard.next('aircraft-new');
   }
 
   @action back() {
-    this.wizard.prev();
+    history.back();
+    //this.wizard.prev();
   }
 }

@@ -5,22 +5,56 @@ import { all } from 'rsvp';
 import EmberObject from '@ember/object';
 import { TrackedArray } from 'tracked-built-ins';
 import SelectedService from 'acao-services/utils/selected-service';
-
+import { VosSelectionSnapshot } from '@vihai/ember-vos';
 import { VihaiException, RemoteException } from '@vihai/vihai-exceptions';
 
 class ServerResponseFormatError extends VihaiException { type = 'ServerResponseFormatError'; }
 
-class WizardState extends EmberObject {
+class Wizard extends EmberObject {
   @tracked steps;
-  @tracked email_allowed = true;
-  @tracked accept_rules = false;
-  @tracked services = new TrackedArray();
-  @tracked roster_days = new TrackedArray();
 
   constructor() {
     super(...arguments);
 
     this.steps = new TrackedArray();
+    this.steps.push(new WizardState());
+  }
+
+  get state() {
+    return this.steps.at(-1);
+  }
+
+  get person() {
+    return this.context_sel.get(this.person_id);
+  }
+
+  get member() {
+    return this.person.member;
+  }
+
+  get aircraft_ownerships() {
+    return this.member.aircrafts_as_owner;
+  }
+
+  get aircrafts() {
+    return this.aircraft_ownerships.map((x) => (x.aircraft));
+  }
+
+  entered_page(page, params) {
+    if (page === 'index') {
+      this.steps.splice(1, Infinity);
+      this.do_replace_with();
+      return;
+    }
+
+    const step_idx = this.steps.findIndex((x) => (x.page === page && !params === !x.params &&
+      JSON.stringify(Object.entries(params)) === JSON.stringify(Object.entries(x.params))));
+
+    if (step_idx === -1) {
+      this.steps.splice(1, Infinity);
+      this.do_replace_with();
+    } else
+      this.steps.splice(step_idx + 1, Infinity);
   }
 
   update(args) {
@@ -29,56 +63,98 @@ class WizardState extends EmberObject {
     Object.assign(this, args);
   }
 
-  next(page, args) {
-    args = args || {};
+  next(page, params) {
+    params = params || {};
 
-    const cur_page = this.current_step[0];
+    //console.log("=============> NEXT", page, params);
 
-    this.steps.push([ page, args ]);
+    const cur_page = this.state.page;
+
+    const new_status = new WizardState();
+
+    // handle first call of "next"
+    if (this.state)
+      new_status.clone(this.state);
+
+    new_status.page = page;
+    new_status.params = params;
+
+    this.steps.push(new_status);
 
     if (page === cur_page)
-      this.router.transitionTo({ queryParams: args });
+      this.router.transitionTo({ queryParams: params });
     else
-      this.router.transitionTo('authen.membership.renew.' + page, { queryParams: args });
+      this.do_transition();
+  }
+
+  next_without_history(page, params) {
+    params = params || {};
+
+    //console.log("=============> NEXT_WITHOUT_HISTORY", page, params);
+
+    const cur_page = this.state.page;
+
+    const new_status = new WizardState();
+
+    // handle first call of "next"
+    if (this.state)
+      new_status.clone(this.state);
+
+    new_status.page = page;
+    new_status.params = params;
+
+    this.steps.pop();
+    this.steps.push(new_status);
+
+    if (page === cur_page)
+      this.router.replaceWith({ queryParams: params });
+    else
+      this.do_replace_with();
   }
 
   prev(page) {
     if (page) {
-      while(this.current_step[0] !== page) {
+      while(this.state.page !== page) {
         this.steps.pop();
       }
     } else if (this.steps.length > 0) {
       this.steps.pop();
     }
 
-    this.transition_to_step(this.current_step);
+    this.do_transition();
   }
 
-  get current_step() {
-    return this.steps.at(-1);
-  }
-
-  restart() {
-    this.steps.length = 0;
-    this.steps.push(this.start_from);
-
-    this.transition_to_step(this.current_step);
-  }
-
-  skip_to(page, args) {
+  redirect_to(page, params) {
     this.steps.pop();
-    this.next(page, args);
+    this.next(page, params);
   }
 
-  transition_to_step(step) {
-    this.router.transitionTo('authen.membership.renew.' + step[0], { queryParams: step[1] });
+  do_transition() {
+    this.router.transitionTo('authen.membership.renew.' + this.state.page, { queryParams: this.state.params });
   }
 
-//  get aircraft_owned_to_check() {
-//    // If 
-//
-//    this.aircraft_ownerships.find((x) => (this.
-//  }
+  do_replace_with() {
+    this.router.replaceWith('authen.membership.renew.' + this.state.page, { queryParams: this.state.params });
+  }
+}
+
+class WizardState extends EmberObject {
+  @tracked page;
+  @tracked params;
+
+  @tracked email_allowed = true;
+  @tracked accept_rules = false;
+  @tracked services = new TrackedArray();
+  @tracked roster_days = new TrackedArray();
+
+  clone(oth) {
+    Object.assign(this, oth.getProperties(Object.keys(oth)));
+
+//    this.sel = new VosSelectionSnapshot(oth.sel);
+////    this.sel = oth.sel.snapshot();
+    this.services = new TrackedArray(oth.services);
+    this.roster_days = new TrackedArray(oth.roster_days);
+  }
 
   async submit() {
     let req = {
@@ -131,6 +207,7 @@ class WizardState extends EmberObject {
   }
 }
 
+
 export default class AuthenRenewMembershipRoute extends BaseRoute {
   @service session;
   @service store;
@@ -139,16 +216,10 @@ export default class AuthenRenewMembershipRoute extends BaseRoute {
   constructor() {
     super(...arguments);
 
-    this.wizard = new WizardState;
+    this.wizard = new Wizard;
     this.wizard.router = this.router;
-    this.wizard.start_from = [ 'bio', {} ];
-  }
-
-  beforeModel(transition) {
-    super.beforeModel(arguments);
-
-    if (transition.to.localName === 'index' || !this.wizard.current_step)
-      this.wizard.restart();
+    this.wizard.state.page = 'bio';
+    this.wizard.state.params = {};
   }
 
   model(params) {
@@ -216,15 +287,15 @@ export default class AuthenRenewMembershipRoute extends BaseRoute {
       const sel = res[0];
       const roster_status_res = res[2];
 
+      this.wizard.person_id = this.session.person_id;
+
       // Read-only utility values ------------------
       Object.assign(this.wizard, res[1].body);
-      this.wizard.person = sel.get_first('ygg--core--person');
+
       this.wizard.context_sel = sel;
-      this.wizard.member = sel.get_first('ygg--acao--member');
       this.wizard.memberships = sel.get_cls('ygg--acao--membership');
       this.wizard.year_model = sel.get_cls('ygg--acao--year').find((x) => (x.year === year));
       this.wizard.service_types = sel.get_cls('ygg--acao--service-type');
-      this.wizard.aircraft_ownerships = sel.get_cls('ygg--acao--aircraft--owner');
       this.wizard.year = this.wizard.year_model.year;
       this.wizard.announce_time = this.wizard.year_model.renew_announce_time;
       this.wizard.opening_time = this.wizard.year_model.renew_opening_time;
@@ -232,27 +303,27 @@ export default class AuthenRenewMembershipRoute extends BaseRoute {
 
       // Wizard state ------------------
 
-      // Roster
-      this.wizard.selected_roster_days = [];
+      const ws = this.wizard.state;
+
+      ws.sel = sel.snapshot();
 
       // Mailing consent
-      this.wizard.email_allowed = this.wizard.member.email_allowed;
+      ws.email_allowed = this.wizard.member.email_allowed;
 
       // Privacy
-      this.wizard.privacy_accepted = this.wizard.member.privacy_accepted;
-      this.wizard.consent_association = this.wizard.member.consent_association;
-      this.wizard.consent_surveillance = this.wizard.member.consent_surveillance;
-      this.wizard.consent_accessory = this.wizard.member.consent_accessory;
-      this.wizard.consent_profiling = this.wizard.member.consent_profiling;
-      this.wizard.consent_magazine = this.wizard.member.consent_magazine;
-      this.wizard.consent_fai = this.wizard.member.consent_fai;
-      this.wizard.consent_marketing = this.wizard.member.consent_marketing;
-
-      this.wizard.aircraft_changes = [];
+      ws.privacy_accepted = this.wizard.member.privacy_accepted;
+      ws.consent_association = this.wizard.member.consent_association;
+      ws.consent_surveillance = this.wizard.member.consent_surveillance;
+      ws.consent_accessory = this.wizard.member.consent_accessory;
+      ws.consent_profiling = this.wizard.member.consent_profiling;
+      ws.consent_magazine = this.wizard.member.consent_magazine;
+      ws.consent_fai = this.wizard.member.consent_fai;
+      ws.consent_marketing = this.wizard.member.consent_marketing;
 
       console.log("WIZARD INITIALIZED AS=", this.wizard);
 
       return this.wizard;
     });
   }
+
 }

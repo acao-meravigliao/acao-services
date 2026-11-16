@@ -20,12 +20,14 @@ export default class AuthenMembershipRenewBillController extends Controller {
 
   get service_types_opts() {
     return this.wizard.service_types.sort((a,b) => (a.name.localeCompare(b.name))).
-             filter((x) => (x.available_for_membership_renewal)).
-             map((x) => ({ service_type: x, name: x.name }));
+             filter((x) => (x.available_for_membership_renewal));
   }
 
-  @action service_set(service, sel) {
-    service.type = sel.service_type;
+  @action service_set(service, ev) {
+    const service_type_id = ev.target.value.trim();
+    const service_type = this.wizard.context_sel.get(service_type_id);
+
+    service.type = service_type;
   }
 
   @action service_set_extra_info(service, el) {
@@ -41,7 +43,7 @@ export default class AuthenMembershipRenewBillController extends Controller {
   get submit_disabled() { return this.form_invalid; }
 
   @action service_add() {
-    this.services.addObject(new SelectedService({
+    this.services.push(new SelectedService({
       type: null,
       type_changeable: true,
       enabled: true,
@@ -88,6 +90,7 @@ export default class AuthenMembershipRenewBillController extends Controller {
   }
 
   @action back() {
-    this.wizard.prev();
+    history.back();
+    //this.wizard.prev();
   }
 }

@@ -1,23 +1,25 @@
-import BaseRoute from '../../../base-route';
+import WizardPageRoute from './wizard-page-route';
 import { service } from '@ember/service';
 
-export default class AuthenRenewMembershipRenewAircraftOwnedRoute extends BaseRoute {
+export default class AuthenRenewMembershipRenewAircraftOwnedRoute extends WizardPageRoute {
   @service store;
   @service session;
   @service router;
 
   queryParams = {
-    ac: {
+    aco: {
       refreshModel: true,
       replace: true,
     }
   };
 
   model(params) {
-    const wizard = this.modelFor('authen.membership.renew');
-    const ac = wizard.aircraft_ownerships.find((x) => (x.aircraft.id === params.ac));
+    const esel = this.wizard.context_sel.snapshot();
 
-    return ac;
+    return {
+      aircraft_owner: esel.get(params.aco),
+      esel: esel,
+    };
   }
 
   setupController(controller, model) {

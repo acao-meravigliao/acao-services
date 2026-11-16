@@ -52,6 +52,7 @@ export default class AuthenMembershipRenewRosterSelectController extends Control
   }
 
   @action back() {
-    this.wizard.prev();
+    history.back();
+    //this.wizard.prev();
   }
 }

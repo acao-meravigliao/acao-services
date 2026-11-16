@@ -73,13 +73,14 @@ export default class AuthenMembershipRenewPrivacyController extends Controller {
       consent_marketing: this.consent_marketing,
     })
 
-    if (this.wizard.email_allowed)
+    if (this.wizard.state.email_allowed)
       this.wizard.next('bill');
     else
       this.wizard.next('mailing');
   }
 
   @action back() {
-    this.wizard.prev();
+    history.back();
+    //this.wizard.prev();
   }
 }
