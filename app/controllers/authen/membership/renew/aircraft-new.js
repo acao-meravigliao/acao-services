@@ -20,7 +20,7 @@ export default class AuthenMembershipRenewAircraftNewController extends Controll
     this.registration = null;
     this.registration_entered = null;
     this.aircraft = null;
-    this.referent = null;
+    this.role = null;
     this.parking = null;
   }
 
@@ -89,16 +89,16 @@ export default class AuthenMembershipRenewAircraftNewController extends Controll
 
   //---------
 
-  @tracked referent = null;
+  @tracked role = null;
 
-  get referent_confirmed() { return this.referent !== null }
+  get role_confirmed() { return this.role !== null }
 
-  @action referent_click_yes() {
-    this.referent = true;
+  @action role_click_yes() {
+    this.role = 'OWNER';
   }
 
-  @action referent_click_no() {
-    this.referent = false;
+  @action role_click_no() {
+    this.role = 'USER';
   }
 
   //---------
@@ -139,7 +139,7 @@ export default class AuthenMembershipRenewAircraftNewController extends Controll
       const res = await this.vos.class_call('ygg--acao--membership', 'aircraft_ownership_add', {
         aircraft_id: this.aircraft && this.aircraft.id,
         //aircraft_type_id: this.aircraft && this.aircraft.aircraft_type && this.aircraft.aircraft_type.id,
-        referent: this.referent,
+        role: this.role,
         registration: this.registration,
         parking: this.parking,
       });

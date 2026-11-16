@@ -25,7 +25,7 @@ export default class AuthenMembershipRenewAircraftOwnedController extends Contro
     this.current_idx = this.wizard.aircraft_ownerships.findIndex((x) => (x.id === this.aircraft_owner.id));
 
     this.user_confirmed = false;
-    this.referent_confirmed = false;
+    this.role_confirmed = false;
     this.parking_confirmed = false;
   }
 
@@ -50,16 +50,16 @@ export default class AuthenMembershipRenewAircraftOwnedController extends Contro
     this.goto_next();
   }
 
-  @tracked referent_confirmed;
+  @tracked role_confirmed;
 
-  @action referent_click_yes() {
-    this.aircraft_owner.referent = true;
-    this.referent_confirmed = true;
+  @action role_click_yes() {
+    this.aircraft_owner.role = 'OWNER';
+    this.role_confirmed = true;
   }
 
-  @action referent_click_no() {
-    this.aircraft_owner.referent = false;
-    this.referent_confirmed = true;
+  @action role_click_no() {
+    this.aircraft_owner.role = 'USER';
+    this.role_confirmed = true;
   }
 
   @tracked parking_confirmed;
@@ -103,7 +103,7 @@ get pippo() {
       try {
         const res = await this.vos.class_call('ygg--acao--membership', 'aircraft_ownership_update', {
           ownership_id: this.aircraft_owner.id,
-          referent: this.aircraft_owner.referent,
+          role: this.aircraft_owner.role,
           parking: this.aircraft.parking,
         });
       } catch(e) {

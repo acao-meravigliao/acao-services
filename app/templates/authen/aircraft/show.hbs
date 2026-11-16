@@ -29,7 +29,7 @@
             </p>
             <p>
               {{#each this.aircraft.owners as |owner|}}
-              Proprietario: <strong>{{owner.member.person.full_name}}{{if owner.is_referent " (referente)"}}</strong><br />
+                <strong>{{owner.member.person.full_name}}{{if (eq owner.role "OWNER") ", proprietario" ", utilizzatore"}}</strong><br />
               {{/each}}
 
               {{#if this.aircraft.flarm_identifier}}

@@ -17,22 +17,22 @@
 
   {{#if this.user_confirmed}}
     <div class="buttons is-centered">
-      Sei tu la persona di riferimento per questo mezzo?
+      Sei proprietario di questo mezzo?
 
-      {{#if this.referent_confirmed}}
-        <strong>{{if this.aircraft_owner.referent "Sì" "No"}}</strong>
+      {{#if this.role_confirmed}}
+        <strong>{{if (eq this.aircraft_owner.role "OWNER") "Sì" "No"}}</strong>
       {{else}}
-        <button class="button is-primary is-large" type="button" {{on "click" this.referent_click_yes}}>
+        <button class="button is-primary is-large" type="button" {{on "click" this.role_click_yes}}>
           Sì
         </button>
-        <button class="button is-warning is-large" type="button" {{on "click" this.referent_click_no}}>
+        <button class="button is-warning is-large" type="button" {{on "click" this.role_click_no}}>
           No
         </button>
       {{/if}}
     </div>
   {{/if}}
 
-  {{#if this.referent_confirmed}}
+  {{#if this.role_confirmed}}
     <div class="buttons is-centered">
       Dove è ricoverato il mezzo?
 
