@@ -6,9 +6,11 @@ export default class YggAcaoAircraftModel extends VosModel {
   @attr('string') flarm_identifier;
   @attr('string') icao_identifier;
   @attr('string') serial_number;
+  @attr('string') parking;
   @attr('boolean') hangar;
   @attr('date') arc_valid_to;
   @attr('date') insurance_valid_to;
+  @attr('number') wingspan;
 
   @vosHasMany('aircraft', 'aircraft_owner') owners;
   @vosBelongsTo('aircraft', 'club') club;
@@ -19,5 +21,9 @@ export default class YggAcaoAircraftModel extends VosModel {
 
   is_owned_by(member) {
     return this.owners.some((x) => (x.member === member));
+  }
+
+  get wingspan_computed() {
+    return this.wingspan || (this.aircraft_type && this.aircraft_type.wingspan);
   }
 }

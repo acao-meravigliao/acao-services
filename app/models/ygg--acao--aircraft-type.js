@@ -8,5 +8,6 @@ export default class YggAcaoAircraftTypeModel extends VosModel {
   @attr('string') link_wp;
   @attr('number') handicap;
   @attr('number') club_handicap;
+  @attr('number') wingspan;
   @attr('string') aircraft_class;
 }
