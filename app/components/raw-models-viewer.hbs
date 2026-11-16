@@ -1,6 +1,8 @@
+{{#if @models}}
 <table class="table component raw-models-viewer" ...attributes>
   <thead>
     <tr>
+      <th>ID</th>
       {{#each-in this.attributes as |attr_name|}}
         <th>{{attr_name}}</th>
       {{/each-in}}
@@ -10,6 +12,7 @@
   <tbody>
     {{#each @models key="id" as |model|}}
       <tr>
+        <td>{{model.id}}</td>
       {{#each-in this.attributes as |attr_name|}}
         <td>{{get model attr_name}}</td>
       {{/each-in}}
@@ -17,3 +20,6 @@
     {{/each}}
   </tbody>
 </table>
+{{else}}
+No models
+{{/if}}

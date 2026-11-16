@@ -1,0 +1,23 @@
+{{#if (eq this.type_of "object")}}
+  Object:
+  {{#if this.keys}}
+    <table class="table">
+      <tr><th>Attr</th><th>Value</th></tr>
+      {{#each this.keys as |key|}}
+        <tr>
+          <td>{{key}}</td>
+          <td>{{get @value key}}</td>
+        </tr>
+      {{/each}}
+    </table>
+  {{else}}
+    empty
+  {{/if}}
+{{else if (eq this.type_of "undefined")}}
+  undefined
+{{else if (eq this.type_of "null")}}
+  null
+{{else}}
+  Value:
+  {{get @value key}}
+{{/if}}

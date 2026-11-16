@@ -4,8 +4,8 @@ export default class RawModelsViewerComponent extends Component {
   get attributes() {
     let attrs = new Map();
 
-    if (this.args.models.length > 0)
-      attrs = this.args.models.firstObject.constructor.attributes;
+    if (this.args.models.length > 0 && this.args.models[0])
+      attrs = this.args.models[0].get_attributes();
 
     if (this.args.show)
       attrs = new Map([...attrs].filter(([ k, v ]) => (this.args.show.includes(k))));
