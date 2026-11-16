@@ -8,6 +8,8 @@ export default async function (defaults) {
     sassOptions: {
       includePaths: [
         'node_modules/bulma',
+        'node_modules/ember-basic-dropdown/',
+        'node_modules/ember-power-select/',
       ],
       onlyIncluded: true,
     },

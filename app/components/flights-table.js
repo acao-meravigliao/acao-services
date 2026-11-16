@@ -290,18 +290,19 @@ export default class FlightsTableComponent extends Component {
   }
 
   @action flt_launch_change(ev) {
-    if (ev.symbol === null) {
+    const val = ev.target.value;
+
+    if (val === null) {
       const launch = this.launches.forEach((x) => (x.enabled = true));
       this.flt_all_launches = true;
     } else {
-      const launch = this.launches.forEach((x) => (x.enabled = (x.symbol === ev.symbol)));
+      const launch = this.launches.forEach((x) => (x.enabled = (x.symbol === val)));
       this.flt_all_launches = false;
     }
   }
 
-  get flt_launch_sel() {
-    return this.launches.find((x) => (x.symbol === this.flt_launch));
-  }
+
+  flt_launch_sel = (sym) => (this.launches.find((x) => (x.symbol === sym && x.enabled)));
 
   get flt_launch_opts() {
     return [{symbol: null, name: '-' }].concat(this.launches);

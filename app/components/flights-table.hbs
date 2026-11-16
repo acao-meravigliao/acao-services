@@ -96,12 +96,13 @@
 
       <div class="cell">
         {{t "flights_table.launch_label"}}
-        <PowerSelect @options={{this.flt_launch_opts}}
-                     @selected={{this.flt_launch_sel}}
-                     @onChange={{this.flt_launch_change}}
-                     @placeholder={{t "flights_table.launch_placeholder"}} as |el|>
-          {{t (concat "flights_table.launch." el.symbol)}}
-        </PowerSelect>
+        <select {{on "click" this.flt_launch_change}}>
+          {{#each this.flt_launch_opts as |opt|}}
+            <option value={{opt.symbol}} selected={{this.flt_launch_sel opt.symbol}}>
+              {{t (concat "flights_table.launch." opt.symbol)}}
+            </option>
+          {{/each}}
+        </select>
       </div>
 
       <div class="cell is-col-start-1">
