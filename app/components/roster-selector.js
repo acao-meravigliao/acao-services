@@ -6,7 +6,7 @@ import { TrackedSet } from 'tracked-built-ins';
 
 export default class RosterSelectorComponent extends Component {
   @tracked roster_days_sort_order = [ 'date' ];
-  @tracked selection = TrackedSet();
+  @tracked selection;
 
   constructor() {
     super(...arguments);
@@ -42,27 +42,24 @@ export default class RosterSelectorComponent extends Component {
     return this.filtered_roster_days.sort((a,b) => (a[this.roster_days_sort_order] - b[this.roster_days_sort_order]));
   }
 
-  is_selected = (day) => (this.selection.entries.map((x)=>(x.id)).includes(day.id));
+  is_selected = (day) => (this.selection.has(day));
 
   @action on_add(day) {
     this.selection.add(day);
     this.selection_changed();
   }
 
-  // For some reason day and ourday are not the same object when jumping steps, indagate further
   @action on_del(day) {
-//    const ourday = this.selection.find((x) => (x.id === day.id));
-
-    this.selection.del(day);
+    this.selection.delete(day);
     this.selection_changed();
   }
 
   get selection_count() {
-    return this.selection.length;
+    return this.selection.size;
   }
 
   get selection_high_season() {
-    return this.selection.values().filter((x) => (x.high_season));
+    return this.selection.values().filter((x) => (x.high_season)).toArray();
   }
 
   get selection_high_season_count() {
@@ -113,6 +110,7 @@ export default class RosterSelectorComponent extends Component {
     this.flt_available_slots = ev.target.checked;
   }
 
+  @tracked flt_show = false;
   @action toggle_filters() {
     this.flt_show = !this.flt_show;
   }
