@@ -78,8 +78,8 @@ importers:
         specifier: ^7.1.0
         version: 7.1.0(@babel/core@7.29.7(supports-color@10.2.2))(supports-color@10.2.2)
       '@vihai/ember-vos':
-        specifier: file:../ember-vos
-        version: file:../ember-vos(@babel/core@7.29.7(supports-color@10.2.2))(supports-color@10.2.2)
+        specifier: ^4.3.1
+        version: 4.3.1(@babel/core@7.29.7(supports-color@10.2.2))(supports-color@10.2.2)
       '@vihai/vihai-exceptions':
         specifier: ^1.0.5
         version: 1.0.5(@babel/core@7.29.7(supports-color@10.2.2))(supports-color@10.2.2)
@@ -2046,8 +2046,8 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4 <6.1.0'
 
-  '@vihai/ember-vos@file:../ember-vos':
-    resolution: {directory: ../ember-vos, type: directory}
+  '@vihai/ember-vos@4.3.1':
+    resolution: {integrity: sha1-nJl2L6nmkgutkU0W7+FofXQpYEs=, tarball: https://repo.vihai.it/api/v4/projects/190/packages/npm/@vihai/ember-vos/-/@vihai/ember-vos-4.3.1.tgz}
 
   '@vihai/vihai-exceptions@1.0.5':
     resolution: {integrity: sha1-lsh5GMsxSCAHEjSu1gzMsheE500=, tarball: https://repo.vihai.it/api/v4/projects/193/packages/npm/@vihai/vihai-exceptions/-/@vihai/vihai-exceptions-1.0.5.tgz}
@@ -8763,7 +8763,7 @@ snapshots:
     dependencies:
       typescript: 6.0.3
 
-  '@vihai/ember-vos@file:../ember-vos(@babel/core@7.29.7(supports-color@10.2.2))(supports-color@10.2.2)':
+  '@vihai/ember-vos@4.3.1(@babel/core@7.29.7(supports-color@10.2.2))(supports-color@10.2.2)':
     dependencies:
       '@embroider/addon-shim': 1.11.0
       '@vihai/vihai-exceptions': 1.0.5(@babel/core@7.29.7(supports-color@10.2.2))(supports-color@10.2.2)
