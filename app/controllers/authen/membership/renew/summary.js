@@ -15,7 +15,7 @@ export default class AuthenMembershipRenewSummaryController extends Controller {
   get wizard() { return this.wizard_controller.wizard; }
 
   get total() {
-    return this.wizard.services.reduce((a, service) => (
+    return this.wizard.state.services.reduce((a, service) => (
              a.plus((service.type && service.enabled) ? service.type.price : Decimal(0))
            ), Decimal(0));
   }

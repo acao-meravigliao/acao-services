@@ -17,7 +17,7 @@ class Wizard extends EmberObject {
     super(...arguments);
 
     this.steps = new TrackedArray();
-    this.steps.push(new WizardState());
+    this.steps.push(new WizardState(this));
   }
 
   get state() {
@@ -57,12 +57,6 @@ class Wizard extends EmberObject {
       this.steps.splice(step_idx + 1, Infinity);
   }
 
-  update(args) {
-    console.log("WIZARD UPDATE: ", args);
-
-    Object.assign(this, args);
-  }
-
   next(page, params) {
     params = params || {};
 
@@ -70,7 +64,7 @@ class Wizard extends EmberObject {
 
     const cur_page = this.state.page;
 
-    const new_status = new WizardState();
+    const new_status = new WizardState(this);
 
     // handle first call of "next"
     if (this.state)
@@ -136,6 +130,14 @@ class Wizard extends EmberObject {
   do_replace_with() {
     this.router.replaceWith('authen.membership.renew.' + this.state.page, { queryParams: this.state.params });
   }
+
+  update(args) {
+    return this.state.update(args);
+  }
+
+  submit() {
+    return this.state.submit();
+  }
 }
 
 class WizardState extends EmberObject {
@@ -147,6 +149,12 @@ class WizardState extends EmberObject {
   @tracked services = new TrackedArray();
   @tracked roster_days = new TrackedArray();
 
+  constructor(wizard) {
+    super(...arguments);
+
+    this.wizard = wizard;
+  }
+
   clone(oth) {
     Object.assign(this, oth.getProperties(Object.keys(oth)));
 
@@ -156,9 +164,15 @@ class WizardState extends EmberObject {
     this.roster_days = new TrackedArray(oth.roster_days);
   }
 
+  update(args) {
+    console.log("WIZARD UPDATE: ", args);
+
+    Object.assign(this, args);
+  }
+
   async submit() {
     let req = {
-      year: this.year,
+      year: this.wizard.year,
       email_allowed: this.email_allowed,
       privacy_accepted: this.privacy_accepted,
       consent_association: this.consent_association,

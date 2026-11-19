@@ -11,7 +11,7 @@
             </tr>
           </thead>
           <tbody>
-            {{#each this.wizard.services key="@index" as |service index|}}
+            {{#each this.wizard.state.services key="@index" as |service index|}}
             <tr>
               <td>
                 {{service.type.name}}
@@ -49,7 +49,7 @@
               perché {{t (concat "authen.roster.reasons." this.wizard.roster_status.will_need_reason)}}
             {{/if}}
           </p>--}}
-          {{#each this.wizard.selected_roster_days as |roster_day|}}
+          {{#each this.wizard.state.selected_roster_days as |roster_day|}}
             {{format-date roster_day.date "dm_long"}}<br />
           {{/each}}
         </div>
