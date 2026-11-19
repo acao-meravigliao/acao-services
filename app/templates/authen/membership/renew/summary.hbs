@@ -36,7 +36,7 @@
       <div class="level-item">
         <div>
           <h2 class="subtitle">Turni di linea:</h2>
-          <p>
+          {{!--<p>
             {{#if this.wizard.roster_status.will_need_total}}
               Necessari {{this.wizard.roster_status.will_need_total}} turni di linea
               {{#if this.wizard.roster_status.will_need_high_season}}
@@ -48,7 +48,7 @@
             {{#if this.wizard.roster_status.will_need_reason}}
               perché {{t (concat "authen.roster.reasons." this.wizard.roster_status.will_need_reason)}}
             {{/if}}
-          </p>
+          </p>--}}
           {{#each this.wizard.selected_roster_days as |roster_day|}}
             {{format-date roster_day.date "dm_long"}}<br />
           {{/each}}
